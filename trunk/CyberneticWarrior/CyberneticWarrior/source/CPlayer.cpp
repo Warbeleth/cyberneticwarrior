@@ -314,16 +314,14 @@ void CPlayer::Input(float fElapsedTime)
 		}
 	}
 
-	if(CSGD_DirectInput::GetInstance()->MouseButtonPressed(MOUSE_LEFT))
+	if(CSGD_DirectInput::GetInstance()->MouseButtonPressed(MOUSE_RIGHT))
 	{
 		this->SetMouseDown(1);
 		if(CSinglePlayerState::GetInstance()->GetProfileValues()->m_bHaveHook)
-		{
 			CGame::GetInstance()->GetMessageSystemPointer()->SendMsg(new CCreateHookMessage(this));
-		}
 	}
 
-	if(CSGD_DirectInput::GetInstance()->MouseButtonReleased(MOUSE_LEFT))
+	if(CSGD_DirectInput::GetInstance()->MouseButtonReleased(MOUSE_RIGHT))
 	{
 		this->SetMouseDown(0);
 		if(this->m_pHook)
