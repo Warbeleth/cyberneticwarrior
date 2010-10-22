@@ -1298,7 +1298,7 @@ namespace SGP_Map_Editor
             {
                 BinaryReader bRead = new BinaryReader(File.Open(dlg.FileName, FileMode.Open));
 
-
+                SetupComplete = false;
                 numericGridCol.Value = m_gTileMap.m_nColumns = bRead.ReadInt32();
                 numericGridRow.Value = m_gTileMap.m_nRows = bRead.ReadInt32();
                 numericGridTileWidth.Value = m_gTileMap.m_nWidth = bRead.ReadInt32();
@@ -1308,12 +1308,23 @@ namespace SGP_Map_Editor
                 numericSourceTileWidth.Value = m_sTileSelection.m_nWidth = bRead.ReadInt32();
                 numericSourceTileHeight.Value = m_sTileSelection.m_nHeight = bRead.ReadInt32();
 
+                CreateList(m_gTileMap.m_nRows, m_gTileMap.m_nColumns);
+
+                splitContainerTiles.Panel1.AutoScrollMinSize = new Size(m_sTileSelection.m_nWidth * m_sTileSelection.m_nColumns, m_sTileSelection.m_nHeight * m_sTileSelection.m_nRows);
+                splitContainerMap.Panel2.AutoScrollMinSize = new Size(m_gTileMap.m_nWidth * m_gTileMap.m_nColumns, m_gTileMap.m_nHeight * m_gTileMap.m_nRows);
+                splitContainerBackground.Panel2.AutoScrollMinSize = new Size(m_gTileMap.m_nWidth * m_gTileMap.m_nColumns, m_gTileMap.m_nHeight * m_gTileMap.m_nRows);
+                splitContainerCollision.Panel2.AutoScrollMinSize = new Size(m_gTileMap.m_nWidth * m_gTileMap.m_nColumns, m_gTileMap.m_nHeight * m_gTileMap.m_nRows);
+
+                ScaleX = m_sScale.m_fGridWidth / m_sScale.m_fSelectionWidth;
+                ScaleY = m_sScale.m_fGridHeight / m_sScale.m_fSelectionHeight;
+
+                SetupComplete = true;
+
                 m_szTileSet = bRead.ReadString();
 
                 m_sTileSelection.m_nImageID = LoadImage(m_sTileSelection.m_nImageID, m_szTileSet);
                 AutoscrollAllWindows();
 
-                CreateList(m_gTileMap.m_nRows, m_gTileMap.m_nColumns);
 
                 int nEnemyCount;
                 int nSpawnerCount;
