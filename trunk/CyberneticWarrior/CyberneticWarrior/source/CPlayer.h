@@ -26,6 +26,9 @@ private:
 
 	float m_fRotation;
 
+	///////////////////
+	// Hand
+	int		m_nHandID;
 	float m_fHandRotation;
 	float m_fShotTime;
 
@@ -35,6 +38,7 @@ private:
 	bool m_bOnGround;
 	bool m_bOnPlatform;
 
+	bool m_bHomingOn;
 
 
 
@@ -107,6 +111,7 @@ public:
 	void	SetHookPointer(CGrapplingHook*	pHook);
 	
 
+	bool	GetHoming( void )	{ return m_bHomingOn; }
 
 
 	tVector2D	GetRotationPos(void);

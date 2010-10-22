@@ -33,6 +33,7 @@
 #include "CObjectManager.h"
 #include "CBase.h"
 #include "CGrapplingHook.h"
+#include "CRocket.h"
 
 
 // Singleton Instantiation
@@ -382,6 +383,51 @@ void CGame::MessageProc(CBaseMessage*	pMsg)
 			CObjectManager::GetInstance()->RemoveObject(pDH->GetHookPointer());
 
 			pDH = NULL;
+		}
+		break;
+	case MSG_CREATE_ROCKET:
+		{
+			CCreateRocketMessage* pCR = (CCreateRocketMessage*)pMsg;
+			CRocket* pRocket;
+
+			float fRocketVelocity = 300;
+
+			pRocket = (CRocket*)CObjectFactory<std::string, CBase>::GetInstance()->CreateObject("CRocket");
+			pRocket->SetWidth(16);
+			pRocket->SetHeight(16);
+			pRocket->SetPosX(pCR->GetPlayerPointer()->GetPosX() + (float)pCR->GetPlayerPointer()->GetWidth());
+			pRocket->SetPosY(pCR->GetPlayerPointer()->GetPosY());
+
+			tVector2D vMousePos;
+			vMousePos.fX = (float)CSGD_DirectInput::GetInstance()->MouseGetPosX();
+			vMousePos.fY = (float)CSGD_DirectInput::GetInstance()->MouseGetPosY();
+
+			tVector2D vPlayerPos;
+			vPlayerPos.fX = pCR->GetPlayerPointer()->GetPosX() + (float)pCR->GetPlayerPointer()->GetWidth();
+			vPlayerPos.fY = pCR->GetPlayerPointer()->GetPosY();
+
+			tVector2D vShot;
+
+			vShot = vMousePos - vPlayerPos;
+
+			vShot = Vector2DNormalize(vShot);
+
+
+			pRocket->SetBaseVelX(vShot.fX * fRocketVelocity);
+			pRocket->SetBaseVelY(vShot.fY * fRocketVelocity);
+
+			CObjectManager::GetInstance()->AddObject(pRocket);
+
+			pRocket->Release();
+
+			break;
+		}	
+	case MSG_DESTROY_ROCKET:
+		{
+			CDestroyRocketMessage* pDR = (CDestroyRocketMessage*)pMsg;
+			CObjectManager::GetInstance()->RemoveObject(pDR->GetRocketPointer());
+
+			pDR = NULL;
 		}
 		break;
 	};
