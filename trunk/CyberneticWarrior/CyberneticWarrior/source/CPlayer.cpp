@@ -318,7 +318,9 @@ void CPlayer::Input(float fElapsedTime)
 	{
 		this->SetMouseDown(1);
 		if(CSinglePlayerState::GetInstance()->GetProfileValues()->m_bHaveHook)
+		{
 			CGame::GetInstance()->GetMessageSystemPointer()->SendMsg(new CCreateHookMessage(this));
+		}
 	}
 
 	if(CSGD_DirectInput::GetInstance()->MouseButtonReleased(MOUSE_RIGHT))
