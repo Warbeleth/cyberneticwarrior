@@ -22,6 +22,10 @@ CPlayer::CPlayer(void)
 	this->m_vRotationCenter.fY = 0.0f;
 	this->m_vVectorVelocity.fX = 0.0f;
 	this->m_vVectorVelocity.fY = 0.0f;
+	
+	m_fHandRotation = 0.0f;
+	m_bHomingOn = false;
+	m_nHandID = CSGD_TextureManager::GetInstance()->LoadTexture( "resource/graphics/Arm.png" );
 
 }
 
@@ -372,9 +376,9 @@ void CPlayer::Render(void)
 		1.0f,1.0f, &rDrawRect);//, this->m_vRotationCenter.fX, this->m_vRotationCenter.fX, this->m_fRotation);//, (float)GetWidth()/2, (float)GetHeight());
 
 	if(m_bHomingOn)
-		CSGD_Direct3D::GetInstance()->DrawLine( GetPosX() + (GetWidth()/2.0f), GetPosY() + (GetHeight()/4.0f), CSGD_DirectInput::GetInstance()->MouseGetPosX()+8, CSGD_DirectInput::GetInstance()->MouseGetPosY()+8, 255, 0, 0 );
+		CSGD_Direct3D::GetInstance()->DrawLine( (int)(GetPosX() + (GetWidth()/2)), (int)(GetPosY() + (GetHeight()/4)), CSGD_DirectInput::GetInstance()->MouseGetPosX()+8, CSGD_DirectInput::GetInstance()->MouseGetPosY()+8, 255, 0, 0 );
 
-	CSGD_TextureManager::GetInstance()->Draw(m_nHandID, GetPosX() + (GetWidth()/2.0f), GetPosY() - (GetHeight()/4.0f), 0.6f, 0.6f, 0, 16, 64, m_fHandRotation, -1 );
+	CSGD_TextureManager::GetInstance()->Draw(m_nHandID, (int)(GetPosX() + (GetWidth()/2)), (int)(GetPosY() - (GetHeight()/4)), 0.6f, 0.6f, 0, 16, 64, m_fHandRotation, -1 );
 	
 	CSGD_TextureManager::GetInstance()->Draw(this->GetImageID(), (int)this->GetPosX(), (int)this->GetPosY(), 
 		1.0f,1.0f, &rDrawRect, this->m_vRotationCenter.fX, this->m_vRotationCenter.fX, this->m_fRotation);

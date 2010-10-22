@@ -64,6 +64,7 @@ private:
 	int			m_nBackgroundImageID;
 	int			m_nCrossHairID;
 	int			m_nBGMusic;
+	int			m_nRocketID;
 	
 	CSGD_Direct3D*				m_pD3D;
 	CSGD_DirectInput*			m_pDI;
@@ -93,6 +94,7 @@ public:
 	//////////////////////////
 
 	tProfile*	GetProfileValues(void);
+	int GetRocketID( void ) { return m_nRocketID; }
 	void		SetProfileValues(bool bValue);
 
 	inline bool		GetNewGame(void) { return this->m_bNewGame;}

@@ -16,7 +16,7 @@
 #include <vector>
 using std::vector;
 
-enum{OBJ_BASE, OBJ_PLAYER, OBJ_GRAPPLING_HOOK, OBJ_BLOCK, OBJ_PICKUP, OBJ_ENEMY};
+enum{OBJ_BASE, OBJ_PLAYER, OBJ_GRAPPLING_HOOK, OBJ_ROCKET, OBJ_BLOCK, OBJ_PICKUP, OBJ_ENEMY};
 
 class CBase: public IBaseInterface
 {
