@@ -1,0 +1,233 @@
+#include "CPauseMenuState.h"
+
+#include "SGD Wrappers/CSGD_Direct3D.h"
+#include "SGD Wrappers/CSGD_DirectInput.h"
+#include "SGD Wrappers/CSGD_TextureManager.h"
+#include "SGD Wrappers/CSGD_WaveManager.h"
+#include "SGD Wrappers/CSGD_DirectSound.h"
+
+#include "CStackStateMachine.h"
+
+#include "CMainMenuState.h"
+#include "COptionsMenuState.h"
+#include "SaveState.h"
+
+#include "CEventSystem.h"
+#include "CEvent.h"
+
+CPauseMenuState*	CPauseMenuState::sm_pPauseMenuInstance = NULL;
+
+CPauseMenuState::CPauseMenuState(void)
+{
+	this->m_pD3D	= NULL;
+	this->m_pTM		= NULL;
+	this->m_pDI		= NULL;
+	this->m_pWM		= NULL;
+	this->m_pDS		= NULL;
+
+	this->m_nBackgroundID		= -1;
+	this->m_nCursorID			= -1;
+	//this->m_nSFXID				= -1;
+
+	this->m_nSelection			= this->RESUME;
+	this->m_nSelectionPos		= this->PMENU_START;
+}
+
+CPauseMenuState::~CPauseMenuState(void)
+{
+	this->m_pD3D	= NULL;
+	this->m_pTM		= NULL;
+	this->m_pDI		= NULL;
+	this->m_pWM		= NULL;
+	this->m_pDS		= NULL;
+
+	this->m_nBackgroundID		= -1;
+	this->m_nCursorID			= -1;
+	//this->m_nSFXID				= -1;
+
+	this->m_nSelection			= this->RESUME;
+	this->m_nSelectionPos		= this->PMENU_START;
+}
+
+bool	CPauseMenuState::Input(void)
+{
+	if(this->m_pDI->KeyPressed(DIK_UP))
+	{
+		--this->m_nSelection;
+
+		if(this->m_nSelection < this->RESUME)
+		{
+			this->m_nSelection = this->MAIN_MENU;
+		}
+	}
+	
+	if(this->m_pDI->KeyPressed(DIK_DOWN))
+	{
+		++this->m_nSelection;
+
+		if(this->m_nSelection > this->MAIN_MENU)
+		{
+			this->m_nSelection = this->RESUME;
+		}
+	}
+
+	if(this->m_pDI->KeyPressed(DIK_RETURN))
+	{
+		switch(this->m_nSelection)
+		{
+		case this->RESUME:
+			//this->m_pWM->Stop(this->m_nBGMusic);
+			CStackStateMachine::GetInstance()->Pop_back();
+			break;
+		case this->SAVE:
+			CSaveState::GetInstance()->SetNewGame(0);
+			CSaveState::GetInstance()->SetDelete(0);
+			CStackStateMachine::GetInstance()->Push_Back(CSaveState::GetInstance());
+			break;
+		case this->CONTROLS:
+			break;
+		case this->OPTIONS:
+			CStackStateMachine::GetInstance()->Push_Back(COptionsMenuState::GetInstance());
+			break;
+		case this->MAIN_MENU:
+			//PostQuitMessage(0);
+			CStackStateMachine::GetInstance()->ChangeState(CMainMenuState::GetInstance());
+			break;
+		default:
+			break;
+		}
+	}
+	return 1;
+}
+
+void	CPauseMenuState::Enter(void)
+{
+	this->m_pD3D	=		CSGD_Direct3D::GetInstance();
+	this->m_pDI		=		CSGD_DirectInput::GetInstance();
+	this->m_pTM		=		CSGD_TextureManager::GetInstance();
+	this->m_pWM		=		CSGD_WaveManager::GetInstance();
+	this->m_pDS		=		CSGD_DirectSound::GetInstance();
+
+	this->m_nBackgroundID		= this->m_pTM->LoadTexture("resource/graphics/Images.png");
+	this->m_nCursorID			= this->m_pTM->LoadTexture("resource/graphics/hook.png");
+	//this->m_nMusicID			= this->m_pWM->LoadWave("resource/sounds/SO3_Victory_Bell.wav");
+	//this->m_nSFXID				= this->m_pWM->LoadWave("");
+
+	this->m_OptionsFont.InitFont("resource/fonts/example.png", "resource/fonts/Example.fnt");
+
+
+	this->m_nSelection			= this->RESUME;
+	this->m_nSelectionPos		= this->PMENU_START;
+}
+
+void	CPauseMenuState::Update(float fElapsedTime)
+{
+	this->m_nSelectionPos = (this->m_nSelection * PMENU_SPACE) + this->PMENU_START;
+}
+
+void	CPauseMenuState::Render(void)
+{
+	
+	this->m_pTM->Draw(this->m_nBackgroundID, 150, 50);
+	//this->m_pTM->Draw(this->m_nMenuID,0,0,1.3f,1.0f);//,1.0f,1.0f, 0, 0.0f, 0.0f, 0.0f, D3DCOLOR_ARGB(255,0,128,128));
+
+	this->m_OptionsFont.Draw("-PAUSED-", 250, 100, 1.2f, D3DXCOLOR(1.0f, 1.0f, 0.0f, 1.0f));
+	
+	this->m_OptionsFont.Draw("Resume", 225, (this->RESUME * PMENU_SPACE) + this->PMENU_START, 
+		(this->m_nSelection == this->RESUME? 1.5f : 1.0f) ,
+		(this->m_nSelection == this->RESUME? D3DXCOLOR(0.0f, 1.0f, 0.0f, 1.0f) : D3DXCOLOR(1.0f, 1.0f, 0.0f, 1.0f)));
+	
+	this->m_OptionsFont.Draw("Save", 225, (this->SAVE * PMENU_SPACE) + this->PMENU_START, 
+		(this->m_nSelection == this->SAVE? 1.5f : 1.0f) ,
+		(this->m_nSelection == this->SAVE? D3DXCOLOR(0.0f, 1.0f, 0.0f, 1.0f) : D3DXCOLOR(1.0f, 1.0f, 0.0f, 1.0f)));
+	
+	this->m_OptionsFont.Draw("Controls", 225, (this->CONTROLS * PMENU_SPACE) + this->PMENU_START, 
+		(this->m_nSelection == this->CONTROLS? 1.5f : 1.0f), 
+		(this->m_nSelection == this->CONTROLS? D3DXCOLOR(0.0f, 1.0f, 0.0f, 1.0f) : D3DXCOLOR(1.0f, 1.0f, 0.0f, 1.0f)));
+	
+	this->m_OptionsFont.Draw("Achievements", 225, (this->ACHIEVEMENTS * PMENU_SPACE) + this->PMENU_START, 
+		(this->m_nSelection == this->ACHIEVEMENTS? 1.5f : 1.0f), 
+		(this->m_nSelection == this->ACHIEVEMENTS? D3DXCOLOR(0.0f, 1.0f, 0.0f, 1.0f) : D3DXCOLOR(1.0f, 1.0f, 0.0f, 1.0f)));
+
+	this->m_OptionsFont.Draw("Options", 225, (this->OPTIONS * PMENU_SPACE) + this->PMENU_START, 
+		(this->m_nSelection == this->OPTIONS? 1.5f : 1.0f),
+		(this->m_nSelection == this->OPTIONS? D3DXCOLOR(0.0f, 1.0f, 0.0f, 1.0f) : D3DXCOLOR(1.0f, 1.0f, 0.0f, 1.0f)));
+	
+	this->m_OptionsFont.Draw("Main Menu", 225, (this->MAIN_MENU * PMENU_SPACE) + this->PMENU_START,
+		(this->m_nSelection == this->MAIN_MENU? 1.5f : 1.0f),
+		(this->m_nSelection == this->MAIN_MENU? D3DXCOLOR(0.0f, 1.0f, 0.0f, 1.0f) : D3DXCOLOR(1.0f, 1.0f, 0.0f, 1.0f)));
+	
+}
+
+void	CPauseMenuState::Exit(void)
+{
+	
+	this->m_OptionsFont.ShutdownFont();
+
+	/*if(this->m_nSFXID > -1)
+	{
+		this->m_pWM->UnloadWave(this->m_nSFXID);
+		this->m_nSFXID = NULL;
+	}
+	if(this->m_nMusicID > -1)
+	{
+		this->m_pWM->UnloadWave(this->m_nMusicID);
+		this->m_nMusicID = NULL;
+	}*/
+	if(this->m_nCursorID > -1)
+	{
+		this->m_pTM->UnloadTexture(this->m_nCursorID);
+		this->m_nCursorID = NULL;
+	}
+	if(this->m_nBackgroundID > -1)
+	{
+		this->m_pTM->UnloadTexture(this->m_nBackgroundID);
+		this->m_nBackgroundID = NULL;
+	}
+
+	if(this->m_pDS)
+	{
+		this->m_pDS = NULL;
+	}
+
+	if(this->m_pWM)
+	{
+		this->m_pWM = NULL;
+	}
+
+	if(this->m_pTM)
+	{
+		this->m_pTM = NULL;
+	}
+
+	if(this->m_pDI)
+	{
+		this->m_pDI = NULL;
+	}
+	
+	if(this->m_pD3D)
+	{
+		this->m_pD3D = NULL;
+	}
+
+	
+
+}
+
+CPauseMenuState*	CPauseMenuState::GetInstance(void)
+{
+	if(!sm_pPauseMenuInstance)
+	{
+		sm_pPauseMenuInstance = new CPauseMenuState();
+	}
+	return sm_pPauseMenuInstance;
+}
+
+void CPauseMenuState::DeleteInstance(void)
+{
+	if(sm_pPauseMenuInstance)
+	{
+		delete sm_pPauseMenuInstance;
+		sm_pPauseMenuInstance = NULL;
+	}
+}

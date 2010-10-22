@@ -7,7 +7,6 @@
 //////////////////////////////////////////////////////////////////////////////////////////////////////
 // SGD Wrappers
 #include "SGD Wrappers/CSGD_TextureManager.h"
-#include "SGD Wrappers/CSGD_DirectInput.h"
 
 // My Includes
 #include "CFont.h"
@@ -113,18 +112,19 @@ bool CFont::InitFont( const char* szSpriteSheetFilename, const char* szBinaryFil
 	// Load in the letter details
 	ifstream in;
 	in.clear();
-
+	
 	in.open( szBinaryFilename, ios_base::in | ios_base::binary);
 
 	if(in.is_open())
 	{
 		in.read( (char*)&m_cLetters, sizeof(CLetter)*90);
-		in.close();
-
-		return true;
+	}
+	else
+	{
+		return false;
 	}
 
-	return false;
+	return true;
 }
 
 //////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -142,30 +142,6 @@ void CFont::ShutdownFont( void )
 	// Clear the delays and scrollings
 	m_vElapsedTime.clear();
 	m_vScrolling.clear();
-}
-
-//////////////////////////////////////////////////////////////////////////////////////////////////////
-// Function: “Input”
-//////////////////////////////////////////////////////////////////////////////////////////////////////
-bool CFont::Input( unsigned char ucKey, float fDeltaTime, float fDeltaDelaySpeed, float fDeltaScrollingSpeed )
-{
-	CSGD_DirectInput::GetInstance()->ReadDevices();
-
-	if( CSGD_DirectInput::GetInstance()->KeyDown( ucKey ) )
-	{
-		// Update each delay variable to the newly elapsed time while also multiplying in the percentage increase in speed
-		for( unsigned int i = 0; i < m_vElapsedTime.size(); ++i )
-			m_vElapsedTime[i].m_fTimer += (fDeltaTime * fDeltaDelaySpeed);
-
-		// Update each scrolling call by the amount of scrolling * the change in time while also multiplying in the percentage increase in speed
-		for( unsigned int i = 0; i < m_vScrolling.size(); ++i )
-		{
-			m_vScrolling[i].m_nXOffset += (int)( m_vScrolling[i].m_nXScrolling * (fDeltaTime * fDeltaScrollingSpeed) );
-			m_vScrolling[i].m_nYOffset += (int)( m_vScrolling[i].m_nYScrolling * (fDeltaTime * fDeltaScrollingSpeed) );
-		}
-	}
-
-	return true;
 }
 
 //////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -335,7 +311,7 @@ void CFont::DrawScrolling( const char* szText, int nX, int nY, float fScale, DWO
 		int nYPosition =  nY + m_vScrolling[nScrollingID].m_nYOffset;
 		if( nXPosition > nMinDrawWidth && nXPosition < nMaxDrawWidth && nYPosition > nMinDrawHeight && nYPosition < nMaxDrawHeight )		
 			CSGD_TextureManager::GetInstance()->Draw( m_nImageID, nX + m_vScrolling[nScrollingID].m_nXOffset, nY + m_vScrolling[nScrollingID].m_nYOffset,
-			fScale, fScale, &rLetter, 0, 0, 0, dwColor );
+				fScale, fScale, &rLetter, 0, 0, 0, dwColor );
 
 		// Increment the x position for the next letter
 		nX += (int)( (m_cLetters[nId].m_nWidth + 3) * fScale );
@@ -399,7 +375,7 @@ void CFont::DrawScrollingWithDelay( const char* szText, int nX, int nY, float fS
 		int nYPosition =  nY + m_vScrolling[nScrollingID].m_nYOffset;
 		if( nXPosition > nMinDrawWidth && nXPosition < nMaxDrawWidth && nYPosition > nMinDrawHeight && nYPosition < nMaxDrawHeight )
 			CSGD_TextureManager::GetInstance()->Draw( m_nImageID, nXPosition, nYPosition,
-			fScale, fScale, &rLetter, 0, 0, 0, dwColor );
+				fScale, fScale, &rLetter, 0, 0, 0, dwColor );
 
 		// Increment the x position for the next letter
 		nX += (int)( (m_cLetters[nId].m_nWidth + 3) * fScale );

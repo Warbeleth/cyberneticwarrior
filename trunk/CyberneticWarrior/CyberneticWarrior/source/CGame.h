@@ -19,6 +19,7 @@ class CSGD_TextureManager;
 class CSGD_WaveManager;
 class CSGD_DirectSound;
 class CSGD_DirectInput;
+class CCodeProfiler;
 
 class CCamera;
 
@@ -43,6 +44,8 @@ private:
 	CMessageSystem*					m_pMS;
 	CEventSystem*					m_pES;
 
+	CCodeProfiler*					m_pCP;
+
 	int		m_nScreenWidth, m_nScreenHeight;
 
 	float	m_fScaleX, m_fScaleY;
@@ -52,6 +55,8 @@ private:
 	float	m_fGameTime;
 	DWORD	m_dwTimeStamp;
 	DWORD	m_dwPreviousTimeStamp;
+
+	int m_nCodeProfilerID;
 
 
 	////////////////////////////////////////////////////////////////////////////////////

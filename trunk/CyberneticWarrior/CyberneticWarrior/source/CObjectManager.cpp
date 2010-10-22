@@ -66,13 +66,13 @@ bool CObjectManager::CheckCollisions(void)
 {
 	for(unsigned int i = 0; i < this->m_vObjectList.size(); i++)
 	{
-		for(unsigned int j = 0; j < this->m_vObjectList.size(); ++j)
+		for(unsigned int j = 0; j < this->m_vObjectList.size(); j++)
 		{
-			if(j != i && this->m_vObjectList[i]->GetType() != this->m_vObjectList[j]->GetType())
+			if(j != i )
 			{
 				if(this->m_vObjectList[i]->CheckCollision(this->m_vObjectList[j]))
 				{
-					break;
+					//break;
 				}
 			}
 		}

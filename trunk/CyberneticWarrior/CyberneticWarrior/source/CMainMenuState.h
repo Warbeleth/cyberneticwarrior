@@ -2,7 +2,7 @@
 #define MAINMENU_H_
 
 #include "IGameState.h"
-#include "IListener.h"
+#include "CFont.h"
 
 class CSGD_Direct3D;
 class CSGD_DirectInput;
@@ -12,9 +12,9 @@ class CSGD_DirectSound;
 
 class CEvent;
 
-#define MMENU_SPACE 37
+#define MMENU_SPACE 50
 
-class CMainMenuState : public IGameState//, public IListener
+class CMainMenuState : public IGameState
 {
 private:
 
@@ -22,7 +22,6 @@ private:
 		  ACHIEVEMENTS, MM_OPTIONS, MM_CONTROLS, CREDITS, EXIT_GAME, 
 		  MMENU_START = 130, MMCURSOR_POS = 90};
 
-	enum events { CURSOR_UP, CURSOR_DOWN, ENTER };
 
 	CSGD_Direct3D*				m_pD3D;
 	CSGD_DirectInput*			m_pDI;
@@ -30,9 +29,9 @@ private:
 	CSGD_WaveManager*			m_pWM;
 	CSGD_DirectSound*			m_pDS;
 
+	CFont	m_MenuFont;
 	
 	int		m_nBackgroundID;
-	int		m_nMenuID;
 	int		m_nCursorID;
 	
 	int		m_nSelectionPos;
@@ -56,7 +55,6 @@ public:
 	void	Render(void);
 	void	Exit(void);
 
-	//void	HandleEvent(CEvent*	pEvent);
 
 	static CMainMenuState*	GetInstance(void);
 	static void	DeleteInstance(void);

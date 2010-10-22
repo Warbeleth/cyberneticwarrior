@@ -2,10 +2,13 @@
 
 CEventSystem*	CEventSystem::sm_pEventSystemInstance = NULL;
 
+//CEventSystem::CEventSystem(void) {}
+//CEventSystem::~CEventSystem(void) {}
+//
 
 CEventSystem*	CEventSystem::GetInstance(void)
 {
-	if(!sm_pEventSystemInstance)
+	if(NULL == sm_pEventSystemInstance)
 	{
 		sm_pEventSystemInstance = new CEventSystem();
 	}
@@ -51,7 +54,7 @@ void CEventSystem::UnregisterClient(EVENTID eventID, IListener *pClient)
 
 void CEventSystem::UnregisterAllClients(IListener* pClient)
 {
-	multimap<int, IListener*>::iterator iter = this->m_Clients.begin();
+	multimap<unsigned char*, IListener*>::iterator iter = this->m_Clients.begin();
 
 	while(iter != this->m_Clients.end())
 	{

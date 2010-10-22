@@ -4,9 +4,9 @@
 #include "IGameState.h"
 
 #include "CPlayer.h"
+#include "CPickUp.h"
 #include "CGrapplingHook.h"
 #include "CBlock.h"
-#include "CMapLoad.h"
 
 #include "CObjectFactory.h"
 #include <string>
@@ -23,11 +23,6 @@ class CObjectManager;
 class CCamera;
 
 
-
-class CIdleEnemy;
-class CPatrolEnemy;
-class CFLCLMech;
-
 class CSinglePlayerState : public IGameState
 {
 private:
@@ -36,19 +31,22 @@ private:
 	//***Temp***
 	//////////////////////////
 	CPlayer* m_TempPlayer;
-	CMapLoad* m_TempMap;
-
-	CIdleEnemy* Enemy_1;
-	CPatrolEnemy* Enemy_2;
-	CFLCLMech* Enemy_3;
-
+	CPickUp* m_PickUp;
 
 
 	CBlock*	m_TempPlatform1;
 	CBlock*	m_TempPlatform2;
-
-
 	//////////////////////////
+
+	struct tProfile
+	{
+		bool m_bHaveHook;
+	}m_Profile;
+	
+	bool m_bNewGame;
+
+
+
 
 	tVector2D	m_tBGOffset;
 	
@@ -81,9 +79,14 @@ public:
 	// TEMP
 	//////////////////////////
 	CPlayer*	GetPlayerPointer(void);
-
-
 	//////////////////////////
+
+	tProfile*	GetProfileValues(void);
+	void		SetProfileValues(bool bValue);
+
+	inline bool		GetNewGame(void) { return this->m_bNewGame;}
+	inline void		SetNewGame(bool bNewGame) {this->m_bNewGame = bNewGame;}
+
 
 	bool	Input(void);
 	void	Enter(void);

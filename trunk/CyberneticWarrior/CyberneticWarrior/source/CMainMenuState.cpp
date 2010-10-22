@@ -11,6 +11,8 @@
 
 #include "CStackStateMachine.h"
 #include "CSinglePlayerState.h"
+#include "CSinglePlayerMenuState.h"
+#include "COptionsMenuState.h"
 
 CMainMenuState*	CMainMenuState::sm_pMainMenuInstance = NULL;
 
@@ -23,23 +25,16 @@ CMainMenuState::CMainMenuState(void)
 	this->m_pDS		= NULL;
 
 	this->m_nBackgroundID		= -1;
-	this->m_nMenuID				= -1;
 	this->m_nCursorID			= -1;
 	this->m_nBGMusic			= -1;
 
 	this->m_nSelectionPos		= this->MMENU_START;
 	this->m_nSelection			= this->SINGLE_PLAYER;
 
-//	CEventSystem::GetInstance()->RegisterClient(CURSOR_UP, this);
-//	CEventSystem::GetInstance()->RegisterClient(CURSOR_DOWN, this);
-//	CEventSystem::GetInstance()->RegisterClient(ENTER, this);
 }
 
 CMainMenuState::~CMainMenuState(void)
 {
-//	CEventSystem::GetInstance()->UnregisterClient(this->CURSOR_UP, this);
-//	CEventSystem::GetInstance()->UnregisterClient(this->CURSOR_DOWN, this);
-//	CEventSystem::GetInstance()->UnregisterClient(this->ENTER, this);
 
 	this->m_pD3D	= NULL;
 	this->m_pTM		= NULL;
@@ -48,7 +43,6 @@ CMainMenuState::~CMainMenuState(void)
 	this->m_pDS		= NULL;
 
 	this->m_nBackgroundID		= -1;
-	this->m_nMenuID				= -1;
 	this->m_nCursorID			= -1;
 	this->m_nBGMusic			= -1;
 }
@@ -80,11 +74,12 @@ void	CMainMenuState::Enter(void)
 	this->m_pDS		=		CSGD_DirectSound::GetInstance();
 	
 	this->m_nBackgroundID		= this->m_pTM->LoadTexture("resource/graphics/BackGroundMenu.png");
-	this->m_nMenuID				= this->m_pTM->LoadTexture("resource/graphics/MainMenu.png");
 	this->m_nCursorID			= this->m_pTM->LoadTexture("resource/graphics/MainMenuCursor.png");
 	this->m_nBGMusic			= this->m_pWM->LoadWave("resource/sounds/SO3_Victory_Bell.wav");
+
+	this->m_MenuFont.InitFont("resource/fonts/example.png", "resource/fonts/Example.fnt");
 	
-	this->m_pWM->Play(this->m_nBGMusic, DSBPLAY_LOOPING);
+	//this->m_pWM->Play(this->m_nBGMusic, DSBPLAY_LOOPING);
 
 	this->m_nSelectionPos		= this->MMENU_START;
 	this->m_nSelection			= this->SINGLE_PLAYER;
@@ -94,7 +89,6 @@ bool	CMainMenuState::Input(void)
 {
 	if(this->m_pDI->KeyPressed(DIK_UP))
 	{
-		//CEventSystem::GetInstance()->SendEvent(this->CURSOR_UP, 0);
 		--this->m_nSelection;
 
 		if(this->m_nSelection < this->SINGLE_PLAYER)
@@ -105,7 +99,6 @@ bool	CMainMenuState::Input(void)
 	
 	if(this->m_pDI->KeyPressed(DIK_DOWN))
 	{
-		//CEventSystem::GetInstance()->SendEvent(this->CURSOR_DOWN, 0);
 		++this->m_nSelection;
 
 		if(this->m_nSelection > this->EXIT_GAME)
@@ -116,14 +109,16 @@ bool	CMainMenuState::Input(void)
 
 	if(this->m_pDI->KeyPressed(DIK_RETURN))
 	{
-		//CEventSystem::GetInstance()->SendEvent(this->ENTER, 0);
-		//PostQuitMessage(0);
 		switch(this->m_nSelection)
 		{
 		case this->SINGLE_PLAYER:
 			this->m_pWM->Stop(this->m_nBGMusic);
 			//CStackStateMachine::GetInstance()->Push_Back(CSinglePlayerState::GetInstance());
-			CStackStateMachine::GetInstance()->ChangeState(CSinglePlayerState::GetInstance());
+			CStackStateMachine::GetInstance()->Push_Back(CSinglePlayerMenuState::GetInstance());
+			break;
+		case this->MM_OPTIONS:
+			this->m_pWM->Stop(this->m_nBGMusic);
+			CStackStateMachine::GetInstance()->Push_Back(COptionsMenuState::GetInstance());
 			break;
 		case this->EXIT_GAME:
 			PostQuitMessage(0);
@@ -135,46 +130,7 @@ bool	CMainMenuState::Input(void)
 
 	return 1;
 }
-//
-//void	CMainMenuState::HandleEvent(CEvent* pEvent)
-//{
-//	if(pEvent->GetEventID() == this->CURSOR_UP)
-//	{
-//		--this->m_nSelection;
-//
-//		if(this->m_nSelection < this->SINGLE_PLAYER)
-//		{
-//			this->m_nSelection = this->EXIT_GAME;
-//		}
-//	}
-//
-//	if(pEvent->GetEventID() == this->CURSOR_DOWN)
-//	{
-//		++this->m_nSelection;
-//
-//		if(this->m_nSelection > this->EXIT_GAME)
-//		{
-//			this->m_nSelection = this->SINGLE_PLAYER;
-//		}
-//	}
-//
-//	if(pEvent->GetEventID() == this->ENTER)
-//	{
-//		switch(this->m_nSelection)
-//		{
-//		case this->SINGLE_PLAYER:
-//			this->m_pWM->Stop(this->m_nBGMusic);
-//			//CStackStateMachine::GetInstance()->Push_Back(CSinglePlayerState::GetInstance());
-//			CStackStateMachine::GetInstance()->ChangeState(CSinglePlayerState::GetInstance());
-//			break;
-//		case this->EXIT_GAME:
-//			PostQuitMessage(0);
-//			break;
-//		default:
-//			break;
-//		}
-//	}
-//}
+
 
 void	CMainMenuState::Update(float fElapsedTime)
 {
@@ -185,7 +141,41 @@ void	CMainMenuState::Update(float fElapsedTime)
 void	CMainMenuState::Render(void)
 {
 	this->m_pTM->Draw(this->m_nBackgroundID, 0, 0);
-	this->m_pTM->Draw(this->m_nMenuID,0,0,1.3f,1.0f);//,1.0f,1.0f, 0, 0.0f, 0.0f, 0.0f, D3DCOLOR_ARGB(255,0,128,128));
+
+	this->m_MenuFont.Draw("Cybernetic Warrior", 200, 25, 1.2f, D3DXCOLOR(1.0f, 1.0f, 0.0f, 1.0f));
+	
+	this->m_MenuFont.Draw("Single Player", 225, (this->SINGLE_PLAYER * MMENU_SPACE) + this->MMENU_START, 
+		(this->m_nSelection == this->SINGLE_PLAYER? 1.5f : 1.0f) ,
+		(this->m_nSelection == this->SINGLE_PLAYER? D3DXCOLOR(0.0f, 1.0f, 0.0f, 1.0f) : D3DXCOLOR(1.0f, 1.0f, 0.0f, 1.0f)));
+	
+	this->m_MenuFont.Draw("Multi Player", 225, (this->MULTI_PLAYER * MMENU_SPACE) + this->MMENU_START, 
+		(this->m_nSelection == this->MULTI_PLAYER? 1.5f : 1.0f), 
+		(this->m_nSelection == this->MULTI_PLAYER? D3DXCOLOR(0.0f, 1.0f, 0.0f, 1.0f) : D3DXCOLOR(1.0f, 1.0f, 0.0f, 1.0f)));
+	
+	this->m_MenuFont.Draw("Leader Boards", 225, (this->LEADER_BOARDS * MMENU_SPACE) + this->MMENU_START, 
+		(this->m_nSelection == this->LEADER_BOARDS? 1.5f : 1.0f),
+		(this->m_nSelection == this->LEADER_BOARDS? D3DXCOLOR(0.0f, 1.0f, 0.0f, 1.0f) : D3DXCOLOR(1.0f, 1.0f, 0.0f, 1.0f)));
+	
+	this->m_MenuFont.Draw("Achievements", 225, (this->ACHIEVEMENTS * MMENU_SPACE) + this->MMENU_START,
+		(this->m_nSelection == this->ACHIEVEMENTS? 1.5f : 1.0f),
+		(this->m_nSelection == this->ACHIEVEMENTS? D3DXCOLOR(0.0f, 1.0f, 0.0f, 1.0f) : D3DXCOLOR(1.0f, 1.0f, 0.0f, 1.0f)));
+	
+	this->m_MenuFont.Draw("Options", 225, (this->MM_OPTIONS * MMENU_SPACE) + this->MMENU_START, 
+		(this->m_nSelection == this->MM_OPTIONS? 1.5f : 1.0f), 
+		(this->m_nSelection == this->MM_OPTIONS? D3DXCOLOR(0.0f, 1.0f, 0.0f, 1.0f) : D3DXCOLOR(1.0f, 1.0f, 0.0f, 1.0f)));
+	
+	this->m_MenuFont.Draw("Controls", 225, (this->MM_CONTROLS * MMENU_SPACE) + this->MMENU_START, 
+		(this->m_nSelection == this->MM_CONTROLS? 1.5f : 1.0f),
+		(this->m_nSelection == this->MM_CONTROLS? D3DXCOLOR(0.0f, 1.0f, 0.0f, 1.0f) : D3DXCOLOR(1.0f, 1.0f, 0.0f, 1.0f)));
+	
+	this->m_MenuFont.Draw("Credits", 225, (this->CREDITS * MMENU_SPACE) + this->MMENU_START, 
+		(this->m_nSelection == this->CREDITS? 1.5f : 1.0f),
+		(this->m_nSelection == this->CREDITS? D3DXCOLOR(0.0f, 1.0f, 0.0f, 1.0f) : D3DXCOLOR(1.0f, 1.0f, 0.0f, 1.0f)));
+	
+	this->m_MenuFont.Draw("Exit Game", 225, (this->EXIT_GAME * MMENU_SPACE) + this->MMENU_START, 
+		(this->m_nSelection == this->EXIT_GAME? 1.5f : 1.0f),
+		(this->m_nSelection == this->EXIT_GAME? D3DXCOLOR(0.0f, 1.0f, 0.0f, 1.0f) : D3DXCOLOR(1.0f, 1.0f, 0.0f, 1.0f)));
+	
 	this->m_pTM->Draw(this->m_nCursorID,this->MMCURSOR_POS,this->m_nSelectionPos);
 }
 
@@ -195,14 +185,10 @@ void	CMainMenuState::Exit(void)
 	{
 		
 	}*/
-
-	//CEventSystem::GetInstance()->UnregisterAllClients(this);
-	//CEventSystem::GetInstance()->ClearEvents();
-
+	this->m_MenuFont.ShutdownFont();
 
 	if(this->m_nBGMusic > -1)
 	{
-		this->m_pWM->Stop(this->m_nBGMusic);
 		this->m_pWM->UnloadWave(this->m_nBGMusic);
 		this->m_nBGMusic = -1;
 	}
@@ -213,11 +199,6 @@ void	CMainMenuState::Exit(void)
 		this->m_nCursorID = -1;
 	}
 	
-	if(this->m_nMenuID > -1)
-	{
-		this->m_pTM->UnloadTexture(this->m_nMenuID);
-		this->m_nMenuID = -1;
-	}
 	
 	if(this->m_nBackgroundID > -1)
 	{

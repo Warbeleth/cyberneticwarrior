@@ -11,6 +11,7 @@
 //#include "SGD Wrappers/CSGD_Direct3D.h"
 #include "CGame.h"
 #include "CStackStateMachine.h"
+#include "CSinglePlayerState.h"
 #include "IGameState.h"
 
 CStackStateMachine*	CStackStateMachine::sm_pStateStackMachineInstance = NULL;
@@ -133,6 +134,13 @@ void	CStackStateMachine::RenderState(void)
 {
 	if(this->m_pHead->pData != NULL)
 	{
+		if(this->m_pHead->pNext !=  NULL)
+		{
+			if(this->m_pHead->pNext->pData !=  NULL)
+			{
+				this->m_pHead->pNext->pData->Render();
+			}
+		}
 		this->m_pHead->pData->Render();
 	}
 }
@@ -140,6 +148,10 @@ void	CStackStateMachine::UpdateState(float fElapsedtime)
 {
 	if(this->m_pHead->pData != NULL)
 	{
+		/*if(((CSinglePlayerState*)this->m_pHead->pNext->pData)->GetInstance() == this->m_pHead->pNext->pData)
+		{
+			this->m_pHead->pNext->pData->Update(fElapsedtime);
+		}*/
 		this->m_pHead->pData->Update(fElapsedtime);
 	}
 }
