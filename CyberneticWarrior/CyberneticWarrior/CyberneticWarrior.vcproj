@@ -258,6 +258,10 @@
 					>
 				</File>
 				<File
+					RelativePath=".\source\CFont.cpp"
+					>
+				</File>
+				<File
 					RelativePath=".\source\CGame.cpp"
 					>
 				</File>
@@ -369,6 +373,10 @@
 				>
 				<File
 					RelativePath=".\source\CCamera.h"
+					>
+				</File>
+				<File
+					RelativePath=".\source\CFont.h"
 					>
 				</File>
 				<File
