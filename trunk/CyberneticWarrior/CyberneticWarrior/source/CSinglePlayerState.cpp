@@ -87,8 +87,7 @@ void CSinglePlayerState::Enter(void)
 	// File Include Needs conversion - Corey
 	this->m_TempMap = CMapLoad::GetInstance();
 
-	//m_TempMap->LoadMap("C:\\Users\\Corey Ringer\\Desktop\\TileSets\\df.CWM");
-	//m_TempMap->LoadMapImage("C:\\Users\\Corey Ringer\\Desktop\\TileSets\\default.bmp");
+	m_TempMap->LoadMap("CW-Map_01.CWM");
 
 	this->m_pD3D	=		CSGD_Direct3D::GetInstance();
 	this->m_pDI		= 		CSGD_DirectInput::GetInstance();
@@ -256,9 +255,9 @@ void CSinglePlayerState::Render(void)
 //	this->m_TempPlayer.Render();
 	//////////////////////////////
 
-	//m_pD3D->GetSprite()->Flush();
+	m_pD3D->GetSprite()->Flush();
 
- 	//m_TempMap->Render();
+ 	m_TempMap->Render();
 
 	m_pD3D->GetSprite()->Flush();
 
@@ -282,6 +281,11 @@ void CSinglePlayerState::Render(void)
 
 void CSinglePlayerState::Exit(void)
 {
+	delete Enemy_1;
+	delete Enemy_2;
+	delete Enemy_3;
+	
+
 	this->m_Profile.m_bHaveHook = 0;	if(this->m_pCamera)
 	{
 		this->m_pCamera->ResetCam();
