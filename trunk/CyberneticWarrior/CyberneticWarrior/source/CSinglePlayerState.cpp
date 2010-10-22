@@ -15,6 +15,9 @@
 #include "CMainMenuState.h"
 #include "CPauseMenuState.h"
 #include "COptionsMenuState.h"
+#include "CIdleEnemy.h"
+#include "CPatrolEnemy.h"
+#include "CFLCLMech.h"
 
 CSinglePlayerState*	CSinglePlayerState::sm_pGamePlayInstance = NULL;
 
@@ -38,12 +41,16 @@ CSinglePlayerState::CSinglePlayerState(void)
 	this->m_TempPlayer = NULL;
 	this->m_TempPlatform1 = NULL;
 	this->m_TempPlatform2 = NULL;
+	this->m_TempMap = NULL;
+
+	Enemy_1 = NULL;
+	Enemy_2 = NULL;
+	Enemy_3 = NULL;
 
 
 	this->SetNewGame(1);
 
 	this->m_Profile.m_bHaveHook = 0;
-
 }
 
 CSinglePlayerState::~CSinglePlayerState(void)
@@ -73,6 +80,12 @@ void CSinglePlayerState::DeleteInstance(void)
 
 void CSinglePlayerState::Enter(void)
 {
+	// File Include Needs conversion - Corey
+	this->m_TempMap = CMapLoad::GetInstance();
+
+	//m_TempMap->LoadMap("C:\\Users\\Corey Ringer\\Desktop\\TileSets\\df.CWM");
+	//m_TempMap->LoadMapImage("C:\\Users\\Corey Ringer\\Desktop\\TileSets\\default.bmp");
+
 	this->m_pD3D	=		CSGD_Direct3D::GetInstance();
 	this->m_pDI		= 		CSGD_DirectInput::GetInstance();
 	this->m_pTM		=		CSGD_TextureManager::GetInstance();
@@ -100,13 +113,9 @@ void CSinglePlayerState::Enter(void)
 
 
 
-
 	this->m_nBackgroundImageID = this->m_pTM->LoadTexture("resource/graphics/bgGame.png");
 	this->m_nCrossHairID = this->m_pTM->LoadTexture("resource/graphics/CrossHairs.png");
 	this->m_nBGMusic = this->m_pWM->LoadWave("resource/sounds/Jak2_Haven_City.wav");
-
-
-
 
 	this->m_TempPlayer = (CPlayer*)m_pOF->CreateObject("CPlayer");
 	this->m_TempPlayer->SetImageID(this->m_pTM->LoadTexture("resource/graphics/Running1.bmp"));
@@ -123,13 +132,11 @@ void CSinglePlayerState::Enter(void)
 	this->m_TempPlayer->SetOnGround(1);
 	this->m_TempPlayer->SetMouseDown(0);
 
-	//if(!this->GetNewGame())
-	//{
-	//	//this->m_Profile.m_bHaveHook = 1;
-	//}
-
-
+	//if(!this->GetNewGame())	//{	//	//this->m_Profile.m_bHaveHook = 1;	//}
 	
+	Enemy_1 = new CIdleEnemy(Idle, Turret_Gun, -1, 100, 90, 50, 100, .5, 50, 100, 400, 32, 32);
+	Enemy_2 = new CPatrolEnemy(Patrol, 0, 250, Turret_Gun, -1, 100, 90, 50, 100, .5, 100, 300, 400, 32, 32);
+	Enemy_3 = new CFLCLMech(true, 5, 0, Patrol, 0, 250, Ground_FLCL, -1, 100, 60, 50, 100, .5, 100, 50, 400, 32, 32);
 
 
 	tVector2D vStartingPos;
@@ -163,44 +170,35 @@ void CSinglePlayerState::Enter(void)
 
 
 
-	if(!this->m_Profile.m_bHaveHook)
-	{
-		this->m_PickUp = (CPickUp*)m_pOF->CreateObject("CPickUp");
-		this->m_PickUp->SetImageID(this->m_pTM->LoadTexture("resource/graphics/Grappling_Hook.png"));
-		this->m_PickUp->SetPosX((float)50);
-		this->m_PickUp->SetPosY((float)CGame::GetInstance()->GetScreenHeight() - 64);
-		//	this->m_PickUp->SetCamX(this->m_PickUp->GetPosX());
-		//	this->m_PickUp->SetCamY(this->m_PickUp->GetPosY());
-		vStartingPos.fX = this->m_PickUp->GetPosX();
-		vStartingPos.fY = this->m_PickUp->GetPosY();
-		this->m_PickUp->SetWorldPos(vStartingPos);
-		this->m_PickUp->SetWidth(64);
-		this->m_PickUp->SetHeight(64);
-		this->m_PickUp->SetBaseVelX(0);
-		this->m_PickUp->SetBaseVelY(0);
+	if(!this->m_Profile.m_bHaveHook)	{		
+		this->m_PickUp = (CPickUp*)m_pOF->CreateObject("CPickUp");		
+		this->m_PickUp->SetImageID(this->m_pTM->LoadTexture("resource/graphics/Grappling_Hook.png"));		
+		this->m_PickUp->SetPosX((float)50);		
+		this->m_PickUp->SetPosY((float)CGame::GetInstance()->GetScreenHeight() - 64);		
+		//	this->m_PickUp->SetCamX(this->m_PickUp->GetPosX());		
+		//	this->m_PickUp->SetCamY(this->m_PickUp->GetPosY());		
+		vStartingPos.fX = this->m_PickUp->GetPosX();		
+		vStartingPos.fY = this->m_PickUp->GetPosY();		
+		this->m_PickUp->SetWorldPos(vStartingPos);		
+		this->m_PickUp->SetWidth(64);		
+		this->m_PickUp->SetHeight(64);		
+		this->m_PickUp->SetBaseVelX(0);		
+		this->m_PickUp->SetBaseVelY(0);		
 		this->m_PickUp->SetPickUpType(GRAPPLING_HOOK);
-
-		this->m_pOM->AddObject(this->m_PickUp);
+		this->m_pOM->AddObject(this->m_PickUp);		
 		this->m_PickUp->Release();
-
 	}
-
-
 	/*this->m_pOM->AddObject(m_TempPlatform1);
 	this->m_TempPlatform1->Release();*/
 
 	
 
-
 	this->m_pOM->AddObject(this->m_TempPlayer);
 	this->m_TempPlayer->Release();
 	
 
-
-	
 	this->m_pOM->AddObject(this->m_TempPlatform2);
 	this->m_TempPlatform2->Release();
-
 
 	this->m_pWM->Play(this->m_nBGMusic, DSBPLAY_LOOPING);
 
@@ -221,9 +219,13 @@ void CSinglePlayerState::Update(float fElapsedTime)
 	this->m_tBGOffset.fX = 0 - (float)CCamera::GetInstance()->GetCameraRect().left;
 	m_pWM->SetVolume(m_nBGMusic, COptionsMenuState::GetInstance()->GetMusicVolume());
 
-
 	m_pOM->UpdateObjects(fElapsedTime);
 	m_pOM->CheckCollisions();
+
+
+	Enemy_1->Update(fElapsedTime);
+	Enemy_2->Update(fElapsedTime);
+	Enemy_3->Update(fElapsedTime);
 
 }
 
@@ -244,6 +246,16 @@ void CSinglePlayerState::Render(void)
 //	this->m_TempPlayer.Render();
 	//////////////////////////////
 
+	//m_pD3D->GetSprite()->Flush();
+
+ 	//m_TempMap->Render();
+
+	m_pD3D->GetSprite()->Flush();
+
+	Enemy_1->Render();
+	Enemy_2->Render();
+	Enemy_3->Render();
+
 	m_pOM->RenderObjects();
 
 
@@ -260,20 +272,12 @@ void CSinglePlayerState::Render(void)
 
 void CSinglePlayerState::Exit(void)
 {
-	this->m_Profile.m_bHaveHook = 0;
-	if(this->m_pCamera)
+	this->m_Profile.m_bHaveHook = 0;	if(this->m_pCamera)
 	{
 		this->m_pCamera->ResetCam();
 		this->m_pCamera = NULL;
 	}
-
-	CObjectManager::GetInstance()->RemoveObject(this->m_PickUp);
-
-	this->m_pOF->UnregisterClassType("CPickUp");
-	this->m_pOF->UnregisterClassType("CBlock");
-	this->m_pOF->UnregisterClassType("CHook");
-	this->m_pOF->UnregisterClassType("CPlayer");
-	this->m_pOF->UnregisterClassType("CBase");
+	CObjectManager::GetInstance()->RemoveObject(this->m_PickUp);	this->m_pOF->UnregisterClassType("CPickUp");	this->m_pOF->UnregisterClassType("CBlock");	this->m_pOF->UnregisterClassType("CHook");	this->m_pOF->UnregisterClassType("CPlayer");	this->m_pOF->UnregisterClassType("CBase");
 
 	if(this->m_pOF)
 	{
@@ -333,11 +337,4 @@ void CSinglePlayerState::Exit(void)
 
 CPlayer*	CSinglePlayerState::GetPlayerPointer(void)	{return this->m_TempPlayer;}
 
-CSinglePlayerState::tProfile*	CSinglePlayerState::GetProfileValues(void)
-{
-	return &this->m_Profile;
-}
-void		CSinglePlayerState::SetProfileValues(bool bValue)
-{
-	this->m_Profile.m_bHaveHook = bValue;
-}
+CSinglePlayerState::tProfile*	CSinglePlayerState::GetProfileValues(void){	return &this->m_Profile;}void		CSinglePlayerState::SetProfileValues(bool bValue){	this->m_Profile.m_bHaveHook = bValue;}

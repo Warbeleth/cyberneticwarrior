@@ -7,6 +7,7 @@
 #include "CPickUp.h"
 #include "CGrapplingHook.h"
 #include "CBlock.h"
+#include "CMapLoad.h"
 
 #include "CObjectFactory.h"
 #include <string>
@@ -23,6 +24,11 @@ class CObjectManager;
 class CCamera;
 
 
+
+class CIdleEnemy;
+class CPatrolEnemy;
+class CFLCLMech;
+
 class CSinglePlayerState : public IGameState
 {
 private:
@@ -32,7 +38,11 @@ private:
 	//////////////////////////
 	CPlayer* m_TempPlayer;
 	CPickUp* m_PickUp;
+	CMapLoad* m_TempMap;
 
+	CIdleEnemy* Enemy_1;
+	CPatrolEnemy* Enemy_2;
+	CFLCLMech* Enemy_3;
 
 	CBlock*	m_TempPlatform1;
 	CBlock*	m_TempPlatform2;

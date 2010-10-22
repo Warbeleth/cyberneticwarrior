@@ -146,11 +146,7 @@ void CPlayer::Update(float fElapsedTime)
 	{
 		if(this->m_pHook)
 		{
-			if(this->m_pHook->GetIfHooked() && !this->GetOnGround())
-			{
-				this->SetBaseVelY(0.0f);
-			}
-			else
+			if(!this->m_pHook->GetIfHooked())
 			{
 				this->m_vSpeed.fY = this->m_vSpeed.fY +( 900.0f * fElapsedTime);
 				this->SetBaseVelY(this->m_vSpeed.fY);
@@ -322,7 +318,9 @@ void CPlayer::Input(float fElapsedTime)
 	{
 		this->SetMouseDown(1);
 		if(CSinglePlayerState::GetInstance()->GetProfileValues()->m_bHaveHook)
+		{
 			CGame::GetInstance()->GetMessageSystemPointer()->SendMsg(new CCreateHookMessage(this));
+		}
 	}
 
 	if(CSGD_DirectInput::GetInstance()->MouseButtonReleased(MOUSE_LEFT))
@@ -415,6 +413,9 @@ bool CPlayer::CheckCollision(CBase* pBase)
 
 void CPlayer::HandleEvent(CEvent* pEvent)
 {
+	/*if(pEvent->GetEventID() == )
+	{
+	}*/
 }
 
 

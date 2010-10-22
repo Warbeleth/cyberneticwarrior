@@ -7,6 +7,7 @@
 //////////////////////////////////////////////////////////////////////////////////////////////////////
 // SGD Wrappers
 #include "SGD Wrappers/CSGD_TextureManager.h"
+#include "SGD Wrappers/CSGD_DirectInput.h"
 
 // My Includes
 #include "CFont.h"
@@ -118,13 +119,12 @@ bool CFont::InitFont( const char* szSpriteSheetFilename, const char* szBinaryFil
 	if(in.is_open())
 	{
 		in.read( (char*)&m_cLetters, sizeof(CLetter)*90);
-	}
-	else
-	{
-		return false;
+		in.close();
+
+		return true;
 	}
 
-	return true;
+	return false;
 }
 
 //////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -142,6 +142,30 @@ void CFont::ShutdownFont( void )
 	// Clear the delays and scrollings
 	m_vElapsedTime.clear();
 	m_vScrolling.clear();
+}
+
+//////////////////////////////////////////////////////////////////////////////////////////////////////
+// Function: “Input”
+//////////////////////////////////////////////////////////////////////////////////////////////////////
+bool CFont::Input( unsigned char ucKey, float fDeltaTime, float fDeltaDelaySpeed, float fDeltaScrollingSpeed )
+{
+	CSGD_DirectInput::GetInstance()->ReadDevices();
+
+	if( CSGD_DirectInput::GetInstance()->KeyDown( ucKey ) )
+	{
+		// Update each delay variable to the newly elapsed time while also multiplying in the percentage increase in speed
+		for( unsigned int i = 0; i < m_vElapsedTime.size(); ++i )
+			m_vElapsedTime[i].m_fTimer += (fDeltaTime * fDeltaDelaySpeed);
+
+		// Update each scrolling call by the amount of scrolling * the change in time while also multiplying in the percentage increase in speed
+		for( unsigned int i = 0; i < m_vScrolling.size(); ++i )
+		{
+			m_vScrolling[i].m_nXOffset += (int)( m_vScrolling[i].m_nXScrolling * (fDeltaTime * fDeltaScrollingSpeed) );
+			m_vScrolling[i].m_nYOffset += (int)( m_vScrolling[i].m_nYScrolling * (fDeltaTime * fDeltaScrollingSpeed) );
+		}
+	}
+
+	return true;
 }
 
 //////////////////////////////////////////////////////////////////////////////////////////////////////
