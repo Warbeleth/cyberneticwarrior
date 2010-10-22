@@ -189,6 +189,7 @@ void	CMainMenuState::Exit(void)
 
 	if(this->m_nBGMusic > -1)
 	{
+		//this->m_pWM->Stop(this->m_nBGMusic);
 		this->m_pWM->UnloadWave(this->m_nBGMusic);
 		this->m_nBGMusic = -1;
 	}

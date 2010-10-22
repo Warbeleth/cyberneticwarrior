@@ -193,6 +193,22 @@
 					Name="Characters"
 					>
 					<File
+						RelativePath=".\source\CBaseEnemy.cpp"
+						>
+					</File>
+					<File
+						RelativePath=".\source\CFLCLMech.cpp"
+						>
+					</File>
+					<File
+						RelativePath=".\source\CIdleEnemy.cpp"
+						>
+					</File>
+					<File
+						RelativePath=".\source\CPatrolEnemy.cpp"
+						>
+					</File>
+					<File
 						RelativePath=".\source\CPlayer.cpp"
 						>
 					</File>
@@ -323,7 +339,19 @@
 					Name="Characters"
 					>
 					<File
-						RelativePath=".\source\CPlayer.h"
+						RelativePath=".\source\CBaseEnemy.h"
+						>
+					</File>
+					<File
+						RelativePath=".\source\CFLCLMech.h"
+						>
+					</File>
+					<File
+						RelativePath=".\source\CIdleEnemy.h"
+						>
+					</File>
+					<File
+						RelativePath=".\source\CPatrolEnemy.h"
 						>
 					</File>
 				</Filter>
@@ -344,6 +372,10 @@
 					</File>
 					<File
 						RelativePath=".\source\CPickUp.h"
+						>
+					</File>
+					<File
+						RelativePath=".\source\CPlayer.h"
 						>
 					</File>
 				</Filter>
@@ -405,6 +437,10 @@
 				</File>
 				<File
 					RelativePath=".\source\CGame.h"
+					>
+				</File>
+				<File
+					RelativePath=".\source\CMapLoad.h"
 					>
 				</File>
 			</Filter>
