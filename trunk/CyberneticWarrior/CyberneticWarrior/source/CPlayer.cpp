@@ -227,12 +227,12 @@ void CPlayer::Update(float fElapsedTime)
 	//vecHandRotation = Vector2DRotate( vecHandRotation,)
 
 	tVector2D vecMouseVector;
-	vecMouseVector.fX = CSGD_DirectInput::GetInstance()->MouseGetPosX() - GetPosX();
-	vecMouseVector.fY = CSGD_DirectInput::GetInstance()->MouseGetPosY() - GetPosY();
+	vecMouseVector.fX = CSGD_DirectInput::GetInstance()->JoystickGetRStickXAmount() + GetPosX();
+	vecMouseVector.fY = CSGD_DirectInput::GetInstance()->JoystickGetRStickYAmount() + GetPosY();
 
 	m_fHandRotation = AngleBetweenVectors( vecHandRotation, vecMouseVector );
 	
-	if( CSGD_DirectInput::GetInstance()->MouseGetPosX() < GetPosX() )
+	if( CSGD_DirectInput::GetInstance()->JoystickGetRStickXAmount() < GetPosX() )
 		m_fHandRotation = SGD_PI + (SGD_PI - m_fHandRotation);
 }
 
@@ -266,7 +266,8 @@ void CPlayer::Input(float fElapsedTime)
 	// Input Checking
 	///////////////////////////////
 	static float fJumpSpeed = -500.0f;
-	if(CSGD_DirectInput::GetInstance()->KeyDown(DIK_SPACE) && this->m_bOnGround)
+	if((CSGD_DirectInput::GetInstance()->KeyDown(DIK_SPACE)
+		|| CSGD_DirectInput::GetInstance()->JoystickButtonPressed(1)) && this->m_bOnGround)
 	{
 		this->m_bOnGround = false;
 		this->m_vSpeed.fY = fJumpSpeed;
@@ -274,7 +275,9 @@ void CPlayer::Input(float fElapsedTime)
 	}
 
 	static int nMoveSpeed = 100;
-	if(CSGD_DirectInput::GetInstance()->KeyDown(DIK_A))
+	if((CSGD_DirectInput::GetInstance()->KeyDown(DIK_A) 
+		|| CSGD_DirectInput::GetInstance()->JoystickDPadDown(DIR_LEFT)
+		|| CSGD_DirectInput::GetInstance()->JoystickGetLStickDirDown(DIR_LEFT)))
 	{
 		if(this->m_vSpeed.fX > -200.0f)
 		{
@@ -303,7 +306,9 @@ void CPlayer::Input(float fElapsedTime)
 
 	}
 
-	if(CSGD_DirectInput::GetInstance()->KeyDown(DIK_D) )
+	if((CSGD_DirectInput::GetInstance()->KeyDown(DIK_D) 
+		|| CSGD_DirectInput::GetInstance()->JoystickDPadDown(DIR_RIGHT)
+		|| CSGD_DirectInput::GetInstance()->JoystickGetLStickDirDown(DIR_RIGHT)))
 	{
 		if(this->m_vSpeed.fX < 200.0f)
 		{
@@ -331,7 +336,7 @@ void CPlayer::Input(float fElapsedTime)
 		}
 	}
 
-	if(CSGD_DirectInput::GetInstance()->MouseButtonPressed(MOUSE_RIGHT))
+	if((CSGD_DirectInput::GetInstance()->MouseButtonPressed(MOUSE_RIGHT) || CSGD_DirectInput::GetInstance()->JoystickButtonPressed(4)))
 	{
 		this->SetMouseDown(1);
 		if(CSinglePlayerState::GetInstance()->GetProfileValues()->m_bHaveHook)
@@ -340,7 +345,7 @@ void CPlayer::Input(float fElapsedTime)
 		}
 	}
 
-	if(CSGD_DirectInput::GetInstance()->MouseButtonReleased(MOUSE_RIGHT))
+	if((CSGD_DirectInput::GetInstance()->MouseButtonReleased(MOUSE_RIGHT) || CSGD_DirectInput::GetInstance()->JoystickButtonReleased(4)))
 	{
 		this->SetMouseDown(0);
 		if(this->m_pHook)
@@ -350,7 +355,7 @@ void CPlayer::Input(float fElapsedTime)
 		//CGame::GetInstance()->GetMessageSystemPointer()->SendMsg(new CDestroyHookMessage(this));
 	}
 		
-	if(CSGD_DirectInput::GetInstance()->MouseButtonPressed(MOUSE_LEFT))
+	if((CSGD_DirectInput::GetInstance()->MouseButtonPressed(MOUSE_LEFT) || CSGD_DirectInput::GetInstance()->JoystickButtonPressed(7)))
 	{
 		CGame::GetInstance()->GetMessageSystemPointer()->SendMsg(new CCreateRocketMessage(this));
 	}
