@@ -220,6 +220,10 @@
 						RelativePath=".\source\CGrapplingHook.cpp"
 						>
 					</File>
+					<File
+						RelativePath=".\source\CRocket.cpp"
+						>
+					</File>
 				</Filter>
 				<Filter
 					Name="Environmental"
@@ -360,6 +364,10 @@
 					>
 					<File
 						RelativePath=".\source\CGrapplingHook.h"
+						>
+					</File>
+					<File
+						RelativePath=".\source\CRocket.h"
 						>
 					</File>
 				</Filter>
