@@ -216,7 +216,20 @@ void CPlayer::Update(float fElapsedTime)
 	}
 	////////////////////////////////////////
 
+	tVector2D vecHandRotation;
+	vecHandRotation.fX = 0;
+	vecHandRotation.fY = -1;
 
+	//vecHandRotation = Vector2DRotate( vecHandRotation,)
+
+	tVector2D vecMouseVector;
+	vecMouseVector.fX = CSGD_DirectInput::GetInstance()->MouseGetPosX() - GetPosX();
+	vecMouseVector.fY = CSGD_DirectInput::GetInstance()->MouseGetPosY() - GetPosY();
+
+	m_fHandRotation = AngleBetweenVectors( vecHandRotation, vecMouseVector );
+	
+	if( CSGD_DirectInput::GetInstance()->MouseGetPosX() < GetPosX() )
+		m_fHandRotation = SGD_PI + (SGD_PI - m_fHandRotation);
 }
 
 void CPlayer::UpdateCamera(float fElapsedTime)
@@ -332,6 +345,16 @@ void CPlayer::Input(float fElapsedTime)
 		}
 		//CGame::GetInstance()->GetMessageSystemPointer()->SendMsg(new CDestroyHookMessage(this));
 	}
+		
+	if(CSGD_DirectInput::GetInstance()->MouseButtonPressed(MOUSE_LEFT))
+	{
+		CGame::GetInstance()->GetMessageSystemPointer()->SendMsg(new CCreateRocketMessage(this));
+	}
+
+	if(CSGD_DirectInput::GetInstance()->KeyPressed(DIK_LSHIFT))
+	{
+		m_bHomingOn = !m_bHomingOn;
+	}
 
 	///////////////////////////////
 }
@@ -348,6 +371,13 @@ void CPlayer::Render(void)
 	CSGD_TextureManager::GetInstance()->Draw(this->GetImageID(), (int)this->GetPosX(), (int)this->GetPosY(), 
 		1.0f,1.0f, &rDrawRect);//, this->m_vRotationCenter.fX, this->m_vRotationCenter.fX, this->m_fRotation);//, (float)GetWidth()/2, (float)GetHeight());
 
+	if(m_bHomingOn)
+		CSGD_Direct3D::GetInstance()->DrawLine( GetPosX() + (GetWidth()/2.0f), GetPosY() + (GetHeight()/4.0f), CSGD_DirectInput::GetInstance()->MouseGetPosX()+8, CSGD_DirectInput::GetInstance()->MouseGetPosY()+8, 255, 0, 0 );
+
+	CSGD_TextureManager::GetInstance()->Draw(m_nHandID, GetPosX() + (GetWidth()/2.0f), GetPosY() - (GetHeight()/4.0f), 0.6f, 0.6f, 0, 16, 64, m_fHandRotation, -1 );
+	
+	CSGD_TextureManager::GetInstance()->Draw(this->GetImageID(), (int)this->GetPosX(), (int)this->GetPosY(), 
+		1.0f,1.0f, &rDrawRect, this->m_vRotationCenter.fX, this->m_vRotationCenter.fX, this->m_fRotation);
 }
 
 RECT CPlayer::GetRect(void) const
