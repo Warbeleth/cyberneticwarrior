@@ -282,6 +282,10 @@
 				Name="Game Engine"
 				>
 				<File
+					RelativePath=".\source\CAnimationLoad.cpp"
+					>
+				</File>
+				<File
 					RelativePath=".\source\CCamera.cpp"
 					>
 				</File>
@@ -432,6 +436,10 @@
 				Name="Game Engine"
 				>
 				<File
+					RelativePath=".\source\CAnimationLoad.h"
+					>
+				</File>
+				<File
 					RelativePath=".\source\CCamera.h"
 					>
 				</File>
@@ -465,6 +473,10 @@
 			<Filter
 				Name="Graphics"
 				>
+				<File
+					RelativePath=".\resource\graphics\Arm.png"
+					>
+				</File>
 				<File
 					RelativePath=".\resource\graphics\BackGroundMenu.png"
 					>

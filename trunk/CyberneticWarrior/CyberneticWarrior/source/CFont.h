@@ -23,21 +23,8 @@
 
 #include <vector>
 
-// For DWORD and RECT so I didn't have to include <windows.h>
-////#ifndef _WINDEF_
-//typedef unsigned long DWORD;
-//typedef long LONG;
-//typedef struct tagRECT
-//{
-//	LONG    left;
-//	LONG    top;
-//	LONG    right;
-//	LONG    bottom;
-//} RECT;
-//#endif
-
 //////////////////////////////////////////////////////////////////////////////////////////////////////
-//						******************* CLASS - CDELAY *******************
+//						******************* CLASS - CDelay *******************
 //////////////////////////////////////////////////////////////////////////////////////////////////////
 class CDelay
 {
