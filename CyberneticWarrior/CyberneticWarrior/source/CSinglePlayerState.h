@@ -56,7 +56,8 @@ private:
 	bool m_bNewGame;
 
 
-
+	int			m_nMusicVolume;
+	int			m_nSFXVolume;
 
 	tVector2D	m_tBGOffset;
 	
