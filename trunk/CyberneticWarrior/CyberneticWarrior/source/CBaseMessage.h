@@ -3,11 +3,12 @@
 
 class CGrapplingHook;
 class CPlayer;
+class CRocket;
 
 typedef  int MSGID;
 
 /*unsigned char*/
-enum eMsgTypes	{ MSG_NULL = 0, MSG_CREATE_HOOK, MSG_DESTROY_HOOK,/*MSG_CREATE_PICKUP,*/ MSG_MAX };
+enum eMsgTypes	{ MSG_NULL = 0, MSG_CREATE_HOOK, MSG_DESTROY_HOOK, MSG_CREATE_ROCKET, MSG_DESTROY_ROCKET,/*MSG_CREATE_PICKUP,*/ MSG_MAX };
 
 class CBaseMessage
 {
@@ -50,6 +51,29 @@ public:
 	CGrapplingHook*	GetHookPointer(void);
 };
 
+class CCreateRocketMessage : public CBaseMessage
+{
+private:
+	CPlayer*	m_pPlayer;
+public:
+	CCreateRocketMessage( CPlayer* pPlayer );
+	~CCreateRocketMessage( void );
+
+	CPlayer* GetPlayerPointer( void );
+	void SetPlayerPointer( CPlayer* pPlayer );
+};
+
+class CDestroyRocketMessage : public CBaseMessage
+{
+private:
+	CRocket*		m_pRocket;
+	CPlayer*		m_pPlayer;
+public:
+	CDestroyRocketMessage(CRocket* pRocket, CPlayer* pPlayer);
+	~CDestroyRocketMessage(void);
+	CPlayer* GetPlayerPointer(void);
+	CRocket* GetRocketPointer(void);
+};
 /*	---Message Class Example---
 class CCreateEnemyMessage : public CBaseMessage
 {

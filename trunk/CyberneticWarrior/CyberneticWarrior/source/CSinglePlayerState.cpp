@@ -18,6 +18,7 @@
 #include "CIdleEnemy.h"
 #include "CPatrolEnemy.h"
 #include "CFLCLMech.h"
+#include "CRocket.h"
 
 CSinglePlayerState*	CSinglePlayerState::sm_pGamePlayInstance = NULL;
 
@@ -110,6 +111,7 @@ void CSinglePlayerState::Enter(void)
 	this->m_pOF->RegisterClassType<CPlayer>("CPlayer");
 	this->m_pOF->RegisterClassType<CBlock>("CBlock");
 	this->m_pOF->RegisterClassType<CPickUp>("CPickUp");
+	this->m_pOF->RegisterClassType<CRocket>("CRocket");
 
 
 
@@ -119,6 +121,7 @@ void CSinglePlayerState::Enter(void)
 	this->m_nBackgroundImageID = this->m_pTM->LoadTexture("resource/graphics/bgGame.png");
 	this->m_nCrossHairID = this->m_pTM->LoadTexture("resource/graphics/CrossHairs.png");
 	this->m_nBGMusic = this->m_pWM->LoadWave("resource/sounds/Jak2_Haven_City.wav");
+	m_nRocketID = m_pTM->LoadTexture("resource/graphics/CrossHairs.png");
 
 	this->m_TempPlayer = (CPlayer*)m_pOF->CreateObject("CPlayer");
 	this->m_TempPlayer->SetImageID(this->m_pTM->LoadTexture("resource/graphics/Running1.bmp"));
