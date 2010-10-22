@@ -384,6 +384,12 @@ namespace SGP_Map_Editor
                                 if (PosY > splitContainerBackground.Panel2.Height || PosY + m_sTileSelection.m_nHeight < 0)
                                     continue;
 
+                                if ((ImageRow == (m_sTileSelection.m_nRows - 1)) && (ImageCol == (m_sTileSelection.m_nColumns - 1)))
+                                {
+                                    D3D.DrawText("NULL", PosX, PosY, 0, 0, 0);
+                                    continue;
+                                }
+
                                 Rectangle rDrawRect = new Rectangle
                                     (
                                     ImageCol * m_sTileSelection.m_nWidth, ImageRow * m_sTileSelection.m_nHeight,
