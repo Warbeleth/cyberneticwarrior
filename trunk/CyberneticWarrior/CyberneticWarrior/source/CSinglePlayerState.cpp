@@ -43,6 +43,9 @@ CSinglePlayerState::CSinglePlayerState(void)
 	this->m_TempPlatform2 = NULL;
 	this->m_TempMap = NULL;
 
+	this->m_nMusicVolume = COptionsMenuState::GetInstance()->GetMusicVolume(); 
+	this->m_nSFXVolume = COptionsMenuState::GetInstance()->GetMusicVolume(); 
+
 	Enemy_1 = NULL;
 	Enemy_2 = NULL;
 	Enemy_3 = NULL;
@@ -217,10 +220,14 @@ bool CSinglePlayerState::Input(void)
 void CSinglePlayerState::Update(float fElapsedTime)
 {
 	this->m_tBGOffset.fX = 0 - (float)CCamera::GetInstance()->GetCameraRect().left;
-	m_pWM->SetVolume(m_nBGMusic, COptionsMenuState::GetInstance()->GetMusicVolume());
 
-	m_pOM->UpdateObjects(fElapsedTime);
-	m_pOM->CheckCollisions();
+	if( this->m_nMusicVolume != COptionsMenuState::GetInstance()->GetMusicVolume())
+	{
+		this->m_nMusicVolume = COptionsMenuState::GetInstance()->GetMusicVolume();
+		this->m_pWM->SetVolume(m_nBGMusic, this->m_nMusicVolume);
+	}
+	this->m_pOM->UpdateObjects(fElapsedTime);
+	this->m_pOM->CheckCollisions();
 
 
 	Enemy_1->Update(fElapsedTime);
