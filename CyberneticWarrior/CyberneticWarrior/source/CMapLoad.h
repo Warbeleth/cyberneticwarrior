@@ -114,6 +114,11 @@ public:
 	Selection m_gSelectionMap;
 	vector<ListObject> m_lMap;
 	string m_szFileName;
+	string m_szWorkingDirectoryGRAPHICS;
+	string m_szWorkingDirectoryMAPS;
+	string m_szMap_01;
+
+
 	float m_fScaleX;
 	float m_fScaleY;
 
@@ -125,7 +130,12 @@ public:
 
 	bool LoadMap(const char* szFilename)
 	{
-		fstream Import(szFilename, ios_base::in | ios_base::binary);
+		string m_szWorkingDirectoryGRAPHICS = "resource/graphics/";
+		string m_szWorkingDirectoryMAPS = "resource/maps/";
+
+		string m_szMap_01 = m_szWorkingDirectoryMAPS + szFilename;
+
+		fstream Import(m_szMap_01.c_str(), ios_base::in | ios_base::binary);
 
 		if(Import.good())
 		{
@@ -160,7 +170,11 @@ public:
 			m_szFileName = buffer;
 			delete buffer;
 
+			string m_szImageLoad = m_szWorkingDirectoryGRAPHICS + m_szFileName;
+			
 			m_gSelectionMap.m_nImageID = -1;
+		
+			LoadMapImage(m_szImageLoad.c_str());
 
 			//Create Map Based on size
 			for(int i = 0; i < m_gTileMap.m_nColumns*m_gTileMap.m_nRows; i++)
@@ -266,8 +280,8 @@ public:
 			{
 				int Index = Row * m_gTileMap.m_nColumns + Col;
 
-				int PosX = Col * m_gTileMap.m_nWidth;
-				int PosY = Row * m_gTileMap.m_nHeight;
+				int PosX = Col * m_gTileMap.m_nWidth - OffsetX;
+				int PosY = Row * m_gTileMap.m_nHeight - OffsetY;
 
 				//m_lMap[Index].m_nDrawImage;
 				//y = i/width
@@ -276,10 +290,13 @@ public:
 				int ImageRow = m_lMap[Index].m_nDrawImage / m_gSelectionMap.m_nColumns;
 				int ImageCol = m_lMap[Index].m_nDrawImage % m_gSelectionMap.m_nColumns;
 
-				if (PosX > 640 || PosX + m_gSelectionMap.m_nWidth < 0)
+				if ((ImageRow == (m_gSelectionMap.m_nRows - 1)) && (ImageCol == (m_gSelectionMap.m_nColumns - 1)))
 					continue;
 
-				if (PosY > 480 || PosY + m_gSelectionMap.m_nHeight < 0)
+				if (PosX > 800 || PosX + m_gSelectionMap.m_nWidth < 0)
+					continue;
+
+				if (PosY > 600 || PosY + m_gSelectionMap.m_nHeight < 0)
 					continue;
 
 				RECT rDrawRect;
@@ -289,7 +306,7 @@ public:
 				rDrawRect.bottom = rDrawRect.top + m_gSelectionMap.m_nHeight;
 
 
-				TM->Draw(m_gSelectionMap.m_nImageID, PosX - OffsetX, PosY - OffsetY, m_fScaleX, m_fScaleY, &rDrawRect, 0, 0, 0, -1);
+				TM->Draw(m_gSelectionMap.m_nImageID, PosX, PosY, m_fScaleX, m_fScaleY, &rDrawRect, 0, 0, 0, -1);
 			}
 
 			D3D->GetSprite()->Flush();	// DRAW ALL SPRITES NOW!!!
