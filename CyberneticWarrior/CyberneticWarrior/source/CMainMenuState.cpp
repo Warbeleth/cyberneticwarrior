@@ -142,7 +142,7 @@ void	CMainMenuState::Render(void)
 {
 	this->m_pTM->Draw(this->m_nBackgroundID, 0, 0);
 
-	this->m_MenuFont.Draw("Cybernetic Warrior", 200, 25, 1.2f, D3DXCOLOR(1.0f, 1.0f, 0.0f, 1.0f));
+	this->m_MenuFont.Draw("Cybernetic Warrior", 50, 25, 2.0f, D3DXCOLOR(0.0f, 0.0f, 1.0f, 1.0f));
 	
 	this->m_MenuFont.Draw("Single Player", 225, (this->SINGLE_PLAYER * MMENU_SPACE) + this->MMENU_START, 
 		(this->m_nSelection == this->SINGLE_PLAYER? 1.5f : 1.0f) ,

@@ -30,7 +30,8 @@ COptionsMenuState::COptionsMenuState(void)
 
 	this->m_nSelection			= this->MUSIC_VOLUME;
 	this->m_nSelectionPos		= this->OMENU_START;
-	
+
+	this->m_bSelection			= 0;
 }
 
 COptionsMenuState::~COptionsMenuState(void)
@@ -47,6 +48,8 @@ COptionsMenuState::~COptionsMenuState(void)
 
 	this->m_nSelection			= this->MUSIC_VOLUME;
 	this->m_nSelectionPos		= this->OMENU_START;
+
+	this->m_bSelection			= 0;
 }
 
 COptionsMenuState*	COptionsMenuState::GetInstance(void)
@@ -94,9 +97,13 @@ bool	COptionsMenuState::Input(void)
 	{
 		--this->m_nSelection;
 
-		if(this->m_nSelection < this->MUSIC_VOLUME)
+		if(this->m_nSelection < this->MUSIC_VOLUME && this->m_bSelection == 0)
 		{
 			this->m_nSelection = this->EXIT_OMENU;
+		}
+		else
+		{
+			this->m_bSelection = 0;
 		}
 	}
 	
@@ -104,9 +111,13 @@ bool	COptionsMenuState::Input(void)
 	{
 		++this->m_nSelection;
 
-		if(this->m_nSelection > this->EXIT_OMENU)
+		if(this->m_nSelection > this->EXIT_OMENU && this->m_bSelection == 0)
 		{
 			this->m_nSelection = this->MUSIC_VOLUME;
+		}
+		else
+		{
+			this->m_bSelection = 0;
 		}
 	}
 
@@ -114,18 +125,26 @@ bool	COptionsMenuState::Input(void)
 	{
 		if(this->m_nSelection == this->MUSIC_VOLUME)
 		{
-			if(this->m_nMusicVolume < 100)
+			if(this->m_nMusicVolume < 100 && this->m_bSelection)
 			{	
 				this->m_nMusicVolume++;
 				this->m_pWM->SetVolume(m_nMusicID, this->m_nMusicVolume);
 			}
+			else
+			{
+				this->m_bSelection = 1;
+			}
 		}
 		else if(this->m_nSelection == this->SFX_VOLUME)
 		{
-			if(this->m_nSFXVolume < 100)
+			if(this->m_nSFXVolume < 100 && this->m_bSelection)
 			{
 				this->m_nSFXVolume++;
 				//this->m_pWM->SetVolume(m_nSFXID, this->m_nSFXVolume);
+			}
+			else
+			{
+				this->m_bSelection = 1;
 			}
 		}
 	}
@@ -134,20 +153,36 @@ bool	COptionsMenuState::Input(void)
 	{
 		if(this->m_nSelection == this->MUSIC_VOLUME)
 		{
-			if(this->m_nMusicVolume > 0)
+			if(this->m_nMusicVolume > 0 && this->m_bSelection)
 			{	
 				this->m_nMusicVolume--;
 				this->m_pWM->SetVolume(m_nMusicID, this->m_nMusicVolume);
 			}
+			else
+			{
+				this->m_bSelection = 1;
+			}
 		}
 		else if(this->m_nSelection == this->SFX_VOLUME)
 		{
-			if(this->m_nSFXVolume < 0)
+			if(this->m_nSFXVolume > 0 && this->m_bSelection)
 			{
 				this->m_nSFXVolume--;
 				//this->m_pWM->SetVolume(m_nSFXID, this->m_nSFXVolume);
 			}
+			else
+			{
+				this->m_bSelection = 1;
+			}
 		}		
+	}
+
+	if(this->m_pDI->KeyPressed(DIK_ESCAPE))
+	{
+		if(this->m_bSelection)
+		{
+			this->m_bSelection = 0;
+		}
 	}
 
 	if(this->m_pDI->KeyPressed(DIK_RETURN))
@@ -157,10 +192,13 @@ bool	COptionsMenuState::Input(void)
 		case this->MUSIC_VOLUME:
 			//this->m_pWM->Stop(this->m_nBGMusic);
 			//CStackStateMachine::GetInstance()->Push_Back(CSinglePlayerState::GetInstance());
+			this->m_bSelection = 1;
 			break;
 		case this->SFX_VOLUME:
+			this->m_bSelection = 1;
 			break;
 		case this->MUTE:
+			this->m_bMute = !this->m_bMute;
 			break;
 		case this->EXIT_OMENU:
 			CStackStateMachine::GetInstance()->Pop_back();
@@ -219,8 +257,8 @@ void	COptionsMenuState::Render(void)
 		(this->m_nSelection == this->EXIT_OMENU? D3DXCOLOR(0.0f, 1.0f, 0.0f, 1.0f) : D3DXCOLOR(1.0f, 1.0f, 0.0f, 1.0f)));
 	
 	CSGD_Direct3D::GetInstance()->GetSprite()->Flush();
-	CSGD_Direct3D::GetInstance()->DrawLine(MENUX + 325, (this->MUSIC_VOLUME * OMENU_SPACE) + this->OMENU_START + 25, MENUX + 325 + 250,  (this->MUSIC_VOLUME * OMENU_SPACE) + this->OMENU_START + 25, (this->m_nSelection == this->MUSIC_VOLUME? 255: 0), 0, (this->m_nSelection != this->MUSIC_VOLUME? 255: 0));
-	CSGD_Direct3D::GetInstance()->DrawLine(MENUX + 325, (this->SFX_VOLUME * OMENU_SPACE) + this->OMENU_START + 25, MENUX + 325 + 250,  (this->SFX_VOLUME * OMENU_SPACE) + this->OMENU_START + 25, (this->m_nSelection == this->SFX_VOLUME? 255: 0), 0, (this->m_nSelection != this->SFX_VOLUME? 255: 0));
+	CSGD_Direct3D::GetInstance()->DrawLine(MENUX + 325, (this->MUSIC_VOLUME * OMENU_SPACE) + this->OMENU_START + 25, MENUX + 325 + 250,  (this->MUSIC_VOLUME * OMENU_SPACE) + this->OMENU_START + 25, ((this->m_nSelection != this->MUSIC_VOLUME || !this->m_bSelection)? 255: 0), 0, ((this->m_nSelection == this->MUSIC_VOLUME && this->m_bSelection)? 255: 0));
+	CSGD_Direct3D::GetInstance()->DrawLine(MENUX + 325, (this->SFX_VOLUME * OMENU_SPACE) + this->OMENU_START + 25, MENUX + 325 + 250,  (this->SFX_VOLUME * OMENU_SPACE) + this->OMENU_START + 25, ((this->m_nSelection != this->SFX_VOLUME || !this->m_bSelection)? 255: 0), 0, ((this->m_nSelection == this->SFX_VOLUME && this->m_bSelection)? 255: 0));
 //	CSGD_Direct3D::GetInstance()->DrawRect(MENUX + 325, (this->MUTE * OMENU_SPACE) + this->OMENU_START + 25, MENUX + 325 + 250,  (this->MUTE * OMENU_SPACE) + this->OMENU_START + 25, 255, 0, 0);
 }
 

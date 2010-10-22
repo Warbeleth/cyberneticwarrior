@@ -28,20 +28,24 @@ private:
 	CSGD_DirectSound*			m_pDS;
 
 	CFont	m_OptionsFont;
-
+	
+	// Texture IDs
 	int	m_nBackgroundID;
 	int m_nCursorID;
-
+	// Music IDs
 	int m_nMusicID;
 	int m_nSFXID;
-
+	// Selection IDs
 	int m_nSelectionPos;
 	int	m_nSelection;
 
-
+	// Game Volume Levels
 	int		m_nMusicVolume;
 	int		m_nSFXVolume;
 	bool	m_bMute;
+
+	// Selection On
+	bool	m_bSelection;
 
 
 	COptionsMenuState(void);
