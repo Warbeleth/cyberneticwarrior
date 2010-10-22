@@ -1,0 +1,8 @@
+C:\Users\Corey Ringer\Documents\Full Sail\Structure of Game Production\Map Editor\Map Editor\Map Editor\bin\Release\Map Editor.exe
+C:\Users\Corey Ringer\Documents\Full Sail\Structure of Game Production\Map Editor\Map Editor\Map Editor\bin\Release\Map Editor.pdb
+C:\Users\Corey Ringer\Documents\Full Sail\Structure of Game Production\Map Editor\Map Editor\Map Editor\obj\Release\ResolveAssemblyReference.cache
+C:\Users\Corey Ringer\Documents\Full Sail\Structure of Game Production\Map Editor\Map Editor\Map Editor\obj\Release\SGP_Map_Editor.Map_Editor.resources
+C:\Users\Corey Ringer\Documents\Full Sail\Structure of Game Production\Map Editor\Map Editor\Map Editor\obj\Release\Map_Editor.Properties.Resources.resources
+C:\Users\Corey Ringer\Documents\Full Sail\Structure of Game Production\Map Editor\Map Editor\Map Editor\obj\Release\Map Editor.csproj.GenerateResource.Cache
+C:\Users\Corey Ringer\Documents\Full Sail\Structure of Game Production\Map Editor\Map Editor\Map Editor\obj\Release\Map Editor.exe
+C:\Users\Corey Ringer\Documents\Full Sail\Structure of Game Production\Map Editor\Map Editor\Map Editor\obj\Release\Map Editor.pdb
