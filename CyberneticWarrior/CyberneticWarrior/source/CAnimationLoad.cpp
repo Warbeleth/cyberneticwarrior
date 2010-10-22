@@ -1,55 +1,60 @@
-#include "CAnimationLoad.h"
+//////////////////////////////////////////////////////////////////////////////////////////////////////
+// File: “CAnimationLoad.cpp”
+//
+// Author: Anthony Muccio(AM)
+//
+// Purpose: This file primaraly holds the function bodies for CAnimations, but also hold the bodies
+//			for CAnimation, CFrame, and CPoint.
+//////////////////////////////////////////////////////////////////////////////////////////////////////
+// SGD Wrappers
 #include "SGD Wrappers/CSGD_TextureManager.h"
 #include "SGD Wrappers/CSGD_Direct3D.h"
+
+// My Includes
 #include <fstream>
-using namespace std;
+#include "CAnimationLoad.h"
 
-CAnimation::CAnimation( )
+//////////////////////////////////////////////////////////////////////////////////////////////////////
+// Function: “CPoint”
+//////////////////////////////////////////////////////////////////////////////////////////////////////	
+CPoint::CPoint( )
 {
-	m_nTotalFrames      = 0;
-	m_nCurrentFrame     = 0;
-	m_nTimeBetweenFrames = 0.0f;
-	m_nTotalAnimationTime = 0.0f;
-	m_lstFrames.clear();
-	m_szAnimationName.clear();
+	m_nX = 0;
+	m_nY = 0;
 }
 
-CRect::CRect(  )
-{
-	left = 0;
-	top = 0;
-	right = 0;
-	bottom = 0;
-}
-
-Point::Point( )
-{
-	X = 0;
-	Y = 0;
-}
-
+//////////////////////////////////////////////////////////////////////////////////////////////////////
+// Function: “CFrame”
+//////////////////////////////////////////////////////////////////////////////////////////////////////	
 CFrame::CFrame(  )
 {
 	m_rFrame.left            = 0;
 	m_rFrame.top             = 0;
 	m_rFrame.right           = 0;
 	m_rFrame.bottom          = 0;
-	m_pAnchor.X              = 0;
-	m_pAnchor.Y              = 0;
-	m_nTotalHitCRects         = 0;
-	m_nTotalCollisionCRects   = 0;
+	m_ptAnchor.m_nX           = 0;
+	m_ptAnchor.m_nY           = 0;
+	m_nTotalHitRects         = 0;
+	m_nTotalCollisionRects   = 0;
 	m_nTrigger               = 0;
-	m_lstHitCRects.clear();
-	m_lstCollisionCRects.clear();
+	m_vHitRects.clear();
+	m_vCollisionRects.clear();
 }
 
+//////////////////////////////////////////////////////////////////////////////////////////////////////
+// Function: “Render”
+//////////////////////////////////////////////////////////////////////////////////////////////////////	
 void CFrame::Render( )
 {
 }
+
+//////////////////////////////////////////////////////////////////////////////////////////////////////
+// Function: “RectRender”
+//////////////////////////////////////////////////////////////////////////////////////////////////////	
 /*
-void CFrame::CRectRender()
+void CFrame::RectRender()
 { 
-	//DiCRectX singletons
+	//DirectX singletons
 	CSGD_Direct3D* pD3D = CSGD_Direct3D::GetInstance();
 
 	// Draw GetFrame()
@@ -59,48 +64,69 @@ void CFrame::CRectRender()
 	pD3D->DrawLine(m_rFrame.left, m_rFrame.bottom, m_rFrame.left, m_rFrame.top, 255, 0, 0);
 
 	// Draw Anchor
-	pD3D->DrawLine(m_pAnchor.X - 2, m_pAnchor.Y - 2, m_pAnchor.X + 2, m_pAnchor.Y + 2, 255, 0, 255);
-	pD3D->DrawLine(m_pAnchor.X + 2, m_pAnchor.Y - 2, m_pAnchor.X - 2, m_pAnchor.Y + 2, 255, 0, 255);
+	pD3D->DrawLine(m_ptAnchor.X - 2, m_ptAnchor.Y - 2, m_ptAnchor.X + 2, m_ptAnchor.Y + 2, 255, 0, 255);
+	pD3D->DrawLine(m_ptAnchor.X + 2, m_ptAnchor.Y - 2, m_ptAnchor.X - 2, m_ptAnchor.Y + 2, 255, 0, 255);
 
-	// Draw Hit CRects
-	for (int i = 0; i < m_nTotalHitCRects; ++i)
+	// Draw Hit Rects
+	for (int i = 0; i < m_nTotalHitRects; ++i)
 	{
-		pD3D->DrawLine(m_lstHitCRects[i].left, m_lstHitCRects[i].top, m_lstHitCRects[i].right, m_lstHitCRects[i].top, 0, 255, 0);
-		pD3D->DrawLine(m_lstHitCRects[i].right, m_lstHitCRects[i].top, m_lstHitCRects[i].right, m_lstHitCRects[i].bottom, 0, 255, 0);
-		pD3D->DrawLine(m_lstHitCRects[i].right, m_lstHitCRects[i].bottom, m_lstHitCRects[i].left, m_lstHitCRects[i].bottom, 0, 255, 0);
-		pD3D->DrawLine(m_lstHitCRects[i].left, m_lstHitCRects[i].bottom, m_lstHitCRects[i].left, m_lstHitCRects[i].top, 0, 255, 0);
+		pD3D->DrawLine(m_vHitRects[i].left, m_vHitRects[i].top, m_vHitRects[i].right, m_vHitRects[i].top, 0, 255, 0);
+		pD3D->DrawLine(m_vHitRects[i].right, m_vHitRects[i].top, m_vHitRects[i].right, m_vHitRects[i].bottom, 0, 255, 0);
+		pD3D->DrawLine(m_vHitRects[i].right, m_vHitRects[i].bottom, m_vHitRects[i].left, m_vHitRects[i].bottom, 0, 255, 0);
+		pD3D->DrawLine(m_vHitRects[i].left, m_vHitRects[i].bottom, m_vHitRects[i].left, m_vHitRects[i].top, 0, 255, 0);
 	}
 
-	// Draw Collision CRects
-	for (int i = 0; i < m_nTotalCollisionCRects; ++i)
+	// Draw Collision Rects
+	for (int i = 0; i < m_nTotalCollisionRects; ++i)
 	{
-		pD3D->DrawLine(m_lstCollisionCRects[i].left, m_lstCollisionCRects[i].top, m_lstCollisionCRects[i].right, m_lstCollisionCRects[i].top, 0, 0, 255);
-		pD3D->DrawLine(m_lstCollisionCRects[i].right, m_lstCollisionCRects[i].top, m_lstCollisionCRects[i].right, m_lstCollisionCRects[i].bottom, 0, 0, 255);
-		pD3D->DrawLine(m_lstCollisionCRects[i].right, m_lstCollisionCRects[i].bottom, m_lstCollisionCRects[i].left, m_lstCollisionCRects[i].bottom, 0, 0, 255);
-		pD3D->DrawLine(m_lstCollisionCRects[i].left, m_lstCollisionCRects[i].bottom, m_lstCollisionCRects[i].left, m_lstCollisionCRects[i].top, 0, 0, 255);
+		pD3D->DrawLine(m_vCollisionRects[i].left, m_vCollisionRects[i].top, m_vCollisionRects[i].right, m_vCollisionRects[i].top, 0, 0, 255);
+		pD3D->DrawLine(m_vCollisionRects[i].right, m_vCollisionRects[i].top, m_vCollisionRects[i].right, m_vCollisionRects[i].bottom, 0, 0, 255);
+		pD3D->DrawLine(m_vCollisionRects[i].right, m_vCollisionRects[i].bottom, m_vCollisionRects[i].left, m_vCollisionRects[i].bottom, 0, 0, 255);
+		pD3D->DrawLine(m_vCollisionRects[i].left, m_vCollisionRects[i].bottom, m_vCollisionRects[i].left, m_vCollisionRects[i].top, 0, 0, 255);
 	}
 }
 */
 
+//////////////////////////////////////////////////////////////////////////////////////////////////////
+// Function: “CAnimation”
+//////////////////////////////////////////////////////////////////////////////////////////////////////	
+CAnimation::CAnimation( )
+{
+	m_nTotalFrames      = 0;
+	m_nCurrentFrame     = 0;
+	m_fTimeBetweenFrames = 0.0f;
+	m_vFrames.clear();
+	m_szAnimationName.clear();
+}
+
+//////////////////////////////////////////////////////////////////////////////////////////////////////
+// Function: “CAnimations”
+//////////////////////////////////////////////////////////////////////////////////////////////////////	
 CAnimations::CAnimations()
 {
 	m_nTotalAnimations      = 0;
 	m_nCurrentAnimation		= 0;
 	m_szFilename            = "\0";
-	m_lstAnimations.clear();
+	m_vAnimations.clear();
 }
 
+//////////////////////////////////////////////////////////////////////////////////////////////////////
+// Function: “Render”
+//////////////////////////////////////////////////////////////////////////////////////////////////////	
 void CAnimations::Render( void )
 {
-	m_lstAnimations[ m_nCurrentAnimation ].m_lstFrames[ m_lstAnimations[m_nCurrentAnimation].m_nCurrentFrame ].Render();
+	m_vAnimations[ m_nCurrentAnimation ].m_vFrames[ m_vAnimations[m_nCurrentAnimation].m_nCurrentFrame ].Render();
 }
 
+//////////////////////////////////////////////////////////////////////////////////////////////////////
+// Function: “LoadBinary”
+//////////////////////////////////////////////////////////////////////////////////////////////////////	
 bool CAnimations::LoadBinary( char* szFilename )
 {
-	ifstream in;
+	std::ifstream in;
 	in.clear();
 
-	in.open( szFilename, ios_base::in | ios_base::binary);
+	in.open( szFilename, std::ios_base::in | std::ios_base::binary);
 
 	if(in.is_open())
 	{
@@ -123,77 +149,77 @@ bool CAnimations::LoadBinary( char* szFilename )
 		{
 			// add the animation
 			CAnimation _animation;
-			m_lstAnimations.push_back( _animation );
+			m_vAnimations.push_back( _animation );
 
 			// time between frames
 			float nTimeBetweenFrames;
 			in.read( (char*)&nTimeBetweenFrames, sizeof(float) );
-			m_lstAnimations[i].m_nTimeBetweenFrames = nTimeBetweenFrames;
+			m_vAnimations[i].m_fTimeBetweenFrames = nTimeBetweenFrames;
 
 			// Animation Name
-			m_lstAnimations[i].m_szAnimationName = "Default";
+			m_vAnimations[i].m_szAnimationName = "Default";
 
 			// total frames
 			int nTotalFrames;
 			in.read( (char*)&nTotalFrames, sizeof(int) );
-			m_lstAnimations[i].m_nTotalFrames = nTotalFrames;
+			m_vAnimations[i].m_nTotalFrames = nTotalFrames;
 
 			// each frame
 			for ( int x = 0; x < nTotalFrames; ++x)
 			{
 				// add the frame
 				CFrame _frame;
-				m_lstAnimations[i].m_lstFrames.push_back(_frame);
+				m_vAnimations[i].m_vFrames.push_back(_frame);
 
 				// anchor
-				Point _anchor;
-				in.read( (char*)&_anchor.X, sizeof(int) );
-				in.read( (char*)&_anchor.Y, sizeof(int) );
-				m_lstAnimations[i].m_lstFrames[x].SetAnchor( _anchor );
+				CPoint _anchor;
+				in.read( (char*)&_anchor.m_nX, sizeof(int) );
+				in.read( (char*)&_anchor.m_nX, sizeof(int) );
+				m_vAnimations[i].m_vFrames[x].SetAnchor( _anchor );
 
 				// frame
-				CRect _frameRect;
+				RECT _frameRect;
 				in.read( (char*)&_frameRect.left, sizeof(int) );
 				in.read( (char*)&_frameRect.top, sizeof(int) );
 				in.read( (char*)&_frameRect.right, sizeof(int) );
 				in.read( (char*)&_frameRect.bottom, sizeof(int) );
-				m_lstAnimations[i].m_lstFrames[x].SetFrame( _frameRect );
+				m_vAnimations[i].m_vFrames[x].SetFrame( _frameRect );
 
 				// trigger
 				int nTrigger;
 				in.read( (char*)&nTrigger, sizeof(int) );
-				m_lstAnimations[i].m_lstFrames[x].SetTrigger( nTrigger );
+				m_vAnimations[i].m_vFrames[x].SetTrigger( nTrigger );
 
 				// total hit rects
 				int nTotalHitRects;
 				in.read( (char*)&nTotalHitRects, sizeof(int) );
-				m_lstAnimations[i].m_lstFrames[x].SetTotalHitRects( nTotalHitRects );
+				m_vAnimations[i].m_vFrames[x].SetTotalHitRects( nTotalHitRects );
 
 				// each hit rect
 				for ( int y = 0; y < nTotalHitRects; ++y)
 				{
-					CRect _hitRect;
+					RECT _hitRect;
 					in.read( (char*)&_hitRect.left, sizeof(int) );
 					in.read( (char*)&_hitRect.top, sizeof(int) );
 					in.read( (char*)&_hitRect.right, sizeof(int) );
 					in.read( (char*)&_hitRect.bottom, sizeof(int) );
-					m_lstAnimations[i].m_lstFrames[x].AddHitRect( _hitRect );
+					m_vAnimations[i].m_vFrames[x].AddHitRect( _hitRect );
 				}
 
 				// total collision rects
 				int nTotalCollisionRects;
 				in.read( (char*)&nTotalCollisionRects, sizeof(int) );
-				m_lstAnimations[i].m_lstFrames[x].SetTotalCollisionRects( nTotalCollisionRects );
+				m_vAnimations[i].m_vFrames[x].SetTotalCollisionRects( nTotalCollisionRects );
 
 				// each collision rect
 				for ( int z = 0; z < nTotalCollisionRects; ++z)
 				{
-					CRect _collisionRect;
+					RECT _collisionRect;
 					in.read( (char*)&_collisionRect.left, sizeof(int) );
 					in.read( (char*)&_collisionRect.top, sizeof(int) );
 					in.read( (char*)&_collisionRect.right, sizeof(int) );
 					in.read( (char*)&_collisionRect.bottom, sizeof(int) );
-					m_lstAnimations[i].m_lstFrames[x].AddCollisionRect( _collisionRect );
+					m_vAnimations[i].m_vFrames[x].AddCollisionRect( _collisionRect );
 				}
 			}
 		}
