@@ -24,8 +24,8 @@
 const char* g_szWINDOW_CLASS_NAME	=	"Holy Melon";
 
 const char*	g_szWINDOW_TITLE		=	"Cybernetic Warrior";
-const int	g_nWINDOW_WIDTH			=	640;
-const int	g_nWINDOW_HEIGHT		=	480;
+const int	g_nWINDOW_WIDTH			=	800;
+const int	g_nWINDOW_HEIGHT		=	600;
 
 //#ifndef	_DEBUG 1
 const BOOL	g_bIS_WINDOWED			=	TRUE;

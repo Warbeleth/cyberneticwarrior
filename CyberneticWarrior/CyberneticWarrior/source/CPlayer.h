@@ -17,8 +17,6 @@ class CPlayer : public CBase, public IListener
 {
 private:
 
-	enum{MOVE_RIGHT};
-
 	tVector2D	m_vRotationCenter;
 	tVector2D	m_vSpeed;
 	tVector2D	m_vVectorVelocity;
@@ -37,7 +35,8 @@ private:
 	bool m_bOnGround;
 	bool m_bOnPlatform;
 
-	
+
+
 
 
 	CGrapplingHook*		m_pHook;
@@ -80,8 +79,7 @@ public:
 
 
 
-
-
+	
 
 
 

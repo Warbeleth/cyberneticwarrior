@@ -18,6 +18,8 @@
 #ifndef _CFONT_H_
 #define _CFONT_H_
 
+#include "SGD Wrappers/CSGD_Direct3D.h"
+
 // Might be replaced for speed purposes. . .
 #include <vector>
 
@@ -109,8 +111,8 @@ private:
 	int					m_nCharHeight;			// The line height so all characters are on the same line
 
 	// Font - Updates
-	vector<CDelay>		m_vElapsedTime;			// Holds the time progressed, for DrawWithDelay and DrawScrollingWithDelay
-	vector<CScrolling>	m_vScrolling;			// Holds the offset for each scrolling call
+	std::vector<CDelay>		m_vElapsedTime;			// Holds the time progressed, for DrawWithDelay and DrawScrollingWithDelay
+	std::vector<CScrolling>	m_vScrolling;			// Holds the offset for each scrolling call
 
 	//////////////////////////////////////////////////////////////////////////////////////////////////////
 	// Function: “CFont”
@@ -166,8 +168,7 @@ public:
 	//
 	// Purpose: This will take in two strings, one for the sprite sheet and the other for the binary file
 	//			which holds the widths/positions of the letters. This function will unload a texture if
-	//			the image ID is pre-existing to another spritesheet. The binary file must contain data for
-	//			180 intergers. This is the 90 positions and 90 widths for the 90 symbols.
+	//			the image ID is pre-existing to another spritesheet.
 	//			szSpriteSheetFilename - The filename for the image the font will be using
 	//			szBinaryFilename - The filename for the binary file holding each letter and symbol's 
 	//							   position and width.
@@ -184,21 +185,6 @@ public:
 	//			need to be reinitialized.
 	//////////////////////////////////////////////////////////////////////////////////////////////////////
 	void ShutdownFont( void );
-
-	//////////////////////////////////////////////////////////////////////////////////////////////////////
-	// Function: “Input”
-	//
-	// Purpose: This function takes in a direct input key value and uses that key to check whether the user
-	//			has decided to "speed up" the delay / scrolling renders.
-	//			ucKey - The key passed in that determines whether the user wants to "speed up" the delay / 
-	//					scrolling renders
-	//			fDeltaTime - The elapsed time since the last call of this function
-	//			fDeltaDelaySpeed - This is a percentage based speed increase, if fDeltaDelaySpeed = 1 then
-	//							   the speed will remain the same
-	//			fDeltaScrollingSpeed - This is a percentage based speed increase, if fDeltaScrollingspeed
-	//								   = 1 then the speed will remain the same
-	//////////////////////////////////////////////////////////////////////////////////////////////////////
-	bool Input( unsigned char ucKey, float fDeltaTime, float fDeltaDelaySpeed, float fDeltaScrollingSpeed );
 
 	//////////////////////////////////////////////////////////////////////////////////////////////////////
 	// Function: “Update”

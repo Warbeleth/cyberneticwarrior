@@ -7,8 +7,6 @@
 
 #include "CSinglePlayerState.h"
 
-#include "CEvent.h"
-#include "CEventSystem.h"
 
 
 CPlayer::CPlayer(void)
@@ -25,14 +23,11 @@ CPlayer::CPlayer(void)
 	this->m_vVectorVelocity.fX = 0.0f;
 	this->m_vVectorVelocity.fY = 0.0f;
 
-	CEventSystem::GetInstance()->RegisterClient(MOVE_RIGHT, this);
 }
 
 CPlayer::~CPlayer(void)
 {
 	CSGD_TextureManager::GetInstance()->UnloadTexture(this->GetImageID());
-	CEventSystem::GetInstance()->UnregisterClient(MOVE_RIGHT, this);
-
 }
 
 tVector2D CPlayer::GetSpeed(void)	{ return m_vSpeed; }
@@ -42,68 +37,85 @@ float	CPlayer::GetRotationRate(void)	{ return m_fRotationRate; }
 
 void CPlayer::Update(float fElapsedTime)
 {
-	CBase::Update(fElapsedTime);
-	
+	if(this->m_pHook)
+	{
+		if(!this->m_pHook->GetIfHooked() || this->GetOnGround())
+		{
+			CBase::Update(fElapsedTime);
+		}
+	}
+	else
+	{
+		CBase::Update(fElapsedTime);
+	}
+
 	this->UpdateCamera(fElapsedTime);
 	this->Input(fElapsedTime);
 
 
 
-	
+
 
 	if(this->m_pHook)
 	{
-		float fDir = 1.0f;
-		if(this->GetBaseVelX() > 0.0f && this->m_bOnGround)
+		/*if(this->GetBaseVelX() > 0.0f && this->GetOnGround())
 		{
-			if(this->m_pHook->GetIfHooked() 
-				&& this->m_pHook->GetPosX() < this->GetPosX() 
-				&& this->m_pHook->GetRotation() > -1.80f)
-			{
-				this->m_pHook->SetRotation(this->m_pHook->GetRotation() - this->m_pHook->GetRotationRate() * fElapsedTime);
-				if(!this->m_bOnGround)
-				{
-					this->SetRotation(this->m_pHook->GetRotation());
-				}
-
-			}
-			fDir = 1.0f;
-		}
-		else if(this->GetBaseVelX() < 0.0f && this->m_bOnGround)
+		if(this->m_pHook->GetIfHooked() 
+		&& this->m_pHook->GetPosX() < this->GetPosX() 
+		&& this->m_pHook->GetRotation() > -1.80f)
 		{
-			if(this->m_pHook->GetIfHooked() 
-				&& this->m_pHook->GetPosX() > this->GetPosX() 
-				&& this->m_pHook->GetRotation() < 0.45f)
-			{
-				this->m_pHook->SetRotation(this->m_pHook->GetRotation() + this->m_pHook->GetRotationRate() * fElapsedTime);
-				if(!this->m_bOnGround)
-				{
-					this->SetRotation(this->m_pHook->GetRotation());
-				}
-			}
-			fDir = -1.0f;
+		this->m_pHook->SetRotation(this->m_pHook->GetRotation() - this->m_pHook->GetRotationRate() * fElapsedTime);
+		if(!this->m_bOnGround)
+		{
+		this->SetRotation(this->m_pHook->GetRotation());
 		}
 
-
-		if(this->m_pHook->GetIfHooked() && !this->GetOnGround())
+		}
+		}
+		else if(this->GetBaseVelX() < 0.0f && this->GetOnGround())
 		{
-			this->m_vVectorVelocity.fX = 1.0f * fDir;
-			this->m_vVectorVelocity.fY = 1.0f;
+		if(this->m_pHook->GetIfHooked() 
+		&& this->m_pHook->GetPosX() > this->GetPosX() 
+		&& this->m_pHook->GetRotation() < 0.45f)
+		{
+		this->m_pHook->SetRotation(this->m_pHook->GetRotation() + this->m_pHook->GetRotationRate() * fElapsedTime);
+		if(!this->m_bOnGround)
+		{
+		this->SetRotation(this->m_pHook->GetRotation());
+		}
+		}
+		}*/
 
+
+		tVector2D vHook;
+		if(this->m_pHook->GetIfHooked() && !this->GetOnGround())// && this->GetRotation() <  3.14f/2&& this->GetRotation() > -3.14f*2)
+		{
+			this->m_vVectorVelocity.fX = this->GetPosX();
+			this->m_vVectorVelocity.fY = this->GetPosY();
+			vHook.fX = this->m_pHook->GetPosX() + this->m_pHook->GetWidth()/2;
+			vHook.fY = this->m_pHook->GetPosY();
+
+			this->m_vVectorVelocity = this->m_vVectorVelocity - vHook;
+
+
+			//D3DXToDegree(
+			//this->m_vVectorVelocity = this->m_vVectorVelocity * 500.0f;// this->m_vSpeed.fX;
 			this->m_vVectorVelocity = Vector2DRotate(this->m_vVectorVelocity, this->GetRotation());
-			this->m_vVectorVelocity.fX = this->m_vVectorVelocity.fX * this->m_vSpeed.fX;
-			this->m_vVectorVelocity.fY = this->m_vVectorVelocity.fY * this->m_vSpeed.fY;
 
-			this->SetBaseVelX(this->m_vVectorVelocity.fX);
-			this->SetBaseVelY(this->m_vVectorVelocity.fY);
+			this->SetBaseVelX(0.0f);
+			this->SetBaseVelY(0.0f);
+
+			this->SetPosX(this->m_vVectorVelocity.fX + vHook.fX);
+			this->SetPosY(this->m_vVectorVelocity.fY + vHook.fY);
 		}
 		else
 		{
 			this->m_vVectorVelocity.fX = 0.0f;
+
 			this->m_vVectorVelocity.fY = 0.0f;
 			this->SetBaseVelX(this->m_vSpeed.fX);
 		}
-		
+
 
 	}
 	else
@@ -136,8 +148,7 @@ void CPlayer::Update(float fElapsedTime)
 		{
 			if(this->m_pHook->GetIfHooked() && !this->GetOnGround())
 			{
-				//this->SetBaseVelY(0.0f);
-				//this->SetBaseVelX(0.0f);
+				this->SetBaseVelY(0.0f);
 			}
 			else
 			{
@@ -158,24 +169,24 @@ void CPlayer::Update(float fElapsedTime)
 	// Platform Checking
 	////////////////////////////////////////
 	/*if((this->GetPosY() + this->GetHeight()) > CSinglePlayerState::GetInstance()->GetPlatform()->m_tTempPlatformPoint.fY  
-		&& (this->GetPosY() + this->GetHeight()) < (CSinglePlayerState::GetInstance()->GetPlatform()->m_tTempPlatformPoint.fY + CSinglePlayerState::GetInstance()->GetPlatform()->m_tTempPlatformSize.fY)
-		&& (this->GetPosX() + this->GetWidth() - 5) > CSinglePlayerState::GetInstance()->GetPlatform()->m_tTempPlatformPoint.fX 
-		&& (this->GetPosX()+20) < (CSinglePlayerState::GetInstance()->GetPlatform()->m_tTempPlatformPoint.fX + CSinglePlayerState::GetInstance()->GetPlatform()->m_tTempPlatformSize.fX)
-		&& !this->m_bOnGround
-		&& this->m_vSpeed.fY > 0.0f)
+	&& (this->GetPosY() + this->GetHeight()) < (CSinglePlayerState::GetInstance()->GetPlatform()->m_tTempPlatformPoint.fY + CSinglePlayerState::GetInstance()->GetPlatform()->m_tTempPlatformSize.fY)
+	&& (this->GetPosX() + this->GetWidth() - 5) > CSinglePlayerState::GetInstance()->GetPlatform()->m_tTempPlatformPoint.fX 
+	&& (this->GetPosX()+20) < (CSinglePlayerState::GetInstance()->GetPlatform()->m_tTempPlatformPoint.fX + CSinglePlayerState::GetInstance()->GetPlatform()->m_tTempPlatformSize.fX)
+	&& !this->m_bOnGround
+	&& this->m_vSpeed.fY > 0.0f)
 	{
- 		this->m_bOnGround = 1;
-		this->SetPosY((float)CSinglePlayerState::GetInstance()->GetPlatform()->m_tTempPlatformPoint.fY - this->GetHeight());
+	this->m_bOnGround = 1;
+	this->SetPosY((float)CSinglePlayerState::GetInstance()->GetPlatform()->m_tTempPlatformPoint.fY - this->GetHeight());
 	}
 	else
 	{
-		this->m_bOnGround = 0;
+	this->m_bOnGround = 0;
 	}*/
 
-	if(this->GetPosY() > 480 - this->GetHeight())
+	if(this->GetPosY() > 600 - this->GetHeight())
 	{
 		this->m_bOnGround = 1;
-		this->SetPosY(480 - (float)this->GetHeight());
+		this->SetPosY(600 - (float)this->GetHeight());
 	}
 	////////////////////////////////////////
 
@@ -252,27 +263,72 @@ void CPlayer::Input(float fElapsedTime)
 	static int nMoveSpeed = 100;
 	if(CSGD_DirectInput::GetInstance()->KeyDown(DIK_A))
 	{
-		this->m_vSpeed.fX -= nMoveSpeed * fElapsedTime;
-		
+		if(this->m_vSpeed.fX > -200.0f)
+		{
+			this->m_vSpeed.fX -= nMoveSpeed * fElapsedTime;
+		}
+
+		if(this->m_pHook)
+		{
+			if(this->m_pHook->GetIfHooked() && !this->GetOnGround())
+			{
+				/*if(this->GetRotation() <= 3.14f/2)
+				{*/
+				this->m_pHook->SetRotation(this->m_pHook->GetRotation() + this->m_pHook->GetRotationRate() * fElapsedTime);
+				if(!this->m_bOnGround)
+				{
+					this->SetRotation(this->m_pHook->GetRotation());
+				}
+				/*}
+				else
+				{
+				this->m_pHook->SetRotation(.9f);
+				}*/
+
+			}
+		}
+
 	}
 
 	if(CSGD_DirectInput::GetInstance()->KeyDown(DIK_D) )
 	{
-		this->m_vSpeed.fX += nMoveSpeed * fElapsedTime;
+		if(this->m_vSpeed.fX < 200.0f)
+		{
+			this->m_vSpeed.fX += nMoveSpeed * fElapsedTime;
+		}
 
-		//CEventSystem::GetInstance()->SendEvent(MOVE_RIGHT, &fElapsedTime);
+		if(this->m_pHook)
+		{
+			if(this->m_pHook->GetIfHooked() && !this->GetOnGround())
+			{
+				/*if(this->GetRotation() >= -3.14f*2)
+				{*/
+				this->m_pHook->SetRotation(this->m_pHook->GetRotation() - this->m_pHook->GetRotationRate() * fElapsedTime);
+				if(!this->m_bOnGround)
+				{
+					this->SetRotation(this->m_pHook->GetRotation());
+				}	
+				/*}
+				else
+				{
+				this->m_pHook->SetRotation(.45f);
+				}*/
+
+			}
+		}
 	}
 
 	if(CSGD_DirectInput::GetInstance()->MouseButtonPressed(MOUSE_LEFT))
 	{
 		this->SetMouseDown(1);
-		CGame::GetInstance()->GetMessageSystemPointer()->SendMsg(new CCreateHookMessage(this));
+		if(CSinglePlayerState::GetInstance()->GetProfileValues()->m_bHaveHook)
+			CGame::GetInstance()->GetMessageSystemPointer()->SendMsg(new CCreateHookMessage(this));
 	}
 
 	if(CSGD_DirectInput::GetInstance()->MouseButtonReleased(MOUSE_LEFT))
 	{
 		this->SetMouseDown(0);
-		if(m_pHook)
+		if(this->m_pHook)
 		{
 			this->m_pHook->SetHooked(0);
 		}
@@ -292,8 +348,8 @@ void CPlayer::Render(void)
 	rDrawRect.right = this->GetWidth();
 	rDrawRect.bottom = this->GetHeight();
 	CSGD_TextureManager::GetInstance()->Draw(this->GetImageID(), (int)this->GetPosX(), (int)this->GetPosY(), 
-		1.0f,1.0f, &rDrawRect, this->m_vRotationCenter.fX, this->m_vRotationCenter.fX, this->m_fRotation);//, (float)GetWidth()/2, (float)GetHeight());
-	
+		1.0f,1.0f, &rDrawRect);//, this->m_vRotationCenter.fX, this->m_vRotationCenter.fX, this->m_fRotation);//, (float)GetWidth()/2, (float)GetHeight());
+
 }
 
 RECT CPlayer::GetRect(void) const
@@ -317,7 +373,7 @@ bool CPlayer::CheckCollision(CBase* pBase)
 		&& this->m_vSpeed.fY > 0.0f
 		&& pBase->GetType() == OBJ_BLOCK)
 	{
- 		this->m_bOnGround = 1;
+		this->m_bOnGround = 1;
 		this->m_bOnPlatform = 1;
 		this->SetPosY(pBase->GetPosY() - this->GetHeight());
 		return 1;
@@ -329,24 +385,22 @@ bool CPlayer::CheckCollision(CBase* pBase)
 			this->m_bOnGround = 0;
 			this->m_bOnPlatform = 0;
 		}
-		return 0;
+//		return 0;
 	}
 
 
-	/*RECT rIntersect;
+	RECT rIntersect;
 	if(IntersectRect(&rIntersect, &this->GetRect(), &(pBase->GetRect())))
 	{ 
-		if(pBase->GetType() == OBJ_BLOCK && !this->m_bOnGround && this->m_vSpeed.fY > 0.0f)
+		if(pBase->GetType() == OBJ_PICKUP)// && !this->m_bOnGround && this->m_vSpeed.fY > 0.0f)
 		{
-			this->m_bOnGround = 1;
-			this->m_bOnPlatform = 1;
-			this->SetPosY(pBase->GetPosY() - this->GetHeight());
+			CSinglePlayerState::GetInstance()->SetProfileValues(1);
 		}
-		
-		
+
+
 		return true;
 	}
-	else
+	/*else
 	{
 		if(this->GetPosX() < (480 - this->GetHeight()) && this->m_bOnPlatform)
 		{
@@ -355,16 +409,12 @@ bool CPlayer::CheckCollision(CBase* pBase)
 		}
 		return false;
 	}*/
+
 	return false;
 }
 
 void CPlayer::HandleEvent(CEvent* pEvent)
 {
-	/*if(pEvent->GetEventID() == )
-	{
-	}*/
-
-
 }
 
 

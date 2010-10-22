@@ -14,11 +14,18 @@
 #include "SGD Wrappers/CSGD_DirectSound.h"
 #include "SGD Wrappers/CSGD_WaveManager.h"
 
+#include "CCodeProfiler.h"
+
 #include "CCamera.h"
 
 #include "CStackStateMachine.h"
 #include "CMainMenuState.h"
 #include "CSinglePlayerState.h"
+#include "CSinglePlayerMenuState.h"
+#include "SaveState.h"
+#include "CLoadState.h"
+#include "CPauseMenuState.h"
+#include "COptionsMenuState.h"
 
 #include "CEventSystem.h"
 
@@ -26,6 +33,7 @@
 #include "CObjectManager.h"
 #include "CBase.h"
 #include "CGrapplingHook.h"
+
 
 // Singleton Instantiation
 CGame*	CGame::sm_pGameInstance = NULL;
@@ -47,8 +55,8 @@ CGame::CGame(void)
 	this->m_pMS = NULL;
 
 
-	this->m_nScreenWidth  = 640;
-	this->m_nScreenHeight = 480;
+	this->m_nScreenWidth  = 800;
+	this->m_nScreenHeight = 600;
 
 
 
@@ -109,6 +117,7 @@ void CGame::DeleteInstance(void)
 void CGame::Initialize(HWND hWnd, HINSTANCE hInstance, 
 					   int nScreenWidth, int nScreenHeight, bool bIsWindowed)
 {
+
 	this->m_pD3D		= CSGD_Direct3D::GetInstance();
 	this->m_pTM			= CSGD_TextureManager::GetInstance();
 	this->m_pDS			= CSGD_DirectSound::GetInstance();
@@ -119,6 +128,8 @@ void CGame::Initialize(HWND hWnd, HINSTANCE hInstance,
 
 	this->m_pES			= CEventSystem::GetInstance();
 	this->m_pMS			= CMessageSystem::GetInstance();
+
+	this->m_pCP			= CCodeProfiler::GetInstance();
 
 	this->m_pD3D->InitDirect3D(hWnd, nScreenWidth, nScreenHeight, bIsWindowed, false);
 	this->m_pTM->InitTextureManager(this->m_pD3D->GetDirect3DDevice(), this->m_pD3D->GetSprite());
@@ -132,8 +143,13 @@ void CGame::Initialize(HWND hWnd, HINSTANCE hInstance,
 	this->m_nScreenHeight = nScreenHeight;
 
 
-	//CMainMenuState::GetInstance()->Enter();
+	m_nCodeProfilerID = this->m_pCP->CreateFunction("Update");
+
 	this->m_pSSM->ChangeState(CMainMenuState::GetInstance());
+	
+	
+
+
 }
 
 ////////////////////////////////////////////////////////////////////////////////////
@@ -141,12 +157,14 @@ void CGame::Initialize(HWND hWnd, HINSTANCE hInstance,
 ////////////////////////////////////////////////////////////////////////////////////
 void CGame::ShutDown(void)
 {
+
+	CCodeProfiler::GetInstance()->SavePerformance();
+
+
 	this->m_pMS->ShutdownSystem();
 	this->m_pMS->DeleteInstance();
 	this->m_pMS = NULL;
 
-	m_pES->ClearEvents();
-//	m_pES->UnregisterAllClients(CMainMenuState::GetInstance());
 	this->m_pES->ShutdownEventSystem();
 	this->m_pES->DeleteInstance();
 	this->m_pES = NULL;
@@ -174,9 +192,14 @@ void CGame::ShutDown(void)
 		CObjectManager::GetInstance()->DeleteInstance();
 	}
 
-	//CMainMenuState::GetInstance()->Exit();
 	CMainMenuState::GetInstance()->DeleteInstance();
 	CSinglePlayerState::GetInstance()->DeleteInstance();
+	CSaveState::GetInstance()->DeleteInstance();
+	CLoadState::GetInstance()->DeleteInstance();
+	CSinglePlayerMenuState::GetInstance()->DeleteInstance();
+	CPauseMenuState::GetInstance()->DeleteInstance();
+	COptionsMenuState::GetInstance()->DeleteInstance();
+	CCodeProfiler::GetInstance()->DeleteInstance();
 
 
 	if(this->m_pDI)
@@ -215,6 +238,7 @@ void CGame::ShutDown(void)
 ////////////////////////////////////////////////////////////////////////////////////
 bool CGame::Main(void)
 {
+
 	DWORD dwStartTimeStamp = GetTickCount();
 
 	if(this->m_dwPreviousTimeStamp  != 0)
@@ -249,6 +273,7 @@ bool CGame::Main(void)
 bool CGame::Input(void)
 {
 	this->m_pDI->ReadDevices();
+	bool turn = this->m_pSSM->Input();
 
 	///////////////////////////////////
 	// Temp
@@ -259,8 +284,9 @@ bool CGame::Input(void)
 	}*/
 	//////////////////////////////////
 
-	//return CMainMenuState::GetInstance()->Input();
-	return this->m_pSSM->Input();
+	//return 1;
+
+	return turn;
 }
 
 ////////////////////////////////////////////////////////////////////////////////////
@@ -268,12 +294,14 @@ bool CGame::Input(void)
 ////////////////////////////////////////////////////////////////////////////////////
 void CGame::Update(float fElapsedTime)
 {
+	this->m_pCP->FunctionStart(this->m_nCodeProfilerID);
+	
 	this->m_pWM->Update();
 	this->m_pSSM->UpdateState(fElapsedTime);
-	//CMainMenuState::GetInstance()->Update(fElapsedTime);
 	this->m_pES->ProcessEvents();
 	this->m_pMS->ProcessMessages();
 
+	this->m_pCP->FuntionEnd(this->m_nCodeProfilerID);
 }
 
 ////////////////////////////////////////////////////////////////////////////////////
@@ -287,7 +315,6 @@ void CGame::Draw(void)
 
 
 	this->m_pSSM->RenderState();
-	//CMainMenuState::GetInstance()->Render();
 
 
 	this->m_pD3D->SpriteEnd();

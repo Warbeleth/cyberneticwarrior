@@ -1,7 +1,7 @@
 #ifndef EVENT_H_
 #define EVENT_H_
 
-typedef int  EVENTID;
+typedef unsigned char* EVENTID;
 
 class CEvent
 {
