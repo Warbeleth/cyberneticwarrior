@@ -76,12 +76,13 @@ void	COptionsMenuState::Enter(void)
 	this->m_pDS		=		CSGD_DirectSound::GetInstance();
 
 	this->m_nBackgroundID		= this->m_pTM->LoadTexture("resource/graphics/BackGround.png");
-	this->m_nCursorID			= this->m_pTM->LoadTexture("resource/graphics/hook.png");
+	this->m_nCursorID			= this->m_pTM->LoadTexture("resource/graphics/shield.png");
 	this->m_nMusicID			= this->m_pWM->LoadWave("resource/sounds/SO3_Victory_Bell.wav");
-	//this->m_nSFXID				= this->m_pWM->LoadWave("");
+	//this->m_nSFXID				= this->m_pWM->LoadWave("resource/sounds/multiShots.wav");
 
 	this->m_OptionsFont.InitFont("resource/fonts/example.png", "resource/fonts/Example.fnt");
 
+	this->m_pWM->Play(this->m_nMusicID);
 
 	this->m_nSelection			= this->MUSIC_VOLUME;
 	this->m_nSelectionPos		= this->OMENU_START;
@@ -109,16 +110,44 @@ bool	COptionsMenuState::Input(void)
 		}
 	}
 
-	if(this->m_pDI->KeyDown(DIK_RIGHT))
+	if(this->m_pDI->KeyPressed(DIK_RIGHT))
 	{
-		this->m_nMusicVolume++;
-
+		if(this->m_nSelection == this->MUSIC_VOLUME)
+		{
+			if(this->m_nMusicVolume < 100)
+			{	
+				this->m_nMusicVolume++;
+				this->m_pWM->SetVolume(m_nMusicID, this->m_nMusicVolume);
+			}
+		}
+		else if(this->m_nSelection == this->SFX_VOLUME)
+		{
+			if(this->m_nSFXVolume < 100)
+			{
+				this->m_nSFXVolume++;
+				//this->m_pWM->SetVolume(m_nSFXID, this->m_nSFXVolume);
+			}
+		}
 	}
 
-	if(this->m_pDI->KeyDown(DIK_LEFT))
+	if(this->m_pDI->KeyPressed(DIK_LEFT))
 	{
-		this->m_nMusicVolume--;
-		
+		if(this->m_nSelection == this->MUSIC_VOLUME)
+		{
+			if(this->m_nMusicVolume > 0)
+			{	
+				this->m_nMusicVolume--;
+				this->m_pWM->SetVolume(m_nMusicID, this->m_nMusicVolume);
+			}
+		}
+		else if(this->m_nSelection == this->SFX_VOLUME)
+		{
+			if(this->m_nSFXVolume < 0)
+			{
+				this->m_nSFXVolume--;
+				//this->m_pWM->SetVolume(m_nSFXID, this->m_nSFXVolume);
+			}
+		}		
 	}
 
 	if(this->m_pDI->KeyPressed(DIK_RETURN))
@@ -146,32 +175,53 @@ bool	COptionsMenuState::Input(void)
 
 void	COptionsMenuState::Update(float fElapsedTime)
 {
+	if(this->m_nSelection == this->SFX_VOLUME)
+	{
+		//this->m_pWM->Stop(m_nMusicID);
+		//this->m_pWM->Play(m_nSFXID);
+	}
+	else if(this->m_nSelection == this->MUSIC_VOLUME)
+	{
+		//this->m_pWM->Stop(m_nSFXID);
+		//this->m_pWM->Play(m_nMusicID);
+	}
+	else
+	{
+		//this->m_pWM->Stop(m_nMusicID);
+		//this->m_pWM->Stop(m_nSFXID);
+	}
 	this->m_nSelectionPos = (this->m_nSelection * OMENU_SPACE) + this->OMENU_START;
 }
 
 void	COptionsMenuState::Render(void)
 {
 	this->m_pTM->Draw(this->m_nBackgroundID, 0, 0);
+	this->m_pTM->Draw(this->m_nCursorID, (int)(MENUX + 310 +(250 *(this->m_nMusicVolume * .01f))), (this->MUSIC_VOLUME * OMENU_SPACE) + this->OMENU_START - 9);
+	this->m_pTM->Draw(this->m_nCursorID, (int)(MENUX + 310 +(250 *(this->m_nSFXVolume * .01f))), (this->SFX_VOLUME * OMENU_SPACE) + this->OMENU_START - 9);
 	//this->m_pTM->Draw(this->m_nMenuID,0,0,1.3f,1.0f);//,1.0f,1.0f, 0, 0.0f, 0.0f, 0.0f, D3DCOLOR_ARGB(255,0,128,128));
 
 	this->m_OptionsFont.Draw("-OPTIONS MENU-", 200, 25, 1.2f, D3DXCOLOR(1.0f, 1.0f, 0.0f, 1.0f));
 	
-	this->m_OptionsFont.Draw("Music Volume", 225, (this->MUSIC_VOLUME * OMENU_SPACE) + this->OMENU_START, 
-		(this->m_nSelection == this->MUSIC_VOLUME? 1.5f : 1.0f) ,
+	this->m_OptionsFont.Draw("Music Volume", MENUX, (this->MUSIC_VOLUME * OMENU_SPACE) + this->OMENU_START, 
+		(this->m_nSelection == this->MUSIC_VOLUME? 1.2f : 1.0f) ,
 		(this->m_nSelection == this->MUSIC_VOLUME? D3DXCOLOR(0.0f, 1.0f, 0.0f, 1.0f) : D3DXCOLOR(1.0f, 1.0f, 0.0f, 1.0f)));
 	
-	this->m_OptionsFont.Draw("SFX Volume", 225, (this->SFX_VOLUME * OMENU_SPACE) + this->OMENU_START, 
-		(this->m_nSelection == this->SFX_VOLUME? 1.5f : 1.0f), 
+	this->m_OptionsFont.Draw("SFX Volume", MENUX, (this->SFX_VOLUME * OMENU_SPACE) + this->OMENU_START, 
+		(this->m_nSelection == this->SFX_VOLUME? 1.2f : 1.0f), 
 		(this->m_nSelection == this->SFX_VOLUME? D3DXCOLOR(0.0f, 1.0f, 0.0f, 1.0f) : D3DXCOLOR(1.0f, 1.0f, 0.0f, 1.0f)));
 	
-	this->m_OptionsFont.Draw("Mute", 250, (this->MUTE * OMENU_SPACE) + this->OMENU_START, 
-		(this->m_nSelection == this->MUTE? 1.5f : 1.0f),
+	this->m_OptionsFont.Draw("Mute", MENUX, (this->MUTE * OMENU_SPACE) + this->OMENU_START, 
+		(this->m_nSelection == this->MUTE? 1.2f : 1.0f),
 		(this->m_nSelection == this->MUTE? D3DXCOLOR(0.0f, 1.0f, 0.0f, 1.0f) : D3DXCOLOR(1.0f, 1.0f, 0.0f, 1.0f)));
 	
-	this->m_OptionsFont.Draw("Exit", 250, (this->EXIT_OMENU * OMENU_SPACE) + this->OMENU_START,
-		(this->m_nSelection == this->EXIT_OMENU? 1.5f : 1.0f),
+	this->m_OptionsFont.Draw("Exit", MENUX + 100, (this->EXIT_OMENU * OMENU_SPACE) + this->OMENU_START,
+		(this->m_nSelection == this->EXIT_OMENU? 1.2f : 1.0f),
 		(this->m_nSelection == this->EXIT_OMENU? D3DXCOLOR(0.0f, 1.0f, 0.0f, 1.0f) : D3DXCOLOR(1.0f, 1.0f, 0.0f, 1.0f)));
 	
+	CSGD_Direct3D::GetInstance()->GetSprite()->Flush();
+	CSGD_Direct3D::GetInstance()->DrawLine(MENUX + 325, (this->MUSIC_VOLUME * OMENU_SPACE) + this->OMENU_START + 25, MENUX + 325 + 250,  (this->MUSIC_VOLUME * OMENU_SPACE) + this->OMENU_START + 25, (this->m_nSelection == this->MUSIC_VOLUME? 255: 0), 0, (this->m_nSelection != this->MUSIC_VOLUME? 255: 0));
+	CSGD_Direct3D::GetInstance()->DrawLine(MENUX + 325, (this->SFX_VOLUME * OMENU_SPACE) + this->OMENU_START + 25, MENUX + 325 + 250,  (this->SFX_VOLUME * OMENU_SPACE) + this->OMENU_START + 25, (this->m_nSelection == this->SFX_VOLUME? 255: 0), 0, (this->m_nSelection != this->SFX_VOLUME? 255: 0));
+//	CSGD_Direct3D::GetInstance()->DrawRect(MENUX + 325, (this->MUTE * OMENU_SPACE) + this->OMENU_START + 25, MENUX + 325 + 250,  (this->MUTE * OMENU_SPACE) + this->OMENU_START + 25, 255, 0, 0);
 }
 
 void	COptionsMenuState::Exit(void)
@@ -181,22 +231,22 @@ void	COptionsMenuState::Exit(void)
 	if(this->m_nSFXID > -1)
 	{
 		this->m_pWM->UnloadWave(this->m_nSFXID);
-		this->m_nSFXID = NULL;
+		this->m_nSFXID = -1;
 	}
 	if(this->m_nMusicID > -1)
 	{
 		this->m_pWM->UnloadWave(this->m_nMusicID);
-		this->m_nMusicID = NULL;
+		this->m_nMusicID = -1;
 	}
 	if(this->m_nCursorID > -1)
 	{
 		this->m_pTM->UnloadTexture(this->m_nCursorID);
-		this->m_nCursorID = NULL;
+		this->m_nCursorID = -1;
 	}
 	if(this->m_nBackgroundID > -1)
 	{
 		this->m_pTM->UnloadTexture(this->m_nBackgroundID);
-		this->m_nBackgroundID = NULL;
+		this->m_nBackgroundID = -1;
 	}
 
 	if(this->m_pDS)

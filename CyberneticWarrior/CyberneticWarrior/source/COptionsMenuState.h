@@ -12,14 +12,14 @@ class CSGD_DirectSound;
 
 class CEvent;
 
-#define OMENU_SPACE 42
+#define OMENU_SPACE 75
 
 class COptionsMenuState : public IGameState
 {
 private:
 
 	enum selections { MUSIC_VOLUME = 0, SFX_VOLUME, MUTE, EXIT_OMENU,
-		OMENU_START =130, OM_CURSOR_POS = 90};
+		OMENU_START = 150, OM_CURSOR_POS = 130, MENUX = 125};
 
 	CSGD_Direct3D*				m_pD3D;
 	CSGD_DirectInput*			m_pDI;
