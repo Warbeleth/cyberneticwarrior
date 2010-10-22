@@ -93,7 +93,7 @@ void	COptionsMenuState::Enter(void)
 
 bool	COptionsMenuState::Input(void)
 {
-	if(this->m_pDI->KeyPressed(DIK_UP))
+	if(this->m_pDI->KeyPressed(DIK_UP) || this->m_pDI->JoystickDPadPressed(DIR_UP,0))
 	{
 		--this->m_nSelection;
 
@@ -107,7 +107,7 @@ bool	COptionsMenuState::Input(void)
 		}
 	}
 	
-	if(this->m_pDI->KeyPressed(DIK_DOWN))
+	if(this->m_pDI->KeyPressed(DIK_DOWN) || this->m_pDI->JoystickDPadPressed(DIR_DOWN,0))
 	{
 		++this->m_nSelection;
 
@@ -121,7 +121,7 @@ bool	COptionsMenuState::Input(void)
 		}
 	}
 
-	if(this->m_pDI->KeyPressed(DIK_RIGHT))
+	if(this->m_pDI->KeyPressed(DIK_RIGHT) || this->m_pDI->JoystickDPadPressed(DIR_RIGHT,0))
 	{
 		if(this->m_nSelection == this->MUSIC_VOLUME)
 		{
@@ -149,7 +149,7 @@ bool	COptionsMenuState::Input(void)
 		}
 	}
 
-	if(this->m_pDI->KeyPressed(DIK_LEFT))
+	if(this->m_pDI->KeyPressed(DIK_LEFT) || this->m_pDI->JoystickDPadPressed(DIR_LEFT,0))
 	{
 		if(this->m_nSelection == this->MUSIC_VOLUME)
 		{
@@ -177,7 +177,7 @@ bool	COptionsMenuState::Input(void)
 		}		
 	}
 
-	if(this->m_pDI->KeyPressed(DIK_ESCAPE))
+	if(this->m_pDI->KeyPressed(DIK_ESCAPE) || this->m_pDI->JoystickButtonPressed((2||8),0))
 	{
 		if(this->m_bSelection)
 		{
@@ -185,7 +185,7 @@ bool	COptionsMenuState::Input(void)
 		}
 	}
 
-	if(this->m_pDI->KeyPressed(DIK_RETURN))
+	if(this->m_pDI->KeyPressed(DIK_RETURN)  || this->m_pDI->JoystickButtonPressed((1||9),0))
 	{
 		switch(this->m_nSelection)
 		{

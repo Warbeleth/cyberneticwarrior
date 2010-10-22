@@ -87,7 +87,7 @@ void	CMainMenuState::Enter(void)
 
 bool	CMainMenuState::Input(void)
 {
-	if(this->m_pDI->KeyPressed(DIK_UP))
+	if(this->m_pDI->KeyPressed(DIK_UP)|| this->m_pDI->JoystickDPadPressed(DIR_UP, 0))
 	{
 		--this->m_nSelection;
 
@@ -97,7 +97,7 @@ bool	CMainMenuState::Input(void)
 		}
 	}
 	
-	if(this->m_pDI->KeyPressed(DIK_DOWN))
+	if(this->m_pDI->KeyPressed(DIK_DOWN)|| this->m_pDI->JoystickDPadPressed(DIR_DOWN, 0))
 	{
 		++this->m_nSelection;
 
@@ -107,7 +107,7 @@ bool	CMainMenuState::Input(void)
 		}
 	}
 
-	if(this->m_pDI->KeyPressed(DIK_RETURN))
+	if(this->m_pDI->KeyPressed(DIK_RETURN) || this->m_pDI->JoystickButtonPressed((0||1||2||9), 0))
 	{
 		switch(this->m_nSelection)
 		{
@@ -127,6 +127,8 @@ bool	CMainMenuState::Input(void)
 			break;
 		}
 	}
+
+
 
 	return 1;
 }

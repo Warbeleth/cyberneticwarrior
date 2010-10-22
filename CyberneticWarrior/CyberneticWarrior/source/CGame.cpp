@@ -136,7 +136,7 @@ void CGame::Initialize(HWND hWnd, HINSTANCE hInstance,
 	this->m_pTM->InitTextureManager(this->m_pD3D->GetDirect3DDevice(), this->m_pD3D->GetSprite());
 	this->m_pDS->InitDirectSound(hWnd);
 	this->m_pWM->InitWaveManager(hWnd, this->m_pDS->GetDSObject());
-	this->m_pDI->InitDirectInput(hWnd, hInstance, DI_KEYBOARD | DI_MOUSE, DI_MOUSE);
+	this->m_pDI->InitDirectInput(hWnd, hInstance, DI_KEYBOARD | DI_MOUSE | DI_JOYSTICKS, DI_MOUSE);
 
 	this->m_pMS->InitMessageSystem( CGame::MessageProc );
 
