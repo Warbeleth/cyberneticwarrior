@@ -1,0 +1,323 @@
+#include "CSinglePlayerState.h"
+
+#include "SGD Wrappers/CSGD_Direct3D.h"
+#include "SGD Wrappers/CSGD_DirectInput.h"
+#include "SGD Wrappers/CSGD_TextureManager.h"
+#include "SGD Wrappers/CSGD_WaveManager.h"
+#include "SGD Wrappers/CSGD_DirectSound.h"
+
+#include "CObjectManager.h"
+
+#include "CGame.h"
+#include "CCamera.h"
+
+#include "CStackStateMachine.h"
+#include "CMainMenuState.h"
+
+#include "CIdleEnemy.h"
+#include "CPatrolEnemy.h"
+#include "CFLCLMech.h"
+
+CSinglePlayerState*	CSinglePlayerState::sm_pGamePlayInstance = NULL;
+
+CSinglePlayerState::CSinglePlayerState(void)
+{
+	this->m_pD3D	= NULL;
+	this->m_pTM		= NULL;
+	this->m_pDI		= NULL;
+	this->m_pWM		= NULL;
+	this->m_pDS		= NULL;
+
+	this->m_pCamera	= NULL;
+
+	this->m_nBackgroundImageID		= -1;
+	this->m_nCrossHairID			= -1;
+	this->m_nBGMusic				= -1;
+
+	this->m_tBGOffset.fX = 0;
+	this->m_tBGOffset.fY = 0;
+
+	this->m_TempPlayer = NULL;
+	this->m_TempPlatform1 = NULL;
+	this->m_TempPlatform2 = NULL;
+	this->m_TempMap = NULL;
+
+	Enemy_1 = NULL;
+	Enemy_2 = NULL;
+	Enemy_3 = NULL;
+}
+
+CSinglePlayerState::~CSinglePlayerState(void)
+{
+	this->m_TempPlayer = NULL;
+	this->m_TempPlatform1 = NULL;
+	this->m_TempPlatform2 = NULL;
+}
+
+CSinglePlayerState* CSinglePlayerState::GetInstance(void)
+{
+	if(!sm_pGamePlayInstance)
+	{
+		sm_pGamePlayInstance = new CSinglePlayerState();
+	}
+	return sm_pGamePlayInstance;
+}
+
+void CSinglePlayerState::DeleteInstance(void)
+{
+	if(sm_pGamePlayInstance)
+	{
+		delete sm_pGamePlayInstance;
+		sm_pGamePlayInstance = NULL;
+	}
+}
+
+void CSinglePlayerState::Enter(void)
+{
+	this->m_TempMap = CMapLoad::GetInstance();
+
+	m_TempMap->LoadMap("C:\\Users\\Corey Ringer\\Desktop\\TileSets\\df.CWM");
+	m_TempMap->LoadMapImage("C:\\Users\\Corey Ringer\\Desktop\\TileSets\\default.bmp");
+
+	this->m_pD3D	=		CSGD_Direct3D::GetInstance();
+	this->m_pDI		= 		CSGD_DirectInput::GetInstance();
+	this->m_pTM		=		CSGD_TextureManager::GetInstance();
+	this->m_pWM		=		CSGD_WaveManager::GetInstance();
+	this->m_pDS		=		CSGD_DirectSound::GetInstance();
+ 
+	this->m_pOF		=		CObjectFactory<string, CBase>::GetInstance();
+	this->m_pOM		=		CObjectManager::GetInstance();
+
+	this->m_pCamera	= CCamera::GetInstance();
+
+	this->m_pCamera->ResetCam();
+
+
+
+	
+	this->m_pOF->RegisterClassType<CBase>("CBase");
+	this->m_pOF->RegisterClassType<CGrapplingHook>("CHook");
+	this->m_pOF->RegisterClassType<CPlayer>("CPlayer");
+	this->m_pOF->RegisterClassType<CBlock>("CBlock");
+
+
+
+
+	this->m_pDI->MouseSetPosX( CGame::GetInstance()->GetScreenWidth()/2-8);
+	this->m_pDI->MouseSetPosY( CGame::GetInstance()->GetScreenHeight()/2-8);
+
+
+
+	this->m_nBackgroundImageID = this->m_pTM->LoadTexture("resource/graphics/bgGame.png");
+	this->m_nCrossHairID = this->m_pTM->LoadTexture("resource/graphics/CrossHairs.png");
+	this->m_nBGMusic = this->m_pWM->LoadWave("resource/sounds/Jak2_Haven_City.wav");
+
+	this->m_TempPlayer = (CPlayer*)m_pOF->CreateObject("CPlayer");
+	this->m_TempPlayer->SetImageID(this->m_pTM->LoadTexture("resource/graphics/Running1.bmp"));
+	this->m_TempPlayer->SetPosX((float)242);
+	this->m_TempPlayer->SetPosY((float)CGame::GetInstance()->GetScreenHeight() - 64);
+	this->m_TempPlayer->SetCamX(this->m_TempPlayer->GetPosX());
+	this->m_TempPlayer->SetCamY(this->m_TempPlayer->GetPosY());
+	this->m_TempPlayer->SetWidth(64);
+	this->m_TempPlayer->SetHeight(64);
+	this->m_TempPlayer->SetBaseVelX(0);
+	this->m_TempPlayer->SetBaseVelY(0);
+	this->m_TempPlayer->SetSpeedX(0.0f);
+	this->m_TempPlayer->SetSpeedY(0.0f);
+	this->m_TempPlayer->SetOnGround(1);
+	this->m_TempPlayer->SetMouseDown(0);
+
+
+	
+	Enemy_1 = new CIdleEnemy(Idle, Turret_Gun, -1, 100, 90, 50, 100, .5, 50, 100, 400, 32, 32);
+	Enemy_2 = new CPatrolEnemy(Patrol, 0, 250, Turret_Gun, -1, 100, 90, 50, 100, .5, 100, 300, 400, 32, 32);
+	Enemy_3 = new CFLCLMech(true, 5, 0, Patrol, 0, 250, Ground_FLCL, -1, 100, 60, 50, 100, .5, 100, 50, 400, 32, 32);
+
+
+	tVector2D vStartingPos;
+
+	/*this->m_TempPlatform1 = (CBlock*)m_pOF->CreateObject("CBlock");
+	this->m_TempPlatform1->SetImageID(this->m_pTM->LoadTexture("resource/graphics/tile.png"));
+	this->m_TempPlatform1->SetPosX((float)0);
+	this->m_TempPlatform1->SetPosY((float)370);
+	vStartingPos.fX = this->m_TempPlatform1->GetPosX();
+	vStartingPos.fY = this->m_TempPlatform1->GetPosY();
+	this->m_TempPlatform1->SetWorldPos(vStartingPos);
+	this->m_TempPlatform1->SetWidth(256);
+	this->m_TempPlatform1->SetHeight(32);
+	this->m_TempPlatform1->SetBlockType(BLOCK_SOLID);
+	this->m_TempPlatform1->SetType(OBJ_BLOCK);*/
+
+
+
+
+	this->m_TempPlatform2 = (CBlock*)m_pOF->CreateObject("CBlock");
+	this->m_TempPlatform2->SetImageID(this->m_pTM->LoadTexture("resource/graphics/tile.png"));
+	this->m_TempPlatform2->SetPosX((float)330);
+	this->m_TempPlatform2->SetPosY((float)200);
+	vStartingPos.fX = this->m_TempPlatform2->GetPosX();
+	vStartingPos.fY = this->m_TempPlatform2->GetPosY();
+	this->m_TempPlatform2->SetWorldPos(vStartingPos);
+	this->m_TempPlatform2->SetWidth(256);
+	this->m_TempPlatform2->SetHeight(32);
+	this->m_TempPlatform2->SetBlockType(BLOCK_SOLID);
+	this->m_TempPlatform2->SetType(OBJ_BLOCK);
+
+
+
+
+
+
+	/*this->m_pOM->AddObject(m_TempPlatform1);
+	this->m_TempPlatform1->Release();*/
+
+
+	this->m_pOM->AddObject(m_TempPlatform2);
+	this->m_TempPlatform2->Release();
+
+
+	this->m_pOM->AddObject(m_TempPlayer);
+	this->m_TempPlayer->Release();
+
+
+
+	this->m_pWM->Play(this->m_nBGMusic, DSBPLAY_LOOPING);
+
+}
+
+bool CSinglePlayerState::Input(void)
+{
+	if(this->m_pDI->KeyPressed(DIK_ESCAPE))
+	{
+		CStackStateMachine::GetInstance()->ChangeState(CMainMenuState::GetInstance());
+		//CStackStateMachine::GetInstance()->Pop_back();
+	}
+	return 1;
+}
+
+void CSinglePlayerState::Update(float fElapsedTime)
+{
+	this->m_tBGOffset.fX = 0 - (float)CCamera::GetInstance()->GetCameraRect().left;
+
+
+	m_pOM->UpdateObjects(fElapsedTime);
+	m_pOM->CheckCollisions();
+
+
+	Enemy_1->Update(fElapsedTime);
+	Enemy_2->Update(fElapsedTime);
+	Enemy_3->Update(fElapsedTime);
+
+}
+
+void CSinglePlayerState::Render(void)
+{
+	//this->m_pTM->Draw(this->m_nBackgroundImageID,(int)this->m_tBGOffset.fX,(int)this->m_tBGOffset.fY);
+	
+
+	
+
+	//////////////////////////////
+	// TEMP
+	//////////////////////////////
+	/*this->m_pTM->Draw(this->m_tBasicPlatform.m_nPlatformID,
+				(int)this->m_tBasicPlatform.m_tTempPlatformPoint.fX,
+				(int)this->m_tBasicPlatform.m_tTempPlatformPoint.fY);*/
+
+//	this->m_TempPlayer.Render();
+	//////////////////////////////
+
+	//m_pD3D->GetSprite()->Flush();
+
+ 	m_TempMap->Render();
+
+	m_pD3D->GetSprite()->Flush();
+
+	Enemy_1->Render();
+	Enemy_2->Render();
+	Enemy_3->Render();
+
+	m_pOM->RenderObjects();
+
+
+
+
+	RECT	rCrossHairs;
+	rCrossHairs.top		= 0;
+	rCrossHairs.left	= 0;
+	rCrossHairs.right	= 16;
+	rCrossHairs.bottom	= 16;
+	this->m_pTM->Draw(this->m_nCrossHairID, (this->m_pDI->MouseGetPosX()+8),
+		(this->m_pDI->MouseGetPosY()+8), 1.0f, 1.0f, &rCrossHairs);
+}
+
+void CSinglePlayerState::Exit(void)
+{
+	if(this->m_pCamera)
+	{
+		this->m_pCamera->ResetCam();
+		this->m_pCamera = NULL;
+	}
+	this->m_pOF->UnregisterClassType("CBase");
+	this->m_pOF->UnregisterClassType("CPlayer");
+	this->m_pOF->UnregisterClassType("CHook");
+	this->m_pOF->UnregisterClassType("CBlock");
+
+	if(this->m_pOF)
+	{
+		//this->m_pOF->
+		this->m_pOF = NULL;
+	}
+
+	this->m_pOM->RemoveAllObjects();
+	if(this->m_pOM)
+	{
+		this->m_pOM = NULL;
+	}
+
+	if(this->m_nBackgroundImageID > -1)
+	{
+		this->m_pTM->UnloadTexture(this->m_nBackgroundImageID);
+		this->m_pTM->UnloadTexture(this->m_nCrossHairID);
+	//	this->m_pTM->UnloadTexture(this->m_TempPlayer->GetImageID());
+	//	this->m_pTM->UnloadTexture(this->m_TempPlatform1->GetImageID());
+	//	this->m_pTM->UnloadTexture(this->m_TempPlatform2->GetImageID());
+	}
+
+
+	if(this->m_nBGMusic > -1)
+	{
+		this->m_pWM->UnloadWave(this->m_nBGMusic);
+	}
+
+	if(this->m_pDS)
+	{
+		this->m_pDS = NULL;
+	}
+
+	if(this->m_pWM)
+	{
+		this->m_pWM = NULL;
+	}
+
+	if(this->m_pTM)
+	{
+		this->m_pTM = NULL;
+	}
+
+	if(this->m_pDI)
+	{
+		this->m_pDI = NULL;
+	}
+	
+	if(this->m_pD3D)
+	{
+		this->m_pD3D = NULL;
+	}
+}
+
+
+
+
+CPlayer*	CSinglePlayerState::GetPlayerPointer(void)	{return this->m_TempPlayer;}
+
