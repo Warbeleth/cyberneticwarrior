@@ -106,19 +106,17 @@ void CPlayer::Update(float fElapsedTime)
 			//this->m_vVectorVelocity = this->m_vVectorVelocity * 500.0f;// this->m_vSpeed.fX;
 			this->m_vVectorVelocity = Vector2DRotate(this->m_vVectorVelocity, this->GetRotation());
 
-			//this->SetBaseVelX(0.0f);
-			//this->SetBaseVelY(0.0f);
-		//	this->m_vSpeed.fX = 
-			this->m_vSpeed.fY = -this->m_vVectorVelocity.fY;
+			this->SetBaseVelX(0.0f);
+			this->SetBaseVelY(0.0f);
 
 			this->SetPosX(this->m_vVectorVelocity.fX + vHook.fX);
 			this->SetPosY(this->m_vVectorVelocity.fY + vHook.fY);
 		}
 		else
 		{
-			//this->m_vVectorVelocity.fX = 0.0f;
+			this->m_vVectorVelocity.fX = 0.0f;
 
-			//this->m_vVectorVelocity.fY = 0.0f;
+			this->m_vVectorVelocity.fY = 0.0f;
 			this->SetBaseVelX(this->m_vSpeed.fX);
 		}
 
@@ -157,6 +155,7 @@ void CPlayer::Update(float fElapsedTime)
 				this->m_vSpeed.fY = this->m_vSpeed.fY +( 900.0f * fElapsedTime);
 				this->SetBaseVelY(this->m_vSpeed.fY);
 			}
+
 		}
 		else
 		{
@@ -231,9 +230,9 @@ void CPlayer::Update(float fElapsedTime)
 	vecMouseVector.fX = CSGD_DirectInput::GetInstance()->MouseGetPosX() - GetPosX();
 	vecMouseVector.fY = CSGD_DirectInput::GetInstance()->MouseGetPosY() - GetPosY();
 
-	m_fHandRotation = AngleBetweenVectors( vecHandRotation, vecMouseVector);
+	m_fHandRotation = AngleBetweenVectors( vecHandRotation, vecMouseVector );
 	
-	if(CSGD_DirectInput::GetInstance()->MouseGetPosX() < GetPosX())
+	if( CSGD_DirectInput::GetInstance()->MouseGetPosX() < GetPosX() )
 		m_fHandRotation = SGD_PI + (SGD_PI - m_fHandRotation);
 }
 
@@ -289,6 +288,8 @@ void CPlayer::Input(float fElapsedTime)
 		{
 			if(this->m_pHook->GetIfHooked() && !this->GetOnGround())
 			{
+				/*if(this->GetRotation() <= 3.14f/2)
+				{*/
 				this->m_pHook->SetRotation(this->m_pHook->GetRotation() + this->m_pHook->GetRotationRate() * fElapsedTime);
 				if(!this->m_bOnGround)
 				{
@@ -296,10 +297,10 @@ void CPlayer::Input(float fElapsedTime)
 				}
 				/*}
 				else
-				if(this->GetRotation() <= 3.14f/2)
 				{
-					this->m_pHook->SetRotation(-this->m_pHook->GetRotation());
+				this->m_pHook->SetRotation(.9f);
 				}*/
+
 			}
 		}
 
