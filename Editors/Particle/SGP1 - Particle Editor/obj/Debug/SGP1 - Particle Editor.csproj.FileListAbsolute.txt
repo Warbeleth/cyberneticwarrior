@@ -1,0 +1,8 @@
+C:\Users\Greg\Documents\Visual Studio 2008\Projects\SGP1 - Particle Editor\SGP1 - Particle Editor\bin\Debug\SGP1 - Particle Editor.exe
+C:\Users\Greg\Documents\Visual Studio 2008\Projects\SGP1 - Particle Editor\SGP1 - Particle Editor\bin\Debug\SGP1 - Particle Editor.pdb
+C:\Users\Greg\Documents\Visual Studio 2008\Projects\SGP1 - Particle Editor\SGP1 - Particle Editor\obj\Debug\ResolveAssemblyReference.cache
+C:\Users\Greg\Documents\Visual Studio 2008\Projects\SGP1 - Particle Editor\SGP1 - Particle Editor\obj\Debug\SGP1___Particle_Editor.Form1.resources
+C:\Users\Greg\Documents\Visual Studio 2008\Projects\SGP1 - Particle Editor\SGP1 - Particle Editor\obj\Debug\SGP1___Particle_Editor.Properties.Resources.resources
+C:\Users\Greg\Documents\Visual Studio 2008\Projects\SGP1 - Particle Editor\SGP1 - Particle Editor\obj\Debug\SGP1 - Particle Editor.csproj.GenerateResource.Cache
+C:\Users\Greg\Documents\Visual Studio 2008\Projects\SGP1 - Particle Editor\SGP1 - Particle Editor\obj\Debug\SGP1 - Particle Editor.exe
+C:\Users\Greg\Documents\Visual Studio 2008\Projects\SGP1 - Particle Editor\SGP1 - Particle Editor\obj\Debug\SGP1 - Particle Editor.pdb
