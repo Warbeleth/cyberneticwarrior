@@ -242,10 +242,6 @@
 				Name="Game States"
 				>
 				<File
-					RelativePath=".\source\CGameProfiler.cpp"
-					>
-				</File>
-				<File
 					RelativePath=".\source\CLoadState.cpp"
 					>
 				</File>
@@ -258,15 +254,15 @@
 					>
 				</File>
 				<File
-					RelativePath=".\source\CParticleManager.cpp"
-					>
-				</File>
-				<File
 					RelativePath=".\source\CPauseMenuState.cpp"
 					>
 				</File>
 				<File
 					RelativePath=".\source\CSinglePlayerState.cpp"
+					>
+				</File>
+				<File
+					RelativePath=".\source\SaveState.cpp"
 					>
 				</File>
 				<File
@@ -400,10 +396,6 @@
 				Name="Game States"
 				>
 				<File
-					RelativePath=".\source\CGameProfiler.h"
-					>
-				</File>
-				<File
 					RelativePath=".\source\CLoadState.h"
 					>
 				</File>
@@ -416,10 +408,6 @@
 					>
 				</File>
 				<File
-					RelativePath=".\source\CParticleManager.h"
-					>
-				</File>
-				<File
 					RelativePath=".\source\CPauseMenuState.h"
 					>
 				</File>
@@ -429,6 +417,10 @@
 				</File>
 				<File
 					RelativePath=".\source\CSinglePlayerState.h"
+					>
+				</File>
+				<File
+					RelativePath=".\source\SaveState.h"
 					>
 				</File>
 				<Filter

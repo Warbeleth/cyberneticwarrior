@@ -9,9 +9,9 @@
 #include "CStackStateMachine.h"
 
 #include "CMainMenuState.h"
-#include "CGame.h"
 //#include "CSinglePlayerState.h"
-#include "CGameProfiler.h"
+#include "SaveState.h"
+#include "CLoadState.h"
 
 #include "CEventSystem.h"
 #include "CEvent.h"
@@ -78,18 +78,17 @@ bool	CSinglePlayerMenuState::Input(void)
 		{
 		case this->NEW_GAME:
 			//this->m_pWM->Stop(this->m_nBGMusic);
-			CGameProfiler::GetInstance()->SetNewGame(1);
-			CGameProfiler::GetInstance()->SetManagement(SAVE_GAME);
-			CStackStateMachine::GetInstance()->Push_Back(CGameProfiler::GetInstance());
+			CSaveState::GetInstance()->SetNewGame(1);
+			CSaveState::GetInstance()->SetDelete(0);
+			CStackStateMachine::GetInstance()->Push_Back(CSaveState::GetInstance());
 			break;
 		case this->LOAD:
-			CGameProfiler::GetInstance()->SetManagement(LOAD_GAME);
-			CStackStateMachine::GetInstance()->Push_Back(CGameProfiler::GetInstance());
+			CStackStateMachine::GetInstance()->Push_Back(CLoadState::GetInstance());
 			break;
 		case this->DELETE_PROF:
-			CGameProfiler::GetInstance()->SetNewGame(1);
-			CGameProfiler::GetInstance()->SetManagement(DELETE_PROFILE);
-			CStackStateMachine::GetInstance()->Push_Back(CGameProfiler::GetInstance());
+			CSaveState::GetInstance()->SetNewGame(1);
+			CSaveState::GetInstance()->SetDelete(1);
+			CStackStateMachine::GetInstance()->Push_Back(CSaveState::GetInstance());
 			break;
 		case this->BACK:
 			//PostQuitMessage(0);
@@ -110,7 +109,7 @@ void	CSinglePlayerMenuState::Enter(void)
 	this->m_pWM		=		CSGD_WaveManager::GetInstance();
 	this->m_pDS		=		CSGD_DirectSound::GetInstance();
 
-	this->m_nBackgroundID		= this->m_pTM->LoadTexture("resource/graphics/3d_city.png");
+	this->m_nBackgroundID		= this->m_pTM->LoadTexture("resource/graphics/BackGroundMenu.png");
 	this->m_nCursorID			= this->m_pTM->LoadTexture("resource/graphics/hook.png");
 	//this->m_nMusicID			= this->m_pWM->LoadWave("resource/sounds/SO3_Victory_Bell.wav");
 	//this->m_nSFXID				= this->m_pWM->LoadWave("");
@@ -129,12 +128,8 @@ void	CSinglePlayerMenuState::Update(float fElapsedTime)
 
 void	CSinglePlayerMenuState::Render(void)
 {
-	RECT rRect;
-	rRect.top =500;
-	rRect.left = 400;
-	rRect.bottom = rRect.top + CGame::GetInstance()->GetScreenHeight();
-	rRect.right = rRect.left + CGame::GetInstance()->GetScreenWidth();
-	this->m_pTM->Draw(this->m_nBackgroundID, 0, 0,1.0f,1.0f,&rRect);
+	
+	this->m_pTM->Draw(this->m_nBackgroundID, 0, 0);
 	//this->m_pTM->Draw(this->m_nMenuID,0,0,1.3f,1.0f);//,1.0f,1.0f, 0, 0.0f, 0.0f, 0.0f, D3DCOLOR_ARGB(255,0,128,128));
 
 	this->m_OptionsFont.Draw("Single Player", 250, 100, 1.2f, D3DXCOLOR(1.0f, 1.0f, 0.0f, 1.0f));
