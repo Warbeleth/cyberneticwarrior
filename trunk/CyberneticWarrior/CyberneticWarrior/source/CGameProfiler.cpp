@@ -35,6 +35,9 @@ CGameProfiler::CGameProfiler(void)
 	this->m_nSelection			= this->OP1;
 	this->m_nSelectionPos		= this->MENU_START;
 
+
+
+
 	this->SetNewGame(0);
 	this->SetManagement(0);
 }
@@ -173,7 +176,7 @@ void	CGameProfiler::Enter(void)
 	this->m_pWM		=		CSGD_WaveManager::GetInstance();
 	this->m_pDS		=		CSGD_DirectSound::GetInstance();
 
-	this->m_nBackgroundID		= this->m_pTM->LoadTexture("resource/graphics/BackGroundMenu.png");
+	this->m_nBackgroundID		= this->m_pTM->LoadTexture("resource/graphics/3d_city.png");
 	this->m_nCursorID			= this->m_pTM->LoadTexture("resource/graphics/hook.png");
 	//this->m_nMusicID			= this->m_pWM->LoadWave("resource/sounds/SO3_Victory_Bell.wav");
 	//this->m_nSFXID				= this->m_pWM->LoadWave("");

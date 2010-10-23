@@ -28,10 +28,13 @@ COptionsMenuState::COptionsMenuState(void)
 	this->m_nMusicVolume		= 75;
 	this->m_nSFXVolume			= 75;
 
+	this->m_bMusicSelected = 0;
+	this->m_bSFXSelected = 0;
+	this->m_bSelected = 0;
+
 	this->m_nSelection			= this->MUSIC_VOLUME;
 	this->m_nSelectionPos		= this->OMENU_START;
 
-	this->m_bSelection			= 0;
 }
 
 COptionsMenuState::~COptionsMenuState(void)
@@ -49,7 +52,8 @@ COptionsMenuState::~COptionsMenuState(void)
 	this->m_nSelection			= this->MUSIC_VOLUME;
 	this->m_nSelectionPos		= this->OMENU_START;
 
-	this->m_bSelection			= 0;
+	this->m_bMusicSelected = 0;
+	this->m_bSFXSelected = 0;
 }
 
 COptionsMenuState*	COptionsMenuState::GetInstance(void)
@@ -85,7 +89,6 @@ void	COptionsMenuState::Enter(void)
 
 	this->m_OptionsFont.InitFont("resource/fonts/example.png", "resource/fonts/Example.fnt");
 
-	this->m_pWM->Play(this->m_nMusicID);
 
 	this->m_nSelection			= this->MUSIC_VOLUME;
 	this->m_nSelectionPos		= this->OMENU_START;
@@ -97,13 +100,15 @@ bool	COptionsMenuState::Input(void)
 	{
 		--this->m_nSelection;
 
-		if(this->m_nSelection < this->MUSIC_VOLUME && this->m_bSelection == 0)
+		if(this->m_nSelection < this->MUSIC_VOLUME)
 		{
 			this->m_nSelection = this->EXIT_OMENU;
 		}
-		else
+		if( this->m_bSelected == 1)
 		{
-			this->m_bSelection = 0;
+			this->m_bMusicSelected = 0;
+			this->m_bSFXSelected = 0;
+			this->m_bSelected = 0;
 		}
 	}
 	
@@ -111,13 +116,15 @@ bool	COptionsMenuState::Input(void)
 	{
 		++this->m_nSelection;
 
-		if(this->m_nSelection > this->EXIT_OMENU && this->m_bSelection == 0)
+		if(this->m_nSelection > this->EXIT_OMENU)
 		{
 			this->m_nSelection = this->MUSIC_VOLUME;
 		}
-		else
+		if(this->m_bSelected == 1)
 		{
-			this->m_bSelection = 0;
+			this->m_bMusicSelected = 0;
+			this->m_bSFXSelected = 0;
+			this->m_bSelected = 0;
 		}
 	}
 
@@ -125,26 +132,28 @@ bool	COptionsMenuState::Input(void)
 	{
 		if(this->m_nSelection == this->MUSIC_VOLUME)
 		{
-			if(this->m_nMusicVolume < 100 && this->m_bSelection)
+			if(this->m_nMusicVolume < 100 && this->m_bSelected)
 			{	
 				this->m_nMusicVolume++;
 				this->m_pWM->SetVolume(m_nMusicID, this->m_nMusicVolume);
 			}
 			else
 			{
-				this->m_bSelection = 1;
+				this->m_bMusicSelected = 1;
+				this->m_bSelected = 1;
 			}
 		}
 		else if(this->m_nSelection == this->SFX_VOLUME)
 		{
-			if(this->m_nSFXVolume < 100 && this->m_bSelection)
+			if(this->m_nSFXVolume < 100 && this->m_bSelected)
 			{
 				this->m_nSFXVolume++;
 				//this->m_pWM->SetVolume(m_nSFXID, this->m_nSFXVolume);
 			}
 			else
 			{
-				this->m_bSelection = 1;
+				this->m_bSFXSelected = 1;
+				this->m_bSelected = 1;
 			}
 		}
 	}
@@ -153,36 +162,37 @@ bool	COptionsMenuState::Input(void)
 	{
 		if(this->m_nSelection == this->MUSIC_VOLUME)
 		{
-			if(this->m_nMusicVolume > 0 && this->m_bSelection)
+			if(this->m_nMusicVolume > 0 && this->m_bSelected)
 			{	
 				this->m_nMusicVolume--;
 				this->m_pWM->SetVolume(m_nMusicID, this->m_nMusicVolume);
 			}
 			else
 			{
-				this->m_bSelection = 1;
+				this->m_bMusicSelected = 1;
+				this->m_bSelected = 1;
 			}
 		}
 		else if(this->m_nSelection == this->SFX_VOLUME)
 		{
-			if(this->m_nSFXVolume > 0 && this->m_bSelection)
+			if(this->m_nSFXVolume > 0 && this->m_bSelected)
 			{
 				this->m_nSFXVolume--;
 				//this->m_pWM->SetVolume(m_nSFXID, this->m_nSFXVolume);
 			}
 			else
 			{
-				this->m_bSelection = 1;
+				this->m_bSFXSelected = 1;
+				this->m_bSelected = 1;
 			}
 		}		
 	}
 
 	if(this->m_pDI->KeyPressed(DIK_ESCAPE) || this->m_pDI->JoystickButtonPressed((2||8),0))
 	{
-		if(this->m_bSelection)
-		{
-			this->m_bSelection = 0;
-		}
+		this->m_bSelected = 0;
+		this->m_bMusicSelected = 0;
+		this->m_bSFXSelected = 0;
 	}
 
 	if(this->m_pDI->KeyPressed(DIK_RETURN)  || this->m_pDI->JoystickButtonPressed((1||9),0))
@@ -192,10 +202,12 @@ bool	COptionsMenuState::Input(void)
 		case this->MUSIC_VOLUME:
 			//this->m_pWM->Stop(this->m_nBGMusic);
 			//CStackStateMachine::GetInstance()->Push_Back(CSinglePlayerState::GetInstance());
-			this->m_bSelection = 1;
+			this->m_bMusicSelected = 1;
+			this->m_bSelected = 1;
 			break;
 		case this->SFX_VOLUME:
-			this->m_bSelection = 1;
+			this->m_bSFXSelected = 1;
+			this->m_bSelected = 1;
 			break;
 		case this->MUTE:
 			this->m_bMute = !this->m_bMute;
@@ -213,15 +225,28 @@ bool	COptionsMenuState::Input(void)
 
 void	COptionsMenuState::Update(float fElapsedTime)
 {
-	if(this->m_nSelection == this->SFX_VOLUME)
+	if(this->m_nSelection == this->MUSIC_VOLUME)
 	{
-		//this->m_pWM->Stop(m_nMusicID);
-		//this->m_pWM->Play(m_nSFXID);
+		if(this->m_bMusicSelected && this->m_bSelected)
+		{
+			//this->m_pWM->Stop(m_nSFXID);
+			this->m_pWM->Play(m_nMusicID);
+			this->m_bMusicSelected = 0;
+		}
+		else if(!this->m_bMusicSelected && !this->m_bSelected)
+		{
+			this->m_pWM->Stop(m_nMusicID);
+		}
 	}
-	else if(this->m_nSelection == this->MUSIC_VOLUME)
+
+	else if(this->m_nSelection == this->SFX_VOLUME)
 	{
-		//this->m_pWM->Stop(m_nSFXID);
-		//this->m_pWM->Play(m_nMusicID);
+		if(this->m_bSFXSelected && this->m_bSelected)
+		{
+			this->m_pWM->Stop(m_nMusicID);
+			//this->m_pWM->Play(m_nSFXID);
+			this->m_bSFXSelected = 0;
+		}
 	}
 	else
 	{
@@ -229,6 +254,8 @@ void	COptionsMenuState::Update(float fElapsedTime)
 		//this->m_pWM->Stop(m_nSFXID);
 	}
 	this->m_nSelectionPos = (this->m_nSelection * OMENU_SPACE) + this->OMENU_START;
+
+	this->m_pWM->Update();
 }
 
 void	COptionsMenuState::Render(void)
@@ -257,8 +284,8 @@ void	COptionsMenuState::Render(void)
 		(this->m_nSelection == this->EXIT_OMENU? D3DXCOLOR(0.0f, 1.0f, 0.0f, 1.0f) : D3DXCOLOR(1.0f, 1.0f, 0.0f, 1.0f)));
 	
 	CSGD_Direct3D::GetInstance()->GetSprite()->Flush();
-	CSGD_Direct3D::GetInstance()->DrawLine(MENUX + 325, (this->MUSIC_VOLUME * OMENU_SPACE) + this->OMENU_START + 25, MENUX + 325 + 250,  (this->MUSIC_VOLUME * OMENU_SPACE) + this->OMENU_START + 25, ((this->m_nSelection != this->MUSIC_VOLUME || !this->m_bSelection)? 255: 0), 0, ((this->m_nSelection == this->MUSIC_VOLUME && this->m_bSelection)? 255: 0));
-	CSGD_Direct3D::GetInstance()->DrawLine(MENUX + 325, (this->SFX_VOLUME * OMENU_SPACE) + this->OMENU_START + 25, MENUX + 325 + 250,  (this->SFX_VOLUME * OMENU_SPACE) + this->OMENU_START + 25, ((this->m_nSelection != this->SFX_VOLUME || !this->m_bSelection)? 255: 0), 0, ((this->m_nSelection == this->SFX_VOLUME && this->m_bSelection)? 255: 0));
+	CSGD_Direct3D::GetInstance()->DrawLine(MENUX + 325, (this->MUSIC_VOLUME * OMENU_SPACE) + this->OMENU_START + 25, MENUX + 325 + 250,  (this->MUSIC_VOLUME * OMENU_SPACE) + this->OMENU_START + 25, ((this->m_bSelected && this->m_nSelection == this->MUSIC_VOLUME)? 255: 0), 0, ((!this->m_bSelected || this->m_nSelection != this->MUSIC_VOLUME)? 255: 0));
+	CSGD_Direct3D::GetInstance()->DrawLine(MENUX + 325, (this->SFX_VOLUME * OMENU_SPACE) + this->OMENU_START + 25, MENUX + 325 + 250,  (this->SFX_VOLUME * OMENU_SPACE) + this->OMENU_START + 25, ((this->m_bSelected && this->m_nSelection == this->SFX_VOLUME)? 255: 0), 0, ((!this->m_bSelected || this->m_nSelection != this->SFX_VOLUME)? 255: 0));
 //	CSGD_Direct3D::GetInstance()->DrawRect(MENUX + 325, (this->MUTE * OMENU_SPACE) + this->OMENU_START + 25, MENUX + 325 + 250,  (this->MUTE * OMENU_SPACE) + this->OMENU_START + 25, 255, 0, 0);
 }
 
@@ -273,6 +300,7 @@ void	COptionsMenuState::Exit(void)
 	}
 	if(this->m_nMusicID > -1)
 	{
+		this->m_pWM->Stop(this->m_nMusicID);
 		this->m_pWM->UnloadWave(this->m_nMusicID);
 		this->m_nMusicID = -1;
 	}
