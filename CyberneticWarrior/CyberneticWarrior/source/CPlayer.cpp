@@ -221,14 +221,14 @@ void CPlayer::Update(float fElapsedTime)
 	////////////////////////////////////////
 
 	tVector2D vecHandRotation;
-	vecHandRotation.fX = 0;
-	vecHandRotation.fY = -1;
+	vecHandRotation.fX = 0.0f;
+	vecHandRotation.fY = -1.0f;
 
 	//vecHandRotation = Vector2DRotate( vecHandRotation,)
 
 	tVector2D vecMouseVector;
-	vecMouseVector.fX = CSGD_DirectInput::GetInstance()->MouseGetPosX() + GetPosX();
-	vecMouseVector.fY = CSGD_DirectInput::GetInstance()->MouseGetPosY() + GetPosY();
+	vecMouseVector.fX = CSGD_DirectInput::GetInstance()->MouseGetPosX() - GetPosX();
+	vecMouseVector.fY = CSGD_DirectInput::GetInstance()->MouseGetPosY() - GetPosY();
 
 	m_fHandRotation = AngleBetweenVectors( vecHandRotation, vecMouseVector );
 	
