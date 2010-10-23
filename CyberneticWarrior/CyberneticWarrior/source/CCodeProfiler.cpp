@@ -87,10 +87,10 @@ void CCodeProfiler::SavePerformance(void)
 		save.open(m_szFuncName[i].c_str(), std::ios_base::out | std::ios::app);
 		if(save.is_open())
 		{
-			save << "\n\nFunction Name: " << m_szFuncName[i].c_str();
+			save << "Function Name: " << m_szFuncName[i].c_str();
 			save << "\nAmount of Calls: " << m_nCallCounter[i];
 			save << "\nPerformace: " << m_vPerformanceTimes[i] << " milli Seconds";
-			save << "\nTimeStamp: " << __TIMESTAMP__;
+			save << "\nTimeStamp: " << __TIMESTAMP__ << "\n\n";
 			
 		}
 		save.close();
