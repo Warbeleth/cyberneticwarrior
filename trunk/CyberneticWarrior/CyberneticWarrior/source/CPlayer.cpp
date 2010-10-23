@@ -227,12 +227,12 @@ void CPlayer::Update(float fElapsedTime)
 	//vecHandRotation = Vector2DRotate( vecHandRotation,)
 
 	tVector2D vecMouseVector;
-	vecMouseVector.fX = CSGD_DirectInput::GetInstance()->JoystickGetRStickXAmount() + GetPosX();
-	vecMouseVector.fY = CSGD_DirectInput::GetInstance()->JoystickGetRStickYAmount() + GetPosY();
+	vecMouseVector.fX = CSGD_DirectInput::GetInstance()->MouseGetPosX() + GetPosX();
+	vecMouseVector.fY = CSGD_DirectInput::GetInstance()->MouseGetPosY() + GetPosY();
 
 	m_fHandRotation = AngleBetweenVectors( vecHandRotation, vecMouseVector );
 	
-	if( CSGD_DirectInput::GetInstance()->JoystickGetRStickXAmount() < GetPosX() )
+	if( CSGD_DirectInput::GetInstance()->MouseGetPosX() < GetPosX() )
 		m_fHandRotation = SGD_PI + (SGD_PI - m_fHandRotation);
 }
 
