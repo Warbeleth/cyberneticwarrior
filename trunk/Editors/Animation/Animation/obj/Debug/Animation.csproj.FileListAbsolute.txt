@@ -1,0 +1,27 @@
+C:\Users\AnthonyMuccio\Documents\Visual Studio 2008\Projects\Animation\Animation\bin\Debug\Animation.exe
+C:\Users\AnthonyMuccio\Documents\Visual Studio 2008\Projects\Animation\Animation\bin\Debug\Animation.pdb
+C:\Users\AnthonyMuccio\Documents\Visual Studio 2008\Projects\Animation\Animation\obj\Debug\ResolveAssemblyReference.cache
+C:\Users\AnthonyMuccio\Documents\Visual Studio 2008\Projects\Animation\Animation\obj\Debug\Animation.AnimationEditor.resources
+C:\Users\AnthonyMuccio\Documents\Visual Studio 2008\Projects\Animation\Animation\obj\Debug\Animation.Preview.resources
+C:\Users\AnthonyMuccio\Documents\Visual Studio 2008\Projects\Animation\Animation\obj\Debug\Animation.Properties.Resources.resources
+C:\Users\AnthonyMuccio\Documents\Visual Studio 2008\Projects\Animation\Animation\obj\Debug\Animation.csproj.GenerateResource.Cache
+C:\Users\AnthonyMuccio\Documents\Visual Studio 2008\Projects\Animation\Animation\obj\Debug\Animation.exe
+C:\Users\AnthonyMuccio\Documents\Visual Studio 2008\Projects\Animation\Animation\obj\Debug\Animation.pdb
+C:\Users\AnthonyMuccio\Desktop\Animation\Animation\obj\Debug\Animation.exe
+C:\Users\AnthonyMuccio\Desktop\Animation\Animation\obj\Debug\Animation.pdb
+C:\Users\AnthonyMuccio\Desktop\Animation\Animation\bin\Debug\Animation.exe
+C:\Users\AnthonyMuccio\Desktop\Animation\Animation\bin\Debug\Animation.pdb
+C:\Users\AnthonyMuccio\Desktop\Animation\Animation\obj\Debug\ResolveAssemblyReference.cache
+C:\Users\AnthonyMuccio\Desktop\Animation\Animation\obj\Debug\Animation.Preview.resources
+C:\Users\AnthonyMuccio\Desktop\Animation\Animation\obj\Debug\Animation.Properties.Resources.resources
+C:\Users\AnthonyMuccio\Desktop\Animation\Animation\obj\Debug\Animation.csproj.GenerateResource.Cache
+C:\Users\AnthonyMuccio\Desktop\Animation\Animation\obj\Debug\Animation.AnimationEditor.resources
+C:\Users\AnthonyMuccio\Documents\School CPU(Laptop)\SGP\Game\Animation\Animation\obj\Debug\Animation.exe
+C:\Users\AnthonyMuccio\Documents\School CPU(Laptop)\SGP\Game\Animation\Animation\obj\Debug\Animation.pdb
+C:\Users\AnthonyMuccio\Documents\School CPU(Laptop)\SGP\Game\Animation\Animation\bin\Debug\Animation.exe
+C:\Users\AnthonyMuccio\Documents\School CPU(Laptop)\SGP\Game\Animation\Animation\bin\Debug\Animation.pdb
+C:\Users\AnthonyMuccio\Documents\School CPU(Laptop)\SGP\Game\Animation\Animation\obj\Debug\ResolveAssemblyReference.cache
+C:\Users\AnthonyMuccio\Documents\School CPU(Laptop)\SGP\Game\Animation\Animation\obj\Debug\Animation.AnimationEditor.resources
+C:\Users\AnthonyMuccio\Documents\School CPU(Laptop)\SGP\Game\Animation\Animation\obj\Debug\Animation.Preview.resources
+C:\Users\AnthonyMuccio\Documents\School CPU(Laptop)\SGP\Game\Animation\Animation\obj\Debug\Animation.Properties.Resources.resources
+C:\Users\AnthonyMuccio\Documents\School CPU(Laptop)\SGP\Game\Animation\Animation\obj\Debug\Animation.csproj.GenerateResource.Cache
