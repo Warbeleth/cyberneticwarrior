@@ -103,6 +103,7 @@ void CSinglePlayerState::Enter(void)
 	this->m_pCamera->ResetCam();
 
 
+	m_nAnimation.LoadBinary("resource/binary/akainu.bae");
 
 	
 	this->m_pOF->RegisterClassType<CBase>("CBase");
@@ -221,6 +222,8 @@ bool CSinglePlayerState::Input(void)
 
 void CSinglePlayerState::Update(float fElapsedTime)
 {
+	m_nAnimation.Update( fElapsedTime );
+
 	this->m_tBGOffset.fX = 0 - (float)CCamera::GetInstance()->GetCameraRect().left;
 
 	if( this->m_nMusicVolume != COptionsMenuState::GetInstance()->GetMusicVolume())
@@ -241,10 +244,8 @@ void CSinglePlayerState::Update(float fElapsedTime)
 void CSinglePlayerState::Render(void)
 {
 	this->m_pTM->Draw(this->m_nBackgroundImageID,(int)this->m_tBGOffset.fX,(int)this->m_tBGOffset.fY);
-	
 
-	
-
+	m_nAnimation.Render( 400, 450 );
 	//////////////////////////////
 	// TEMP
 	//////////////////////////////
@@ -252,7 +253,7 @@ void CSinglePlayerState::Render(void)
 				(int)this->m_tBasicPlatform.m_tTempPlatformPoint.fX,
 				(int)this->m_tBasicPlatform.m_tTempPlatformPoint.fY);*/
 
-//	this->m_TempPlayer.Render();
+	//this->m_TempPlayer.Render();
 	//////////////////////////////
 
 	m_pD3D->GetSprite()->Flush();
