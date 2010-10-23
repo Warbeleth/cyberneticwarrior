@@ -242,6 +242,10 @@
 				Name="Game States"
 				>
 				<File
+					RelativePath=".\source\CHowToPlayState.cpp"
+					>
+				</File>
+				<File
 					RelativePath=".\source\CLoadState.cpp"
 					>
 				</File>
@@ -395,6 +399,10 @@
 			<Filter
 				Name="Game States"
 				>
+				<File
+					RelativePath=".\source\CHowToPlayState.h"
+					>
+				</File>
 				<File
 					RelativePath=".\source\CLoadState.h"
 					>
