@@ -8,6 +8,7 @@
 #include "CGrapplingHook.h"
 #include "CBlock.h"
 #include "CMapLoad.h"
+#include "CAnimationLoad.h"
 
 #include "CObjectFactory.h"
 #include <string>
@@ -24,7 +25,7 @@ class CObjectManager;
 class CCamera;
 
 
-
+class CAnimations;
 class CIdleEnemy;
 class CPatrolEnemy;
 class CFLCLMech;
@@ -76,6 +77,8 @@ private:
 	CObjectManager*							m_pOM;
 
 	CCamera*						m_pCamera;
+
+	CAnimations m_nAnimation;
 
 	CSinglePlayerState(void);
 	~CSinglePlayerState(void);

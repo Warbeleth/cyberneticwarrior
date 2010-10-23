@@ -42,13 +42,6 @@ CFrame::CFrame(  )
 }
 
 //////////////////////////////////////////////////////////////////////////////////////////////////////
-// Function: “Render”
-//////////////////////////////////////////////////////////////////////////////////////////////////////	
-void CFrame::Render( )
-{
-}
-
-//////////////////////////////////////////////////////////////////////////////////////////////////////
 // Function: “RectRender”
 //////////////////////////////////////////////////////////////////////////////////////////////////////	
 /*
@@ -105,17 +98,66 @@ CAnimation::CAnimation( )
 CAnimations::CAnimations()
 {
 	m_nTotalAnimations      = 0;
-	m_nCurrentAnimation		= 0;
+	m_nCurrentAnimation		= 0;	
+	m_nOffset.m_nX			= 0;
+	m_nOffset.m_nY			= 0;
+	m_nId					= -1;
+	m_fTotalElapsedTime		= 0.0f;
 	m_szFilename            = "\0";
+	m_bJustLoaded			= false;
 	m_vAnimations.clear();
+}
+
+//////////////////////////////////////////////////////////////////////////////////////////////////////
+// Function: “~CAnimations”
+//
+// Purpose: The destructor for CAnimations. Will clean-up values.
+//////////////////////////////////////////////////////////////////////////////////////////////////////
+CAnimations::~CAnimations( )
+{
+	if(m_nId != -1)
+		CSGD_TextureManager::GetInstance()->UnloadTexture(m_nId);
+}
+
+//////////////////////////////////////////////////////////////////////////////////////////////////////
+// Function: “Update”
+//////////////////////////////////////////////////////////////////////////////////////////////////////
+void CAnimations::Update( float fElapsedTime )
+{
+	m_fTotalElapsedTime += fElapsedTime;
+
+	if( m_fTotalElapsedTime >= m_vAnimations[m_nCurrentAnimation].m_fTimeBetweenFrames)
+	{
+		m_fTotalElapsedTime = 0.0f;
+		m_vAnimations[m_nCurrentAnimation].m_nCurrentFrame++;
+
+		if( m_vAnimations[m_nCurrentAnimation].m_nCurrentFrame >= m_vAnimations[m_nCurrentAnimation].m_nTotalFrames )
+			m_vAnimations[m_nCurrentAnimation].m_nCurrentFrame = 0;
+
+		m_nOffset.m_nX = m_vAnimations[m_nCurrentAnimation].m_vFrames[m_vAnimations[m_nCurrentAnimation].m_nCurrentFrame].GetAnchor().m_nX -
+			m_vAnimations[ m_nCurrentAnimation ].m_vFrames[ m_vAnimations[m_nCurrentAnimation].m_nCurrentFrame ].GetFrame().left;
+		m_nOffset.m_nY = m_vAnimations[m_nCurrentAnimation].m_vFrames[m_vAnimations[m_nCurrentAnimation].m_nCurrentFrame].GetAnchor().m_nY -
+			m_vAnimations[ m_nCurrentAnimation ].m_vFrames[ m_vAnimations[m_nCurrentAnimation].m_nCurrentFrame ].GetFrame().top;	
+	}
+	else if( m_bJustLoaded )
+	{
+
+		m_nOffset.m_nX = m_vAnimations[m_nCurrentAnimation].m_vFrames[m_vAnimations[m_nCurrentAnimation].m_nCurrentFrame].GetAnchor().m_nX -
+			m_vAnimations[ m_nCurrentAnimation ].m_vFrames[ m_vAnimations[m_nCurrentAnimation].m_nCurrentFrame ].GetFrame().left;
+		m_nOffset.m_nY = m_vAnimations[m_nCurrentAnimation].m_vFrames[m_vAnimations[m_nCurrentAnimation].m_nCurrentFrame].GetAnchor().m_nY -
+			m_vAnimations[ m_nCurrentAnimation ].m_vFrames[ m_vAnimations[m_nCurrentAnimation].m_nCurrentFrame ].GetFrame().top;	
+
+		m_bJustLoaded = false;
+	}
 }
 
 //////////////////////////////////////////////////////////////////////////////////////////////////////
 // Function: “Render”
 //////////////////////////////////////////////////////////////////////////////////////////////////////	
-void CAnimations::Render( void )
+void CAnimations::Render( int nPosX, int nPosY )
 {
-	m_vAnimations[ m_nCurrentAnimation ].m_vFrames[ m_vAnimations[m_nCurrentAnimation].m_nCurrentFrame ].Render();
+	CSGD_TextureManager::GetInstance()->Draw(m_nId, nPosX - m_nOffset.m_nX, nPosY - m_nOffset.m_nY, 1, 1,
+			&m_vAnimations[ m_nCurrentAnimation ].m_vFrames[ m_vAnimations[m_nCurrentAnimation].m_nCurrentFrame ].GetFrame() );
 }
 
 //////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -174,7 +216,7 @@ bool CAnimations::LoadBinary( char* szFilename )
 				// anchor
 				CPoint _anchor;
 				in.read( (char*)&_anchor.m_nX, sizeof(int) );
-				in.read( (char*)&_anchor.m_nX, sizeof(int) );
+				in.read( (char*)&_anchor.m_nY, sizeof(int) );
 				m_vAnimations[i].m_vFrames[x].SetAnchor( _anchor );
 
 				// frame
@@ -224,6 +266,17 @@ bool CAnimations::LoadBinary( char* szFilename )
 			}
 		}
 		in.close();
+
+		if( m_nId != -1 )
+		{
+			CSGD_TextureManager::GetInstance()->UnloadTexture(m_nId);
+			m_nId = -1;
+		}
+
+		string RelativeFile = "resource/graphics/" + m_szFilename;
+		m_nId = CSGD_TextureManager::GetInstance()->LoadTexture(RelativeFile.c_str());
+
+		m_bJustLoaded = true;
 		return true;
 	}
 	return false;

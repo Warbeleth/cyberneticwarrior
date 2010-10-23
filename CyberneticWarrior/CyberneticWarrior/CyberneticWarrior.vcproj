@@ -482,6 +482,10 @@
 				Name="Graphics"
 				>
 				<File
+					RelativePath=".\resource\graphics\akainu.png"
+					>
+				</File>
+				<File
 					RelativePath=".\resource\graphics\Arm.png"
 					>
 				</File>
@@ -535,6 +539,14 @@
 				</File>
 				<File
 					RelativePath=".\resource\fonts\example.png"
+					>
+				</File>
+			</Filter>
+			<Filter
+				Name="Binary"
+				>
+				<File
+					RelativePath=".\resource\binary\akainu.bae"
 					>
 				</File>
 			</Filter>
