@@ -22,8 +22,7 @@
 #include "CMainMenuState.h"
 #include "CSinglePlayerState.h"
 #include "CSinglePlayerMenuState.h"
-#include "SaveState.h"
-#include "CLoadState.h"
+#include "CGameProfiler.h"
 #include "CPauseMenuState.h"
 #include "COptionsMenuState.h"
 
@@ -195,8 +194,7 @@ void CGame::ShutDown(void)
 
 	CMainMenuState::GetInstance()->DeleteInstance();
 	CSinglePlayerState::GetInstance()->DeleteInstance();
-	CSaveState::GetInstance()->DeleteInstance();
-	CLoadState::GetInstance()->DeleteInstance();
+	CGameProfiler::GetInstance()->DeleteInstance();
 	CSinglePlayerMenuState::GetInstance()->DeleteInstance();
 	CPauseMenuState::GetInstance()->DeleteInstance();
 	COptionsMenuState::GetInstance()->DeleteInstance();

@@ -262,10 +262,6 @@
 					>
 				</File>
 				<File
-					RelativePath=".\source\SaveState.cpp"
-					>
-				</File>
-				<File
 					RelativePath=".\source\SinglePlayerMenuState.cpp"
 					>
 				</File>
@@ -396,6 +392,14 @@
 				Name="Game States"
 				>
 				<File
+					RelativePath=".\source\CGameProfiler.cpp"
+					>
+				</File>
+				<File
+					RelativePath=".\source\CGameProfiler.h"
+					>
+				</File>
+				<File
 					RelativePath=".\source\CLoadState.h"
 					>
 				</File>
@@ -417,10 +421,6 @@
 				</File>
 				<File
 					RelativePath=".\source\CSinglePlayerState.h"
-					>
-				</File>
-				<File
-					RelativePath=".\source\SaveState.h"
 					>
 				</File>
 				<Filter
