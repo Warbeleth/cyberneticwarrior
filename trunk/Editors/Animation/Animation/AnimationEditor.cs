@@ -135,6 +135,7 @@ namespace Animation
 
         public void Render()
         {
+
             if (bPreview)
             {
                 _previewWindow.Render();
@@ -230,7 +231,7 @@ namespace Animation
 
             AnimationsEditor.AddAnimation(_newAnimation);
             AnimationsListBox.Items.Add(Index);
-            AnimationsListBox.SelectedIndex = -1;
+            AnimationsListBox.SelectedIndex = Index._nId;
 
             ToolStripStatusLabel2.Text = AnimationsEditor.GetTotalAnimations.ToString();
 
@@ -239,7 +240,8 @@ namespace Animation
 
         private void Button_RemoveAnimation_Click(object sender, EventArgs e)
         {
-            if ( AnimationsListBox.SelectedIndex >= 0 )
+            bAddingComplete = false;
+            if (AnimationsListBox.SelectedIndex >= 0)
             {
                 AnimationsEditor.RemoveAnimation(AnimationsListBox.SelectedIndex);
                 AnimationsListBox.Items.RemoveAt(AnimationsListBox.SelectedIndex);
@@ -254,7 +256,10 @@ namespace Animation
                 {
                     AnimationsListBox.Items.Add(Index);
                 }
+
+                ToolStripStatusLabel2.Text = AnimationsEditor.GetTotalAnimations.ToString();
             }
+            bAddingComplete = true;
         }
 
         private void Button_AddFrame_Click(object sender, EventArgs e)
@@ -299,7 +304,7 @@ namespace Animation
 
                 AnimationsEditor.GetAnimations[AnimationsListBox.SelectedIndex].AddFrame(_newFrame);
                 FramesListBox.Items.Add(Index);
-                FramesListBox.SelectedIndex = -1;
+                FramesListBox.SelectedIndex = Index._nId;
                
             }
             BAddingComplete = true;
@@ -307,6 +312,7 @@ namespace Animation
 
         private void Button_RemoveFrame_Click(object sender, EventArgs e)
         {
+            bAddingComplete = false;
             if (AnimationsListBox.SelectedIndex >= 0 && FramesListBox.SelectedIndex >= 0)
             {
                 AnimationsEditor.GetAnimations[AnimationsListBox.SelectedIndex].RemoveFrame(FramesListBox.SelectedIndex);
@@ -322,6 +328,7 @@ namespace Animation
                     FramesListBox.Items.Add(Index);
                 }
             }
+            bAddingComplete = true;
         }
 
         private void Button_AddHitRECT_Click(object sender, EventArgs e)
@@ -386,6 +393,7 @@ namespace Animation
 
         private void Button_RemoveHitRECT_Click(object sender, EventArgs e)
         {
+            bAddingComplete = false;
             if (AnimationsListBox.SelectedIndex >= 0 && FramesListBox.SelectedIndex >= 0 && HitRectsListBox.SelectedIndex >= 0)
             {
                 AnimationsEditor.GetAnimations[AnimationsListBox.SelectedIndex].GetFrames[FramesListBox.SelectedIndex].RemoveHitRECT(HitRectsListBox.SelectedIndex);
@@ -401,10 +409,12 @@ namespace Animation
                     HitRectsListBox.Items.Add(Index);
                 }
             }
+            bAddingComplete = true;
         }
 
         private void Button_RemoveCollisionRECT_Click(object sender, EventArgs e)
         {
+            bAddingComplete = false;
             if (AnimationsListBox.SelectedIndex >= 0 && FramesListBox.SelectedIndex >= 0 && CollisionRectsListBox.SelectedIndex >= 0)
             {
                 AnimationsEditor.GetAnimations[AnimationsListBox.SelectedIndex].GetFrames[FramesListBox.SelectedIndex].RemoveCollisionRECT(CollisionRectsListBox.SelectedIndex);
@@ -420,6 +430,7 @@ namespace Animation
                     CollisionRectsListBox.Items.Add(Index);
                 }
             }
+            bAddingComplete = true;
         }
 
         private void FramesListBox_SelectedIndexChanged(object sender, EventArgs e)
@@ -448,45 +459,58 @@ namespace Animation
                 numUpDown_Left.Value = AnimationsEditor.GetAnimations[AnimationsListBox.SelectedIndex].GetFrames[FramesListBox.SelectedIndex].Frame.left;
                 numUpDown_Top.Value = AnimationsEditor.GetAnimations[AnimationsListBox.SelectedIndex].GetFrames[FramesListBox.SelectedIndex].Frame.top;
                 numUpDown_Right.Value = AnimationsEditor.GetAnimations[AnimationsListBox.SelectedIndex].GetFrames[FramesListBox.SelectedIndex].Frame.right;
-                numUpDown_Bottom.Value = AnimationsEditor.GetAnimations[AnimationsListBox.SelectedIndex].GetFrames[FramesListBox.SelectedIndex].Frame.bottom;                
+                numUpDown_Bottom.Value = AnimationsEditor.GetAnimations[AnimationsListBox.SelectedIndex].GetFrames[FramesListBox.SelectedIndex].Frame.bottom;
+
+                // Set The Current Anchor
+                numUpDown_AnchorX.Value = AnimationsEditor.GetAnimations[AnimationsListBox.SelectedIndex].GetFrames[FramesListBox.SelectedIndex].Anchor.X;
+                numUpDown_AnchorY.Value = AnimationsEditor.GetAnimations[AnimationsListBox.SelectedIndex].GetFrames[FramesListBox.SelectedIndex].Anchor.Y;
+
+                // Set The Current Trigger
+                ComboBox_Triggers.SelectedIndex = AnimationsEditor.GetAnimations[AnimationsListBox.SelectedIndex].GetFrames[FramesListBox.SelectedIndex].Trigger;
             }
         }
 
         private void AnimationsListBox_SelectedIndexChanged(object sender, EventArgs e)
         {
-            FramesListBox.SelectedIndex = -1;
-            FramesListBox.Items.Clear();
-            if (AnimationsListBox.SelectedIndex >= 0)
-            {
-                CIndex Index = new CIndex();
-
-                Index._nType = 1;
-                for ( Index._nId = 0; Index._nId < AnimationsEditor.GetAnimations[AnimationsListBox.SelectedIndex].GetTotalFrames; ++Index._nId )
+                FramesListBox.SelectedIndex = -1;
+                FramesListBox.Items.Clear();
+                if (AnimationsListBox.SelectedIndex >= 0)
                 {
-                    FramesListBox.Items.Add(Index);
+                    CIndex Index = new CIndex();
 
-                    if (Index._nId == 0)
-                        FramesListBox.SelectedIndex = 0;
+                    // Animation Name
+                    TextBox_AnimationTitle.Text = AnimationsEditor.GetAnimations[AnimationsListBox.SelectedIndex].AnimationName;
+
+                    // Animation Time
+                    //numUpDown_AnimationTime.Value = Convert.ToDecimal(AnimationsEditor.GetAnimations[AnimationsListBox.SelectedIndex].TimeBetweenFrames);
+
+                    Index._nType = 1;
+                    for (Index._nId = 0; Index._nId < AnimationsEditor.GetAnimations[AnimationsListBox.SelectedIndex].GetTotalFrames; ++Index._nId)
+                    {
+                        FramesListBox.Items.Add(Index);
+
+                        if (Index._nId == 0)
+                            FramesListBox.SelectedIndex = 0;
+                    }
+
+                    if (FramesListBox.SelectedIndex == 0)
+                    {
+                        HitRectsListBox.SelectedIndex = -1;
+                        HitRectsListBox.Items.Clear();
+                        CollisionRectsListBox.SelectedIndex = -1;
+                        CollisionRectsListBox.Items.Clear();
+
+                        Index._nType = 2;
+                        for (Index._nId = 0; Index._nId < AnimationsEditor.GetAnimations[AnimationsListBox.SelectedIndex].GetFrames[FramesListBox.SelectedIndex].GetTotalHitRECTS; ++Index._nId)
+                            HitRectsListBox.Items.Add(Index);
+
+                        Index._nType = 3;
+                        for (Index._nId = 0; Index._nId < AnimationsEditor.GetAnimations[AnimationsListBox.SelectedIndex].GetFrames[FramesListBox.SelectedIndex].GetTotalCollisionRECTS; ++Index._nId)
+                            CollisionRectsListBox.Items.Add(Index);
+
+                        FramesListBox.SelectedIndex = -1;
+                    }
                 }
-
-                if (FramesListBox.SelectedIndex == 0)
-                {
-                    HitRectsListBox.SelectedIndex = -1;
-                    HitRectsListBox.Items.Clear();
-                    CollisionRectsListBox.SelectedIndex = -1;
-                    CollisionRectsListBox.Items.Clear();
-
-                    Index._nType = 2;
-                    for ( Index._nId = 0; Index._nId < AnimationsEditor.GetAnimations[AnimationsListBox.SelectedIndex].GetFrames[FramesListBox.SelectedIndex].GetTotalHitRECTS; ++Index._nId )
-                        HitRectsListBox.Items.Add(Index);
-
-                    Index._nType = 3;
-                    for ( Index._nId = 0; Index._nId < AnimationsEditor.GetAnimations[AnimationsListBox.SelectedIndex].GetFrames[FramesListBox.SelectedIndex].GetTotalCollisionRECTS; ++Index._nId )
-                        CollisionRectsListBox.Items.Add(Index);
-
-                    FramesListBox.SelectedIndex = -1;
-                }
-            }
         }
 
         private void Button_Browse_Click(object sender, EventArgs e)
@@ -812,7 +836,16 @@ namespace Animation
 
             if (DialogResult.OK == dlg.ShowDialog())
             {
+                AnimationsListBox.Items.Clear();
+                AnimationsListBox.SelectedIndex = -1;
+                FramesListBox.Items.Clear();
+                FramesListBox.SelectedIndex = -1;
+                HitRectsListBox.Items.Clear();
+                HitRectsListBox.SelectedIndex = -1;
+                CollisionRectsListBox.Items.Clear();
+                CollisionRectsListBox.SelectedIndex = -1;
                 bAddingComplete = false;
+
                 AnimationsEditor = new CAnimations();
                 BinaryReader _import = new BinaryReader(File.Open(dlg.FileName, FileMode.Open));
 
@@ -911,6 +944,12 @@ namespace Animation
                     TM.ReleaseTexture(spritesheet);
                     spritesheet = -1;
                 }
+
+
+                Bitmap bmpImage = new Bitmap(szFilepath + AnimationsEditor.Filename);
+                width = bmpImage.Width;
+                height = bmpImage.Height;
+                CorrectScrolling();
 
                 spritesheet = TM.LoadTexture(szFilepath + AnimationsEditor.Filename, 0);
                 TextBox_AnimationTitle.Text = AnimationsEditor.Filename;
@@ -1185,12 +1224,22 @@ namespace Animation
                 {
                     TM.ReleaseTexture(spritesheet);
                     spritesheet = -1;
-                }
+                } 
+                
+                Bitmap bmpImage = new Bitmap(szFilepath+AnimationsEditor.Filename);
+                width = bmpImage.Width;
+                height = bmpImage.Height;
+                CorrectScrolling();
 
                 spritesheet = TM.LoadTexture(szFilepath + AnimationsEditor.Filename, 0);
                 TextBox_AnimationTitle.Text = AnimationsEditor.Filename;
 
             }
+        }
+
+        private void SplitContainer2_Panel1_Paint(object sender, PaintEventArgs e)
+        {
+
         }
     }
 }
