@@ -245,7 +245,7 @@ void CSinglePlayerState::Render(void)
 {
 	this->m_pTM->Draw(this->m_nBackgroundImageID,(int)this->m_tBGOffset.fX,(int)this->m_tBGOffset.fY);
 
-	m_nAnimation.Render( 400, 450 );
+	m_nAnimation.Render( 400 - CCamera::GetInstance()->GetCameraRect().left, 450 - CCamera::GetInstance()->GetCameraRect().top);
 	//////////////////////////////
 	// TEMP
 	//////////////////////////////
