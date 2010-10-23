@@ -45,9 +45,7 @@ private:
 	bool	m_bMute;
 
 	// Selection On
-	bool	m_bMusicSelected;
-	bool	m_bSFXSelected;
-	bool	m_bSelected;
+	bool	m_bSelection;
 
 
 	COptionsMenuState(void);
