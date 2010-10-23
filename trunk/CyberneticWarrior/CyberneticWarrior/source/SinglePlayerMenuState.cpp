@@ -10,8 +10,7 @@
 
 #include "CMainMenuState.h"
 //#include "CSinglePlayerState.h"
-#include "SaveState.h"
-#include "CLoadState.h"
+#include "CGameProfiler.h"
 
 #include "CEventSystem.h"
 #include "CEvent.h"
@@ -78,17 +77,18 @@ bool	CSinglePlayerMenuState::Input(void)
 		{
 		case this->NEW_GAME:
 			//this->m_pWM->Stop(this->m_nBGMusic);
-			CSaveState::GetInstance()->SetNewGame(1);
-			CSaveState::GetInstance()->SetDelete(0);
-			CStackStateMachine::GetInstance()->Push_Back(CSaveState::GetInstance());
+			CGameProfiler::GetInstance()->SetNewGame(1);
+			CGameProfiler::GetInstance()->SetManagement(SAVE_GAME);
+			CStackStateMachine::GetInstance()->Push_Back(CGameProfiler::GetInstance());
 			break;
 		case this->LOAD:
-			CStackStateMachine::GetInstance()->Push_Back(CLoadState::GetInstance());
+			CGameProfiler::GetInstance()->SetManagement(LOAD_GAME);
+			CStackStateMachine::GetInstance()->Push_Back(CGameProfiler::GetInstance());
 			break;
 		case this->DELETE_PROF:
-			CSaveState::GetInstance()->SetNewGame(1);
-			CSaveState::GetInstance()->SetDelete(1);
-			CStackStateMachine::GetInstance()->Push_Back(CSaveState::GetInstance());
+			CGameProfiler::GetInstance()->SetNewGame(1);
+			CGameProfiler::GetInstance()->SetManagement(DELETE_PROFILE);
+			CStackStateMachine::GetInstance()->Push_Back(CGameProfiler::GetInstance());
 			break;
 		case this->BACK:
 			//PostQuitMessage(0);
