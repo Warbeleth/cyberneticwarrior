@@ -242,6 +242,10 @@
 				Name="Game States"
 				>
 				<File
+					RelativePath=".\source\CGameProfiler.cpp"
+					>
+				</File>
+				<File
 					RelativePath=".\source\CLoadState.cpp"
 					>
 				</File>
@@ -251,6 +255,10 @@
 				</File>
 				<File
 					RelativePath=".\source\COptionsMenuState.cpp"
+					>
+				</File>
+				<File
+					RelativePath=".\source\CParticleManager.cpp"
 					>
 				</File>
 				<File
@@ -392,10 +400,6 @@
 				Name="Game States"
 				>
 				<File
-					RelativePath=".\source\CGameProfiler.cpp"
-					>
-				</File>
-				<File
 					RelativePath=".\source\CGameProfiler.h"
 					>
 				</File>
@@ -409,6 +413,10 @@
 				</File>
 				<File
 					RelativePath=".\source\COptionsMenuState.h"
+					>
+				</File>
+				<File
+					RelativePath=".\source\CParticleManager.h"
 					>
 				</File>
 				<File
