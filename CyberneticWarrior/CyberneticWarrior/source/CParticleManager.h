@@ -4,19 +4,20 @@
 // Author: Greg Stefanakis(GS)
 //
 // Purpose:	This will be the game's particle engine.  It will manage getting input from a binary file,
-//			and controls all Emitters and Particles in the game.  Declared in order!
+//			and controls all Emitters and Particles in the game.
 //////////////////////////////////////////////////////////////////////////////////////////////////////
 #ifndef _CPARTICLEMANAGER_H_
 #define _CPARTICLEMANAGER_H_
 
 //Include Files
+#include "SGD Wrappers//CSGD_Direct3D.h"
 #include <vector>
 using std::vector;
 #include <string>
 using std::string;
 #include "SGD Wrappers/SGD_Math.h"
-#include "SGD Wrappers/CSGD_TextureManager.h"
-#include "SGD Wrappers/CSGD_Direct3D.h"
+
+
 
 //////////////////////////////////////////////////////////////////////////////////////////////////////
 //						******************* CLASS - CParticle *******************
@@ -45,18 +46,12 @@ private:
 	tVector2D m_tVel;
 
 	//Color
-	DWORD m_dwColor;
-	float m_fRedModifier;
-	float m_fGreenModifier;
-	float m_fBlueModifier;
-	
+	/*D3DXCOLOR m_tColor;
+	D3DXCOLOR m_tColorModifier;
+	*/
 	//Texture Dimensions
 	float m_fWidth;
 	float m_fHeight;
-
-	//Wrapper Singletons
-	CSGD_TextureManager* TM;
-	CSGD_Direct3D* D3D;
 
 public:
 	//////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -83,24 +78,10 @@ public:
 	//////////////////////////////////////////////////////////////////////////////////////////////////////
 	// Function: “Render”
 	//
-	// Purpose: This function will render the particle to the screen.  Emitter will pass the int through
-	//			the function call.
+	// Purpose: This function will render the particle to the screen.
 	//////////////////////////////////////////////////////////////////////////////////////////////////////
-	void Render(int nImageID);
-
-	//////////////////////////////////////////////////////////////////////////////////////////////////////
-	// Function: “SetParticleInfo”
-	//
-	// Purpose: This function will act as a big modifier and set all the particle info
-	//////////////////////////////////////////////////////////////////////////////////////////////////////
-	void SetParticleInfo( float fAlpha, float fAlphaMod, float fScale, float fScaleMod, float fRotation, 
-							float fRotationMod, float fLifetime, float fAge, float fPosX, float fPosY, 
-							float fOriginX, float fOriginY, float fVelX, float fVelY, char cRed, 
-							float fRedMod, char cGreen, float fGreenMod, char cBlue, float fBlueMod, 
-							float fWidth, float fHeight);
+	void Render();
 };
-
-
 //////////////////////////////////////////////////////////////////////////////////////////////////////
 //						******************* CLASS - CEmitter *******************
 //////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -135,10 +116,6 @@ private:
 	//Destination Blend Mode
 	int m_nDestinationBlend;
 
-	//Wrapper Singletons
-	CSGD_TextureManager* TM;
-	CSGD_Direct3D* D3D;
-
 public:
 
 	//////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -168,21 +145,8 @@ public:
 	// Purpose: This function will call render on all of it's particles.
 	//////////////////////////////////////////////////////////////////////////////////////////////////////
 	void Render();
-
-	//////////////////////////////////////////////////////////////////////////////////////////////////////
-	// Function: “SetEmitterValues”
-	//
-	// Purpose: This function will send all the information gathered from the binary load to the emitter.
-	//////////////////////////////////////////////////////////////////////////////////////////////////////
-	void SetEmitterValues( string szParticleFilename, int nNumParticles, float fEmitterLifetime, int nSourceBlend, int nDestBlend);
-	
-	///////////////////////////////////////////////////////////////////////////////////////////////////////
-	// Function: Accessors 
-	// 
-	// Purpose: Accesses the specified type. 
-	///////////////////////////////////////////////////////////////////////////////////////////////////////
-	vector<CParticle> GetDeadParticleVector(){ return m_vDeadParticles; }
 };
+
 
 //////////////////////////////////////////////////////////////////////////////////////////////////////
 //						******************* CLASS - CParticleManager *******************
@@ -193,23 +157,21 @@ private:
 	//Store all the emitters
 	vector<CEmitter> m_vEmitters;
 
-	// An instance to this class.
-	static CParticleManager m_Instance;
-
-	//Singleton:  Hide these functions
-	CParticleManager();
-	~CParticleManager();
-	CParticleManager( CParticleManager &copy );
-	CParticleManager &operator=( CParticleManager &assign );
-
 public:
 
 	//////////////////////////////////////////////////////////////////////////////////////////////////////
-	// Function: “GetInstance”
+	// Function: “CParticleManager”
 	//
-	// Purpose: This function will return the singleton instance of this class
+	// Purpose: The constructor will initialize default values.
 	//////////////////////////////////////////////////////////////////////////////////////////////////////
-	static CParticleManager *GetInstance();
+	CParticleManager();
+
+	//////////////////////////////////////////////////////////////////////////////////////////////////////
+	// Function: “~CParticleManager”
+	//
+	// Purpose: The destructor will clear up any memory that was created in the class's lifetime.
+	//////////////////////////////////////////////////////////////////////////////////////////////////////
+	~CParticleManager();
 
 	//////////////////////////////////////////////////////////////////////////////////////////////////////
 	// Function: “Update”
@@ -229,10 +191,11 @@ public:
 	// Function: “LoadEffect”
 	//
 	// Purpose: This function will create a new emitter, load in binary information, and put all important
-	//			values into the emitter and particles.  It will then return a boolean: true for successful load.
+	//			values into the emitter and particles.  It will return a boolean: true for successful load.
 	//////////////////////////////////////////////////////////////////////////////////////////////////////
 	bool LoadEffect( char* szEffectFileName );
 
 };
+
 
 #endif
