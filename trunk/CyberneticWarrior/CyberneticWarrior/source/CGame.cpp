@@ -22,7 +22,8 @@
 #include "CMainMenuState.h"
 #include "CSinglePlayerState.h"
 #include "CSinglePlayerMenuState.h"
-#include "CGameProfiler.h"
+#include "SaveState.h"
+#include "CLoadState.h"
 #include "CPauseMenuState.h"
 #include "COptionsMenuState.h"
 
@@ -143,7 +144,7 @@ void CGame::Initialize(HWND hWnd, HINSTANCE hInstance,
 	this->m_nScreenHeight = nScreenHeight;
 
 
-	m_nCodeProfilerID = this->m_pCP->CreateFunction("MainGame");
+	m_nCodeProfilerID = this->m_pCP->CreateFunction("Update");
 
 	this->m_pSSM->ChangeState(CMainMenuState::GetInstance());
 	
@@ -194,7 +195,8 @@ void CGame::ShutDown(void)
 
 	CMainMenuState::GetInstance()->DeleteInstance();
 	CSinglePlayerState::GetInstance()->DeleteInstance();
-	CGameProfiler::GetInstance()->DeleteInstance();
+	CSaveState::GetInstance()->DeleteInstance();
+	CLoadState::GetInstance()->DeleteInstance();
 	CSinglePlayerMenuState::GetInstance()->DeleteInstance();
 	CPauseMenuState::GetInstance()->DeleteInstance();
 	COptionsMenuState::GetInstance()->DeleteInstance();
@@ -237,8 +239,6 @@ void CGame::ShutDown(void)
 ////////////////////////////////////////////////////////////////////////////////////
 bool CGame::Main(void)
 {
-	this->m_pCP->FunctionStart(this->m_nCodeProfilerID);
-
 
 	DWORD dwStartTimeStamp = GetTickCount();
 
@@ -263,8 +263,6 @@ bool CGame::Main(void)
 	this->Update(this->m_fElapsedTime);
 
 	this->Draw();
-
-	this->m_pCP->FuntionEnd(this->m_nCodeProfilerID);
 
 	return true;
 }
@@ -297,12 +295,14 @@ bool CGame::Input(void)
 ////////////////////////////////////////////////////////////////////////////////////
 void CGame::Update(float fElapsedTime)
 {
+	this->m_pCP->FunctionStart(this->m_nCodeProfilerID);
 	
 	this->m_pWM->Update();
 	this->m_pSSM->UpdateState(fElapsedTime);
 	this->m_pES->ProcessEvents();
 	this->m_pMS->ProcessMessages();
 
+	this->m_pCP->FuntionEnd(this->m_nCodeProfilerID);
 }
 
 ////////////////////////////////////////////////////////////////////////////////////
