@@ -15,7 +15,6 @@ namespace SGP1___Particle_Editor
     public partial class Form1 : Form
     {
         enum eSpawnRange { ORIGIN = 0, CIRCLE, LINE, RECT };
-        string SavePath = @"C:\Users\Greg\Desktop\ParticleSave.txt";
 
         //Particle Emitter
         class CEmitter
@@ -735,6 +734,7 @@ namespace SGP1___Particle_Editor
         }
 
         //Emitter Number of Particles via numericUpDown box
+        //This is what creates new particles and assignes their values
         private void numericUpDown1_ValueChanged(object sender, EventArgs e)
         {
             //Check if i accidentally manually set it to an invalid number
@@ -1636,230 +1636,232 @@ namespace SGP1___Particle_Editor
             fs.Write(info, 0, info.Length);
         }
 
-        //Save as text
+
+        //Save as text (obsolete)
         private void textToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            // Delete the file if it exists.
-            if (File.Exists(SavePath))
-            {
-                File.Delete(SavePath);
-            }
+            //// Delete the file if it exists.
+            //if (File.Exists(SavePath))
+            //{
+            //    File.Delete(SavePath);
+            //}
 
-            //Create the file.
-            using (FileStream fs = File.Create(SavePath))
-            {
-                //Particle Effect Name
-                AddText(fs, "ParticleEffectName=");
-                AddText(fs, textBox1.Text);
-                AddText(fs, "\n");
+            ////Create the file.
+            //using (FileStream fs = File.Create(SavePath))
+            //{
+            //    //Particle Effect Name
+            //    AddText(fs, "ParticleEffectName=");
+            //    AddText(fs, textBox1.Text);
+            //    AddText(fs, "\n");
 
-                //Emitter Lifetime
-                AddText(fs, "EmitterLifetime=");
-                AddText(fs, numericUpDown3.Value.ToString());
-                AddText(fs, "\n");
+            //    //Emitter Lifetime
+            //    AddText(fs, "EmitterLifetime=");
+            //    AddText(fs, numericUpDown3.Value.ToString());
+            //    AddText(fs, "\n");
 
-                //Emitter Looping Boolean
-                AddText(fs, "EmitterLooping=");
-                AddText(fs, checkBox1.Checked.ToString());
-                AddText(fs, "\n");
+            //    //Emitter Looping Boolean
+            //    AddText(fs, "EmitterLooping=");
+            //    AddText(fs, checkBox1.Checked.ToString());
+            //    AddText(fs, "\n");
 
-                //Emitter Spawn Range
-                //Single Origin
-                AddText(fs, "SingleOrigin=");
-                AddText(fs, radioButton1.Checked.ToString());
-                AddText(fs, "\n");
+            //    //Emitter Spawn Range
+            //    //Single Origin
+            //    AddText(fs, "SingleOrigin=");
+            //    AddText(fs, radioButton1.Checked.ToString());
+            //    AddText(fs, "\n");
 
-                //Circle
-                AddText(fs, "Circle=");
-                AddText(fs, radioButton4.Checked.ToString());
-                AddText(fs, "\n");
+            //    //Circle
+            //    AddText(fs, "Circle=");
+            //    AddText(fs, radioButton4.Checked.ToString());
+            //    AddText(fs, "\n");
 
-                AddText(fs, "CircleRadius=");
-                AddText(fs, numericUpDown14.Value.ToString());
-                AddText(fs, "\n");
+            //    AddText(fs, "CircleRadius=");
+            //    AddText(fs, numericUpDown14.Value.ToString());
+            //    AddText(fs, "\n");
 
-                //Rectangle
-                AddText(fs, "Rectangle=");
-                AddText(fs, radioButton2.Checked.ToString());
-                AddText(fs, "\n");
+            //    //Rectangle
+            //    AddText(fs, "Rectangle=");
+            //    AddText(fs, radioButton2.Checked.ToString());
+            //    AddText(fs, "\n");
 
-                AddText(fs, "RectangleWidth=");
-                AddText(fs, numericUpDown21.Value.ToString());
-                AddText(fs, "\n");
+            //    AddText(fs, "RectangleWidth=");
+            //    AddText(fs, numericUpDown21.Value.ToString());
+            //    AddText(fs, "\n");
 
-                AddText(fs, "RectangleHeight=");
-                AddText(fs, numericUpDown22.Value.ToString());
-                AddText(fs, "\n");
+            //    AddText(fs, "RectangleHeight=");
+            //    AddText(fs, numericUpDown22.Value.ToString());
+            //    AddText(fs, "\n");
 
-                //Line
-                AddText(fs, "Line=");
-                AddText(fs, radioButton3.Checked.ToString());
-                AddText(fs, "\n");
+            //    //Line
+            //    AddText(fs, "Line=");
+            //    AddText(fs, radioButton3.Checked.ToString());
+            //    AddText(fs, "\n");
 
-                AddText(fs, "LineLength=");
-                AddText(fs, numericUpDown23.Value.ToString());
-                AddText(fs, "\n");
+            //    AddText(fs, "LineLength=");
+            //    AddText(fs, numericUpDown23.Value.ToString());
+            //    AddText(fs, "\n");
 
-                //Texture Size
-                AddText(fs, "TextureWidth=");
-                AddText(fs, numericUpDown7.Value.ToString());
-                AddText(fs, "\n");
+            //    //Texture Size
+            //    AddText(fs, "TextureWidth=");
+            //    AddText(fs, numericUpDown7.Value.ToString());
+            //    AddText(fs, "\n");
 
-                AddText(fs, "TextureHeight=");
-                AddText(fs, numericUpDown10.Value.ToString());
-                AddText(fs, "\n");
+            //    AddText(fs, "TextureHeight=");
+            //    AddText(fs, numericUpDown10.Value.ToString());
+            //    AddText(fs, "\n");
 
-                //Spread Angle
-                AddText(fs, "SpreadAngle=");
-                AddText(fs, numericUpDown2.Value.ToString());
-                AddText(fs, "\n");
+            //    //Spread Angle
+            //    AddText(fs, "SpreadAngle=");
+            //    AddText(fs, numericUpDown2.Value.ToString());
+            //    AddText(fs, "\n");
 
-                //Direction numericUpDown12
-                AddText(fs, "Direction=");
-                AddText(fs, numericUpDown12.Value.ToString());
-                AddText(fs, "\n");
+            //    //Direction numericUpDown12
+            //    AddText(fs, "Direction=");
+            //    AddText(fs, numericUpDown12.Value.ToString());
+            //    AddText(fs, "\n");
 
-                //Number of Particles
-                AddText(fs, "NumParticles=");
-                AddText(fs, numericUpDown1.Value.ToString());
-                AddText(fs, "\n");
+            //    //Number of Particles
+            //    AddText(fs, "NumParticles=");
+            //    AddText(fs, numericUpDown1.Value.ToString());
+            //    AddText(fs, "\n");
 
-                //Source Blend
-                AddText(fs, "SourceBlend=");
-                AddText(fs, comboBox1.SelectedItem.ToString());
-                AddText(fs, "\n");
+            //    //Source Blend
+            //    AddText(fs, "SourceBlend=");
+            //    AddText(fs, comboBox1.SelectedItem.ToString());
+            //    AddText(fs, "\n");
 
-                //Destination Blend
-                AddText(fs, "DestinationBlend=");
-                AddText(fs, comboBox2.SelectedItem.ToString());
-                AddText(fs, "\n");
+            //    //Destination Blend
+            //    AddText(fs, "DestinationBlend=");
+            //    AddText(fs, comboBox2.SelectedItem.ToString());
+            //    AddText(fs, "\n");
 
-                //Now Particle Stuff
-                //Particle Texture name
-                AddText(fs, "TextureName=");
-                AddText(fs, textBox2.Text);
-                AddText(fs, "\n");
+            //    //Now Particle Stuff
+            //    //Particle Texture name
+            //    AddText(fs, "TextureName=");
+            //    AddText(fs, textBox2.Text);
+            //    AddText(fs, "\n");
 
-                //Lifetime
-                AddText(fs, "MinLifetime=");
-                AddText(fs, numericUpDown15.Value.ToString());
-                AddText(fs, "\n");
+            //    //Lifetime
+            //    AddText(fs, "MinLifetime=");
+            //    AddText(fs, numericUpDown15.Value.ToString());
+            //    AddText(fs, "\n");
 
-                AddText(fs, "MaxLifetime=");
-                AddText(fs, numericUpDown6.Value.ToString());
-                AddText(fs, "\n");
+            //    AddText(fs, "MaxLifetime=");
+            //    AddText(fs, numericUpDown6.Value.ToString());
+            //    AddText(fs, "\n");
 
-                AddText(fs, "Time=");
-                AddText(fs, numericUpDown24.Value.ToString());
-                AddText(fs, "\n");
+            //    AddText(fs, "Time=");
+            //    AddText(fs, numericUpDown24.Value.ToString());
+            //    AddText(fs, "\n");
 
-                //Lifetime checkbox
-                AddText(fs, "LifeTimeRandom=");
-                AddText(fs, checkBox4.Checked.ToString());
-                AddText(fs, "\n");
+            //    //Lifetime checkbox
+            //    AddText(fs, "LifeTimeRandom=");
+            //    AddText(fs, checkBox4.Checked.ToString());
+            //    AddText(fs, "\n");
 
-                //Colors
-                AddText(fs, "StartColor=");
-                AddText(fs, button7.BackColor.R.ToString());
-                AddText(fs, " ");
-                AddText(fs, button7.BackColor.G.ToString());
-                AddText(fs, " ");
-                AddText(fs, button7.BackColor.B.ToString());
-                AddText(fs, "\n");
+            //    //Colors
+            //    AddText(fs, "StartColor=");
+            //    AddText(fs, button7.BackColor.R.ToString());
+            //    AddText(fs, " ");
+            //    AddText(fs, button7.BackColor.G.ToString());
+            //    AddText(fs, " ");
+            //    AddText(fs, button7.BackColor.B.ToString());
+            //    AddText(fs, "\n");
 
-                AddText(fs, "EndColor=");
-                AddText(fs, button8.BackColor.R.ToString());
-                AddText(fs, " ");
-                AddText(fs, button8.BackColor.G.ToString());
-                AddText(fs, " ");
-                AddText(fs, button8.BackColor.B.ToString());
-                AddText(fs, "\n");
+            //    AddText(fs, "EndColor=");
+            //    AddText(fs, button8.BackColor.R.ToString());
+            //    AddText(fs, " ");
+            //    AddText(fs, button8.BackColor.G.ToString());
+            //    AddText(fs, " ");
+            //    AddText(fs, button8.BackColor.B.ToString());
+            //    AddText(fs, "\n");
 
-                //Interp Color Checkbox
-                AddText(fs, "InterpColor=");
-                AddText(fs, checkBox7.Checked.ToString());
-                AddText(fs, "\n");
+            //    //Interp Color Checkbox
+            //    AddText(fs, "InterpColor=");
+            //    AddText(fs, checkBox7.Checked.ToString());
+            //    AddText(fs, "\n");
 
-                //Randomize Color checkbox 
-                AddText(fs, "RandomizeColor=");
-                AddText(fs, checkBox6.Checked.ToString());
-                AddText(fs, "\n");
+            //    //Randomize Color checkbox 
+            //    AddText(fs, "RandomizeColor=");
+            //    AddText(fs, checkBox6.Checked.ToString());
+            //    AddText(fs, "\n");
 
-                //Alpha
-                AddText(fs, "AlphaStart=");
-                AddText(fs, numericUpDown8.Value.ToString());
-                AddText(fs, "\n");
+            //    //Alpha
+            //    AddText(fs, "AlphaStart=");
+            //    AddText(fs, numericUpDown8.Value.ToString());
+            //    AddText(fs, "\n");
 
-                AddText(fs, "AlphaEnd=");
-                AddText(fs, numericUpDown9.Value.ToString());
-                AddText(fs, "\n");
+            //    AddText(fs, "AlphaEnd=");
+            //    AddText(fs, numericUpDown9.Value.ToString());
+            //    AddText(fs, "\n");
 
-                //Interp Alpha Checkbox
-                AddText(fs, "InterpAlpha=");
-                AddText(fs, checkBox8.Checked.ToString());
-                AddText(fs, "\n");
+            //    //Interp Alpha Checkbox
+            //    AddText(fs, "InterpAlpha=");
+            //    AddText(fs, checkBox8.Checked.ToString());
+            //    AddText(fs, "\n");
 
-                //Randomize Alpha Checkbox
-                AddText(fs, "RandomizeAlpha=");
-                AddText(fs, checkBox12.Checked.ToString());
-                AddText(fs, "\n");
+            //    //Randomize Alpha Checkbox
+            //    AddText(fs, "RandomizeAlpha=");
+            //    AddText(fs, checkBox12.Checked.ToString());
+            //    AddText(fs, "\n");
 
-                //Scale 
-                AddText(fs, "MinScale=");
-                AddText(fs, numericUpDown4.Value.ToString());
-                AddText(fs, "\n");
+            //    //Scale 
+            //    AddText(fs, "MinScale=");
+            //    AddText(fs, numericUpDown4.Value.ToString());
+            //    AddText(fs, "\n");
 
-                AddText(fs, "MaxScale=");
-                AddText(fs, numericUpDown5.Value.ToString());
-                AddText(fs, "\n");
+            //    AddText(fs, "MaxScale=");
+            //    AddText(fs, numericUpDown5.Value.ToString());
+            //    AddText(fs, "\n");
 
-                //Interp Scale Checkbox
-                AddText(fs, "InterpScale=");
-                AddText(fs, checkBox5.Checked.ToString());
-                AddText(fs, "\n");
+            //    //Interp Scale Checkbox
+            //    AddText(fs, "InterpScale=");
+            //    AddText(fs, checkBox5.Checked.ToString());
+            //    AddText(fs, "\n");
 
-                //Randomize Scale Checkbox
-                AddText(fs, "RandomizeScale=");
-                AddText(fs, checkBox3.Checked.ToString());
-                AddText(fs, "\n");
+            //    //Randomize Scale Checkbox
+            //    AddText(fs, "RandomizeScale=");
+            //    AddText(fs, checkBox3.Checked.ToString());
+            //    AddText(fs, "\n");
 
-                //Rotation
-                AddText(fs, "MinRotation=");
-                AddText(fs, numericUpDown17.Value.ToString());
-                AddText(fs, "\n");
+            //    //Rotation
+            //    AddText(fs, "MinRotation=");
+            //    AddText(fs, numericUpDown17.Value.ToString());
+            //    AddText(fs, "\n");
 
-                AddText(fs, "MaxRotation=");
-                AddText(fs, numericUpDown16.Value.ToString());
-                AddText(fs, "\n");
+            //    AddText(fs, "MaxRotation=");
+            //    AddText(fs, numericUpDown16.Value.ToString());
+            //    AddText(fs, "\n");
 
-                AddText(fs, "Rotation=");
-                AddText(fs, numericUpDown26.Value.ToString());
-                AddText(fs, "\n");
+            //    AddText(fs, "Rotation=");
+            //    AddText(fs, numericUpDown26.Value.ToString());
+            //    AddText(fs, "\n");
 
-                //Rotation Randomize Checkbox
-                AddText(fs, "RandomizeScale=");
-                AddText(fs, checkBox2.Checked.ToString());
-                AddText(fs, "\n");
+            //    //Rotation Randomize Checkbox
+            //    AddText(fs, "RandomizeScale=");
+            //    AddText(fs, checkBox2.Checked.ToString());
+            //    AddText(fs, "\n");
 
-                //Particle Speed
-                AddText(fs, "MinSpeed=");
-                AddText(fs, numericUpDown11.Value.ToString());
-                AddText(fs, "\n");
+            //    //Particle Speed
+            //    AddText(fs, "MinSpeed=");
+            //    AddText(fs, numericUpDown11.Value.ToString());
+            //    AddText(fs, "\n");
 
-                AddText(fs, "MaxSpeed=");
-                AddText(fs, numericUpDown13.Value.ToString());
-                AddText(fs, "\n");
+            //    AddText(fs, "MaxSpeed=");
+            //    AddText(fs, numericUpDown13.Value.ToString());
+            //    AddText(fs, "\n");
 
-                AddText(fs, "Speed=");
-                AddText(fs, numericUpDown25.Value.ToString());
-                AddText(fs, "\n");
+            //    AddText(fs, "Speed=");
+            //    AddText(fs, numericUpDown25.Value.ToString());
+            //    AddText(fs, "\n");
 
-                //Randomize Speed Checkbox
-                AddText(fs, "RandomizeSpeed=");
-                AddText(fs, checkBox11.Checked.ToString());
-                AddText(fs, "\n");
-            }
+            //    //Randomize Speed Checkbox
+            //    AddText(fs, "RandomizeSpeed=");
+            //    AddText(fs, checkBox11.Checked.ToString());
+            //    AddText(fs, "\n");
+            //}
         }
+
 
         //File Save ( Binary )
         private void saveToolStripMenuItem_Click(object sender, EventArgs e)
