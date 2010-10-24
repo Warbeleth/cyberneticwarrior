@@ -1,4 +1,7 @@
+#include "PrecompiledHeader.h"
+
 #include "CFLCLMech.h"
+#include "CCamera.h"
 
 CFLCLMech::CFLCLMech()
 {

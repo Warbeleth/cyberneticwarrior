@@ -13,7 +13,7 @@
 #define _CANIMATIONLOAD_H_
 
 // My Includes
-#include <windows.h>
+#include <d3d9.h>
 #include <vector>
 using std::vector;
 #include <string>

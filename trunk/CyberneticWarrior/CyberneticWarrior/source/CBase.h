@@ -10,7 +10,7 @@
 #ifndef CBASE_H_
 #define CBASE_H_
 
-#include "SGD Wrappers/CSGD_Direct3D.h"
+#include <d3d9.h>
 #include "IBaseInterface.h"
 #include "SGD Wrappers/SGD_Math.h"
 #include <vector>

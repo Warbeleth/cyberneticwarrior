@@ -8,7 +8,6 @@
 //			  of states and switches them based on user input.
 //
 //////////////////////////////////////////////////////////////////////////////////////////////////////
-//#include "SGD Wrappers/CSGD_Direct3D.h"
 #include "CGame.h"
 #include "CStackStateMachine.h"
 #include "CSinglePlayerState.h"

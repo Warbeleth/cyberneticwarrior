@@ -1,11 +1,12 @@
+#include "PrecompiledHeader.h"
+
 #include "CRocket.h"
 #include "CGame.h"
 #include "CSinglePlayerState.h"
-#include "SGD Wrappers/CSGD_TextureManager.h"
-#include "SGD Wrappers/CSGD_DirectInput.h"
-#include "SGD Wrappers/SGD_Math.h"
+#include "CPlayer.h"
 
 //	RocketStates { ROCKET_DIRECTIONAL, ROCKET_HOMING, ROCKET_MAX };
+
 CRocket::CRocket( void )
 {
 	m_fRotation		= 0.0f;

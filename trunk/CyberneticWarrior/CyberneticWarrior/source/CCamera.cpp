@@ -7,6 +7,7 @@
 //	Purpose : Camera class used to update world position for player and game objects.
 //
 //////////////////////////////////////////////////////////////////////////////////////////////////////
+#include "PrecompiledHeader.h"
 #include "CCamera.h"
 #include "CGame.h"
 

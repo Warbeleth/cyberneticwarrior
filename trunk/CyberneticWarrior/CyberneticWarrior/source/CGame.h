@@ -11,23 +11,18 @@
 #ifndef CGAME_H_
 #define CGAME_H_
 
-#include "SGD Wrappers/CSGD_Direct3D.h"
-#include "CMessageSystem.h"
-
+#include <d3d9.h>
+class CBaseMessage;
+class CMessageSystem;
 class CSGD_Direct3D;
 class CSGD_TextureManager;
 class CSGD_WaveManager;
 class CSGD_DirectSound;
 class CSGD_DirectInput;
 class CCodeProfiler;
-
 class CCamera;
-
 class CStackStateMachine;
-
 class CEventSystem;
-//class CMessageSystem;
-
 
 class CGame
 {

@@ -8,16 +8,11 @@
 //			  will be used to continually handle and run the game build.
 //
 //////////////////////////////////////////////////////////////////////////////////////////////////////
+#include "PrecompiledHeader.h"
+
 #include "CGame.h"
-#include "SGD Wrappers/CSGD_TextureManager.h"
-#include "SGD Wrappers/CSGD_DirectInput.h"
-#include "SGD Wrappers/CSGD_DirectSound.h"
-#include "SGD Wrappers/CSGD_WaveManager.h"
-
 #include "CCodeProfiler.h"
-
 #include "CCamera.h"
-
 #include "CStackStateMachine.h"
 #include "CMainMenuState.h"
 #include "CSinglePlayerState.h"
@@ -25,14 +20,13 @@
 #include "CGameProfiler.h"
 #include "CPauseMenuState.h"
 #include "COptionsMenuState.h"
-
 #include "CEventSystem.h"
-
 #include "CObjectFactory.h"
 #include "CObjectManager.h"
 #include "CBase.h"
 #include "CGrapplingHook.h"
 #include "CRocket.h"
+#include "CPlayer.h"
 
 
 // Singleton Instantiation

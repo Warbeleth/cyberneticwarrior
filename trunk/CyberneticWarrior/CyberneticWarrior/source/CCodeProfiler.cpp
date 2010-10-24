@@ -1,6 +1,6 @@
-#include "CCodeProfiler.h"
-#include <fstream>
+#include "PrecompiledHeader.h"
 
+#include "CCodeProfiler.h"
 
 CCodeProfiler*	CCodeProfiler::sm_pCodeProfilerInstance = NULL;
 

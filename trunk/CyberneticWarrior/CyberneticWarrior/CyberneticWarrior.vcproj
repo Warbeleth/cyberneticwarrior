@@ -176,6 +176,15 @@
 				<File
 					RelativePath=".\source\CBase.cpp"
 					>
+					<FileConfiguration
+						Name="Debug|Win32"
+						>
+						<Tool
+							Name="VCCLCompilerTool"
+							UsePrecompiledHeader="2"
+							PrecompiledHeaderThrough="PrecompiledHeader.h"
+						/>
+					</FileConfiguration>
 				</File>
 			</Filter>
 			<Filter
@@ -187,6 +196,15 @@
 					<File
 						RelativePath=".\source\CObjectManager.cpp"
 						>
+						<FileConfiguration
+							Name="Debug|Win32"
+							>
+							<Tool
+								Name="VCCLCompilerTool"
+								UsePrecompiledHeader="0"
+								PrecompiledHeaderThrough="PrecompiledHeader.h"
+							/>
+						</FileConfiguration>
 					</File>
 				</Filter>
 				<Filter
@@ -195,22 +213,67 @@
 					<File
 						RelativePath=".\source\CBaseEnemy.cpp"
 						>
+						<FileConfiguration
+							Name="Debug|Win32"
+							>
+							<Tool
+								Name="VCCLCompilerTool"
+								UsePrecompiledHeader="2"
+								PrecompiledHeaderThrough="PrecompiledHeader.h"
+							/>
+						</FileConfiguration>
 					</File>
 					<File
 						RelativePath=".\source\CFLCLMech.cpp"
 						>
+						<FileConfiguration
+							Name="Debug|Win32"
+							>
+							<Tool
+								Name="VCCLCompilerTool"
+								UsePrecompiledHeader="2"
+								PrecompiledHeaderThrough="PrecompiledHeader.h"
+							/>
+						</FileConfiguration>
 					</File>
 					<File
 						RelativePath=".\source\CIdleEnemy.cpp"
 						>
+						<FileConfiguration
+							Name="Debug|Win32"
+							>
+							<Tool
+								Name="VCCLCompilerTool"
+								UsePrecompiledHeader="2"
+								PrecompiledHeaderThrough="PrecompiledHeader.h"
+							/>
+						</FileConfiguration>
 					</File>
 					<File
 						RelativePath=".\source\CPatrolEnemy.cpp"
 						>
+						<FileConfiguration
+							Name="Debug|Win32"
+							>
+							<Tool
+								Name="VCCLCompilerTool"
+								UsePrecompiledHeader="2"
+								PrecompiledHeaderThrough="PrecompiledHeader.h"
+							/>
+						</FileConfiguration>
 					</File>
 					<File
 						RelativePath=".\source\CPlayer.cpp"
 						>
+						<FileConfiguration
+							Name="Debug|Win32"
+							>
+							<Tool
+								Name="VCCLCompilerTool"
+								UsePrecompiledHeader="2"
+								PrecompiledHeaderThrough="PrecompiledHeader.h"
+							/>
+						</FileConfiguration>
 					</File>
 				</Filter>
 				<Filter
@@ -219,10 +282,28 @@
 					<File
 						RelativePath=".\source\CGrapplingHook.cpp"
 						>
+						<FileConfiguration
+							Name="Debug|Win32"
+							>
+							<Tool
+								Name="VCCLCompilerTool"
+								UsePrecompiledHeader="2"
+								PrecompiledHeaderThrough="PrecompiledHeader.h"
+							/>
+						</FileConfiguration>
 					</File>
 					<File
 						RelativePath=".\source\CRocket.cpp"
 						>
+						<FileConfiguration
+							Name="Debug|Win32"
+							>
+							<Tool
+								Name="VCCLCompilerTool"
+								UsePrecompiledHeader="2"
+								PrecompiledHeaderThrough="PrecompiledHeader.h"
+							/>
+						</FileConfiguration>
 					</File>
 				</Filter>
 				<Filter
@@ -231,10 +312,28 @@
 					<File
 						RelativePath=".\source\CBlock.cpp"
 						>
+						<FileConfiguration
+							Name="Debug|Win32"
+							>
+							<Tool
+								Name="VCCLCompilerTool"
+								UsePrecompiledHeader="2"
+								PrecompiledHeaderThrough="PrecompiledHeader.h"
+							/>
+						</FileConfiguration>
 					</File>
 					<File
 						RelativePath=".\source\CPickUp.cpp"
 						>
+						<FileConfiguration
+							Name="Debug|Win32"
+							>
+							<Tool
+								Name="VCCLCompilerTool"
+								UsePrecompiledHeader="2"
+								PrecompiledHeaderThrough="PrecompiledHeader.h"
+							/>
+						</FileConfiguration>
 					</File>
 				</Filter>
 			</Filter>
@@ -244,30 +343,93 @@
 				<File
 					RelativePath=".\source\CGameProfiler.cpp"
 					>
+					<FileConfiguration
+						Name="Debug|Win32"
+						>
+						<Tool
+							Name="VCCLCompilerTool"
+							UsePrecompiledHeader="2"
+							PrecompiledHeaderThrough="PrecompiledHeader.h"
+						/>
+					</FileConfiguration>
 				</File>
 				<File
 					RelativePath=".\source\CHowToPlayState.cpp"
 					>
+					<FileConfiguration
+						Name="Debug|Win32"
+						>
+						<Tool
+							Name="VCCLCompilerTool"
+							UsePrecompiledHeader="2"
+							PrecompiledHeaderThrough="PrecompiledHeader.h"
+						/>
+					</FileConfiguration>
 				</File>
 				<File
 					RelativePath=".\source\CLoadState.cpp"
 					>
+					<FileConfiguration
+						Name="Debug|Win32"
+						>
+						<Tool
+							Name="VCCLCompilerTool"
+							UsePrecompiledHeader="2"
+							PrecompiledHeaderThrough="PrecompiledHeader.h"
+						/>
+					</FileConfiguration>
 				</File>
 				<File
 					RelativePath=".\source\CMainMenuState.cpp"
 					>
+					<FileConfiguration
+						Name="Debug|Win32"
+						>
+						<Tool
+							Name="VCCLCompilerTool"
+							UsePrecompiledHeader="2"
+							PrecompiledHeaderThrough="PrecompiledHeader.h"
+						/>
+					</FileConfiguration>
 				</File>
 				<File
 					RelativePath=".\source\COptionsMenuState.cpp"
 					>
+					<FileConfiguration
+						Name="Debug|Win32"
+						>
+						<Tool
+							Name="VCCLCompilerTool"
+							UsePrecompiledHeader="2"
+							PrecompiledHeaderThrough="PrecompiledHeader.h"
+						/>
+					</FileConfiguration>
 				</File>
 				<File
 					RelativePath=".\source\CPauseMenuState.cpp"
 					>
+					<FileConfiguration
+						Name="Debug|Win32"
+						>
+						<Tool
+							Name="VCCLCompilerTool"
+							UsePrecompiledHeader="2"
+							PrecompiledHeaderThrough="PrecompiledHeader.h"
+						/>
+					</FileConfiguration>
 				</File>
 				<File
 					RelativePath=".\source\CSinglePlayerState.cpp"
 					>
+					<FileConfiguration
+						Name="Debug|Win32"
+						>
+						<Tool
+							Name="VCCLCompilerTool"
+							UsePrecompiledHeader="2"
+							PrecompiledHeaderThrough="PrecompiledHeader.h"
+						/>
+					</FileConfiguration>
 				</File>
 				<File
 					RelativePath=".\source\SaveState.cpp"
@@ -276,6 +438,15 @@
 				<File
 					RelativePath=".\source\SinglePlayerMenuState.cpp"
 					>
+					<FileConfiguration
+						Name="Debug|Win32"
+						>
+						<Tool
+							Name="VCCLCompilerTool"
+							UsePrecompiledHeader="2"
+							PrecompiledHeaderThrough="PrecompiledHeader.h"
+						/>
+					</FileConfiguration>
 				</File>
 				<Filter
 					Name="Stack State Machine"
@@ -283,6 +454,15 @@
 					<File
 						RelativePath=".\source\CStackStateMachine.cpp"
 						>
+						<FileConfiguration
+							Name="Debug|Win32"
+							>
+							<Tool
+								Name="VCCLCompilerTool"
+								UsePrecompiledHeader="0"
+								PrecompiledHeaderThrough="PrecompiledHeader.h"
+							/>
+						</FileConfiguration>
 					</File>
 				</Filter>
 			</Filter>
@@ -292,26 +472,80 @@
 				<File
 					RelativePath=".\source\CAnimationLoad.cpp"
 					>
+					<FileConfiguration
+						Name="Debug|Win32"
+						>
+						<Tool
+							Name="VCCLCompilerTool"
+							UsePrecompiledHeader="2"
+							PrecompiledHeaderThrough="PrecompiledHeader.h"
+						/>
+					</FileConfiguration>
 				</File>
 				<File
 					RelativePath=".\source\CCamera.cpp"
 					>
+					<FileConfiguration
+						Name="Debug|Win32"
+						>
+						<Tool
+							Name="VCCLCompilerTool"
+							UsePrecompiledHeader="2"
+							PrecompiledHeaderThrough="PrecompiledHeader.h"
+						/>
+					</FileConfiguration>
 				</File>
 				<File
 					RelativePath=".\source\CCodeProfiler.cpp"
 					>
+					<FileConfiguration
+						Name="Debug|Win32"
+						>
+						<Tool
+							Name="VCCLCompilerTool"
+							UsePrecompiledHeader="2"
+							PrecompiledHeaderThrough="PrecompiledHeader.h"
+						/>
+					</FileConfiguration>
 				</File>
 				<File
 					RelativePath=".\source\CFont.cpp"
 					>
+					<FileConfiguration
+						Name="Debug|Win32"
+						>
+						<Tool
+							Name="VCCLCompilerTool"
+							UsePrecompiledHeader="2"
+							PrecompiledHeaderThrough="PrecompiledHeader.h"
+						/>
+					</FileConfiguration>
 				</File>
 				<File
 					RelativePath=".\source\CGame.cpp"
 					>
+					<FileConfiguration
+						Name="Debug|Win32"
+						>
+						<Tool
+							Name="VCCLCompilerTool"
+							UsePrecompiledHeader="2"
+							PrecompiledHeaderThrough="PrecompiledHeader.h"
+						/>
+					</FileConfiguration>
 				</File>
 				<File
 					RelativePath=".\source\WinMain.cpp"
 					>
+					<FileConfiguration
+						Name="Debug|Win32"
+						>
+						<Tool
+							Name="VCCLCompilerTool"
+							UsePrecompiledHeader="1"
+							PrecompiledHeaderThrough="PrecompiledHeader.h"
+						/>
+					</FileConfiguration>
 				</File>
 			</Filter>
 		</Filter>
@@ -320,6 +554,10 @@
 			Filter="h;hpp;hxx;hm;inl;inc;xsd"
 			UniqueIdentifier="{93995380-89BD-4b04-88EB-625FBE52EBFB}"
 			>
+			<File
+				RelativePath=".\source\PrecompiledHeader.h"
+				>
+			</File>
 			<Filter
 				Name="Base Classes"
 				>
@@ -370,6 +608,10 @@
 						RelativePath=".\source\CPatrolEnemy.h"
 						>
 					</File>
+					<File
+						RelativePath=".\source\CPlayer.h"
+						>
+					</File>
 				</Filter>
 				<Filter
 					Name="Equipment"
@@ -392,10 +634,6 @@
 					</File>
 					<File
 						RelativePath=".\source\CPickUp.h"
-						>
-					</File>
-					<File
-						RelativePath=".\source\CPlayer.h"
 						>
 					</File>
 				</Filter>

@@ -11,15 +11,19 @@
 //	Purpose : To Provide a basic Window Framework for the Cybernetic Warrior Game build.
 //
 //////////////////////////////////////////////////////////////////////////////////////////////////////
-#include <windows.h>
-#include "CGame.h"
+// Precompiled Header
 #include "..//resource.h"
+#include "PrecompiledHeader.h"
 
-#define _CRTDBG_MAP_ALLOC
-#include <cstdlib>
-#include <crtdbg.h>
+// My Includes
+#include "CGame.h"
 
-#include "vld.h"
+#if _DEBUG
+	#define _CRTDBG_MAP_ALLOC
+	#include <cstdlib>
+	#include <crtdbg.h>
+	#include "vld.h"
+#endif
 
 const char* g_szWINDOW_CLASS_NAME	=	"Holy Melon";
 
