@@ -6,9 +6,7 @@
 // Purpose: This file primaraly holds the function bodies for CAnimations, but also hold the bodies
 //			for CAnimation, CFrame, and CPoint.
 //////////////////////////////////////////////////////////////////////////////////////////////////////
-// SGD Wrappers
-#include "SGD Wrappers/CSGD_TextureManager.h"
-#include "SGD Wrappers/CSGD_Direct3D.h"
+#include "PrecompiledHeader.h"
 
 // My Includes
 #include <fstream>

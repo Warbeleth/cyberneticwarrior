@@ -1,13 +1,10 @@
-#include "CPlayer.h"
+#include "PrecompiledHeader.h"
 
-#include "SGD Wrappers/CSGD_TextureManager.h"
-#include "SGD Wrappers/CSGD_DirectInput.h"
+#include "CPlayer.h"
 #include "CGame.h"
 #include "CCamera.h"
-
 #include "CSinglePlayerState.h"
-
-
+#include "CGrapplingHook.h"
 
 CPlayer::CPlayer(void)
 {

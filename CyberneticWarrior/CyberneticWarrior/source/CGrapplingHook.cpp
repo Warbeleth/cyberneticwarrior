@@ -1,10 +1,10 @@
+#include "PrecompiledHeader.h"
+
 #include "CGrapplingHook.h"
 
-#include "SGD Wrappers/CSGD_TextureManager.h"
-#include "SGD Wrappers/CSGD_DirectInput.h"
 #include "CGame.h"
 #include "CCamera.h"
-
+#include "CPlayer.h"
 #include "CSinglePlayerState.h"
 
 CGrapplingHook::CGrapplingHook(void)

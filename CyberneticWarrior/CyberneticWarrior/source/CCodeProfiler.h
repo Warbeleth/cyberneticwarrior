@@ -1,7 +1,7 @@
 #ifndef CODEPROFILER_H_
 #define CODEPROFILER_H_
 
-#include "SGD Wrappers/CSGD_Direct3D.h"
+class CSGD_Direct3D;
 #include <vector>
 
 class CCodeProfiler

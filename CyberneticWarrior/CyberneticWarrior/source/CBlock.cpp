@@ -1,5 +1,6 @@
+#include "PrecompiledHeader.h"
+
 #include "CBlock.h"
-#include "SGD Wrappers/CSGD_TextureManager.h"
 //#include "CCamera.h"
 
 CBlock::CBlock(void)

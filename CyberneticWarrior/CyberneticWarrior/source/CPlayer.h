@@ -2,14 +2,9 @@
 #define PLAYER_H_
 
 #include "CBase.h"
-#include "CEvent.h"
 #include "IListener.h"
 
-#include "SGD Wrappers/SGD_Math.h"
-
-// temp
-#include "CGrapplingHook.h"
-
+class CEvent;
 class CGrapplingHook;
 
 

@@ -7,8 +7,9 @@
 //	Purpose : Parent base class definitions for all In-Game objects.
 //
 //////////////////////////////////////////////////////////////////////////////////////////////////////
+#include "PrecompiledHeader.h"
+
 #include "CBase.h"
-#include "SGD Wrappers/CSGD_TextureManager.h"
 #include "CCamera.h"
 
 

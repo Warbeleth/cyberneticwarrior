@@ -9,15 +9,6 @@
 
 namespace SGP_Map_Editor
 {
-
-	//class RECT
-	//{
-	//    int left;
-	//    int top;
-	//    int right;
-	//    int bottom;
-	//};
-
 	enum Enemies { Turret_Gun = 0, Turret_Frost, Turret_Fire, Turret_Multi,
 		Drone_Attack, Drone_Seeker, Drone_Heavy,
 		Ground_Mech, Ground_Siege, Ground_FLCL,

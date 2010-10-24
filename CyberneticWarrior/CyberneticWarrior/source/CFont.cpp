@@ -5,14 +5,10 @@
 //
 // Purpose: Holds the funciton bodies for the CFont , CLetter, CDelay, and CScrolling classes.
 //////////////////////////////////////////////////////////////////////////////////////////////////////
-// SGD Wrappers
-#include "SGD Wrappers/CSGD_TextureManager.h"
-#include "SGD Wrappers/CSGD_DirectInput.h"
+#include "PrecompiledHeader.h"
 
 // My Includes
 #include "CFont.h"
-#include <fstream>
-using namespace std;
 
 //////////////////////////////////////////////////////////////////////////////////////////////////////
 // Function: “CScrolling”
@@ -111,10 +107,10 @@ bool CFont::InitFont( const char* szSpriteSheetFilename, const char* szBinaryFil
 	m_nImageID = CSGD_TextureManager::GetInstance()->LoadTexture( szSpriteSheetFilename );
 
 	// Load in the letter details
-	ifstream in;
+	std::ifstream in;
 	in.clear();
 	
-	in.open( szBinaryFilename, ios_base::in | ios_base::binary);
+	in.open( szBinaryFilename, std::ios_base::in | std::ios_base::binary);
 
 	if(in.is_open())
 	{

@@ -1,6 +1,6 @@
-#include "CPickUp.h"
-#include "SGD Wrappers/CSGD_TextureManager.h"
+#include "PrecompiledHeader.h"
 
+#include "CPickUp.h"
 
 CPickUp::CPickUp(void)
 {

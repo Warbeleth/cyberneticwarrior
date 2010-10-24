@@ -6,7 +6,10 @@
 // Purpose: This class serves as the base object for all enemies that have idle and active -
 //			states to derive off of
 /////////////////////////////////////////////////////////////////////////////////////////////
+#include "PrecompiledHeader.h"
+
 #include "CPatrolEnemy.h"
+#include "CCamera.h"
 
 CPatrolEnemy::CPatrolEnemy(void)
 {

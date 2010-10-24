@@ -2,29 +2,25 @@
 #define SINGLEPLAYER_H_
 
 #include "IGameState.h"
-
-#include "CPlayer.h"
-#include "CPickUp.h"
-#include "CGrapplingHook.h"
-#include "CBlock.h"
-#include "CMapLoad.h"
+#include "SGD Wrappers/SGD_Math.h"
 #include "CAnimationLoad.h"
-
 #include "CObjectFactory.h"
 #include <string>
 using std::string;
 
+class CPlayer;
+class CPickUp;
+class CGrapplingHook;
+class CBlock;
+class CMapLoad;
+class CBase;
 class CSGD_Direct3D;
 class CSGD_DirectInput;
 class CSGD_TextureManager;
 class CSGD_WaveManager;
 class CSGD_DirectSound;
-
 class CObjectManager;
-
 class CCamera;
-
-
 class CAnimations;
 class CIdleEnemy;
 class CPatrolEnemy;

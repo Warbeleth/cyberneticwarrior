@@ -5,7 +5,10 @@
 //
 // Purpose: This class serves as the base object for all enemies to derive off of
 //////////////////////////////////////////////////////////////////////////////////////////////////////
+#include "PrecompiledHeader.h"
+
 #include "CBaseEnemy.h"
+#include "CSinglePlayerState.h"
 
 CBaseEnemy::CBaseEnemy()
 {

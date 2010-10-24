@@ -1,16 +1,9 @@
+#include "PrecompiledHeader.h"
+
 #include "CSinglePlayerState.h"
-
-#include "SGD Wrappers/CSGD_Direct3D.h"
-#include "SGD Wrappers/CSGD_DirectInput.h"
-#include "SGD Wrappers/CSGD_TextureManager.h"
-#include "SGD Wrappers/CSGD_WaveManager.h"
-#include "SGD Wrappers/CSGD_DirectSound.h"
-
 #include "CObjectManager.h"
-
 #include "CGame.h"
 #include "CCamera.h"
-
 #include "CStackStateMachine.h"
 #include "CMainMenuState.h"
 #include "CPauseMenuState.h"
@@ -19,6 +12,10 @@
 #include "CPatrolEnemy.h"
 #include "CFLCLMech.h"
 #include "CRocket.h"
+#include "CBlock.h"
+#include "CPickUp.h"
+#include "CMapLoad.h"
+#include "CGrapplingHook.h"
 
 CSinglePlayerState*	CSinglePlayerState::sm_pGamePlayInstance = NULL;
 

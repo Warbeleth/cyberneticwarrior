@@ -18,9 +18,7 @@
 #ifndef _CFONT_H_
 #define _CFONT_H_
 
-#include <windows.h>
-// Might be replaced for speed purposes. . .
-
+#include <d3d9.h>
 #include <vector>
 
 //////////////////////////////////////////////////////////////////////////////////////////////////////

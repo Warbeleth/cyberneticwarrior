@@ -8,23 +8,22 @@
 
 #ifndef CBASEENEMY_H_
 #define CBASEENEMY_H_
-#include <windows.h>
 
+#include <d3d9.h>
 //Imports for update checking
 #include "CPlayer.h"
-#include "CSinglePlayerState.h"
+//class CPlayer;
+class CSinglePlayerState;
 //Remaining includes
-#include "SGD Wrappers\CSGD_TextureManager.h"
-#include "SGD Wrappers\CSGD_Direct3D.h"
-#include "SGD Wrappers\SGD_Math.h"
-#include "IBaseInterface.h"
-#include "CBase.h"
+class CSGD_TextureManager;
+class CSGD_Direct3D;
+//#include "IBaseInterface.h"
 
 //Camera
-#include "CCamera.h"
+class CCamera;
 
 //Enum usage
-#include "CMapLoad.h"
+class CMapLoad;
 
 
 class CBaseEnemy : /*public IBaseInterface, */public CBase

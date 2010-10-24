@@ -2,10 +2,9 @@
 #define GRAPPLINGHOOK_H_
 
 #include "CBase.h"
-#include "CEvent.h"
 #include "IListener.h"
 
-#include "SGD Wrappers/SGD_Math.h"
+class CEvent;
 
 class CGrapplingHook : public CBase, public IListener
 {

@@ -2,8 +2,9 @@
 #define _CROCKET_H_
 
 #include "CBase.h"
-#include "CEvent.h"
 #include "IListener.h"
+
+class CEvent;
 
 #define DEATH_TIME 7.0f
 

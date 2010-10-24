@@ -1,18 +1,10 @@
+#include "PrecompiledHeader.h"
+
 #include "CSinglePlayerMenuState.h"
-
-#include "SGD Wrappers/CSGD_Direct3D.h"
-#include "SGD Wrappers/CSGD_DirectInput.h"
-#include "SGD Wrappers/CSGD_TextureManager.h"
-#include "SGD Wrappers/CSGD_WaveManager.h"
-#include "SGD Wrappers/CSGD_DirectSound.h"
-
 #include "CStackStateMachine.h"
-
 #include "CMainMenuState.h"
-//#include "CSinglePlayerState.h"
 #include "SaveState.h"
 #include "CLoadState.h"
-
 #include "CEventSystem.h"
 #include "CEvent.h"
 
