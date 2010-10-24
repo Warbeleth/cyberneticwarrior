@@ -22,8 +22,7 @@
 #include "CMainMenuState.h"
 #include "CSinglePlayerState.h"
 #include "CSinglePlayerMenuState.h"
-#include "SaveState.h"
-#include "CLoadState.h"
+#include "CGameProfiler.h"
 #include "CPauseMenuState.h"
 #include "COptionsMenuState.h"
 
@@ -118,7 +117,6 @@ void CGame::DeleteInstance(void)
 void CGame::Initialize(HWND hWnd, HINSTANCE hInstance, 
 					   int nScreenWidth, int nScreenHeight, bool bIsWindowed)
 {
-
 	this->m_pD3D		= CSGD_Direct3D::GetInstance();
 	this->m_pTM			= CSGD_TextureManager::GetInstance();
 	this->m_pDS			= CSGD_DirectSound::GetInstance();
@@ -147,9 +145,6 @@ void CGame::Initialize(HWND hWnd, HINSTANCE hInstance,
 	m_nCodeProfilerID = this->m_pCP->CreateFunction("Update");
 
 	this->m_pSSM->ChangeState(CMainMenuState::GetInstance());
-	
-	
-
 
 }
 
@@ -195,8 +190,7 @@ void CGame::ShutDown(void)
 
 	CMainMenuState::GetInstance()->DeleteInstance();
 	CSinglePlayerState::GetInstance()->DeleteInstance();
-	CSaveState::GetInstance()->DeleteInstance();
-	CLoadState::GetInstance()->DeleteInstance();
+	CGameProfiler::GetInstance()->DeleteInstance();
 	CSinglePlayerMenuState::GetInstance()->DeleteInstance();
 	CPauseMenuState::GetInstance()->DeleteInstance();
 	COptionsMenuState::GetInstance()->DeleteInstance();
