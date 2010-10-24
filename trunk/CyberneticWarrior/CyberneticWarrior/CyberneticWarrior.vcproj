@@ -242,6 +242,10 @@
 				Name="Game States"
 				>
 				<File
+					RelativePath=".\source\CGameProfiler.cpp"
+					>
+				</File>
+				<File
 					RelativePath=".\source\CHowToPlayState.cpp"
 					>
 				</File>
@@ -399,6 +403,10 @@
 			<Filter
 				Name="Game States"
 				>
+				<File
+					RelativePath=".\source\CGameProfiler.h"
+					>
+				</File>
 				<File
 					RelativePath=".\source\CHowToPlayState.h"
 					>
