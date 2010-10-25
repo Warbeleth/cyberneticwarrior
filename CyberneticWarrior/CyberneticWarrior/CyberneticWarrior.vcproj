@@ -343,6 +343,15 @@
 				<File
 					RelativePath=".\source\CAchievementsState.cpp"
 					>
+					<FileConfiguration
+						Name="Debug|Win32"
+						>
+						<Tool
+							Name="VCCLCompilerTool"
+							UsePrecompiledHeader="2"
+							PrecompiledHeaderThrough="PrecompiledHeader.h"
+						/>
+					</FileConfiguration>
 				</File>
 				<File
 					RelativePath=".\source\CGameProfiler.cpp"
