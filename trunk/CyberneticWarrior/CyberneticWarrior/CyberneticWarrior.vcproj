@@ -341,6 +341,10 @@
 				Name="Game States"
 				>
 				<File
+					RelativePath=".\source\CAchievementsState.cpp"
+					>
+				</File>
+				<File
 					RelativePath=".\source\CGameProfiler.cpp"
 					>
 					<FileConfiguration
@@ -419,6 +423,10 @@
 					</FileConfiguration>
 				</File>
 				<File
+					RelativePath=".\source\CSaveState.cpp"
+					>
+				</File>
+				<File
 					RelativePath=".\source\CSinglePlayerState.cpp"
 					>
 					<FileConfiguration
@@ -430,10 +438,6 @@
 							PrecompiledHeaderThrough="PrecompiledHeader.h"
 						/>
 					</FileConfiguration>
-				</File>
-				<File
-					RelativePath=".\source\SaveState.cpp"
-					>
 				</File>
 				<File
 					RelativePath=".\source\SinglePlayerMenuState.cpp"
@@ -642,6 +646,10 @@
 				Name="Game States"
 				>
 				<File
+					RelativePath=".\source\CAchievementsState.h"
+					>
+				</File>
+				<File
 					RelativePath=".\source\CGameProfiler.h"
 					>
 				</File>
@@ -666,15 +674,15 @@
 					>
 				</File>
 				<File
+					RelativePath=".\source\CSaveState.h"
+					>
+				</File>
+				<File
 					RelativePath=".\source\CSinglePlayerMenuState.h"
 					>
 				</File>
 				<File
 					RelativePath=".\source\CSinglePlayerState.h"
-					>
-				</File>
-				<File
-					RelativePath=".\source\SaveState.h"
 					>
 				</File>
 				<Filter

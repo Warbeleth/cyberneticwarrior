@@ -197,6 +197,21 @@ public:
 	//			NECESSARY FOR ANY DELAY OR SCROLLING CALLS
 	//////////////////////////////////////////////////////////////////////////////////////////////////////
 	void Update( float fDeltaTime );
+		
+	//////////////////////////////////////////////////////////////////////////////////////////////////////
+	// Function: “ChangeScrolling”
+	//
+	// Purpose: The purpose of this funciton is to allow further control of how your program does its
+	//			scrolling. The reason for the update taking care of all of them is for convenience, but
+	//			with this call it is possible for a user to control the scrolling and make it more like
+	//			an up / down scrolling page.
+	//			nXScrolling - For setting X scroll direction
+	//			nYScrolling - For setting Y scroll direction
+	//			nScrollingID - ID of the scrolling object that needs to be changed to the new values
+	//
+	//			THIS FUNCTION NEEDS A SCROLLING ID
+	//////////////////////////////////////////////////////////////////////////////////////////////////////
+	void ChangeScrolling( int nXScrolling, int nYScrolling, int nScrollingID );
 
 	//////////////////////////////////////////////////////////////////////////////////////////////////////
 	// Function: “Draw”
