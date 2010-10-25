@@ -1,0 +1,109 @@
+#include "PrecompiledHeader.h"
+
+#include "CAchievementsState.h"
+#include "CStackStateMachine.h"
+
+CAchievementsState* CAchievementsState::sm_pAchievementsInstance = NULL;
+
+CAchievementsState::CAchievementsState(void)
+{
+	m_pD3D	= NULL;
+	m_pTM		= NULL;
+	m_pDI		= NULL;
+	m_pWM		= NULL;
+	m_pDS		= NULL;
+
+	m_nBackgroundID		= -1;
+}
+
+CAchievementsState::~CAchievementsState(void)
+{
+	m_pD3D	= NULL;
+	m_pTM		= NULL;
+	m_pDI		= NULL;
+	m_pWM		= NULL;
+	m_pDS		= NULL;
+
+	m_nBackgroundID		= -1;
+}
+
+void CAchievementsState::Enter(void)
+{
+	m_pD3D	=	CSGD_Direct3D::GetInstance();
+	m_pDI	=	CSGD_DirectInput::GetInstance();
+	m_pTM	=	CSGD_TextureManager::GetInstance();
+	m_pWM	=	CSGD_WaveManager::GetInstance();
+	m_pDS	=	CSGD_DirectSound::GetInstance();
+
+	m_OptionsFont.InitFont("resource/fonts/example.png", "resource/fonts/Example.fnt");
+	m_nScrollingID = m_OptionsFont.AddScrolling( 0, 0 );
+
+	m_nBackgroundID	= m_pTM->LoadTexture("resource/graphics/3d_city.png");
+}
+
+bool CAchievementsState::Input(void)
+{
+	if(m_pDI->GetInstance()->KeyPressed(DIK_ESCAPE))
+		CStackStateMachine::GetInstance()->Pop_back();
+
+	if(m_pDI->GetInstance()->KeyDown(DIK_UP))
+		m_OptionsFont.ChangeScrolling( 0, -100, m_nScrollingID );
+	else if(m_pDI->GetInstance()->KeyDown(DIK_DOWN))
+		m_OptionsFont.ChangeScrolling( 0, 100, m_nScrollingID );
+	else
+		m_OptionsFont.ChangeScrolling( 0, 0, m_nScrollingID );
+	
+	return 1;
+}
+
+void CAchievementsState::Update(float fElapsedTime)
+{
+	m_OptionsFont.Update( fElapsedTime );	
+}
+void CAchievementsState::Render(void)
+{
+	m_pTM->Draw(m_nBackgroundID, 0, 0);
+
+	m_OptionsFont.Draw("-ACHIEVEMENTS-", 250, 25, 1.0f, D3DXCOLOR(1.0f, 0.0f, 1.0f, 1.0f));
+	m_OptionsFont.DrawScrolling("Achievement 1: Incomplete\n\nAchievement 2: Incomplete\n\nAchievement 3: Incomplete", 51, 25+MENU_SPACE, 1.0f, D3DXCOLOR( 1.0f, 0.0f, 1.0f, 1.0f), 24+MENU_SPACE, 800,50, 550, m_nScrollingID );
+}
+void CAchievementsState::Exit(void)
+{
+	if(m_nBackgroundID != -1)
+	{
+		m_pTM->UnloadTexture(m_nBackgroundID);
+		m_nBackgroundID = -1;
+	}
+
+	if(m_pDS)
+		m_pDS = NULL;
+
+	if(m_pWM)
+		m_pWM = NULL;
+
+	if(m_pTM)
+		m_pTM = NULL;
+
+	if(m_pDI)
+		m_pDI = NULL;
+	
+	if(m_pD3D)
+		m_pD3D = NULL;
+}
+
+CAchievementsState* CAchievementsState::GetInstance(void)
+{
+	if(!sm_pAchievementsInstance)
+	{
+		sm_pAchievementsInstance = new CAchievementsState();
+	}
+	return sm_pAchievementsInstance;
+}
+void CAchievementsState::DeleteInstance(void)
+{
+	if(sm_pAchievementsInstance)
+	{
+		delete sm_pAchievementsInstance;
+		sm_pAchievementsInstance = NULL;
+	}
+}

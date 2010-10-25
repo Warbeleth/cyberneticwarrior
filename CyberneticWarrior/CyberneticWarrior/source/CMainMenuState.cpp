@@ -8,6 +8,7 @@
 #include "CSinglePlayerMenuState.h"
 #include "COptionsMenuState.h"
 #include "CHowToPlayState.h"
+#include "CAchievementsState.h"
 
 CMainMenuState*	CMainMenuState::sm_pMainMenuInstance = NULL;
 
@@ -108,8 +109,11 @@ bool	CMainMenuState::Input(void)
 		{
 		case this->SINGLE_PLAYER:
 			this->m_pWM->Stop(this->m_nBGMusic);
-			//CStackStateMachine::GetInstance()->Push_Back(CSinglePlayerState::GetInstance());
 			CStackStateMachine::GetInstance()->Push_Back(CSinglePlayerMenuState::GetInstance());
+			break;
+		case this->ACHIEVEMENTS:
+			this->m_pWM->Stop(this->m_nBGMusic);
+			CStackStateMachine::GetInstance()->Push_Back(CAchievementsState::GetInstance());
 			break;
 		case this->MM_OPTIONS:
 			this->m_pWM->Stop(this->m_nBGMusic);
@@ -117,8 +121,6 @@ bool	CMainMenuState::Input(void)
 			break;
 		case this->MM_CONTROLS:
 			this->m_pWM->Stop(this->m_nBGMusic);
-
-
 			CStackStateMachine::GetInstance()->Push_Back(CHowToPlayState::GetInstance());
 			break;
 		case this->EXIT_GAME:
