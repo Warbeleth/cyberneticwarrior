@@ -18,6 +18,12 @@ CPlayer::CPlayer(void)
 	this->m_vRotationCenter.fY = 0.0f;
 	this->m_vVectorVelocity.fX = 0.0f;
 	this->m_vVectorVelocity.fY = 0.0f;
+	this->m_vJoyVecPos.fX	   = 0.0f;
+	this->m_vJoyVecPos.fY	   = 0.0f;
+
+	this->m_fJoyRot = 0.0f;
+	this->m_fWaitTime = 0.0f;
+
 	
 	m_fHandRotation = 0.0f;
 	m_bHomingOn = false;
@@ -50,6 +56,17 @@ void CPlayer::Update(float fElapsedTime)
 	}
 
 	this->Input(fElapsedTime);
+
+
+	//this->m_fWaitTime +=  fElapsedTime;
+	
+	//this->m_vJoyVecPos.fX = this->GetPosX();
+	//this->m_vJoyVecPos.fY = this->GetPosY();
+	//this->m_vJoyVecPos = Vector2DRotate(this->m_vJoyVecPos, this->m_fJoyRot);
+	//this->m_vJoyVecPos.fX = this->GetPosX() + this->m_vJoyVecPos.fX;
+	//this->m_vJoyVecPos.fY = this->GetPosY() - this->m_vJoyVecPos.fY;
+	
+
 
 	if(this->m_pHook)
 	{
@@ -90,24 +107,27 @@ void CPlayer::Update(float fElapsedTime)
 			vHook.fX = this->m_pHook->GetPosX() + this->m_pHook->GetWidth()/2;
 			vHook.fY = this->m_pHook->GetPosY();
 
+			//this->m_vVectorVelocity = Vector2DNormalize(this->m_vVectorVelocity);
+			
 			this->m_vVectorVelocity = this->m_vVectorVelocity - vHook;
 
 
 			//D3DXToDegree(
 			//this->m_vVectorVelocity = this->m_vVectorVelocity * 500.0f;// this->m_vSpeed.fX;
 			this->m_vVectorVelocity = Vector2DRotate(this->m_vVectorVelocity, this->GetRotation());
+			//this->SetBaseVelX(0.0f);
+			//this->SetBaseVelY(0.0f);
 
-			this->SetBaseVelX(0.0f);
-			this->SetBaseVelY(0.0f);
+			this->m_vSpeed.fY = -this->m_vVectorVelocity.fY;	
 
 			this->SetPosX(this->m_vVectorVelocity.fX + vHook.fX);
 			this->SetPosY(this->m_vVectorVelocity.fY + vHook.fY);
 		}
 		else
 		{
-			this->m_vVectorVelocity.fX = 0.0f;
+			//this->m_vVectorVelocity.fX = 0.0f;
 
-			this->m_vVectorVelocity.fY = 0.0f;
+			//this->m_vVectorVelocity.fY = 0.0f;
 			this->SetBaseVelX(this->m_vSpeed.fX);
 		}
 
@@ -318,6 +338,63 @@ void CPlayer::Input(float fElapsedTime)
 		m_bHomingOn = !m_bHomingOn;
 	}
 
+	//if(CSGD_DirectInput::GetInstance()->JoystickGetRStickXAmount() < 0.0f && this->m_fWaitTime > 0.1f)
+	//{
+	//	this->m_fWaitTime = 0.0f;
+	//	this->m_fJoyRot += SGD_PI;// * fElapsedTime;
+	//}
+	//else if(CSGD_DirectInput::GetInstance()->JoystickGetRStickXAmount() > 0.0f && this->m_fWaitTime > 0.1f)
+	//{
+	//	this->m_fWaitTime = 0.0f;
+	//	this->m_fJoyRot -= SGD_PI;// * fElapsedTime;
+	//}
+
+
+	if(CSGD_DirectInput::GetInstance()->JoystickGetRStickDirDown(DIR_RIGHT))
+	{
+		this->m_vJoyVecPos.fX = 1.0f;
+		this->m_vJoyVecPos.fY = 0.0f;
+	}
+	if(CSGD_DirectInput::GetInstance()->JoystickGetRStickDirDown(DIR_LEFT))
+	{
+		this->m_vJoyVecPos.fX = -1.0f;
+		this->m_vJoyVecPos.fY = 0.0f;
+	}
+	if(CSGD_DirectInput::GetInstance()->JoystickGetRStickDirDown(DIR_UP))
+	{
+		this->m_vJoyVecPos.fX = 0.0f;
+		this->m_vJoyVecPos.fY = -1.0f;
+	}
+	if(CSGD_DirectInput::GetInstance()->JoystickGetRStickDirDown(DIR_DOWN))
+	{
+		this->m_vJoyVecPos.fX = 0.0f;
+		this->m_vJoyVecPos.fY = 1.0f;
+	}
+
+
+
+	if(CSGD_DirectInput::GetInstance()->JoystickGetRStickDirDown(DIR_DOWN) && CSGD_DirectInput::GetInstance()->JoystickGetRStickDirDown(DIR_RIGHT))
+	{
+		this->m_vJoyVecPos.fX = 1.0f;
+		this->m_vJoyVecPos.fY = 1.0f;
+	}
+	else if(CSGD_DirectInput::GetInstance()->JoystickGetRStickDirDown(DIR_DOWN) && CSGD_DirectInput::GetInstance()->JoystickGetRStickDirDown(DIR_LEFT))
+	{
+		this->m_vJoyVecPos.fX = -1.0f;
+		this->m_vJoyVecPos.fY = 1.0f;
+	}
+	else if(CSGD_DirectInput::GetInstance()->JoystickGetRStickDirDown(DIR_UP) && CSGD_DirectInput::GetInstance()->JoystickGetRStickDirDown(DIR_RIGHT))
+	{
+		this->m_vJoyVecPos.fX = 1.0f;
+		this->m_vJoyVecPos.fY = -1.0f;
+	}
+	else if(CSGD_DirectInput::GetInstance()->JoystickGetRStickDirDown(DIR_UP) && CSGD_DirectInput::GetInstance()->JoystickGetRStickDirDown(DIR_LEFT))
+	{
+		this->m_vJoyVecPos.fX = -1.0f;
+		this->m_vJoyVecPos.fY = -1.0f;
+	}
+
+
 	///////////////////////////////
 }
 
@@ -421,6 +498,11 @@ void CPlayer::HandleEvent(CEvent* pEvent)
 
 /////////
 // TEMP
+
+tVector2D* CPlayer::GetJoyPos(void) {return &this->m_vJoyVecPos;}
+
+
+
 bool CPlayer::GetMouseDown(void)	{return this->m_bMouseDown;}
 void CPlayer::SetMouseDown(bool bMouseDown) {this->m_bMouseDown = bMouseDown;}
 

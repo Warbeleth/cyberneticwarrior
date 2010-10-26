@@ -7,7 +7,7 @@
 class CEvent;
 class CGrapplingHook;
 
-
+enum Input{KEYBOARD = 0, GAMEPAD};
 class CPlayer : public CBase, public IListener
 {
 private:
@@ -20,10 +20,13 @@ private:
 	float m_fRotationRate;
 
 	float m_fRotation;
+	float m_fJoyRot;
 
 	///////////////////
 	// Hand
 	int		m_nHandID;
+		
+	float m_fWaitTime;
 	float m_fHandRotation;
 	float m_fShotTime;
 
@@ -42,6 +45,7 @@ private:
 	/////////////////////////////////
 	// Temp
 	/////////////////////////////////
+	tVector2D m_vJoyVecPos;
 	bool m_bMouseDown;
 	/////////////////////////////////
 
@@ -52,6 +56,7 @@ public:
 	~CPlayer(void);
 
 	tVector2D GetSpeed(void);
+	tVector2D* GetJoyPos(void);
 
 	float	GetVectorMagnitude(void);
 	float	GetRotationRate(void);
@@ -66,6 +71,14 @@ public:
 	void HandleEvent(CEvent* pEvent);
 
 	void Input(float fElapsedTime);
+
+
+
+	
+
+
+
+
 
 	bool GetMouseDown(void);
 	void SetMouseDown(bool bMouseDown);
