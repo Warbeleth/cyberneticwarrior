@@ -13,13 +13,15 @@ CAchievementsState* CAchievementsState::sm_pAchievementsInstance = NULL;
 //////////////////////////////////////////////////////////////////////////////////////////////////////
 CAchievementsState::CAchievementsState(void)
 {
-	m_pD3D	= NULL;
-	m_pTM		= NULL;
-	m_pDI		= NULL;
-	m_pWM		= NULL;
-	m_pDS		= NULL;
+	this->m_pD3D		= NULL;
+	this->m_pTM		= NULL;
+	this->m_pDI		= NULL;
+	this->m_pWM		= NULL;
+	this->m_pDS		= NULL;
 
-	m_nBackgroundID		= -1;
+	this->m_fWaitTime	= 0.0f;
+
+	this->m_nBackgroundID		= -1;
 }
 
 //////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -27,13 +29,13 @@ CAchievementsState::CAchievementsState(void)
 //////////////////////////////////////////////////////////////////////////////////////////////////////
 CAchievementsState::~CAchievementsState(void)
 {
-	m_pD3D	= NULL;
-	m_pTM		= NULL;
-	m_pDI		= NULL;
-	m_pWM		= NULL;
-	m_pDS		= NULL;
+	this->m_pD3D	= NULL;
+	this->m_pTM		= NULL;
+	this->m_pDI		= NULL;
+	this->m_pWM		= NULL;
+	this->m_pDS		= NULL;
 
-	m_nBackgroundID		= -1;
+	this->m_nBackgroundID		= -1;
 }
 
 //////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -41,16 +43,16 @@ CAchievementsState::~CAchievementsState(void)
 //////////////////////////////////////////////////////////////////////////////////////////////////////
 void CAchievementsState::Enter(void)
 {
-	m_pD3D	=	CSGD_Direct3D::GetInstance();
-	m_pDI	=	CSGD_DirectInput::GetInstance();
-	m_pTM	=	CSGD_TextureManager::GetInstance();
-	m_pWM	=	CSGD_WaveManager::GetInstance();
-	m_pDS	=	CSGD_DirectSound::GetInstance();
+	this->m_pD3D	=	CSGD_Direct3D::GetInstance();
+	this->m_pDI	=	CSGD_DirectInput::GetInstance();
+	this->m_pTM	=	CSGD_TextureManager::GetInstance();
+	this->m_pWM	=	CSGD_WaveManager::GetInstance();
+	this->m_pDS	=	CSGD_DirectSound::GetInstance();
 
-	m_OptionsFont.InitFont("resource/fonts/example.png", "resource/fonts/Example.fnt");
-	m_nScrollingID = m_OptionsFont.AddScrolling( 0, 0 );
+	this->m_OptionsFont.InitFont("resource/fonts/example.png", "resource/fonts/Example.fnt");
+	this->m_nScrollingID = m_OptionsFont.AddScrolling( 0, 0 );
 
-	m_nBackgroundID	= m_pTM->LoadTexture("resource/graphics/3d_city.png");
+	this->m_nBackgroundID	= m_pTM->LoadTexture("resource/graphics/3d_city.png");
 }
 
 //////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -58,16 +60,24 @@ void CAchievementsState::Enter(void)
 //////////////////////////////////////////////////////////////////////////////////////////////////////
 bool CAchievementsState::Input(void)
 {
-	if(m_pDI->GetInstance()->KeyPressed(DIK_ESCAPE))
+	if(this->m_pDI->GetInstance()->KeyPressed(DIK_ESCAPE) || this->m_pDI->JoystickButtonPressed(8, 0) || this->m_pDI->JoystickButtonPressed(2, 0))
+	{
 		CStackStateMachine::GetInstance()->Pop_back();
-
-	if(m_pDI->GetInstance()->KeyDown(DIK_UP))
-		m_OptionsFont.ChangeScrolling( 0, -100, m_nScrollingID );
-	else if(m_pDI->GetInstance()->KeyDown(DIK_DOWN))
-		m_OptionsFont.ChangeScrolling( 0, 100, m_nScrollingID );
+		return 1;
+	}
+	if(this->m_pDI->GetInstance()->KeyDown(DIK_UP) || this->m_pDI->JoystickDPadDown(DIR_UP) || (this->m_pDI->JoystickGetLStickYAmount() < 0.0f && this->m_fWaitTime > 0.3f))
+	{
+		this->m_OptionsFont.ChangeScrolling( 0, -100, this->m_nScrollingID );
+	}
+	else if(this->m_pDI->GetInstance()->KeyDown(DIK_DOWN) || this->m_pDI->JoystickDPadDown(DIR_DOWN) || (this->m_pDI->JoystickGetLStickYAmount() > 0.0f && this->m_fWaitTime > 0.3f))
+	{
+		this->m_OptionsFont.ChangeScrolling( 0, 100, this->m_nScrollingID );
+	}
 	else
-		m_OptionsFont.ChangeScrolling( 0, 0, m_nScrollingID );
-	
+	{
+		this->m_OptionsFont.ChangeScrolling( 0, 0, this->m_nScrollingID );
+	}
+
 	return 1;
 }
 
@@ -76,7 +86,8 @@ bool CAchievementsState::Input(void)
 //////////////////////////////////////////////////////////////////////////////////////////////////////
 void CAchievementsState::Update(float fElapsedTime)
 {
-	m_OptionsFont.Update( fElapsedTime );	
+	this->m_fWaitTime += fElapsedTime;
+	this->m_OptionsFont.Update( fElapsedTime );	
 }
 
 //////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -84,10 +95,11 @@ void CAchievementsState::Update(float fElapsedTime)
 //////////////////////////////////////////////////////////////////////////////////////////////////////
 void CAchievementsState::Render(void)
 {
-	m_pTM->Draw(m_nBackgroundID, 0, 0);
+	this->m_pTM->Draw(this->m_nBackgroundID, 0, 0);
 
-	m_OptionsFont.Draw("-ACHIEVEMENTS-", 250, 25, 1.0f, D3DXCOLOR(1.0f, 0.0f, 1.0f, 1.0f));
-	m_OptionsFont.DrawScrolling("Achievement 1: Incomplete\n\nAchievement 2: Incomplete\n\nAchievement 3: Incomplete", 51, 25+MENU_SPACE, 1.0f, D3DXCOLOR( 1.0f, 0.0f, 1.0f, 1.0f), 24+MENU_SPACE, 800,50, 550, m_nScrollingID );
+	this->m_OptionsFont.Draw("-ACHIEVEMENTS-", 250, 25, 1.0f, D3DXCOLOR(1.0f, 0.0f, 1.0f, 1.0f));
+	this->m_OptionsFont.DrawScrolling("Achievement 1: Incomplete\n\nAchievement 2: Incomplete\n\nAchievement 3: Incomplete", 
+		51, 25+MENU_SPACE, 1.0f, D3DXCOLOR( 1.0f, 0.0f, 1.0f, 1.0f), 24+MENU_SPACE, 800,50, 550, this->m_nScrollingID );
 }
 
 //////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -95,26 +107,26 @@ void CAchievementsState::Render(void)
 //////////////////////////////////////////////////////////////////////////////////////////////////////
 void CAchievementsState::Exit(void)
 {
-	if(m_nBackgroundID != -1)
+	if(this->m_nBackgroundID != -1)
 	{
-		m_pTM->UnloadTexture(m_nBackgroundID);
-		m_nBackgroundID = -1;
+		this->m_pTM->UnloadTexture(this->m_nBackgroundID);
+		this->m_nBackgroundID = -1;
 	}
 
-	if(m_pDS)
-		m_pDS = NULL;
+	if(this->m_pDS)
+		this->m_pDS = NULL;
 
-	if(m_pWM)
-		m_pWM = NULL;
+	if(this->m_pWM)
+		this->m_pWM = NULL;
 
-	if(m_pTM)
-		m_pTM = NULL;
+	if(this->m_pTM)
+		this->m_pTM = NULL;
 
-	if(m_pDI)
-		m_pDI = NULL;
+	if(this->m_pDI)
+		this->m_pDI = NULL;
 	
-	if(m_pD3D)
-		m_pD3D = NULL;
+	if(this->m_pD3D)
+		this->m_pD3D = NULL;
 }
 
 //////////////////////////////////////////////////////////////////////////////////////////////////////

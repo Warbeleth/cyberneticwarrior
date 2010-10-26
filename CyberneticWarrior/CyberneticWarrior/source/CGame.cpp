@@ -20,6 +20,7 @@
 #include "CGameProfiler.h"
 #include "CPauseMenuState.h"
 #include "COptionsMenuState.h"
+#include "CAchievementsState.h"
 #include "CEventSystem.h"
 #include "CObjectFactory.h"
 #include "CObjectManager.h"
@@ -189,6 +190,7 @@ void CGame::ShutDown(void)
 	CPauseMenuState::GetInstance()->DeleteInstance();
 	COptionsMenuState::GetInstance()->DeleteInstance();
 	CCodeProfiler::GetInstance()->DeleteInstance();
+	CAchievementsState::GetInstance()->DeleteInstance();
 
 
 	if(this->m_pDI)

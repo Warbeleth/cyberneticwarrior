@@ -34,6 +34,9 @@ private:
 
 	// Font
 	CFont	m_OptionsFont;
+
+	float	m_fWaitTime;
+		
 	int		m_nScrollingID;
 	// Texture IDs
 	int	m_nBackgroundID;

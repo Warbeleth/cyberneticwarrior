@@ -28,9 +28,12 @@ private:
 
 	CFont	m_OptionsFont;
 	
+	float m_fWaitTime;
 	// Texture IDs
 	int	m_nBackgroundID;
 	int m_nCursorID;
+	int m_nMuteOnID;
+	int m_nMuteOffID;
 	// Music IDs
 	int m_nMusicID;
 	int m_nSFXID;
@@ -45,6 +48,8 @@ private:
 
 	// Selection On
 	bool	m_bSelection;
+	bool	m_bPlayMusic;
+	bool	m_bPlaySFX;
 
 
 	COptionsMenuState(void);

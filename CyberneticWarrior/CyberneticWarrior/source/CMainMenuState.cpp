@@ -24,6 +24,8 @@ CMainMenuState::CMainMenuState(void)
 	this->m_nCursorID			= -1;
 	this->m_nBGMusic			= -1;
 
+	this->m_fWaitTime			= 0.0f;
+
 	this->m_nSelectionPos		= this->MMENU_START;
 	this->m_nSelection			= this->SINGLE_PLAYER;
 
@@ -83,20 +85,20 @@ void	CMainMenuState::Enter(void)
 
 bool	CMainMenuState::Input(void)
 {
-	if(this->m_pDI->KeyPressed(DIK_UP)|| this->m_pDI->JoystickDPadPressed(DIR_UP, 0))
+	if(this->m_pDI->KeyPressed(DIK_UP)|| this->m_pDI->JoystickDPadPressed(DIR_UP, 0) || (this->m_pDI->JoystickGetLStickYAmount() < 0.0f && this->m_fWaitTime > 0.3f))
 	{
 		--this->m_nSelection;
-
+		this->m_fWaitTime = 0.0f;	
 		if(this->m_nSelection < this->SINGLE_PLAYER)
 		{
 			this->m_nSelection = this->EXIT_GAME;
 		}
 	}
 	
-	if(this->m_pDI->KeyPressed(DIK_DOWN)|| this->m_pDI->JoystickDPadPressed(DIR_DOWN, 0))
+	if(this->m_pDI->KeyPressed(DIK_DOWN)|| this->m_pDI->JoystickDPadPressed(DIR_DOWN, 0) || (this->m_pDI->JoystickGetLStickYAmount() > 0.0f && this->m_fWaitTime > 0.3f))
 	{
 		++this->m_nSelection;
-
+		this->m_fWaitTime = 0.0f;	
 		if(this->m_nSelection > this->EXIT_GAME)
 		{
 			this->m_nSelection = this->SINGLE_PLAYER;
@@ -139,6 +141,7 @@ bool	CMainMenuState::Input(void)
 
 void	CMainMenuState::Update(float fElapsedTime)
 {
+	this->m_fWaitTime += fElapsedTime;
 	this->m_nSelectionPos = (this->m_nSelection * MMENU_SPACE) + this->MMENU_START;
 }
 

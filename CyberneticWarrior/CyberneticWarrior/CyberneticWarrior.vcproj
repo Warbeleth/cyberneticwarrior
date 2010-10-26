@@ -380,19 +380,6 @@
 					</FileConfiguration>
 				</File>
 				<File
-					RelativePath=".\source\CLoadState.cpp"
-					>
-					<FileConfiguration
-						Name="Debug|Win32"
-						>
-						<Tool
-							Name="VCCLCompilerTool"
-							UsePrecompiledHeader="2"
-							PrecompiledHeaderThrough="PrecompiledHeader.h"
-						/>
-					</FileConfiguration>
-				</File>
-				<File
 					RelativePath=".\source\CMainMenuState.cpp"
 					>
 					<FileConfiguration
@@ -432,11 +419,7 @@
 					</FileConfiguration>
 				</File>
 				<File
-					RelativePath=".\source\CSaveState.cpp"
-					>
-				</File>
-				<File
-					RelativePath=".\source\CSinglePlayerState.cpp"
+					RelativePath=".\source\CSinglePlayerMenuState.cpp"
 					>
 					<FileConfiguration
 						Name="Debug|Win32"
@@ -449,7 +432,7 @@
 					</FileConfiguration>
 				</File>
 				<File
-					RelativePath=".\source\SinglePlayerMenuState.cpp"
+					RelativePath=".\source\CSinglePlayerState.cpp"
 					>
 					<FileConfiguration
 						Name="Debug|Win32"
@@ -667,10 +650,6 @@
 					>
 				</File>
 				<File
-					RelativePath=".\source\CLoadState.h"
-					>
-				</File>
-				<File
 					RelativePath=".\source\CMainMenuState.h"
 					>
 				</File>
@@ -680,10 +659,6 @@
 				</File>
 				<File
 					RelativePath=".\source\CPauseMenuState.h"
-					>
-				</File>
-				<File
-					RelativePath=".\source\CSaveState.h"
 					>
 				</File>
 				<File

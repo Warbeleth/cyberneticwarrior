@@ -1,7 +1,6 @@
 #ifndef _PRECOMPILEDHEADER_H_
 #define _PRECOMPILEDHEADER_H_
 
-#include <d3d9.h>
 #include "SGD Wrappers/CSGD_Direct3D.h"
 #include "SGD Wrappers/CSGD_DirectInput.h"
 #include "SGD Wrappers/CSGD_DirectSound.h"

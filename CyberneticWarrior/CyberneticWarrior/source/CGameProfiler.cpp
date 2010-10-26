@@ -18,14 +18,17 @@ CGameProfiler::CGameProfiler(void)
 	this->m_pWM		= NULL;
 	this->m_pDS		= NULL;
 
-	this->m_nBackgroundID		= -1;
-	this->m_nCursorID			= -1;
+	this->m_nBackgroundID			= -1;
+	this->m_nProfileItemID			= -1;
+	//this->m_nCursorID				= -1;
 	//this->m_nSFXID				= -1;
 
-	this->m_nSelection			= this->OP1;
-	this->m_nSelectionPos		= this->MENU_START;
+	this->m_nSelection				= this->OP1;
+	this->m_nSelectionPos			= this->MENU_START;
 
-
+	this->m_nFileName[this->OP1] = "New Game";
+	this->m_nFileName[this->OP2] = "New Game";
+	this->m_nFileName[this->OP3] = "New Game";
 
 
 	this->SetNewGame(0);
@@ -40,12 +43,12 @@ CGameProfiler::~CGameProfiler(void)
 	this->m_pWM		= NULL;
 	this->m_pDS		= NULL;
 
-	this->m_nBackgroundID		= -1;
-	this->m_nCursorID			= -1;
+	this->m_nBackgroundID			= -1;
+	this->m_nProfileItemID			= -1;
 	//this->m_nSFXID				= -1;
 
-	this->m_nSelection			= this->OP1;
-	this->m_nSelectionPos		= this->MENU_START;
+	this->m_nSelection				= this->OP1;
+	this->m_nSelectionPos			= this->MENU_START;
 	this->SetManagement(0);
 	this->SetNewGame(1);
 }
@@ -53,7 +56,7 @@ CGameProfiler::~CGameProfiler(void)
 
 bool	CGameProfiler::Input(void)
 {
-	if(this->m_pDI->KeyPressed(DIK_UP))
+	if(this->m_pDI->KeyPressed(DIK_UP) || this->m_pDI->JoystickDPadPressed(DIR_UP) || this->m_pDI->JoystickGetLStickYAmount(0) > 0.0f)
 	{
 		--this->m_nSelection;
 
@@ -63,7 +66,7 @@ bool	CGameProfiler::Input(void)
 		}
 	}
 
-	if(this->m_pDI->KeyPressed(DIK_DOWN))
+	if(this->m_pDI->KeyPressed(DIK_DOWN) || this->m_pDI->JoystickDPadPressed(DIR_DOWN) || this->m_pDI->JoystickGetLStickYAmount(0) < 0.0f)
 	{
 		++this->m_nSelection;
 
@@ -74,9 +77,14 @@ bool	CGameProfiler::Input(void)
 	}
 
 	//this->m_pWM->Stop(this->m_nBGMusic);
-	//CStackStateMachine::GetInstance()->Pop_back();
 
-	if(this->m_pDI->KeyPressed(DIK_RETURN))
+	if(this->m_pDI->KeyPressed(DIK_ESCAPE) || this->m_pDI->JoystickButtonPressed(8, 0) || this->m_pDI->JoystickButtonPressed(2, 0))
+	{
+		CStackStateMachine::GetInstance()->Pop_back();
+		return 1;
+	}
+
+	if(this->m_pDI->KeyPressed(DIK_RETURN) || this->m_pDI->JoystickButtonPressed(9, 0) || this->m_pDI->JoystickButtonPressed(1, 0))
 	{
 		std::fstream fManager;
 		const char * szFileName;
@@ -102,6 +110,7 @@ bool	CGameProfiler::Input(void)
 			//PostQuitMessage(0);
 			bReturn = 1;
 			CStackStateMachine::GetInstance()->Pop_back();
+			return 1;
 			break;
 		default:
 			break;
@@ -166,8 +175,9 @@ void	CGameProfiler::Enter(void)
 	this->m_pWM		=		CSGD_WaveManager::GetInstance();
 	this->m_pDS		=		CSGD_DirectSound::GetInstance();
 
-	this->m_nBackgroundID		= this->m_pTM->LoadTexture("resource/graphics/3d_city.png");
-	this->m_nCursorID			= this->m_pTM->LoadTexture("resource/graphics/hook.png");
+	this->m_nBackgroundID		= this->m_pTM->LoadTexture("resource/graphics/ProfileBG.png");
+	//this->m_nCursorID			= this->m_pTM->LoadTexture("resource/graphics/hook.png");
+	this->m_nProfileItemID		= this->m_pTM->LoadTexture("resource/graphics/ProfileMenuItem.png");
 	//this->m_nMusicID			= this->m_pWM->LoadWave("resource/sounds/SO3_Victory_Bell.wav");
 	//this->m_nSFXID				= this->m_pWM->LoadWave("");
 
@@ -187,29 +197,37 @@ void	CGameProfiler::Render(void)
 {
 
 	this->m_pTM->Draw(this->m_nBackgroundID, 0, 0);
-	//this->m_pTM->Draw(this->m_nMenuID,0,0,1.3f,1.0f);//,1.0f,1.0f, 0, 0.0f, 0.0f, 0.0f, D3DCOLOR_ARGB(255,0,128,128));
+	this->m_pTM->Draw(this->m_nProfileItemID,50, (this->OP1 * GMENU_SPACE) + this->MENU_START,1.4f,
+		(this->m_nSelection == this->OP1? 0.75f : 0.7f),0,0.0f,0.0f,0.0f,
+		(this->m_nSelection == this->OP1? D3DXCOLOR(1.0f, 1.0f, 1.0f, 1.0f) : D3DXCOLOR(1.0f, 1.0f, 1.0f, 0.5f)));
+	this->m_pTM->Draw(this->m_nProfileItemID,50, (this->OP2 * GMENU_SPACE) + this->MENU_START,1.4f,
+		(this->m_nSelection == this->OP2? 0.75f : 0.7f),0,0.0f,0.0f,0.0f,
+		(this->m_nSelection == this->OP2? D3DXCOLOR(1.0f, 1.0f, 1.0f, 1.0f) : D3DXCOLOR(1.0f, 1.0f, 1.0f, 0.5f)));
+	this->m_pTM->Draw(this->m_nProfileItemID,50, (this->OP3 * GMENU_SPACE) + this->MENU_START,1.4f,
+		(this->m_nSelection == this->OP3? 0.75f : 0.7f),0,0.0f,0.0f,0.0f,
+		(this->m_nSelection == this->OP3? D3DXCOLOR(1.0f, 1.0f, 1.0f, 1.0f) : D3DXCOLOR(1.0f, 1.0f, 1.0f, 0.5f)));
 
 	if(this->GetManagement() == SAVE_GAME)
 	{
-		this->m_OptionsFont.Draw("SAVE", 250, 100, 1.2f, D3DXCOLOR(1.0f, 1.0f, 0.0f, 1.0f));
+		this->m_OptionsFont.Draw("-SAVE-", 300, 50, 1.2f, D3DXCOLOR(1.0f, 1.0f, 0.0f, 1.0f));
 	}
 	else if(this->GetManagement() == DELETE_PROFILE)
 	{
-		this->m_OptionsFont.Draw("DELETE", 250, 100, 1.2f, D3DXCOLOR(1.0f, 1.0f, 0.0f, 1.0f));
+		this->m_OptionsFont.Draw("-DELETE-", 300, 50, 1.2f, D3DXCOLOR(1.0f, 1.0f, 0.0f, 1.0f));
 	}
 	else if(this->GetManagement() == LOAD_GAME)
 	{
-		this->m_OptionsFont.Draw("LOAD", 250, 100, 1.2f, D3DXCOLOR(1.0f, 1.0f, 0.0f, 1.0f));
+		this->m_OptionsFont.Draw("-LOAD-", 300, 50, 1.2f, D3DXCOLOR(1.0f, 1.0f, 0.0f, 1.0f));
 	}
-	this->m_OptionsFont.Draw("Slot 1", 225, (this->OP1 * GMENU_SPACE) + this->MENU_START, 
+	this->m_OptionsFont.Draw(this->m_nFileName[this->OP1], 225, (this->OP1 * GMENU_SPACE) + this->MENU_START + 15, 
 		(this->m_nSelection == this->OP1? 1.5f : 1.0f) ,
 		(this->m_nSelection == this->OP1? D3DXCOLOR(0.0f, 1.0f, 0.0f, 1.0f) : D3DXCOLOR(1.0f, 1.0f, 0.0f, 1.0f)));
 
-	this->m_OptionsFont.Draw("Slot 2", 225, (this->OP2 * GMENU_SPACE) + this->MENU_START, 
+	this->m_OptionsFont.Draw(this->m_nFileName[this->OP2], 225, (this->OP2 * GMENU_SPACE) + this->MENU_START + 15, 
 		(this->m_nSelection == this->OP2? 1.5f : 1.0f), 
 		(this->m_nSelection == this->OP2? D3DXCOLOR(0.0f, 1.0f, 0.0f, 1.0f) : D3DXCOLOR(1.0f, 1.0f, 0.0f, 1.0f)));
 
-	this->m_OptionsFont.Draw("Slot 3", 225, (this->OP3 * GMENU_SPACE) + this->MENU_START, 
+	this->m_OptionsFont.Draw(this->m_nFileName[this->OP3], 225, (this->OP3 * GMENU_SPACE) + this->MENU_START + 15, 
 		(this->m_nSelection == this->OP3? 1.5f : 1.0f), 
 		(this->m_nSelection == this->OP3? D3DXCOLOR(0.0f, 1.0f, 0.0f, 1.0f) : D3DXCOLOR(1.0f, 1.0f, 0.0f, 1.0f)));
 
@@ -236,10 +254,10 @@ void	CGameProfiler::Exit(void)
 	this->m_pWM->UnloadWave(this->m_nMusicID);
 	this->m_nMusicID = NULL;
 	}*/
-	if(this->m_nCursorID > -1)
+	if(this->m_nProfileItemID > -1)
 	{
-		this->m_pTM->UnloadTexture(this->m_nCursorID);
-		this->m_nCursorID = NULL;
+		this->m_pTM->UnloadTexture(this->m_nProfileItemID);
+		this->m_nProfileItemID = NULL;
 	}
 	if(this->m_nBackgroundID > -1)
 	{
