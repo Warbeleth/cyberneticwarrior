@@ -19,9 +19,18 @@ CAchievementsState::CAchievementsState(void)
 	this->m_pWM		= NULL;
 	this->m_pDS		= NULL;
 
+<<<<<<< .mine
+	// Atract Mode
+	m_fAtractMode = 60.0f;
+	m_fAtractModeTimer = 0.0f;
+	m_bInput = false;
+
+	m_nBackgroundID		= -1;
+
 	this->m_fWaitTime	= 0.0f;
 
 	this->m_nBackgroundID		= -1;
+
 }
 
 //////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -29,11 +38,19 @@ CAchievementsState::CAchievementsState(void)
 //////////////////////////////////////////////////////////////////////////////////////////////////////
 CAchievementsState::~CAchievementsState(void)
 {
+
+	m_pD3D		= NULL;
+	m_pTM		= NULL;
+	m_pDI		= NULL;
+	m_pWM		= NULL;
+	m_pDS		= NULL;
+
 	this->m_pD3D	= NULL;
 	this->m_pTM		= NULL;
 	this->m_pDI		= NULL;
 	this->m_pWM		= NULL;
 	this->m_pDS		= NULL;
+
 
 	this->m_nBackgroundID		= -1;
 }
@@ -78,6 +95,23 @@ bool CAchievementsState::Input(void)
 		this->m_OptionsFont.ChangeScrolling( 0, 0, this->m_nScrollingID );
 	}
 
+
+	if(m_pDI->GetInstance()->KeyDown(DIK_UP))
+	{
+		m_OptionsFont.ChangeScrolling( 0, -100, m_nScrollingID );
+		m_bInput = true;
+	}
+	else if(m_pDI->GetInstance()->KeyDown(DIK_DOWN))
+	{
+		m_OptionsFont.ChangeScrolling( 0, 100, m_nScrollingID );
+		m_bInput = true;
+	}
+	else
+	{
+		m_OptionsFont.ChangeScrolling( 0, 0, m_nScrollingID );
+		m_bInput = false;
+	}
+	
 	return 1;
 }
 
@@ -86,8 +120,14 @@ bool CAchievementsState::Input(void)
 //////////////////////////////////////////////////////////////////////////////////////////////////////
 void CAchievementsState::Update(float fElapsedTime)
 {
+
+	m_OptionsFont.Update( fElapsedTime );
+
+	AtractMode( fElapsedTime );
+
 	this->m_fWaitTime += fElapsedTime;
 	this->m_OptionsFont.Update( fElapsedTime );	
+
 }
 
 //////////////////////////////////////////////////////////////////////////////////////////////////////

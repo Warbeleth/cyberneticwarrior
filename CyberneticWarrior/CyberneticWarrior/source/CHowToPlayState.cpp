@@ -12,6 +12,11 @@ CHowToPlayState::CHowToPlayState(void)
 	this->m_pDI		= NULL;
 	this->m_pWM		= NULL;
 	this->m_pDS		= NULL;
+		
+	// Atract Mode
+	m_fAtractMode = 60.0f;
+	m_fAtractModeTimer = 0.0f;
+	m_bInput = false;
 
 	this->m_nBackgroundID		= -1;
 }
@@ -29,10 +34,14 @@ CHowToPlayState::~CHowToPlayState(void)
 
 bool	CHowToPlayState::Input(void)
 {
+	m_bInput = false;
+
 	if(this->m_pDI->GetInstance()->KeyPressed(DIK_ESCAPE))
 	{
 		CStackStateMachine::GetInstance()->Pop_back();
+		m_bInput = true;
 	}
+
 	return 1;
 }
 void	CHowToPlayState::Enter(void)
@@ -49,7 +58,7 @@ void	CHowToPlayState::Enter(void)
 }
 void	CHowToPlayState::Update(float fElapsedTime)
 {
-	
+	AtractMode( fElapsedTime );
 }
 void	CHowToPlayState::Render(void)
 {

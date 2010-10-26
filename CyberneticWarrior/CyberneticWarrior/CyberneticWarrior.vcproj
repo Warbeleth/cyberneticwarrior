@@ -186,6 +186,19 @@
 						/>
 					</FileConfiguration>
 				</File>
+				<File
+					RelativePath=".\source\IGameState.cpp"
+					>
+					<FileConfiguration
+						Name="Debug|Win32"
+						>
+						<Tool
+							Name="VCCLCompilerTool"
+							UsePrecompiledHeader="0"
+							PrecompiledHeaderThrough="PrecompiledHeader.h"
+						/>
+					</FileConfiguration>
+				</File>
 			</Filter>
 			<Filter
 				Name="Game Objects"
@@ -354,6 +367,32 @@
 					</FileConfiguration>
 				</File>
 				<File
+					RelativePath=".\source\CAtractModeState.cpp"
+					>
+					<FileConfiguration
+						Name="Debug|Win32"
+						>
+						<Tool
+							Name="VCCLCompilerTool"
+							UsePrecompiledHeader="2"
+							PrecompiledHeaderThrough="PrecompiledHeader.h"
+						/>
+					</FileConfiguration>
+				</File>
+				<File
+					RelativePath=".\source\CCreditsState.cpp"
+					>
+					<FileConfiguration
+						Name="Debug|Win32"
+						>
+						<Tool
+							Name="VCCLCompilerTool"
+							UsePrecompiledHeader="2"
+							PrecompiledHeaderThrough="PrecompiledHeader.h"
+						/>
+					</FileConfiguration>
+				</File>
+				<File
 					RelativePath=".\source\CGameProfiler.cpp"
 					>
 					<FileConfiguration
@@ -486,7 +525,7 @@
 						>
 						<Tool
 							Name="VCCLCompilerTool"
-							UsePrecompiledHeader="2"
+							UsePrecompiledHeader="0"
 							PrecompiledHeaderThrough="PrecompiledHeader.h"
 						/>
 					</FileConfiguration>
@@ -642,6 +681,14 @@
 					>
 				</File>
 				<File
+					RelativePath=".\source\CAtractModeState.h"
+					>
+				</File>
+				<File
+					RelativePath=".\source\CCreditsState.h"
+					>
+				</File>
+				<File
 					RelativePath=".\source\CGameProfiler.h"
 					>
 				</File>
@@ -725,6 +772,14 @@
 				</File>
 				<File
 					RelativePath=".\resource\graphics\Arm.png"
+					>
+				</File>
+				<File
+					RelativePath=".\resource\graphics\AtractMode1.png"
+					>
+				</File>
+				<File
+					RelativePath=".\resource\graphics\AtractMode2.png"
 					>
 				</File>
 				<File

@@ -27,6 +27,11 @@ CSaveState::CSaveState(void)
 
 	this->SetNewGame(0);
 	this->SetDelete(0);
+	
+	// Atract Mode
+	m_fAtractMode = 60.0f;
+	m_fAtractModeTimer = 0.0f;
+	m_bInput = false;
 }
 
 CSaveState::~CSaveState(void)
@@ -48,8 +53,11 @@ CSaveState::~CSaveState(void)
 
 bool	CSaveState::Input(void)
 {
+	m_bInput = false;
+
 	if(this->m_pDI->KeyPressed(DIK_UP))
 	{
+		m_bInput = true;
 		--this->m_nSelection;
 
 		if(this->m_nSelection < this->SAVE1)
@@ -60,6 +68,7 @@ bool	CSaveState::Input(void)
 	
 	if(this->m_pDI->KeyPressed(DIK_DOWN))
 	{
+		m_bInput = true;
 		++this->m_nSelection;
 
 		if(this->m_nSelection > this->BACK)
@@ -73,6 +82,7 @@ bool	CSaveState::Input(void)
 			
 	if(this->m_pDI->KeyPressed(DIK_RETURN))
 	{
+		m_bInput = true;
 		std::ofstream save;
 		switch(this->m_nSelection)
 		{
@@ -176,6 +186,7 @@ void	CSaveState::Enter(void)
 void	CSaveState::Update(float fElapsedTime)
 {
 	this->m_nSelectionPos = (this->m_nSelection * SMENU_SPACE) + this->SMENU_START;
+	AtractMode( fElapsedTime );
 }
 
 void	CSaveState::Render(void)

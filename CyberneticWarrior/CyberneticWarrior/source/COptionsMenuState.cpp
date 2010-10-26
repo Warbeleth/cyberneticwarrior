@@ -33,6 +33,11 @@ COptionsMenuState::COptionsMenuState(void)
 
 	this->m_bSelection			= 0;
 	this->m_bMute				= 0;
+		
+	// Atract Mode
+	m_fAtractMode = 60.0f;
+	m_fAtractModeTimer = 0.0f;
+	m_bInput = false;
 }
 
 COptionsMenuState::~COptionsMenuState(void)
@@ -101,9 +106,13 @@ void	COptionsMenuState::Enter(void)
 
 bool	COptionsMenuState::Input(void)
 {
+	m_bInput = false;
+
+	if(this->m_pDI->KeyPressed(DIK_UP) || this->m_pDI->JoystickDPadPressed(DIR_UP,0))
 	if(this->m_pDI->KeyPressed(DIK_UP) || this->m_pDI->JoystickDPadPressed(DIR_UP,0)
 		|| (this->m_pDI->JoystickGetLStickYAmount(0) < 0.0f && this->m_fWaitTime > 0.3f))
 	{
+		m_bInput = true;
 		if(this->m_bSelection)
 		{
 			this->m_bSelection = 0;
@@ -123,6 +132,7 @@ bool	COptionsMenuState::Input(void)
 		{
 			this->m_bSelection = 0;
 		}
+		m_bInput = true;
 		++this->m_nSelection;
 		this->m_fWaitTime = 0.0f;
 		if(this->m_nSelection > this->EXIT_OMENU)// && !this->m_bSelection)
@@ -134,6 +144,7 @@ bool	COptionsMenuState::Input(void)
 	if(this->m_pDI->KeyDown(DIK_RIGHT) || this->m_pDI->JoystickDPadDown(DIR_RIGHT,0)
 		|| this->m_pDI->JoystickGetLStickXAmount(0) > 0.0f)
 	{
+		m_bInput = true;
 		if(this->m_nSelection == this->MUSIC_VOLUME)
 		{
 			if(this->m_nMusicVolume < 100 && this->m_bSelection && this->m_fWaitTime > 0.07f)
@@ -167,6 +178,7 @@ bool	COptionsMenuState::Input(void)
 	if(this->m_pDI->KeyDown(DIK_LEFT) || this->m_pDI->JoystickDPadDown(DIR_LEFT,0)
 		|| this->m_pDI->JoystickGetLStickXAmount(0))
 	{
+		m_bInput = true;
 		if(this->m_nSelection == this->MUSIC_VOLUME)
 		{
 			if(this->m_nMusicVolume > 0 && this->m_bSelection && this->m_fWaitTime > 0.07f)
@@ -199,6 +211,7 @@ bool	COptionsMenuState::Input(void)
 
 	if(this->m_pDI->KeyPressed(DIK_ESCAPE) || this->m_pDI->JoystickButtonPressed(2,0) || this->m_pDI->JoystickButtonPressed(8,0))
 	{
+		m_bInput = true;
 		if(this->m_bSelection)
 		{
 			this->m_bSelection = 0;
@@ -212,6 +225,8 @@ bool	COptionsMenuState::Input(void)
 
 	if(this->m_pDI->KeyPressed(DIK_RETURN)  || this->m_pDI->JoystickButtonPressed(1,0) || this->m_pDI->JoystickButtonPressed(9,0))
 	{
+		m_bInput = true;
+
 		switch(this->m_nSelection)
 		{
 		case this->MUSIC_VOLUME:
@@ -267,6 +282,8 @@ void	COptionsMenuState::Update(float fElapsedTime)
 	}
 
 	this->m_nSelectionPos = (this->m_nSelection * OMENU_SPACE) + this->OMENU_START;
+
+	AtractMode( fElapsedTime );
 }
 
 void	COptionsMenuState::Render(void)

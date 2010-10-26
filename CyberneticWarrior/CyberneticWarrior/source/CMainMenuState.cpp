@@ -9,6 +9,7 @@
 #include "COptionsMenuState.h"
 #include "CHowToPlayState.h"
 #include "CAchievementsState.h"
+#include "CCreditsState.h"
 
 CMainMenuState*	CMainMenuState::sm_pMainMenuInstance = NULL;
 
@@ -28,6 +29,11 @@ CMainMenuState::CMainMenuState(void)
 
 	this->m_nSelectionPos		= this->MMENU_START;
 	this->m_nSelection			= this->SINGLE_PLAYER;
+		
+	// Atract Mode
+	m_fAtractMode = 60.0f;
+	m_fAtractModeTimer = 0.0f;
+	m_bInput = false;
 
 }
 
@@ -85,8 +91,12 @@ void	CMainMenuState::Enter(void)
 
 bool	CMainMenuState::Input(void)
 {
+	m_bInput = false;
+
+	if(this->m_pDI->KeyPressed(DIK_UP)|| this->m_pDI->JoystickDPadPressed(DIR_UP, 0))
 	if(this->m_pDI->KeyPressed(DIK_UP)|| this->m_pDI->JoystickDPadPressed(DIR_UP, 0) || (this->m_pDI->JoystickGetLStickYAmount() < 0.0f && this->m_fWaitTime > 0.3f))
 	{
+		m_bInput = true;
 		--this->m_nSelection;
 		this->m_fWaitTime = 0.0f;	
 		if(this->m_nSelection < this->SINGLE_PLAYER)
@@ -97,6 +107,7 @@ bool	CMainMenuState::Input(void)
 	
 	if(this->m_pDI->KeyPressed(DIK_DOWN)|| this->m_pDI->JoystickDPadPressed(DIR_DOWN, 0) || (this->m_pDI->JoystickGetLStickYAmount() > 0.0f && this->m_fWaitTime > 0.3f))
 	{
+		m_bInput = true;
 		++this->m_nSelection;
 		this->m_fWaitTime = 0.0f;	
 		if(this->m_nSelection > this->EXIT_GAME)
@@ -107,6 +118,8 @@ bool	CMainMenuState::Input(void)
 
 	if(this->m_pDI->KeyPressed(DIK_RETURN) || this->m_pDI->JoystickButtonPressed((0||1||2||9), 0))
 	{
+		m_bInput = true;
+
 		switch(this->m_nSelection)
 		{
 		case this->SINGLE_PLAYER:
@@ -124,6 +137,10 @@ bool	CMainMenuState::Input(void)
 		case this->MM_CONTROLS:
 			this->m_pWM->Stop(this->m_nBGMusic);
 			CStackStateMachine::GetInstance()->Push_Back(CHowToPlayState::GetInstance());
+			break;
+		case this->CREDITS:
+			this->m_pWM->Stop(this->m_nBGMusic);
+			CStackStateMachine::GetInstance()->Push_Back(CCreditsState::GetInstance());
 			break;
 		case this->EXIT_GAME:
 			PostQuitMessage(0);
@@ -143,6 +160,7 @@ void	CMainMenuState::Update(float fElapsedTime)
 {
 	this->m_fWaitTime += fElapsedTime;
 	this->m_nSelectionPos = (this->m_nSelection * MMENU_SPACE) + this->MMENU_START;
+	AtractMode( fElapsedTime );
 }
 
 
