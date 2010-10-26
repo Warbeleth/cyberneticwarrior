@@ -204,6 +204,12 @@ namespace SGP_Map_Editor
                                 if (PosY > splitContainerMap.Panel2.Height || PosY + m_sTileSelection.m_nHeight < 0)
                                     continue;
 
+                                if ((ImageRow == (m_sTileSelection.m_nRows - 1)) && (ImageCol == (m_sTileSelection.m_nColumns - 1)))
+                                {
+                                    D3D.DrawText("NULL", PosX, PosY, 0, 0, 0);
+                                    continue;
+                                }
+
                                 Rectangle rDrawRect = new Rectangle
                                     (
                                     ImageCol * m_sTileSelection.m_nWidth, ImageRow * m_sTileSelection.m_nHeight,
@@ -512,13 +518,47 @@ namespace SGP_Map_Editor
                         D3D.DeviceBegin();
                         D3D.SpriteBegin();
 
-
-
-                        D3D.Sprite.Flush();	// DRAW ALL SPRITES NOW!!!
-
                         Point Offset = Point.Empty;
                         Offset.X = splitContainerCollision.Panel2.AutoScrollPosition.X;
                         Offset.Y = splitContainerCollision.Panel2.AutoScrollPosition.Y;
+
+                        for (int Row = 0; Row < m_gTileMap.m_nRows; Row++)
+                            for (int Col = 0; Col < m_gTileMap.m_nColumns; Col++)
+                            {
+                                int Index = Row * m_gTileMap.m_nColumns + Col;
+
+                                int PosX = Col * m_gTileMap.m_nWidth + Offset.X;
+                                int PosY = Row * m_gTileMap.m_nHeight + Offset.Y;
+
+                                //m_lMap[Index].m_nDrawImage;
+                                //y = i/width
+                                //x = i%width
+
+                                int ImageRow = m_lMap[Index].m_nDrawImage / m_sTileSelection.m_nColumns;
+                                int ImageCol = m_lMap[Index].m_nDrawImage % m_sTileSelection.m_nColumns;
+
+                                if (PosX > splitContainerCollision.Panel2.Width || PosX + m_sTileSelection.m_nWidth < 0)
+                                    continue;
+
+                                if (PosY > splitContainerCollision.Panel2.Height || PosY + m_sTileSelection.m_nHeight < 0)
+                                    continue;
+
+                                if ((ImageRow == (m_sTileSelection.m_nRows - 1)) && (ImageCol == (m_sTileSelection.m_nColumns - 1)))
+                                {
+                                    D3D.DrawText("NULL", PosX, PosY, 0, 0, 0);
+                                    continue;
+                                }
+
+                                Rectangle rDrawRect = new Rectangle
+                                    (
+                                    ImageCol * m_sTileSelection.m_nWidth, ImageRow * m_sTileSelection.m_nHeight,
+                                    m_sTileSelection.m_nWidth, m_sTileSelection.m_nHeight
+                                    );
+
+                                TM.Draw(m_sTileSelection.m_nImageID, PosX, PosY, ScaleX, ScaleY, rDrawRect, 0, 0, 0, Color.FromArgb(180, 255, 255, 255).ToArgb());
+                            }
+
+                        D3D.Sprite.Flush();	// DRAW ALL SPRITES NOW!!!
 
                         for (int Row = 0; Row < m_gTileMap.m_nRows; Row++)
                             for (int Col = 0; Col < m_gTileMap.m_nColumns; Col++)
@@ -1314,6 +1354,11 @@ namespace SGP_Map_Editor
                 splitContainerMap.Panel2.AutoScrollMinSize = new Size(m_gTileMap.m_nWidth * m_gTileMap.m_nColumns, m_gTileMap.m_nHeight * m_gTileMap.m_nRows);
                 splitContainerBackground.Panel2.AutoScrollMinSize = new Size(m_gTileMap.m_nWidth * m_gTileMap.m_nColumns, m_gTileMap.m_nHeight * m_gTileMap.m_nRows);
                 splitContainerCollision.Panel2.AutoScrollMinSize = new Size(m_gTileMap.m_nWidth * m_gTileMap.m_nColumns, m_gTileMap.m_nHeight * m_gTileMap.m_nRows);
+
+                m_sScale.m_fGridWidth = m_gTileMap.m_nWidth;
+                m_sScale.m_fGridHeight = m_gTileMap.m_nHeight;
+                m_sScale.m_fSelectionWidth = m_sTileSelection.m_nWidth;
+                m_sScale.m_fSelectionHeight = m_sTileSelection.m_nHeight;
 
                 ScaleX = m_sScale.m_fGridWidth / m_sScale.m_fSelectionWidth;
                 ScaleY = m_sScale.m_fGridHeight / m_sScale.m_fSelectionHeight;
