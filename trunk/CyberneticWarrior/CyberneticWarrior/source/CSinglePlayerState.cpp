@@ -209,7 +209,7 @@ void CSinglePlayerState::Enter(void)
 
 bool CSinglePlayerState::Input(void)
 {
-	if(this->m_pDI->KeyPressed(DIK_ESCAPE))
+	if(this->m_pDI->KeyPressed(DIK_ESCAPE) || this->m_pDI->JoystickButtonPressed(9))
 	{
 		CStackStateMachine::GetInstance()->Push_Back(CPauseMenuState::GetInstance());
 		//CStackStateMachine::GetInstance()->Pop_back();

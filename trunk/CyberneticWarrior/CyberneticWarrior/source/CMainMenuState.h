@@ -30,6 +30,8 @@ private:
 
 	CFont	m_MenuFont;
 	
+	float	m_fWaitTime;
+
 	int		m_nBackgroundID;
 	int		m_nCursorID;
 	

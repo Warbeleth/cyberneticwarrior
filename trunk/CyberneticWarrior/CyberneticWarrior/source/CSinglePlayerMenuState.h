@@ -28,6 +28,8 @@ private:
 
 	CFont	m_OptionsFont;
 
+	float m_fWaitTime;
+
 	int	m_nBackgroundID;
 	int m_nCursorID;
 

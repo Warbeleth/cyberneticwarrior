@@ -12,7 +12,7 @@ class CSGD_DirectSound;
 
 class CEvent;
 
-#define GMENU_SPACE 42
+#define GMENU_SPACE 125
 	enum FileOptions {SAVE_GAME = 0, LOAD_GAME, DELETE_PROFILE};
 
 class CGameProfiler : public IGameState
@@ -20,7 +20,7 @@ class CGameProfiler : public IGameState
 private:
 
 	enum selections {OP1 = 0, OP2, OP3, BACK, 
-		MENU_START = 130, CURSOR_POS = 90};
+		MENU_START = 110, CURSOR_POS = 90};
 
 
 	CSGD_Direct3D*				m_pD3D;
@@ -31,10 +31,10 @@ private:
 
 	CFont	m_OptionsFont;
 
-	//const char*	m_nFileName;//[3];
+	const char*	m_nFileName[3];
 
 	int	m_nBackgroundID;
-	int m_nCursorID;
+	int m_nProfileItemID;
 
 
 	int m_nSelectionPos;

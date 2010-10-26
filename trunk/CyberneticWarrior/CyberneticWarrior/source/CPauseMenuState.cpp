@@ -4,7 +4,7 @@
 #include "CStackStateMachine.h"
 #include "CMainMenuState.h"
 #include "COptionsMenuState.h"
-#include "CSaveState.h"
+#include "CGameProfiler.h"
 #include "CEventSystem.h"
 #include "CEvent.h"
 
@@ -34,6 +34,8 @@ CPauseMenuState::~CPauseMenuState(void)
 	this->m_pWM		= NULL;
 	this->m_pDS		= NULL;
 
+	this->m_fWaitTime	= 0.0f;
+
 	this->m_nBackgroundID		= -1;
 	this->m_nCursorID			= -1;
 	//this->m_nSFXID				= -1;
@@ -44,27 +46,35 @@ CPauseMenuState::~CPauseMenuState(void)
 
 bool	CPauseMenuState::Input(void)
 {
-	if(this->m_pDI->KeyPressed(DIK_UP))
+	if(this->m_pDI->KeyPressed(DIK_UP) || this->m_pDI->JoystickDPadPressed(DIR_UP,0)
+		|| (this->m_pDI->JoystickGetLStickYAmount(0) < 0.0f && this->m_fWaitTime > 0.3f))
 	{
 		--this->m_nSelection;
-
+		this->m_fWaitTime = 0.0f;
 		if(this->m_nSelection < this->RESUME)
 		{
 			this->m_nSelection = this->MAIN_MENU;
 		}
 	}
 	
-	if(this->m_pDI->KeyPressed(DIK_DOWN))
+	if(this->m_pDI->KeyPressed(DIK_DOWN) || this->m_pDI->JoystickDPadPressed(DIR_DOWN,0)
+		|| (this->m_pDI->JoystickGetLStickYAmount(0) > 0.0f && this->m_fWaitTime > 0.3f))
 	{
 		++this->m_nSelection;
-
+		this->m_fWaitTime = 0.0f;
 		if(this->m_nSelection > this->MAIN_MENU)
 		{
 			this->m_nSelection = this->RESUME;
 		}
 	}
 
-	if(this->m_pDI->KeyPressed(DIK_RETURN))
+	if(this->m_pDI->KeyPressed(DIK_ESCAPE) || this->m_pDI->JoystickButtonPressed(2,0) || this->m_pDI->JoystickButtonPressed(9,0))
+	{
+		CStackStateMachine::GetInstance()->Pop_back();
+		return 1;
+	}
+
+	if(this->m_pDI->KeyPressed(DIK_RETURN) || this->m_pDI->JoystickButtonPressed(1,0) || this->m_pDI->JoystickButtonPressed(8,0))
 	{
 		switch(this->m_nSelection)
 		{
@@ -73,9 +83,9 @@ bool	CPauseMenuState::Input(void)
 			CStackStateMachine::GetInstance()->Pop_back();
 			break;
 		case this->SAVE:
-			CSaveState::GetInstance()->SetNewGame(0);
-			CSaveState::GetInstance()->SetDelete(0);
-			CStackStateMachine::GetInstance()->Push_Back(CSaveState::GetInstance());
+			CGameProfiler::GetInstance()->SetNewGame(0);
+			CGameProfiler::GetInstance()->SetManagement(SAVE_GAME);
+			CStackStateMachine::GetInstance()->Push_Back(CGameProfiler::GetInstance());
 			break;
 		case this->CONTROLS:
 			break;
@@ -101,7 +111,7 @@ void	CPauseMenuState::Enter(void)
 	this->m_pWM		=		CSGD_WaveManager::GetInstance();
 	this->m_pDS		=		CSGD_DirectSound::GetInstance();
 
-	this->m_nBackgroundID		= this->m_pTM->LoadTexture("resource/graphics/Images.png");
+	this->m_nBackgroundID		= this->m_pTM->LoadTexture("resource/graphics/PauseMenuBG.png");
 	this->m_nCursorID			= this->m_pTM->LoadTexture("resource/graphics/hook.png");
 	//this->m_nMusicID			= this->m_pWM->LoadWave("resource/sounds/SO3_Victory_Bell.wav");
 	//this->m_nSFXID				= this->m_pWM->LoadWave("");
@@ -115,38 +125,38 @@ void	CPauseMenuState::Enter(void)
 
 void	CPauseMenuState::Update(float fElapsedTime)
 {
+	this->m_fWaitTime += fElapsedTime;
 	this->m_nSelectionPos = (this->m_nSelection * PMENU_SPACE) + this->PMENU_START;
 }
 
 void	CPauseMenuState::Render(void)
 {
 	
-	this->m_pTM->Draw(this->m_nBackgroundID, 150, 50);
-	//this->m_pTM->Draw(this->m_nMenuID,0,0,1.3f,1.0f);//,1.0f,1.0f, 0, 0.0f, 0.0f, 0.0f, D3DCOLOR_ARGB(255,0,128,128));
+	this->m_pTM->Draw(this->m_nBackgroundID, 150, 50, 1.0f, 1.0f, 0, 0.0f, 0.0f, 0.0f, D3DXCOLOR(1.0f,1.0f,1.0f,0.5f));//this->m_pTM->Draw(this->m_nMenuID,0,0,1.3f,1.0f);//,1.0f,1.0f, 0, 0.0f, 0.0f, 0.0f, D3DCOLOR_ARGB(255,0,128,128));
 
-	this->m_OptionsFont.Draw("-PAUSED-", 250, 100, 1.2f, D3DXCOLOR(1.0f, 1.0f, 0.0f, 1.0f));
+	this->m_OptionsFont.Draw("-PAUSED-", 300, 100, 1.2f, D3DXCOLOR(1.0f, 1.0f, 0.0f, 1.0f));
 	
-	this->m_OptionsFont.Draw("Resume", 225, (this->RESUME * PMENU_SPACE) + this->PMENU_START, 
+	this->m_OptionsFont.Draw("Resume", 275, (this->RESUME * PMENU_SPACE) + this->PMENU_START, 
 		(this->m_nSelection == this->RESUME? 1.5f : 1.0f) ,
 		(this->m_nSelection == this->RESUME? D3DXCOLOR(0.0f, 1.0f, 0.0f, 1.0f) : D3DXCOLOR(1.0f, 1.0f, 0.0f, 1.0f)));
 	
-	this->m_OptionsFont.Draw("Save", 225, (this->SAVE * PMENU_SPACE) + this->PMENU_START, 
+	this->m_OptionsFont.Draw("Save", 275, (this->SAVE * PMENU_SPACE) + this->PMENU_START, 
 		(this->m_nSelection == this->SAVE? 1.5f : 1.0f) ,
 		(this->m_nSelection == this->SAVE? D3DXCOLOR(0.0f, 1.0f, 0.0f, 1.0f) : D3DXCOLOR(1.0f, 1.0f, 0.0f, 1.0f)));
 	
-	this->m_OptionsFont.Draw("Controls", 225, (this->CONTROLS * PMENU_SPACE) + this->PMENU_START, 
+	this->m_OptionsFont.Draw("Controls", 275, (this->CONTROLS * PMENU_SPACE) + this->PMENU_START, 
 		(this->m_nSelection == this->CONTROLS? 1.5f : 1.0f), 
 		(this->m_nSelection == this->CONTROLS? D3DXCOLOR(0.0f, 1.0f, 0.0f, 1.0f) : D3DXCOLOR(1.0f, 1.0f, 0.0f, 1.0f)));
 	
-	this->m_OptionsFont.Draw("Achievements", 225, (this->ACHIEVEMENTS * PMENU_SPACE) + this->PMENU_START, 
+	this->m_OptionsFont.Draw("Achievements", 275, (this->ACHIEVEMENTS * PMENU_SPACE) + this->PMENU_START, 
 		(this->m_nSelection == this->ACHIEVEMENTS? 1.5f : 1.0f), 
 		(this->m_nSelection == this->ACHIEVEMENTS? D3DXCOLOR(0.0f, 1.0f, 0.0f, 1.0f) : D3DXCOLOR(1.0f, 1.0f, 0.0f, 1.0f)));
 
-	this->m_OptionsFont.Draw("Options", 225, (this->OPTIONS * PMENU_SPACE) + this->PMENU_START, 
+	this->m_OptionsFont.Draw("Options", 275, (this->OPTIONS * PMENU_SPACE) + this->PMENU_START, 
 		(this->m_nSelection == this->OPTIONS? 1.5f : 1.0f),
 		(this->m_nSelection == this->OPTIONS? D3DXCOLOR(0.0f, 1.0f, 0.0f, 1.0f) : D3DXCOLOR(1.0f, 1.0f, 0.0f, 1.0f)));
 	
-	this->m_OptionsFont.Draw("Main Menu", 225, (this->MAIN_MENU * PMENU_SPACE) + this->PMENU_START,
+	this->m_OptionsFont.Draw("Main Menu", 275, (this->MAIN_MENU * PMENU_SPACE) + this->PMENU_START,
 		(this->m_nSelection == this->MAIN_MENU? 1.5f : 1.0f),
 		(this->m_nSelection == this->MAIN_MENU? D3DXCOLOR(0.0f, 1.0f, 0.0f, 1.0f) : D3DXCOLOR(1.0f, 1.0f, 0.0f, 1.0f)));
 	
