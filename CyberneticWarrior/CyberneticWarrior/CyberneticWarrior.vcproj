@@ -570,6 +570,10 @@
 					</FileConfiguration>
 				</File>
 				<File
+					RelativePath=".\source\CMapLoad.cpp"
+					>
+				</File>
+				<File
 					RelativePath=".\source\WinMain.cpp"
 					>
 					<FileConfiguration

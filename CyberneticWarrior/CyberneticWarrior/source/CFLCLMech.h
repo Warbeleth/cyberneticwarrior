@@ -12,9 +12,25 @@ class CFLCLMech : public CPatrolEnemy
 
 public:
 	CFLCLMech();
-	CFLCLMech(bool bRevive, float fReviveTime, float fTimeReviving,int nState, int nCurrentPatrolDistance, 
-				 int nMaxPatrolDistance, int nType, int nImageID, int nMaxHP, int nCurrentHP,int nSightRange, 
-				 int nAttackRange, float fRateOfFire, float fSpeed, int PosX, int PosY, int Width, int Height);
+	CFLCLMech(	int nImageID,
+				float PosX = 0, 
+				float PosY = 0, 
+				int Width = 32, 
+				int Height = 32, 
+				int nState = Patrol, 
+				float fCurrentPatrolDistance = 0, 
+				int nMaxHP = 350, 
+				int nCurrentHP = 350,
+				int nSightRange = 100, 
+				int nAttackRange = 75, 
+				int nType = Ground_FLCL,
+				float fRateOfFire = 1.0f, 
+				float fSpeed = 48.0f,
+				float fReviveTime = 10.0f, 
+				float fTimeReviving = 0.0f,
+				bool bRevive = true
+				);
+
 	~CFLCLMech();
 
 	//////////////////////////////////////////////////////////////////////////////////////////////////////

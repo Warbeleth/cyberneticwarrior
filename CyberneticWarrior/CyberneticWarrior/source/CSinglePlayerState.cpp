@@ -95,10 +95,6 @@ void CSinglePlayerState::Enter(void)
 	this->m_pOF		=		CObjectFactory<string, CBase>::GetInstance();
 	this->m_pOM		=		CObjectManager::GetInstance();
 
-	this->m_pCamera	= CCamera::GetInstance();
-
-	this->m_pCamera->ResetCam();
-
 
 	m_nAnimation.LoadBinary("resource/binary/akainu.bae");
 
@@ -124,8 +120,6 @@ void CSinglePlayerState::Enter(void)
 	this->m_TempPlayer->SetImageID(this->m_pTM->LoadTexture("resource/graphics/Running1.bmp"));
 	this->m_TempPlayer->SetPosX((float)242);
 	this->m_TempPlayer->SetPosY((float)CGame::GetInstance()->GetScreenHeight() - 128);
-	this->m_TempPlayer->SetCamX(this->m_TempPlayer->GetPosX());
-	this->m_TempPlayer->SetCamY(this->m_TempPlayer->GetPosY());
 	this->m_TempPlayer->SetWidth(64);
 	this->m_TempPlayer->SetHeight(128);
 	this->m_TempPlayer->SetBaseVelX(0);
@@ -139,7 +133,7 @@ void CSinglePlayerState::Enter(void)
 	
 	Enemy_1 = new CIdleEnemy(Idle, Turret_Gun, -1, 100, 90, 50, 100, .5, 50, 100, 400, 32, 32);
 	Enemy_2 = new CPatrolEnemy(Patrol, 0, 250, Turret_Gun, -1, 100, 90, 50, 100, .5, 100, 300, 400, 32, 32);
-	Enemy_3 = new CFLCLMech(true, 5, 0, Patrol, 0, 250, Ground_FLCL, -1, 100, 60, 50, 100, .5, 100, 50, 400, 32, 32);
+	Enemy_3 = new CFLCLMech(-1, 300, 400);
 
 
 	tVector2D vStartingPos;
@@ -165,7 +159,6 @@ void CSinglePlayerState::Enter(void)
 	this->m_TempPlatform2->SetPosY((float)100);
 	vStartingPos.fX = this->m_TempPlatform2->GetPosX();
 	vStartingPos.fY = this->m_TempPlatform2->GetPosY();
-	this->m_TempPlatform2->SetWorldPos(vStartingPos);
 	this->m_TempPlatform2->SetWidth(256);
 	this->m_TempPlatform2->SetHeight(32);
 	this->m_TempPlatform2->SetBlockType(BLOCK_SOLID);
@@ -181,8 +174,7 @@ void CSinglePlayerState::Enter(void)
 		//	this->m_PickUp->SetCamX(this->m_PickUp->GetPosX());		
 		//	this->m_PickUp->SetCamY(this->m_PickUp->GetPosY());		
 		vStartingPos.fX = this->m_PickUp->GetPosX();		
-		vStartingPos.fY = this->m_PickUp->GetPosY();		
-		this->m_PickUp->SetWorldPos(vStartingPos);		
+		vStartingPos.fY = this->m_PickUp->GetPosY();	
 		this->m_PickUp->SetWidth(64);		
 		this->m_PickUp->SetHeight(64);		
 		this->m_PickUp->SetBaseVelX(0);		
@@ -221,7 +213,7 @@ void CSinglePlayerState::Update(float fElapsedTime)
 {
 	m_nAnimation.Update( fElapsedTime );
 
-	this->m_tBGOffset.fX = 0 - (float)CCamera::GetInstance()->GetCameraRect().left;
+	this->m_tBGOffset.fX = 0;
 
 	if( this->m_nMusicVolume != COptionsMenuState::GetInstance()->GetMusicVolume())
 	{
@@ -240,9 +232,9 @@ void CSinglePlayerState::Update(float fElapsedTime)
 
 void CSinglePlayerState::Render(void)
 {
-	this->m_pTM->Draw(this->m_nBackgroundImageID,(int)this->m_tBGOffset.fX,(int)this->m_tBGOffset.fY);
+	this->m_pTM->Draw(this->m_nBackgroundImageID,(int)this->m_tBGOffset.fX - CCamera::GetInstance()->GetOffsetX(),(int)this->m_tBGOffset.fY - CCamera::GetInstance()->GetOffsetY());
 
-	m_nAnimation.Render( 400 - CCamera::GetInstance()->GetCameraRect().left, 450 - CCamera::GetInstance()->GetCameraRect().top);
+	m_nAnimation.Render(400, 450);
 	//////////////////////////////
 	// TEMP
 	//////////////////////////////
@@ -284,12 +276,15 @@ void CSinglePlayerState::Exit(void)
 	delete Enemy_3;
 	
 
-	this->m_Profile.m_bHaveHook = 0;	if(this->m_pCamera)
-	{
-		this->m_pCamera->ResetCam();
-		this->m_pCamera = NULL;
-	}
-	CObjectManager::GetInstance()->RemoveObject(this->m_PickUp);	this->m_pOF->UnregisterClassType("CPickUp");	this->m_pOF->UnregisterClassType("CBlock");	this->m_pOF->UnregisterClassType("CHook");	this->m_pOF->UnregisterClassType("CPlayer");	this->m_pOF->UnregisterClassType("CBase");
+	this->m_Profile.m_bHaveHook = 0;	
+	
+
+	CObjectManager::GetInstance()->RemoveObject(this->m_PickUp);	
+	this->m_pOF->UnregisterClassType("CPickUp");	
+	this->m_pOF->UnregisterClassType("CBlock");	
+	this->m_pOF->UnregisterClassType("CHook");	
+	this->m_pOF->UnregisterClassType("CPlayer");	
+	this->m_pOF->UnregisterClassType("CBase");
 
 	if(this->m_pOF)
 	{

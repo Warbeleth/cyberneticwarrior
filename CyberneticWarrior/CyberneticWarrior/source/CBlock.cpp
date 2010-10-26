@@ -28,7 +28,7 @@ void CBlock::Update(float fElapsedTime)
 
 void CBlock::Render(void)
 {
-	CSGD_TextureManager::GetInstance()->Draw(this->GetImageID(), (int)this->GetPosX(), (int)this->GetPosY());
+	CSGD_TextureManager::GetInstance()->Draw(this->GetImageID(), (int)this->GetPosX() - CCamera::GetInstance()->GetOffsetX(), (int)this->GetPosY() - CCamera::GetInstance()->GetOffsetY());
 }	
 
 RECT CBlock::GetRect(void) const

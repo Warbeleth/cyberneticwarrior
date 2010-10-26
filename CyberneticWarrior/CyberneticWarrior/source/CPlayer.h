@@ -42,7 +42,6 @@ private:
 	/////////////////////////////////
 	// Temp
 	/////////////////////////////////
-	tVector2D m_vCameraPos;
 	bool m_bMouseDown;
 	/////////////////////////////////
 
@@ -66,35 +65,7 @@ public:
 
 	void HandleEvent(CEvent* pEvent);
 
-
-
-	void UpdateCamera(float fElapsedTime);
-
 	void Input(float fElapsedTime);
-
-
-	
-
-
-
-
-	
-
-
-
-
-
-
-	/////////////////////////////////////
-	// temp
-	/////////////////////////////////////
-
-	void SetCamX(float fCamX);
-	void SetCamY(float fCamY);
-
-	float GetCamX(void);
-	float GetCamY(void);
-
 
 	bool GetMouseDown(void);
 	void SetMouseDown(bool bMouseDown);

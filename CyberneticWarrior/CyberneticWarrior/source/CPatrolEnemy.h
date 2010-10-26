@@ -17,14 +17,14 @@ enum PatrolStates { Patrol = 0, pActive, pDead };
 class CPatrolEnemy : public CBaseEnemy
 {
 	int m_nState;
-	int m_nCurrentPatrolDistance;
-	int m_nMaxPatrolDistance;
+	float m_fCurrentPatrolDistance;
+	float m_fMaxPatrolDistance;
 
 public:
 	CPatrolEnemy(void);
-	CPatrolEnemy(int nState, int nCurrentPatrolDistance, int nMaxPatrolDistance, int nType, int nImageID, 
+	CPatrolEnemy(int nState, float fCurrentPatrolDistance, float fMaxPatrolDistance, int nType, int nImageID, 
 				 int nMaxHP, int nCurrentHP,int nSightRange, int nAttackRange, float fRateOfFire, 
-			     float fSpeed, int PosX, int PosY, int Width, int Height);
+			     float fSpeed, float PosX, float PosY, int Width, int Height);
 
 	~CPatrolEnemy(void);
 
@@ -33,16 +33,16 @@ public:
 	// 
 	// Purpose : Returns the specified type.
 	//////////////////////////////////////////////////////////////////////////////////////////////////////
-	int GetCurrentDist() { return m_nCurrentPatrolDistance; };
-	int GetMaxDist() { return m_nMaxPatrolDistance; };
+	float GetCurrentDist() { return m_fCurrentPatrolDistance; };
+	float GetMaxDist() { return m_fMaxPatrolDistance; };
 
 	///////////////////////////////////////////////////////////////////////////////////////////////////////
 	// Function: Modifiers 
 	// 
 	// Purpose: Modifies the specified type. 
 	///////////////////////////////////////////////////////////////////////////////////////////////////////
-	void SetCurrentDist(int Value) { m_nCurrentPatrolDistance = Value; };
-	void SetMaxDist(int Value) { m_nMaxPatrolDistance = Value; };
+	void SetCurrentDist(float Value) { m_fCurrentPatrolDistance = Value; };
+	void SetMaxDist(float Value) { m_fMaxPatrolDistance = Value; };
 
 	////////////////////////////////////////////////////////////////////////////////////
 	//	Function : Update

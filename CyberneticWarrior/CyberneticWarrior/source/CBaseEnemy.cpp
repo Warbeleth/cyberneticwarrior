@@ -19,8 +19,8 @@ CBaseEnemy::CBaseEnemy()
 	m_nCurrentHP = m_nMaxHP;
 	m_nSightRange = 1;
 	m_nAttackRange = 1;
-	m_nPosX = 0;
-	m_nPosY = 0;
+	m_fPosX = 0;
+	m_fPosY = 0;
 	m_nWidth = 1;
 	m_nHeight = 1;
 	m_fRateOfFire = 0.0f;
@@ -30,7 +30,7 @@ CBaseEnemy::CBaseEnemy()
 
 CBaseEnemy::CBaseEnemy(int nType, int nImageID, int nMaxHP, int nCurrentHP, 
 			   int nSightRange, int nAttackRange, float fRateOfFire, 
-			   float fSpeed, int nPosX, int nPosY, int nWidth, int nHeight)
+			   float fSpeed, float nPosX, float nPosY, int nWidth, int nHeight)
 {
 	m_nGlobalType = OBJ_ENEMY;
 	m_nType = nType;
@@ -39,8 +39,8 @@ CBaseEnemy::CBaseEnemy(int nType, int nImageID, int nMaxHP, int nCurrentHP,
 	m_nCurrentHP = nCurrentHP;
 	m_nSightRange = nSightRange;
 	m_nAttackRange = nAttackRange;
-	m_nPosX = nPosX;
-	m_nPosY = nPosY;
+	m_fPosX = nPosX;
+	m_fPosY = nPosY;
 	m_nWidth = nWidth;
 	m_nHeight = nHeight;
 	m_fRateOfFire = fRateOfFire;
@@ -58,8 +58,8 @@ CBaseEnemy::~CBaseEnemy()
 RECT CBaseEnemy::GetRect()
 {
 	RECT rReturn;
-	rReturn.left = GetPosX();
-	rReturn.top = GetPosY();
+	rReturn.left = (int)GetPosX();
+	rReturn.top = (int)GetPosY();
 	rReturn.right = rReturn.left + GetWidth();
 	rReturn.bottom = rReturn.top + GetHeight();
 
@@ -83,24 +83,27 @@ void CBaseEnemy::Update(float fElapsedTime)
 
 void CBaseEnemy::Render(void)
 {
+	int offsetX = CCamera::GetInstance()->GetOffsetX();
+	int offsetY = CCamera::GetInstance()->GetOffsetY();
+
 	if(m_nImageID != -1)
 	{
-		CSGD_TextureManager::GetInstance()->Draw(m_nImageID, GetPosX(), GetPosY());
+		CSGD_TextureManager::GetInstance()->Draw(m_nImageID, (int)GetPosX() - offsetX, (int)GetPosY() - offsetY);
 	}
 }
 
-void CBaseEnemy::AddRef(void)
-{
-	m_uiRefCount++;
-}
-
-void CBaseEnemy::Release(void)
-{
-	this->m_uiRefCount--;
-
-	if(this->m_uiRefCount == 0)
-		delete this;
-}
+//void CBaseEnemy::AddRef(void)
+//{
+//	m_uiRefCount++;
+//}
+//
+//void CBaseEnemy::Release(void)
+//{
+//	this->m_uiRefCount--;
+//
+//	if(this->m_uiRefCount == 0)
+//		delete this;
+//}
 
 bool CBaseEnemy::CheckCollision(CBase* pBase)
 {
