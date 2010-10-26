@@ -22,7 +22,7 @@ public:
 	CIdleEnemy(void);
 	CIdleEnemy(int nState, int nType, int nImageID, int nMaxHP, int nCurrentHP, 
 			   int nSightRange, int nAttackRange, float fRateOfFire, 
-			   float fSpeed, int PosX, int PosY, int Width, int Height);
+			   float fSpeed, float PosX, float PosY, int Width, int Height);
 
 	~CIdleEnemy(void);
 

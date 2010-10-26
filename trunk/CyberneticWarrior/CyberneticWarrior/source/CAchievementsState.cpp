@@ -19,7 +19,6 @@ CAchievementsState::CAchievementsState(void)
 	this->m_pWM		= NULL;
 	this->m_pDS		= NULL;
 
-<<<<<<< .mine
 	// Atract Mode
 	m_fAtractMode = 60.0f;
 	m_fAtractModeTimer = 0.0f;

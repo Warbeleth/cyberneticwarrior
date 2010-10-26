@@ -13,13 +13,13 @@ CCamera* CCamera::sm_pCameraInstance = 0;
 
 CCamera::CCamera( void )
 {
-	m_nX = 0;
-	m_nY = 0;
+	m_nX = m_nY = 0;
 	m_fScale = 1.0f;
 }
 
 CCamera::~CCamera( void )
 {
+
 }
 
 CCamera* CCamera::GetInstance( void )

@@ -8,7 +8,6 @@
 
 CPlayer::CPlayer(void)
 {
-	this->m_vCameraPos.fX = this->m_vCameraPos.fY = 0.0f;
 	this->SetType(OBJ_PLAYER);
 	this->m_bOnGround = 1;
 	this->m_bOnPlatform = 0;
@@ -50,12 +49,7 @@ void CPlayer::Update(float fElapsedTime)
 		CBase::Update(fElapsedTime);
 	}
 
-	this->UpdateCamera(fElapsedTime);
 	this->Input(fElapsedTime);
-
-
-
-
 
 	if(this->m_pHook)
 	{
@@ -187,36 +181,6 @@ void CPlayer::Update(float fElapsedTime)
 	}
 	////////////////////////////////////////
 
-	////////////////////////////////////////
-	// Camera boundary checking
-	////////////////////////////////////////
-	//static int nPlayerCamROffset = CGame::GetInstance()->GetScreenWidth()- CAMOFFSET;
-	if(this->GetPosX() >= CGame::GetInstance()->GetScreenWidth() - CAMOFFSET && (this->GetCamX() + CAMOFFSET) < 2048)
-	{
-		this->SetPosX((float)CGame::GetInstance()->GetScreenWidth() - CAMOFFSET);
-	}
-	if(this->GetPosX() <= CAMOFFSET && this->GetCamX() > CAMOFFSET)
-	{
-		this->SetPosX(CAMOFFSET);
-	}
-
-	if(this->GetCamX() < 0)
-	{
-		this->SetBaseVelX(0.0f);
-		this->m_vSpeed.fX = 0.0f;
-		this->SetCamX(0);
-		this->SetPosX(0);
-	}
-	else if((this->GetCamX() + this->GetWidth())> 2048)
-	{
-		this->SetBaseVelX(0.0f);
-		this->m_vSpeed.fX = 0.0f;
-		this->SetCamX(2048- (float)this->GetWidth());
-		this->SetPosX((float)CGame::GetInstance()->GetScreenWidth() - this->GetWidth());
-
-	}
-	////////////////////////////////////////
-
 	tVector2D vecHandRotation;
 	vecHandRotation.fX = 0.0f;
 	vecHandRotation.fY = -1.0f;
@@ -224,38 +188,30 @@ void CPlayer::Update(float fElapsedTime)
 	//vecHandRotation = Vector2DRotate( vecHandRotation,)
 
 	tVector2D vecMouseVector;
-	vecMouseVector.fX = CSGD_DirectInput::GetInstance()->MouseGetPosX() - GetPosX();
-	vecMouseVector.fY = CSGD_DirectInput::GetInstance()->MouseGetPosY() - GetPosY();
+	vecMouseVector.fX = CSGD_DirectInput::GetInstance()->MouseGetPosX() - GetPosX() + CCamera::GetInstance()->GetOffsetX();
+	vecMouseVector.fY = CSGD_DirectInput::GetInstance()->MouseGetPosY() - GetPosY() + CCamera::GetInstance()->GetOffsetY();
 
 	m_fHandRotation = AngleBetweenVectors( vecHandRotation, vecMouseVector );
 	
-	if( CSGD_DirectInput::GetInstance()->MouseGetPosX() < GetPosX() )
+	if( CSGD_DirectInput::GetInstance()->MouseGetPosX() < GetPosX()  - CCamera::GetInstance()->GetOffsetX() )
 		m_fHandRotation = SGD_PI + (SGD_PI - m_fHandRotation);
+
+	////////////////////////////////////////
+	// Camera boundary checking
+	////////////////////////////////////////
+	CCamera::GetInstance()->SetCameraOffsetX(int(this->GetPosX()-400));
+	
+	if(CCamera::GetInstance()->GetOffsetX() < 0)
+		CCamera::GetInstance()->SetCameraOffsetX(0);
+		
+	CCamera::GetInstance()->SetCameraOffsetY(int(this->GetPosY()-430));
+
+	if(CCamera::GetInstance()->GetOffsetY() < 0)
+		CCamera::GetInstance()->SetCameraOffsetY(0);
+
+
+	////////////////////////////////////////
 }
-
-void CPlayer::UpdateCamera(float fElapsedTime)
-{
-	///////////////////////////////
-	// Camera Updates
-	///////////////////////////////
-	this->SetCamX(this->GetCamX() + this->GetBaseVelX() * fElapsedTime);
-	this->SetCamY(this->GetCamY() + this->GetBaseVelY() * fElapsedTime);
-
-
-	if((this->GetCamX() + this->GetWidth()) >= CCamera::GetInstance()->GetCameraRight()
-		&& CCamera::GetInstance()->GetCameraRect().right <= 2048)
-	{
-		CCamera::GetInstance()->UpdateCam(((int)this->GetCamX() + this->GetWidth()), 1);
-	}
-
-	if(this->GetCamX() <= CCamera::GetInstance()->GetCameraLeft()
-		&& CCamera::GetInstance()->GetCameraRect().left >= 0)
-	{
-		CCamera::GetInstance()->UpdateCam((int)this->GetCamX(), 0);
-	}
-	///////////////////////////////
-}
-
 
 void CPlayer::Input(float fElapsedTime)
 {
@@ -374,16 +330,20 @@ void CPlayer::Render(void)
 	rDrawRect.left = 0;
 	rDrawRect.right = this->GetWidth();
 	rDrawRect.bottom = this->GetHeight();
-	CSGD_TextureManager::GetInstance()->Draw(this->GetImageID(), (int)this->GetPosX(), (int)this->GetPosY(), 
+
+	int OffsetX = CCamera::GetInstance()->GetOffsetX();
+	int OffsetY = CCamera::GetInstance()->GetOffsetY();
+
+	CSGD_TextureManager::GetInstance()->Draw(this->GetImageID(), (int)this->GetPosX() - OffsetX, (int)this->GetPosY() - OffsetY, 
 		1.0f,1.0f, &rDrawRect);//, this->m_vRotationCenter.fX, this->m_vRotationCenter.fX, this->m_fRotation);//, (float)GetWidth()/2, (float)GetHeight());
 
 	if(m_bHomingOn)
-		CSGD_Direct3D::GetInstance()->DrawLine( (int)(GetPosX() + (GetWidth()/2)), (int)(GetPosY() + (GetHeight()/4)), CSGD_DirectInput::GetInstance()->MouseGetPosX()+8, CSGD_DirectInput::GetInstance()->MouseGetPosY()+8, 255, 0, 0 );
+		CSGD_Direct3D::GetInstance()->DrawLine( (int)(GetPosX() + (GetWidth()/2)) - OffsetX, (int)(GetPosY() + (GetHeight()/4)) - OffsetY, CSGD_DirectInput::GetInstance()->MouseGetPosX()+8, CSGD_DirectInput::GetInstance()->MouseGetPosY()+8, 255, 0, 0 );
 
-	CSGD_TextureManager::GetInstance()->Draw(this->GetImageID(), (int)this->GetPosX(), (int)this->GetPosY(), 
+	CSGD_TextureManager::GetInstance()->Draw(this->GetImageID(), (int)this->GetPosX() - OffsetX, (int)this->GetPosY() - OffsetY, 
 		1.0f,1.0f, &rDrawRect, this->m_vRotationCenter.fX, this->m_vRotationCenter.fX, this->m_fRotation);
 
-	CSGD_TextureManager::GetInstance()->Draw(m_nHandID, (int)(GetPosX() + (GetWidth()/2)), (int)(GetPosY() - (GetHeight()/4)), 0.6f, 0.6f, 0, 16, 64, m_fHandRotation, -1 );
+	CSGD_TextureManager::GetInstance()->Draw(m_nHandID, (int)(GetPosX() + (GetWidth()/2)) - OffsetX, (int)(GetPosY() - (GetHeight()/4)) - OffsetY, 0.6f, 0.6f, 0, 16, 64, m_fHandRotation, -1 );
 }
 
 RECT CPlayer::GetRect(void) const
@@ -461,28 +421,6 @@ void CPlayer::HandleEvent(CEvent* pEvent)
 
 /////////
 // TEMP
-
-void CPlayer::SetCamX(float nCamX)
-{
-	this->m_vCameraPos.fX = nCamX;
-}
-
-void CPlayer::SetCamY(float nCamY)
-{
-	this->m_vCameraPos.fY = nCamY;
-}
-
-float CPlayer::GetCamX(void)
-{
-	return this->m_vCameraPos.fX;
-}
-
-float CPlayer::GetCamY(void)
-{
-	return this->m_vCameraPos.fY;
-}
-
-
 bool CPlayer::GetMouseDown(void)	{return this->m_bMouseDown;}
 void CPlayer::SetMouseDown(bool bMouseDown) {this->m_bMouseDown = bMouseDown;}
 

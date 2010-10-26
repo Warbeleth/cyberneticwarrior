@@ -60,8 +60,8 @@ void CRocket::Update( float fElapsedTime)
 
 void CRocket::Render( void )
 {
-	CSGD_TextureManager::GetInstance()->Draw( GetImageID(), (int)(GetPosX() + (GetWidth()/2.0f) ), 
-		(int)(GetPosY() - (GetHeight()/2.0f)), 1.0f, 1.0f, 0, (GetWidth()/2.0f), (GetHeight()/2.0f),
+	CSGD_TextureManager::GetInstance()->Draw( GetImageID(), (int)(GetPosX() + (GetWidth()/2.0f) ) - CCamera::GetInstance()->GetOffsetX(), 
+		(int)(GetPosY() - (GetHeight()/2.0f)) - CCamera::GetInstance()->GetOffsetY(), 1.0f, 1.0f, 0, (GetWidth()/2.0f), (GetHeight()/2.0f),
 		m_fRotation );
 }
 

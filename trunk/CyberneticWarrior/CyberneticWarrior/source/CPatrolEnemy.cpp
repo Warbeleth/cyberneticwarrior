@@ -15,16 +15,16 @@ CPatrolEnemy::CPatrolEnemy(void)
 {
 }
 
-CPatrolEnemy::CPatrolEnemy(int nState, int nCurrentPatrolDistance, int nMaxPatrolDistance, int nType, int nImageID, 
+CPatrolEnemy::CPatrolEnemy(int nState, float fCurrentPatrolDistance, float fMaxPatrolDistance, int nType, int nImageID, 
 				 int nMaxHP, int nCurrentHP,int nSightRange, int nAttackRange, float fRateOfFire, 
-			     float fSpeed, int PosX, int PosY, int Width, int Height) : CBaseEnemy(nType, nImageID, nMaxHP, nCurrentHP, 
+			     float fSpeed, float PosX, float PosY, int Width, int Height) : CBaseEnemy(nType, nImageID, nMaxHP, nCurrentHP, 
 																		nSightRange, nAttackRange, fRateOfFire, fSpeed,
 																		PosX, PosY, Width, Height)
 
 {
 	m_nState = nState;
-	m_nCurrentPatrolDistance = nCurrentPatrolDistance;
-	m_nMaxPatrolDistance = nMaxPatrolDistance;
+	m_fCurrentPatrolDistance = fCurrentPatrolDistance;
+	m_fMaxPatrolDistance = fMaxPatrolDistance;
 }
 
 CPatrolEnemy::~CPatrolEnemy(void)
@@ -43,7 +43,7 @@ void CPatrolEnemy::Update(float fElapsedTime)
 		Result.fX = GetTargetPosition().fX - GetPosX();
 		Result.fY = GetTargetPosition().fY - GetPosY();
 
-		int Distance = int(sqrt(Result.fX*Result.fX + Result.fY*Result.fY));
+		float Distance = sqrt(Result.fX*Result.fX + Result.fY*Result.fY);
 
 		if(Distance <= GetSightRange())
 		{
@@ -54,7 +54,7 @@ void CPatrolEnemy::Update(float fElapsedTime)
 
 		if(ReturnAIState() == Patrol)
 		{
-			SetPosX(int(GetPosX() + GetSpeed() * fElapsedTime));
+			SetPosX((GetPosX() + GetSpeed() * fElapsedTime));
 
 			if(GetPosX() <= 0)
 			{
@@ -63,7 +63,7 @@ void CPatrolEnemy::Update(float fElapsedTime)
 				SetSpeed(-1*GetSpeed());
 			}
 
-			SetCurrentDist(GetCurrentDist() + (int(fabs(GetSpeed()) * fElapsedTime)));
+			SetCurrentDist(GetCurrentDist() + (fabs(GetSpeed()) * fElapsedTime));
 
 			if(GetCurrentDist() >= GetMaxDist())
 			{
@@ -81,15 +81,15 @@ void CPatrolEnemy::Render()
 
 	CSGD_Direct3D::GetInstance()->GetSprite()->Flush();
 
-	int OffsetX = CCamera::GetInstance()->GetCameraRect().left;
-	int OffsetY = CCamera::GetInstance()->GetCameraRect().top;
+	int OffsetX = CCamera::GetInstance()->GetOffsetX();
+	int OffsetY = CCamera::GetInstance()->GetOffsetY();
 
 	if(ReturnAIState() == Patrol)
-		CSGD_Direct3D::GetInstance()->DrawTextA("State: Patrol", GetPosX() - OffsetX, GetPosY() - OffsetY, 0, 0, 255);
+		CSGD_Direct3D::GetInstance()->DrawTextA("State: Patrol", (int)GetPosX() - OffsetX, (int)GetPosY() - OffsetY, 0, 0, 255);
 	else if(ReturnAIState() == pActive)
-		CSGD_Direct3D::GetInstance()->DrawTextA("State: Active", GetPosX() - OffsetX, GetPosY() - OffsetY, 0, 255, 0);
+		CSGD_Direct3D::GetInstance()->DrawTextA("State: Active", (int)GetPosX() - OffsetX, (int)GetPosY() - OffsetY, 0, 255, 0);
 	else
-		CSGD_Direct3D::GetInstance()->DrawTextA("State: Dead", GetPosX() - OffsetX, GetPosY() - OffsetY, 255, 0, 0);
+		CSGD_Direct3D::GetInstance()->DrawTextA("State: Dead", (int)GetPosX() - OffsetX, (int)GetPosY() - OffsetY, 255, 0, 0);
 }
 
 void CPatrolEnemy::ChangeAIState(int nNewState)

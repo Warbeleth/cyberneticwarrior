@@ -35,8 +35,8 @@ class CBaseEnemy : /*public IBaseInterface, */public CBase
 	int m_nCurrentHP;
 	int m_nSightRange;
 	int m_nAttackRange;
-	int m_nPosX;
-	int m_nPosY;
+	float m_fPosX;
+	float m_fPosY;
 	int m_nWidth;
 	int m_nHeight;
 	float m_fRateOfFire;
@@ -44,8 +44,13 @@ class CBaseEnemy : /*public IBaseInterface, */public CBase
 	bool m_bSinglePlayer;
 	tVector2D m_vTargetPosition;
 
-	unsigned int m_uiRefCount;
-
+	//unsigned int m_uiRefCount;
+protected:
+	enum Enemies { Turret_Gun = 0, Turret_Frost, Turret_Fire, Turret_Multi,
+		Drone_Attack, Drone_Seeker, Drone_Heavy,
+		Ground_Mech, Ground_Siege, Ground_FLCL,
+		Boss_Apple, Boss_Pimp, Boss_Pirate      
+	};
 
 public:
 	////////////////////////////////////////////////////////////////////////////////////
@@ -62,7 +67,7 @@ public:
 	////////////////////////////////////////////////////////////////////////////////////
 	CBaseEnemy(int nType, int nImageID, int nMaxHP, int nCurrentHP, 
 			   int nSightRange, int nAttackRange, float fRateOfFire, 
-			   float fSpeed, int PosX, int PosY, int Width, int Height);
+			   float fSpeed, float PosX, float PosY, int Width, int Height);
 
 	////////////////////////////////////////////////////////////////////////////////////
 	//	Function : Destructor
@@ -82,8 +87,8 @@ public:
 	int GetCurrentHP() { return m_nCurrentHP; };
 	int GetSightRange() { return m_nSightRange; };
 	int GetAttackRange() { return m_nAttackRange; };
-	int GetPosX() { return m_nPosX; };
-	int GetPosY() { return m_nPosY; };
+	float GetPosX() { return m_fPosX; };
+	float GetPosY() { return m_fPosY; };
 	int GetWidth() { return m_nWidth; };
 	int GetHeight() { return m_nHeight; };
 	float GetRateOfFire() { return m_fRateOfFire; };
@@ -103,8 +108,8 @@ public:
 	void SetCurrentHP(int Value) { m_nCurrentHP = Value; };
 	void SetSightRange(int Value) { m_nSightRange = Value; };
 	void SetAttackRange(int Value) { m_nAttackRange = Value; };
-	void SetPosX(int Value) { m_nPosX = Value; };
-	void SetPosY(int Value) { m_nPosY = Value; };
+	void SetPosX(float Value) { m_fPosX = Value; };
+	void SetPosY(float Value) { m_fPosY = Value; };
 	void SetWidth(int Value) { m_nWidth = Value; };
 	void SetHeight(int Value) { m_nHeight = Value; };
 	void SetRateOfFire(float Value) { m_fRateOfFire = Value; };
@@ -129,14 +134,14 @@ public:
 	//
 	//	Purpose : To Add Reference which is used for Object Manager.
 	////////////////////////////////////////////////////////////////////////////////////
-	void AddRef(void);
+	//void AddRef(void);
 
 	////////////////////////////////////////////////////////////////////////////////////
 	//	Function : Release
 	//
 	//	Purpose : To release a reference from the object manager.
 	////////////////////////////////////////////////////////////////////////////////////
-	void Release(void);
+	//void Release(void);
 
 	////////////////////////////////////////////////////////////////////////////////////
 	//	Function : CheckCollision

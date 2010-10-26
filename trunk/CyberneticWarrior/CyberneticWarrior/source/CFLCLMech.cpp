@@ -6,13 +6,14 @@
 CFLCLMech::CFLCLMech()
 {
 }
-CFLCLMech::CFLCLMech(bool bRevive, float fReviveTime, float fTimeReviving, int nState, int nCurrentPatrolDistance, 
-				 int nMaxPatrolDistance, int nType, int nImageID, int nMaxHP, int nCurrentHP, int nSightRange, 
-				 int nAttackRange, float fRateOfFire, float fSpeed, int PosX, int PosY, int Width, int Height) : CPatrolEnemy(nState, nCurrentPatrolDistance, 
-				 nMaxPatrolDistance, nType, nImageID, nMaxHP, nCurrentHP, nSightRange, 
+CFLCLMech::CFLCLMech(int nImageID, float PosX, float PosY,int Width, int Height, int nState, float fCurrentPatrolDistance, 
+				int nMaxHP, int nCurrentHP, int nSightRange, int nAttackRange, int nType, float fRateOfFire, 
+				float fSpeed, float fReviveTime, float fTimeReviving, bool bRevive) : CPatrolEnemy(nState, fCurrentPatrolDistance, 
+				 float(nSightRange + 100) /*max patrol distance*/, nType, nImageID, nMaxHP, nCurrentHP, nSightRange, 
 				 nAttackRange, fRateOfFire, fSpeed, PosX, PosY, Width, Height)
 {
 	m_bRevive = bRevive;
+	m_bReviving = false;
 	m_fReviveTime = fReviveTime;
 	m_fTimeReviving = fTimeReviving;
 }
@@ -52,9 +53,9 @@ void CFLCLMech::Render()
 {
 	CPatrolEnemy::Render();
 
-	int OffsetX = CCamera::GetInstance()->GetCameraRect().left;
-	int OffsetY = CCamera::GetInstance()->GetCameraRect().top;
+	int OffsetX = CCamera::GetInstance()->GetOffsetX();
+	int OffsetY = CCamera::GetInstance()->GetOffsetY();
 
 	if(m_bReviving == true)
-		CSGD_Direct3D::GetInstance()->DrawTextA("State: LOL, I\"m REVIVIN", GetPosX() - OffsetX, GetPosY() - OffsetY-20, 255, 0, 0);
+		CSGD_Direct3D::GetInstance()->DrawTextA("State: LOL, I\"m REVIVIN", (int)GetPosX() - OffsetX, (int)GetPosY() - OffsetY-20, 255, 0, 0);
 }

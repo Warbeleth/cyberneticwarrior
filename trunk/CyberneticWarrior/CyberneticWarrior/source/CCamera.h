@@ -14,15 +14,18 @@ class CCamera
 	int m_nY;
 	float m_fScale;
 
+
 	CCamera( void );
 	~CCamera( void );
 	CCamera(CCamera&);
 	CCamera& operator=(CCamera&);
 
 	static CCamera* sm_pCameraInstance;
+
 public:
-	int SetCameraOffsetX( int nOffsetX ) { m_nX = nOffsetX; }
-	int SetCameraOffsetY( int nOffsetY ) { m_nY = nOffsetY; }
+
+	void SetCameraOffsetX( int nOffsetX ) { m_nX = nOffsetX; }
+	void SetCameraOffsetY( int nOffsetY ) { m_nY = nOffsetY; }
 
 	int GetOffsetX( void ) { return (int)(m_nX * m_fScale); }
 	int GetOffsetY( void ) { return (int)(m_nY * m_fScale); }

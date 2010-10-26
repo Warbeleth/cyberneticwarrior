@@ -3,7 +3,6 @@
 #include "CGrapplingHook.h"
 
 #include "CGame.h"
-#include "CCamera.h"
 #include "CPlayer.h"
 #include "CSinglePlayerState.h"
 
@@ -32,11 +31,7 @@ void CGrapplingHook::Update(float fElapsedTime)
 		this->SetPosX(this->GetPosX() + this->GetBaseVelX() * fElapsedTime);
 		this->SetPosY(this->GetPosY() + this->GetBaseVelY() * fElapsedTime);
 
-		this->SetPosX(this->GetWorldPos().fX - (float)CCamera::GetInstance()->GetCameraRect().left);
-		this->SetPosY(this->GetWorldPos().fY - (float)CCamera::GetInstance()->GetCameraRect().top);
-		
-		
-			//CSinglePlayerState::GetInstance()->GetPlayerPointer()->SetRotation(-this->GetRotation());
+		//CSinglePlayerState::GetInstance()->GetPlayerPointer()->SetRotation(-this->GetRotation());
 		
 
 		//bOnGround = CSinglePlayerState::GetInstance()->GetPlayerPointer()->GetOnGround();
@@ -72,13 +67,13 @@ void CGrapplingHook::Update(float fElapsedTime)
 
 void CGrapplingHook::Render(void)
 {
-	CSGD_TextureManager::GetInstance()->Draw(this->GetImageID(), (int)(this->GetPosX() + (this->GetWidth()/2.0f)),
-		(int)(this->GetPosY() - (this->GetHeight()/2.0f)), 1.0f, 1.0f, 0, (this->GetWidth()/2.0f), (this->GetHeight()/2.0f),
+	CSGD_TextureManager::GetInstance()->Draw(this->GetImageID(), (int)(this->GetPosX() + (this->GetWidth()/2.0f)) - CCamera::GetInstance()->GetOffsetX(),
+		(int)(this->GetPosY() - (this->GetHeight()/2.0f)) - CCamera::GetInstance()->GetOffsetY(), 1.0f, 1.0f, 0, (this->GetWidth()/2.0f), (this->GetHeight()/2.0f),
 		this->GetRotation());
 	CSGD_Direct3D::GetInstance()->GetSprite()->Flush();
-	CSGD_Direct3D::GetInstance()->DrawLine((int)this->GetPosX() + this->GetWidth()/2, (int)this->GetPosY(),
-		(int)CSinglePlayerState::GetInstance()->GetPlayerPointer()->GetPosX()+CSinglePlayerState::GetInstance()->GetPlayerPointer()->GetWidth(), 
-		(int)CSinglePlayerState::GetInstance()->GetPlayerPointer()->GetPosY(), 
+	CSGD_Direct3D::GetInstance()->DrawLine((int)this->GetPosX() + this->GetWidth()/2 - CCamera::GetInstance()->GetOffsetX(), (int)this->GetPosY() - CCamera::GetInstance()->GetOffsetY(),
+		(int)CSinglePlayerState::GetInstance()->GetPlayerPointer()->GetPosX()+CSinglePlayerState::GetInstance()->GetPlayerPointer()->GetWidth() - CCamera::GetInstance()->GetOffsetX(), 
+		(int)CSinglePlayerState::GetInstance()->GetPlayerPointer()->GetPosY() - CCamera::GetInstance()->GetOffsetY(), 
 		255, 255, 0);
 }
 
@@ -103,10 +98,6 @@ bool CGrapplingHook::CheckCollision(CBase *pBase)
 			this->SetHooked(1);
 			this->SetBaseVelX(0.0f);
 			this->SetBaseVelY(0.0f);
-			static tVector2D vWorldPos;
-			vWorldPos.fX = this->GetPosX() + CCamera::GetInstance()->GetCameraRect().left;// - this->GetWorldPos().fX;
-			vWorldPos.fY = this->GetPosY() + CCamera::GetInstance()->GetCameraRect().top;// - this->GetWorldPos().fY;
-			this->SetWorldPos(vWorldPos);
 			//CSinglePlayerState::GetInstance()->GetPlayerPointer()->SetRotationPosX(this->GetPosX());
 			//CSinglePlayerState::GetInstance()->GetPlayerPointer()->SetRotationPosY(this->GetPosY());
 		}

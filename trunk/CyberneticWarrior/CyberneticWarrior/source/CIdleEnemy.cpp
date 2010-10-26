@@ -17,7 +17,7 @@ CIdleEnemy::CIdleEnemy(void)
 
 CIdleEnemy::CIdleEnemy(int nState, int nType, int nImageID, int nMaxHP, int nCurrentHP, 
 		   int nSightRange, int nAttackRange, float fRateOfFire, 
-		   float fSpeed, int PosX, int PosY, int Width, int Height) : CBaseEnemy(nType, nImageID, nMaxHP, nCurrentHP, 
+		   float fSpeed, float PosX, float PosY, int Width, int Height) : CBaseEnemy(nType, nImageID, nMaxHP, nCurrentHP, 
 																		nSightRange, nAttackRange, fRateOfFire, fSpeed,
 																		PosX, PosY, Width, Height)
 
@@ -58,15 +58,15 @@ void CIdleEnemy::Render()
 
 	CSGD_Direct3D::GetInstance()->GetSprite()->Flush();
 
-	int OffsetX = CCamera::GetInstance()->GetCameraRect().left;
-	int OffsetY = CCamera::GetInstance()->GetCameraRect().top;
+	int OffsetX = CCamera::GetInstance()->GetOffsetX();
+	int OffsetY = CCamera::GetInstance()->GetOffsetY();
 
 	if(ReturnAIState() == Idle)
-		CSGD_Direct3D::GetInstance()->DrawTextA("State: Idle", GetPosX() - OffsetX, GetPosY() - OffsetY, 0, 0, 255);
+		CSGD_Direct3D::GetInstance()->DrawTextA("State: Idle", (int)GetPosX() - OffsetX, (int)GetPosY() - OffsetY, 0, 0, 255);
 	else if(ReturnAIState() == iActive)
-		CSGD_Direct3D::GetInstance()->DrawTextA("State: Active", GetPosX() - OffsetX, GetPosY() - OffsetY, 0, 255, 0);
+		CSGD_Direct3D::GetInstance()->DrawTextA("State: Active", (int)GetPosX() - OffsetX, (int)GetPosY() - OffsetY, 0, 255, 0);
 	else
-		CSGD_Direct3D::GetInstance()->DrawTextA("State: Dead", GetPosX() - OffsetX, GetPosY() - OffsetY, 255, 0, 0);
+		CSGD_Direct3D::GetInstance()->DrawTextA("State: Dead", (int)GetPosX() - OffsetX, (int)GetPosY() - OffsetY, 255, 0, 0);
 }
 
 void CIdleEnemy::ChangeAIState(int nNewState)

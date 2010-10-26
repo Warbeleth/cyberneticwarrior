@@ -77,12 +77,6 @@ void CBase::Update(float fElapsedTime)
 {
 	this->SetPosX(this->GetPosX() + this->GetBaseVelX() * fElapsedTime);
 	this->SetPosY(this->GetPosY() + this->GetBaseVelY() * fElapsedTime);
-
-	if(this->GetType() != OBJ_PLAYER && this->GetBaseVelX() == 0.0f && this->GetBaseVelY() == 0.0f )
-	{
-		this->SetPosX(this->GetWorldPos().fX - (float)CCamera::GetInstance()->GetCameraRect().left);
-		this->SetPosY(this->GetWorldPos().fY - (float)CCamera::GetInstance()->GetCameraRect().top);
-	}
 }
 
 ////////////////////////////////////////////////////////////////////////////////////
@@ -208,11 +202,6 @@ float CBase::GetBaseVelY(void) const
 {
 	return this->m_vBaseVelocity.fY;
 }
-
-
-
-tVector2D	CBase::GetWorldPos(void)const	{ return this->m_vWorldPos;}
-void		CBase::SetWorldPos(tVector2D vWorldPos)	{this->m_vWorldPos = vWorldPos;}
 
 ////////////////////////////////////////////////////////////////////////////////////
 //	Mutator : SetImageID

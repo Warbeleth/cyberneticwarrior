@@ -11,5 +11,6 @@
 #include "SGD Wrappers/SGD_Util.h"
 #include "CMessageSystem.h"
 #include <fstream>
+#include "CCamera.h"
 
 #endif
