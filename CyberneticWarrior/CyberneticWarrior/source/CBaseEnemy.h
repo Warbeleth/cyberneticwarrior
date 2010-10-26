@@ -9,14 +9,14 @@
 #ifndef CBASEENEMY_H_
 #define CBASEENEMY_H_
 
-#include <d3d9.h>
+class CSGD_Direct3D;
 //Imports for update checking
 #include "CPlayer.h"
 //class CPlayer;
 class CSinglePlayerState;
 //Remaining includes
 class CSGD_TextureManager;
-class CSGD_Direct3D;
+
 //#include "IBaseInterface.h"
 
 //Camera
