@@ -24,6 +24,11 @@ CSinglePlayerMenuState::CSinglePlayerMenuState(void)
 
 	this->m_nSelection			= this->NEW_GAME;
 	this->m_nSelectionPos		= this->SMENU_START;
+	
+	// Atract Mode
+	m_fAtractMode = 60.0f;
+	m_fAtractModeTimer = 0.0f;
+	m_bInput = false;
 }
 
 CSinglePlayerMenuState::~CSinglePlayerMenuState(void)
@@ -44,8 +49,11 @@ CSinglePlayerMenuState::~CSinglePlayerMenuState(void)
 
 bool	CSinglePlayerMenuState::Input(void)
 {
+	m_bInput = false;
+
 	if(this->m_pDI->KeyPressed(DIK_UP))
 	{
+		m_bInput = true;
 		--this->m_nSelection;
 
 		if(this->m_nSelection < this->NEW_GAME)
@@ -56,6 +64,7 @@ bool	CSinglePlayerMenuState::Input(void)
 	
 	if(this->m_pDI->KeyPressed(DIK_DOWN))
 	{
+		m_bInput = true;
 		++this->m_nSelection;
 
 		if(this->m_nSelection > this->BACK)
@@ -66,6 +75,7 @@ bool	CSinglePlayerMenuState::Input(void)
 
 	if(this->m_pDI->KeyPressed(DIK_RETURN))
 	{
+		m_bInput = true;
 		switch(this->m_nSelection)
 		{
 		case this->NEW_GAME:
@@ -116,6 +126,7 @@ void	CSinglePlayerMenuState::Enter(void)
 void	CSinglePlayerMenuState::Update(float fElapsedTime)
 {
 	this->m_nSelectionPos = (this->m_nSelection * SPMENU_SPACE) + this->SMENU_START;
+	AtractMode( fElapsedTime );
 }
 
 void	CSinglePlayerMenuState::Render(void)
