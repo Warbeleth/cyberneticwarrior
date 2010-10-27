@@ -346,10 +346,10 @@ void CGame::MessageProc(CBaseMessage*	pMsg)
 			static tVector2D vMousePos;
 			//vMousePos.fX = vPlayerPos.fX + (float)pGH->GetPlayerPointer()->GetJoyPos()->fX;
 			//vMousePos.fY = vPlayerPos.fY +(float)pGH->GetPlayerPointer()->GetJoyPos()->fY;
-			vMousePos.fX = (float)CSGD_DirectInput::GetInstance()->MouseGetPosX();
-			vMousePos.fY = (float)CSGD_DirectInput::GetInstance()->MouseGetPosY();
+			vMousePos.fX = (float)CSGD_DirectInput::GetInstance()->MouseGetPosX() + CCamera::GetInstance()->GetOffsetX();
+			vMousePos.fY = (float)CSGD_DirectInput::GetInstance()->MouseGetPosY() + CCamera::GetInstance()->GetOffsetY();
 
-
+			int poop = CCamera::GetInstance()->GetOffsetX();
 
 			static tVector2D vPlayerPos;
 			vPlayerPos.fX = pGH->GetPlayerPointer()->GetPosX() + (float)pGH->GetPlayerPointer()->GetWidth();
