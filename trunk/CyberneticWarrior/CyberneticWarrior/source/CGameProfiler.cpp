@@ -250,16 +250,19 @@ void	CGameProfiler::Exit(void)
 	this->m_pWM->UnloadWave(this->m_nSFXID);
 	this->m_nSFXID = NULL;
 	}
+
 	if(this->m_nMusicID > -1)
 	{
 	this->m_pWM->UnloadWave(this->m_nMusicID);
 	this->m_nMusicID = NULL;
 	}*/
+
 	if(this->m_nProfileItemID > -1)
 	{
 		this->m_pTM->UnloadTexture(this->m_nProfileItemID);
 		this->m_nProfileItemID = NULL;
 	}
+
 	if(this->m_nBackgroundID > -1)
 	{
 		this->m_pTM->UnloadTexture(this->m_nBackgroundID);
@@ -290,8 +293,6 @@ void	CGameProfiler::Exit(void)
 	{
 		this->m_pD3D = NULL;
 	}
-
-
 
 }
 
