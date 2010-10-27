@@ -67,13 +67,18 @@ void CGrapplingHook::Update(float fElapsedTime)
 
 void CGrapplingHook::Render(void)
 {
-	CSGD_TextureManager::GetInstance()->Draw(this->GetImageID(), (int)(this->GetPosX() + (this->GetWidth()/2.0f)) - CCamera::GetInstance()->GetOffsetX(),
-		(int)(this->GetPosY() - (this->GetHeight()/2.0f)) - CCamera::GetInstance()->GetOffsetY(), 1.0f, 1.0f, 0, (this->GetWidth()/2.0f), (this->GetHeight()/2.0f),
+	CSGD_TextureManager::GetInstance()->Draw(this->GetImageID(), 
+		(int)(((this->GetPosX() + (this->GetWidth()/2.0f)) - CCamera::GetInstance()->GetOffsetX()) * CCamera::GetInstance()->GetScale()),
+		(int)(((this->GetPosY() - (this->GetHeight()/2.0f)) - CCamera::GetInstance()->GetOffsetY()) * CCamera::GetInstance()->GetScale()), 
+		1.0f * CCamera::GetInstance()->GetScale(), 1.0f * CCamera::GetInstance()->GetScale(), 
+		0, (this->GetWidth()/2.0f), (this->GetHeight()/2.0f),
 		this->GetRotation());
 	CSGD_Direct3D::GetInstance()->GetSprite()->Flush();
-	CSGD_Direct3D::GetInstance()->DrawLine((int)this->GetPosX() + this->GetWidth()/2 - CCamera::GetInstance()->GetOffsetX(), (int)this->GetPosY() - CCamera::GetInstance()->GetOffsetY(),
-		(int)CSinglePlayerState::GetInstance()->GetPlayerPointer()->GetPosX()+CSinglePlayerState::GetInstance()->GetPlayerPointer()->GetWidth() - CCamera::GetInstance()->GetOffsetX(), 
-		(int)CSinglePlayerState::GetInstance()->GetPlayerPointer()->GetPosY() - CCamera::GetInstance()->GetOffsetY(), 
+
+	CSGD_Direct3D::GetInstance()->DrawLine((int)((this->GetPosX() + this->GetWidth()/2 - CCamera::GetInstance()->GetOffsetX()) * CCamera::GetInstance()->GetScale()), 
+		(int)((this->GetPosY() - CCamera::GetInstance()->GetOffsetY()) * CCamera::GetInstance()->GetScale()),
+		(int)((CSinglePlayerState::GetInstance()->GetPlayerPointer()->GetPosX()+CSinglePlayerState::GetInstance()->GetPlayerPointer()->GetWidth() - CCamera::GetInstance()->GetOffsetX()) * CCamera::GetInstance()->GetScale()), 
+		(int)((CSinglePlayerState::GetInstance()->GetPlayerPointer()->GetPosY() - CCamera::GetInstance()->GetOffsetY()) * CCamera::GetInstance()->GetScale()), 
 		255, 255, 0);
 }
 
