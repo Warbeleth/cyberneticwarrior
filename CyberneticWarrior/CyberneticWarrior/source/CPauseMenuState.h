@@ -64,6 +64,5 @@ public:
 	static CPauseMenuState*	GetInstance(void);
 	static void DeleteInstance(void);
 
-
 };
 #endif
