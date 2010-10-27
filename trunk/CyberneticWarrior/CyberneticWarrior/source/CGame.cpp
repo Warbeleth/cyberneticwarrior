@@ -12,7 +12,6 @@
 
 #include "CGame.h"
 #include "CCodeProfiler.h"
-#include "CCamera.h"
 #include "CStackStateMachine.h"
 #include "CMainMenuState.h"
 #include "CSinglePlayerState.h"
@@ -28,6 +27,9 @@
 #include "CGrapplingHook.h"
 #include "CRocket.h"
 #include "CPlayer.h"
+#include "CCreditsState.h"
+#include "CAtractModeState.h"
+
 
 
 // Singleton Instantiation
@@ -192,6 +194,8 @@ void CGame::ShutDown(void)
 	COptionsMenuState::GetInstance()->DeleteInstance();
 	CCodeProfiler::GetInstance()->DeleteInstance();
 	CAchievementsState::GetInstance()->DeleteInstance();
+	CCreditsState::GetInstance()->DeleteInstance();
+	CAtractModeState::GetInstance()->DeleteInstance();
 
 
 	if(this->m_pDI)
