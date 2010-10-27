@@ -380,6 +380,10 @@
 					</FileConfiguration>
 				</File>
 				<File
+					RelativePath=".\source\CControlSelectState.cpp"
+					>
+				</File>
+				<File
 					RelativePath=".\source\CCreditsState.cpp"
 					>
 					<FileConfiguration
@@ -686,6 +690,10 @@
 				</File>
 				<File
 					RelativePath=".\source\CAtractModeState.h"
+					>
+				</File>
+				<File
+					RelativePath=".\source\CControlSelectState.h"
 					>
 				</File>
 				<File

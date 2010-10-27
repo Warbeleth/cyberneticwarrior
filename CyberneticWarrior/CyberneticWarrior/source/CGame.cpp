@@ -18,6 +18,7 @@
 #include "CSinglePlayerState.h"
 #include "CSinglePlayerMenuState.h"
 #include "CGameProfiler.h"
+#include "CControlSelectState.h"
 #include "CPauseMenuState.h"
 #include "COptionsMenuState.h"
 #include "CAchievementsState.h"
@@ -28,6 +29,8 @@
 #include "CGrapplingHook.h"
 #include "CRocket.h"
 #include "CPlayer.h"
+#include "CCreditsState.h"
+#include "CAtractModeState.h"
 
 
 // Singleton Instantiation
@@ -192,7 +195,9 @@ void CGame::ShutDown(void)
 	COptionsMenuState::GetInstance()->DeleteInstance();
 	CCodeProfiler::GetInstance()->DeleteInstance();
 	CAchievementsState::GetInstance()->DeleteInstance();
-
+	CControlSelectState::GetInstance()->DeleteInstance();
+	CCreditsState::GetInstance()->DeleteInstance();
+	CAtractModeState::GetInstance()->DeleteInstance();
 
 	if(this->m_pDI)
 	{
@@ -338,14 +343,17 @@ void CGame::MessageProc(CBaseMessage*	pMsg)
 			vWorldPos.fY = pHook->GetPosY();
 			pHook->SetWorldPos(vWorldPos);*/
 
+			static tVector2D vMousePos;
+			//vMousePos.fX = vPlayerPos.fX + (float)pGH->GetPlayerPointer()->GetJoyPos()->fX;
+			//vMousePos.fY = vPlayerPos.fY +(float)pGH->GetPlayerPointer()->GetJoyPos()->fY;
+			vMousePos.fX = (float)CSGD_DirectInput::GetInstance()->MouseGetPosX();
+			vMousePos.fY = (float)CSGD_DirectInput::GetInstance()->MouseGetPosY();
+
+
 
 			static tVector2D vPlayerPos;
 			vPlayerPos.fX = pGH->GetPlayerPointer()->GetPosX() + (float)pGH->GetPlayerPointer()->GetWidth();
 			vPlayerPos.fY = pGH->GetPlayerPointer()->GetPosY();//) - (float)pGH->GetPlayerPointer()->GetHeight()/2;
-
-			static tVector2D vMousePos;
-			vMousePos.fX = vPlayerPos.fX + (float)pGH->GetPlayerPointer()->GetJoyPos()->fX;
-			vMousePos.fY = vPlayerPos.fY +(float)pGH->GetPlayerPointer()->GetJoyPos()->fY;
 
 
 			static tVector2D vShot;
