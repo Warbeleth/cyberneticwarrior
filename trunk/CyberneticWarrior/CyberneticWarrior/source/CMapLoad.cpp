@@ -150,14 +150,15 @@ void CMapLoad::Render()
 
 	int OffsetX = CCamera::GetInstance()->GetOffsetX();
 	int OffsetY = CCamera::GetInstance()->GetOffsetY();
+	float CamScale = CCamera::GetInstance()->GetScale();
 
 	for (int Row = 0; Row < m_gTileMap.m_nRows; Row++)
 		for (int Col = 0; Col < m_gTileMap.m_nColumns; Col++)
 		{
 			int Index = Row * m_gTileMap.m_nColumns + Col;
 
-			int PosX = Col * m_gTileMap.m_nWidth - OffsetX;
-			int PosY = Row * m_gTileMap.m_nHeight - OffsetY;
+			int PosX = (int)(CamScale * (Col * m_gTileMap.m_nWidth - OffsetX));
+			int PosY = (int)(CamScale * (Row * m_gTileMap.m_nHeight - OffsetY));
 
 			//m_lMap[Index].m_nDrawImage;
 			//y = i/width
@@ -182,7 +183,7 @@ void CMapLoad::Render()
 			rDrawRect.bottom = rDrawRect.top + m_gSelectionMap.m_nHeight;
 
 
-			TM->Draw(m_gSelectionMap.m_nImageID, PosX, PosY, m_fScaleX, m_fScaleY, &rDrawRect, 0, 0, 0, -1);
+			TM->Draw(m_gSelectionMap.m_nImageID, PosX, PosY, m_fScaleX*CamScale, m_fScaleY*CamScale, &rDrawRect, 0, 0, 0, -1);
 		}
 
 		D3D->GetSprite()->Flush();	// DRAW ALL SPRITES NOW!!!

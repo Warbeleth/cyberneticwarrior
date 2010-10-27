@@ -154,8 +154,12 @@ void CAnimations::Update( float fElapsedTime )
 //////////////////////////////////////////////////////////////////////////////////////////////////////	
 void CAnimations::Render( int nPosX, int nPosY )
 {
-	CSGD_TextureManager::GetInstance()->Draw(m_nId, nPosX - m_nOffset.m_nX - CCamera::GetInstance()->GetOffsetX(), nPosY - m_nOffset.m_nY - CCamera::GetInstance()->GetOffsetY(), 1, 1,
-			&m_vAnimations[ m_nCurrentAnimation ].m_vFrames[ m_vAnimations[m_nCurrentAnimation].m_nCurrentFrame ].GetFrame() );
+	CSGD_TextureManager::GetInstance()->Draw(m_nId, 
+		int(CCamera::GetInstance()->GetScale() * (nPosX - m_nOffset.m_nX - CCamera::GetInstance()->GetOffsetX())), 
+		int(CCamera::GetInstance()->GetScale() * (nPosY - m_nOffset.m_nY - CCamera::GetInstance()->GetOffsetY())), 
+		CCamera::GetInstance()->GetScale() * 1, 
+		CCamera::GetInstance()->GetScale() * 1, 
+		&m_vAnimations[ m_nCurrentAnimation ].m_vFrames[ m_vAnimations[m_nCurrentAnimation].m_nCurrentFrame ].GetFrame() );
 }
 
 //////////////////////////////////////////////////////////////////////////////////////////////////////
