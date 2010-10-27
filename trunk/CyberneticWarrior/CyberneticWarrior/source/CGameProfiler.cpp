@@ -5,7 +5,6 @@
 #include "CGame.h"
 #include "CMainMenuState.h"
 #include "CSinglePlayerState.h"
-#include "CControlSelectState.h"
 #include "CEventSystem.h"
 #include "CEvent.h"
 
@@ -152,7 +151,7 @@ bool	CGameProfiler::Input(void)
 					{
 						fManager.read((char*)&thisBool, sizeof(bool));
 						CSinglePlayerState::GetInstance()->SetProfileValues(thisBool);
-						CStackStateMachine::GetInstance()->Push_Back(CControlSelectState::GetInstance());
+						CStackStateMachine::GetInstance()->ChangeState(CSinglePlayerState::GetInstance());
 					}
 				}
 				fManager.close();	
@@ -160,7 +159,7 @@ bool	CGameProfiler::Input(void)
 			if(this->GetNewGame() && this->GetManagement() == SAVE_GAME)
 			{
 				CSinglePlayerState::GetInstance()->SetProfileValues(0);
-				CStackStateMachine::GetInstance()->Push_Back(CControlSelectState::GetInstance());
+				CStackStateMachine::GetInstance()->ChangeState(CSinglePlayerState::GetInstance());
 			}
 		}
 	}

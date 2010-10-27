@@ -250,19 +250,6 @@
 						</FileConfiguration>
 					</File>
 					<File
-						RelativePath=".\source\CHud.cpp"
-						>
-						<FileConfiguration
-							Name="Debug|Win32"
-							>
-							<Tool
-								Name="VCCLCompilerTool"
-								UsePrecompiledHeader="2"
-								PrecompiledHeaderThrough="PrecompiledHeader.h"
-							/>
-						</FileConfiguration>
-					</File>
-					<File
 						RelativePath=".\source\CIdleEnemy.cpp"
 						>
 						<FileConfiguration
@@ -391,10 +378,6 @@
 							PrecompiledHeaderThrough="PrecompiledHeader.h"
 						/>
 					</FileConfiguration>
-				</File>
-				<File
-					RelativePath=".\source\CControlSelectState.cpp"
-					>
 				</File>
 				<File
 					RelativePath=".\source\CCreditsState.cpp"
@@ -657,10 +640,6 @@
 						>
 					</File>
 					<File
-						RelativePath=".\source\CHud.h"
-						>
-					</File>
-					<File
 						RelativePath=".\source\CIdleEnemy.h"
 						>
 					</File>
@@ -707,10 +686,6 @@
 				</File>
 				<File
 					RelativePath=".\source\CAtractModeState.h"
-					>
-				</File>
-				<File
-					RelativePath=".\source\CControlSelectState.h"
 					>
 				</File>
 				<File
@@ -817,14 +792,6 @@
 				</File>
 				<File
 					RelativePath=".\resource\graphics\bgGame.png"
-					>
-				</File>
-				<File
-					RelativePath=".\resource\graphics\Energy.png"
-					>
-				</File>
-				<File
-					RelativePath=".\resource\graphics\Health.png"
 					>
 				</File>
 				<File

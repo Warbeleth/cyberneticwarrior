@@ -180,12 +180,12 @@ void	CPauseMenuState::Exit(void)
 	if(this->m_nCursorID > -1)
 	{
 		this->m_pTM->UnloadTexture(this->m_nCursorID);
-		this->m_nCursorID = -1;
+		this->m_nCursorID = NULL;
 	}
 	if(this->m_nBackgroundID > -1)
 	{
 		this->m_pTM->UnloadTexture(this->m_nBackgroundID);
-		this->m_nBackgroundID = -1;
+		this->m_nBackgroundID = NULL;
 	}
 
 	if(this->m_pDS)

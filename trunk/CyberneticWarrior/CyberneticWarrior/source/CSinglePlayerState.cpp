@@ -16,7 +16,6 @@
 #include "CPickUp.h"
 #include "CMapLoad.h"
 #include "CGrapplingHook.h"
-#include "CHud.h"
 
 CSinglePlayerState*	CSinglePlayerState::sm_pGamePlayInstance = NULL;
 
@@ -41,8 +40,6 @@ CSinglePlayerState::CSinglePlayerState(void)
 	this->m_TempPlatform1 = NULL;
 	this->m_TempPlatform2 = NULL;
 	this->m_TempMap = NULL;
-
-	this->m_pHud = NULL;
 
 	this->m_nMusicVolume = COptionsMenuState::GetInstance()->GetMusicVolume(); 
 	this->m_nSFXVolume = COptionsMenuState::GetInstance()->GetMusicVolume(); 
@@ -109,7 +106,10 @@ void CSinglePlayerState::Enter(void)
 	this->m_pOF->RegisterClassType<CPickUp>("CPickUp");
 	this->m_pOF->RegisterClassType<CRocket>("CRocket");
 
-	this->m_pHud = new CHud();
+
+
+
+
 
 	this->m_nBackgroundImageID = this->m_pTM->LoadTexture("resource/graphics/bgGame.png");
 	this->m_nCrossHairID = this->m_pTM->LoadTexture("resource/graphics/CrossHairs.png");
@@ -206,7 +206,6 @@ bool CSinglePlayerState::Input(void)
 		CStackStateMachine::GetInstance()->Push_Back(CPauseMenuState::GetInstance());
 		//CStackStateMachine::GetInstance()->Pop_back();
 	}
-
 	return 1;
 }
 
@@ -229,7 +228,6 @@ void CSinglePlayerState::Update(float fElapsedTime)
 	Enemy_2->Update(fElapsedTime);
 	Enemy_3->Update(fElapsedTime);
 
-	this->m_pHud->Update( fElapsedTime );
 }
 
 void CSinglePlayerState::Render(void)
@@ -259,16 +257,16 @@ void CSinglePlayerState::Render(void)
 
 	m_pOM->RenderObjects();
 
+
+
+
 	RECT	rCrossHairs;
 	rCrossHairs.top		= 0;
 	rCrossHairs.left	= 0;
 	rCrossHairs.right	= 16;
 	rCrossHairs.bottom	= 16;
-	//this->m_pTM->Draw(this->m_nCrossHairID, ((int)(this->m_TempPlayer->GetJoyPos()->fX - (int)this->m_TempPlayer->GetPosX())+8),
-		//(((int)this->m_TempPlayer->GetJoyPos()->fY - (int)this->m_TempPlayer->GetPosX())+8), 1.0f, 1.0f, &rCrossHairs);
-	this->m_pTM->Draw(this->m_nCrossHairID, this->m_pDI->MouseGetPosX() + 8, this->m_pDI->MouseGetPosY() + 8, 1.0f, 1.0f, &rCrossHairs);
-
-	this->m_pHud->Render();
+	this->m_pTM->Draw(this->m_nCrossHairID, ((int)(this->m_TempPlayer->GetJoyPos()->fX - (int)this->m_TempPlayer->GetPosX())+8),
+		(((int)this->m_TempPlayer->GetJoyPos()->fY - (int)this->m_TempPlayer->GetPosX())+8), 1.0f, 1.0f, &rCrossHairs);
 }
 
 void CSinglePlayerState::Exit(void)
@@ -276,7 +274,7 @@ void CSinglePlayerState::Exit(void)
 	delete Enemy_1;
 	delete Enemy_2;
 	delete Enemy_3;
-	delete m_pHud;
+	
 
 	this->m_Profile.m_bHaveHook = 0;	
 	
