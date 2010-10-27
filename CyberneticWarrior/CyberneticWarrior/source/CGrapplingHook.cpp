@@ -53,7 +53,7 @@ void CGrapplingHook::Update(float fElapsedTime)
 	vScreenDimensions.fX = (float)CGame::GetInstance()->GetScreenWidth();
 	vScreenDimensions.fY = (float)CGame::GetInstance()->GetScreenHeight();
 	if(((this->GetPosX() + this->GetWidth()/2.0f) <= -20 
-		|| ((this->GetPosX() - this->GetWidth()/2.0f) >= (vScreenDimensions.fX + 20))
+		|| ((this->GetPosX() - this->GetWidth()/2.0f) >= (CCamera::GetInstance()->GetOffsetX() + vScreenDimensions.fX + 20))
 		|| (this->GetPosY() + (this->GetHeight()/2.0f)) <= -20)
 		|| (this->GetPosY() - (this->GetHeight()/2.0f) >= (vScreenDimensions.fY+20))
 		|| (!CSinglePlayerState::GetInstance()->GetPlayerPointer()->GetMouseDown() && this->m_bHooked))
