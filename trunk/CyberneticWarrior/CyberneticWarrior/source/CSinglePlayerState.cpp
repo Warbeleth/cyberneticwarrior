@@ -272,7 +272,7 @@ void CSinglePlayerState::Render(void)
 
 	//this->m_pTM->Draw(this->m_nCrossHairID, ((int)(this->m_TempPlayer->GetJoyPos()->fX - (int)this->m_TempPlayer->GetPosX())+8),
 		//(((int)this->m_TempPlayer->GetJoyPos()->fY - (int)this->m_TempPlayer->GetPosX())+8), 1.0f, 1.0f, &rCrossHairs);
-	this->m_pTM->Draw(this->m_nCrossHairID, this->m_pDI->MouseGetPosX() + 8, this->m_pDI->MouseGetPosY() + 8, 1.0f, 1.0f, &rCrossHairs);
+	this->m_pTM->Draw(this->m_nCrossHairID, this->m_pDI->MouseGetPosX() + 8, this->m_pDI->MouseGetPosY() + 8, 1.0f * CCamera::GetInstance()->GetScale(), 1.0f * CCamera::GetInstance()->GetScale(), &rCrossHairs);
 
 	/*this->m_pTM->Draw(this->m_nCrossHairID, 
 		int((((int)(this->m_TempPlayer->GetJoyPos()->fX - (int)this->m_TempPlayer->GetPosX())+8)) * CCamera::GetInstance()->GetScale()),
