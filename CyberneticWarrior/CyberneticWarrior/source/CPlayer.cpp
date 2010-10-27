@@ -350,7 +350,7 @@ void CPlayer::Input(float fElapsedTime)
 	//}
 
 
-	/*if(CSGD_DirectInput::GetInstance()->JoystickGetRStickDirDown(DIR_RIGHT))
+	if(CSGD_DirectInput::GetInstance()->JoystickGetRStickDirDown(DIR_RIGHT))
 	{
 		this->m_vJoyVecPos.fX = 1.0f;
 		this->m_vJoyVecPos.fY = 0.0f;
@@ -392,7 +392,7 @@ void CPlayer::Input(float fElapsedTime)
 	{
 		this->m_vJoyVecPos.fX = -1.0f;
 		this->m_vJoyVecPos.fY = -1.0f;
-	}*/
+	}
 
 
 	///////////////////////////////

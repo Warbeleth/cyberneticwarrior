@@ -298,7 +298,7 @@ void CFont::DrawWithDelay( const char* szText,  int nX, int nY, float fScale, DW
 //////////////////////////////////////////////////////////////////////////////////////////////////////
 // Function: “DrawScrolling”
 //////////////////////////////////////////////////////////////////////////////////////////////////////
-bool CFont::DrawScrolling( const char* szText, int nX, int nY, float fScale, DWORD dwColor,
+void CFont::DrawScrolling( const char* szText, int nX, int nY, float fScale, DWORD dwColor,
 						  int nMinDrawHeight, int nMaxDrawHeight, int nMinDrawWidth, int nMaxDrawWidth,
 						  int nScrollingID )
 {
@@ -341,19 +341,16 @@ bool CFont::DrawScrolling( const char* szText, int nX, int nY, float fScale, DWO
 		if( nXPosition > nMinDrawWidth && nXPosition < nMaxDrawWidth && nYPosition > nMinDrawHeight && nYPosition < nMaxDrawHeight )		
 			CSGD_TextureManager::GetInstance()->Draw( m_nImageID, nX + m_vScrolling[nScrollingID].m_nXOffset, nY + m_vScrolling[nScrollingID].m_nYOffset,
 				fScale, fScale, &rLetter, 0, 0, 0, dwColor );
-		else if( i == nLength-1 )
-			return false;
 
 		// Increment the x position for the next letter
 		nX += (int)( (m_cLetters[nId].m_nWidth + 3) * fScale );
 	}
-	return true;
 }
 
 //////////////////////////////////////////////////////////////////////////////////////////////////////
 // Function: “DrawScrollingWithDelay” 
 //////////////////////////////////////////////////////////////////////////////////////////////////////
-bool CFont::DrawScrollingWithDelay( const char* szText, int nX, int nY, float fScale, DWORD dwColor,
+void CFont::DrawScrollingWithDelay( const char* szText, int nX, int nY, float fScale, DWORD dwColor,
 								   int nMinDrawHeight, int nMaxDrawHeight, int nMinDrawWidth, int nMaxDrawWidth, float fDelayTime,
 								   int nScrollingID, int nDelayID )
 {
@@ -408,11 +405,8 @@ bool CFont::DrawScrollingWithDelay( const char* szText, int nX, int nY, float fS
 		if( nXPosition > nMinDrawWidth && nXPosition < nMaxDrawWidth && nYPosition > nMinDrawHeight && nYPosition < nMaxDrawHeight )
 			CSGD_TextureManager::GetInstance()->Draw( m_nImageID, nXPosition, nYPosition,
 				fScale, fScale, &rLetter, 0, 0, 0, dwColor );
-		else if( i == nLength-1 )
-			return false;
 
 		// Increment the x position for the next letter
 		nX += (int)( (m_cLetters[nId].m_nWidth + 3) * fScale );
 	}
-	return true;
 }

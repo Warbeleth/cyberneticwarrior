@@ -25,7 +25,6 @@ class CAnimations;
 class CIdleEnemy;
 class CPatrolEnemy;
 class CFLCLMech;
-class CHud;
 
 class CSinglePlayerState : public IGameState
 {
@@ -37,8 +36,6 @@ private:
 	CPlayer* m_TempPlayer;
 	CPickUp* m_PickUp;
 	CMapLoad* m_TempMap;
-
-	CHud* m_pHud;
 
 	CIdleEnemy* Enemy_1;
 	CPatrolEnemy* Enemy_2;
