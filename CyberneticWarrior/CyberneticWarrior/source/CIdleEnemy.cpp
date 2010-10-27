@@ -62,11 +62,11 @@ void CIdleEnemy::Render()
 	int OffsetY = CCamera::GetInstance()->GetOffsetY();
 
 	if(ReturnAIState() == Idle)
-		CSGD_Direct3D::GetInstance()->DrawTextA("State: Idle", (int)GetPosX() - OffsetX, (int)GetPosY() - OffsetY, 0, 0, 255);
+		CSGD_Direct3D::GetInstance()->DrawTextA("State: Idle", (int)((GetPosX() - OffsetX) * CCamera::GetInstance()->GetScale()), (int)((GetPosY() - OffsetY) * CCamera::GetInstance()->GetScale()), 0, 0, 255);
 	else if(ReturnAIState() == iActive)
-		CSGD_Direct3D::GetInstance()->DrawTextA("State: Active", (int)GetPosX() - OffsetX, (int)GetPosY() - OffsetY, 0, 255, 0);
+		CSGD_Direct3D::GetInstance()->DrawTextA("State: Active", (int)((GetPosX() - OffsetX) * CCamera::GetInstance()->GetScale()), (int)((GetPosY() - OffsetY) * CCamera::GetInstance()->GetScale()), 0, 255, 0);
 	else
-		CSGD_Direct3D::GetInstance()->DrawTextA("State: Dead", (int)GetPosX() - OffsetX, (int)GetPosY() - OffsetY, 255, 0, 0);
+		CSGD_Direct3D::GetInstance()->DrawTextA("State: Dead", (int)((GetPosX() - OffsetX) * CCamera::GetInstance()->GetScale()), (int)((GetPosY() - OffsetY) * CCamera::GetInstance()->GetScale()), 255, 0, 0);
 }
 
 void CIdleEnemy::ChangeAIState(int nNewState)

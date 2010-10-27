@@ -26,7 +26,10 @@ void CPickUp::Update(float fElapsedTime)
 void CPickUp::Render(void)
 {
 	if(bOn)
-	CSGD_TextureManager::GetInstance()->Draw(this->GetImageID(), (int)this->GetPosX() - CCamera::GetInstance()->GetOffsetX(), (int)this->GetPosY() - CCamera::GetInstance()->GetOffsetY());
+	CSGD_TextureManager::GetInstance()->Draw(this->GetImageID(), 
+	(int)((this->GetPosX() - CCamera::GetInstance()->GetOffsetX()) * CCamera::GetInstance()->GetScale()), 
+	(int)((this->GetPosY() - CCamera::GetInstance()->GetOffsetY()) * CCamera::GetInstance()->GetScale()),
+	1.0f * CCamera::GetInstance()->GetScale(), 1.0f * CCamera::GetInstance()->GetScale());
 }
 
 

@@ -57,5 +57,5 @@ void CFLCLMech::Render()
 	int OffsetY = CCamera::GetInstance()->GetOffsetY();
 
 	if(m_bReviving == true)
-		CSGD_Direct3D::GetInstance()->DrawTextA("State: LOL, I\"m REVIVIN", (int)GetPosX() - OffsetX, (int)GetPosY() - OffsetY-20, 255, 0, 0);
+		CSGD_Direct3D::GetInstance()->DrawTextA("State: LOL, I\"m REVIVIN", (int)((GetPosX() - OffsetX) * CCamera::GetInstance()->GetScale()), (int)((GetPosY() - OffsetY - 20) * CCamera::GetInstance()->GetScale()), 255, 0, 0);
 }

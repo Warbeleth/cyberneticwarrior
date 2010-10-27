@@ -83,12 +83,12 @@ void CBaseEnemy::Update(float fElapsedTime)
 
 void CBaseEnemy::Render(void)
 {
-	int offsetX = CCamera::GetInstance()->GetOffsetX();
-	int offsetY = CCamera::GetInstance()->GetOffsetY();
+	int OffsetX = CCamera::GetInstance()->GetOffsetX();
+	int OffsetY = CCamera::GetInstance()->GetOffsetY();
 
 	if(m_nImageID != -1)
 	{
-		CSGD_TextureManager::GetInstance()->Draw(m_nImageID, (int)GetPosX() - offsetX, (int)GetPosY() - offsetY);
+		CSGD_TextureManager::GetInstance()->Draw(m_nImageID, (int)((GetPosX() - OffsetX) * CCamera::GetInstance()->GetScale()), (int)((GetPosY() - OffsetY) * CCamera::GetInstance()->GetScale()));
 	}
 }
 
