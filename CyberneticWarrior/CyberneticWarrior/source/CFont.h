@@ -268,10 +268,11 @@ public:
 	//			nScrollingID - The ID to the scrolling offsets for the x and y position used for this 
 	//						   particular call to DrawScrolling, this is returned through the AddScrolling 
 	//						   function
+	//			RETURN - Returns true until the last character on screen is being drawn outside the bounds
 	//
 	//			THIS FUNCTION NEEDS A SCROLLING ID
 	//////////////////////////////////////////////////////////////////////////////////////////////////////
-	void DrawScrolling( const char* szText, int nX, int nY, float fScale, DWORD dwColor,
+	bool DrawScrolling( const char* szText, int nX, int nY, float fScale, DWORD dwColor,
 		int nMinDrawHeight, int nMaxDrawHeight, int nMinDrawWidth, int nMaxDrawWidth, 
 		int nScrollingID );
 
@@ -299,10 +300,11 @@ public:
 	//						   function
 	//			nDelayID - The ID to the delay timer used for this particular call to DrawWithDelay, this
 	//					   is returned through the AddDelay function
+	//			RETURN - Returns true until the last character on screen is being drawn outside the bounds
 	//
 	//			THIS FUNCTION NEEDS A DELAY ID AND SCROLLING ID
 	//////////////////////////////////////////////////////////////////////////////////////////////////////
-	void DrawScrollingWithDelay( const char* szText, int nX, int nY, float fScale, DWORD dwColor,
+	bool DrawScrollingWithDelay( const char* szText, int nX, int nY, float fScale, DWORD dwColor,
 		int nMinDrawHeight, int nMaxDrawHeight, int nMinDrawWidth, int nMaxDrawWidth, float fDelayTime,
 		int nScrollingID, int nDelayID);
 };
