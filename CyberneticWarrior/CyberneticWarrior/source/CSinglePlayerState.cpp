@@ -16,6 +16,7 @@
 #include "CPickUp.h"
 #include "CMapLoad.h"
 #include "CGrapplingHook.h"
+#include "CHud.h"
 
 CSinglePlayerState*	CSinglePlayerState::sm_pGamePlayInstance = NULL;
 
@@ -40,6 +41,8 @@ CSinglePlayerState::CSinglePlayerState(void)
 	this->m_TempPlatform1 = NULL;
 	this->m_TempPlatform2 = NULL;
 	this->m_TempMap = NULL;
+
+	this->m_pHud = NULL;
 
 	this->m_nMusicVolume = COptionsMenuState::GetInstance()->GetMusicVolume(); 
 	this->m_nSFXVolume = COptionsMenuState::GetInstance()->GetMusicVolume(); 
@@ -107,8 +110,8 @@ void CSinglePlayerState::Enter(void)
 	this->m_pOF->RegisterClassType<CRocket>("CRocket");
 
 
-
-
+	this->m_pHud = new CHud();
+	this->m_pHud->SetPlayer(0);
 
 
 	this->m_nBackgroundImageID = this->m_pTM->LoadTexture("resource/graphics/bgGame.png");
@@ -228,6 +231,8 @@ void CSinglePlayerState::Update(float fElapsedTime)
 	Enemy_2->Update(fElapsedTime);
 	Enemy_3->Update(fElapsedTime);
 
+	this->m_pHud->Update( fElapsedTime );
+
 }
 
 void CSinglePlayerState::Render(void)
@@ -279,6 +284,8 @@ void CSinglePlayerState::Render(void)
 		int((((int)this->m_TempPlayer->GetJoyPos()->fY - (int)this->m_TempPlayer->GetPosX())+8) * CCamera::GetInstance()->GetScale()), 
 		1.0f * CCamera::GetInstance()->GetScale(), 1.0f * CCamera::GetInstance()->GetScale(), &rCrossHairs);
 */
+
+	this->m_pHud->Render();
 }
 
 void CSinglePlayerState::Exit(void)
@@ -286,6 +293,7 @@ void CSinglePlayerState::Exit(void)
 	delete Enemy_1;
 	delete Enemy_2;
 	delete Enemy_3;
+	delete m_pHud;
 	
 
 	this->m_Profile.m_bHaveHook = 0;	

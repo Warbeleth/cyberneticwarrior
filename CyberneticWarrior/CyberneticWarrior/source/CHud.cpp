@@ -22,13 +22,35 @@ CHud::CHud( void )
 	m_nHealthAndEnergyBarId = m_pTM->LoadTexture("resource/graphics/HealthAndEnergy.png");
 	m_nCharacterPortraitId = -1;
 	m_nCharacterPortraitId = m_pTM->LoadTexture("resource/graphics/Players.png");
+	m_nWeaponEquipmentId = -1;
+	m_nWeaponEquipmentId = m_pTM->LoadTexture("resource/graphics/EquipmentWeaponIcons.png");
 
-	// Hud Image Width / Height
-	m_nHealthAndEnergyBarWidth = 162;
-	m_nBarHeight = 16;
-	m_nPortraitWidth  = 96;
-	m_nPortraitHeight = 96;
+	// Hud Image RECTS
+	// health
+	m_rImageRects[0].left = 0;
+	m_rImageRects[0].top = 0;
+	m_rImageRects[0].right = 162;
+	m_rImageRects[0].bottom = 16;
+	// energy
+	m_rImageRects[1].left = 0;
+	m_rImageRects[1].top = 16;
+	m_rImageRects[1].right = 162;
+	m_rImageRects[1].bottom = 32;
+	// portriat
+	m_rImageRects[2].left = 0;
+	m_rImageRects[2].top = 0;
+	m_rImageRects[2].right = 94;
+	m_rImageRects[2].bottom = 94;
+	// equipment
+	m_rImageRects[3].left = 0;
+	m_rImageRects[3].top = 0;
+	m_rImageRects[3].right = 64;
+	m_rImageRects[3].bottom = 64;
 
+	// Currently Selected
+	m_nSelectedWeapon = 6;
+	m_nSelectedHeadSlot = 3;
+	m_nSelectedBootSlot = 2;
 
 	// Font
 	m_HudFont.InitFont( "resource/fonts/example.png", "resource/fonts/Example.fnt" );
@@ -47,40 +69,41 @@ CHud::~CHud( void )
 	m_HudFont.ShutdownFont();
 }
 
-RECT CHud::GetDisplayRect( int nHealthEnergyPortrait )
-{			
-	RECT rRectangle;
-
-	if( nHealthEnergyPortrait != 2 )
+RECT CHud::GetRect( int nType, int nEquipment )
+{
+	RECT rRectangle = m_rImageRects[nType];
+		
+	switch(nType)
 	{
-		float fPercentage;
-		rRectangle.left = 0;
-		rRectangle.top = nHealthEnergyPortrait * m_nBarHeight;
-		rRectangle.bottom = rRectangle.top + m_nBarHeight;
-
-		switch(nHealthEnergyPortrait)
+	case TYPE_HEALTH:
+		{	
+			float fPercentage;
+			fPercentage = m_nRemainingHealth / m_nTotalHealth;
+			
+			rRectangle.right = (LONG)(fPercentage * rRectangle.right); 
+			break;
+		}
+	case TYPE_ENERGY:
 		{
-		case 0:
-			{
-				fPercentage = m_nRemainingHealth / m_nTotalHealth;
-				break;
-			}
-		case 1:
-			{
-				fPercentage = m_nRemainingEnergy / m_nTotalEnergy;
-				break;
-			}
-		};
-
-		rRectangle.right = (LONG)(fPercentage * m_nHealthAndEnergyBarWidth);
-	}
-	else
-	{
-		rRectangle.left = m_nPlayerNumber * m_nPortraitWidth;
-		rRectangle.top = 0;
-		rRectangle.right = rRectangle.left + m_nPortraitWidth;
-		rRectangle.bottom = m_nPortraitHeight;
-	}
+			float fPercentage;
+			fPercentage = m_nRemainingEnergy / m_nTotalEnergy;
+			
+			rRectangle.right = (LONG)(fPercentage * rRectangle.right); 
+			break;
+		}
+	case TYPE_PORTRAIT:
+		{
+			rRectangle.left = rRectangle.right * m_nPlayerNumber;
+			rRectangle.right = rRectangle.right + rRectangle.left;
+			break;
+		}
+	case TYPE_EQUIPMENT:
+		{
+			rRectangle.left = rRectangle.right * nEquipment;
+			rRectangle.right = rRectangle.right + rRectangle.left;
+			break;
+		}
+	};
 
 	return rRectangle;
 }
@@ -105,9 +128,13 @@ void CHud::Render( void )
 	{
 	case 0:
 		{
-			m_pTM->Draw(m_nHealthAndEnergyBarId, m_nPortraitWidth, 0, 1, 1, &GetDisplayRect(0) );
-			m_pTM->Draw(m_nHealthAndEnergyBarId, m_nPortraitWidth, m_nBarHeight, 1, 1, &GetDisplayRect(1));
-			m_pTM->Draw(m_nCharacterPortraitId, 0, 0, 1, 1, &GetDisplayRect(2));
+			m_pTM->Draw(m_nHealthAndEnergyBarId, m_rImageRects[TYPE_PORTRAIT].right, 0, 1, 1, &GetRect(TYPE_HEALTH) );
+			m_pTM->Draw(m_nHealthAndEnergyBarId, m_rImageRects[TYPE_PORTRAIT].right, m_rImageRects[0].bottom, 1, 1, &GetRect(TYPE_ENERGY));
+			m_pTM->Draw(m_nCharacterPortraitId, 0, 0, 1, 1, &GetRect(TYPE_PORTRAIT));
+			m_pTM->Draw(m_nWeaponEquipmentId, 100, 35, 0.5f, 0.5f, &GetRect(TYPE_EQUIPMENT, m_nSelectedBootSlot));
+			m_pTM->Draw(m_nWeaponEquipmentId, 140, 35, 0.5f, 0.5f, &GetRect(TYPE_EQUIPMENT, m_nSelectedHeadSlot));
+			m_pTM->Draw(m_nWeaponEquipmentId, 0, 600-m_rImageRects[TYPE_EQUIPMENT].bottom, 1.0f, 1.0f, &GetRect(TYPE_EQUIPMENT, m_nSelectedWeapon));
+			m_pTM->Draw(m_nWeaponEquipmentId, m_rImageRects[TYPE_EQUIPMENT].right, 600-m_rImageRects[TYPE_EQUIPMENT].bottom, 1.0f, 1.0f, &GetRect(TYPE_EQUIPMENT, 14));
 			
 			m_HudFont.Draw("Player 1", 5, 64, 0.55f, -1 );
 			m_HudFont.Draw(buffer, 110, 70, 0.75f, -1 );
@@ -115,9 +142,14 @@ void CHud::Render( void )
 		}
 	case 1:
 		{
-			m_pTM->Draw(m_nHealthAndEnergyBarId, 800-m_nPortraitWidth, 0, -1, 1, &GetDisplayRect(0));
-			m_pTM->Draw(m_nHealthAndEnergyBarId, 800-m_nPortraitWidth, m_nBarHeight, -1, 1, &GetDisplayRect(1));
-			m_pTM->Draw(m_nCharacterPortraitId, 800-m_nPortraitWidth, 0, 1, 1, &GetDisplayRect(2));
+			m_pTM->Draw(m_nHealthAndEnergyBarId, 800-m_rImageRects[TYPE_PORTRAIT].right, 0, -1, 1, &GetRect(0));
+			m_pTM->Draw(m_nHealthAndEnergyBarId, 800-m_rImageRects[TYPE_PORTRAIT].right, m_rImageRects[0].bottom, -1, 1, &GetRect(1));
+			m_pTM->Draw(m_nCharacterPortraitId, 800-m_rImageRects[TYPE_PORTRAIT].right, 0, 1, 1, &GetRect(2));
+			m_pTM->Draw(m_nWeaponEquipmentId, 630, 35, 0.5f, 0.5f, &GetRect(TYPE_EQUIPMENT, m_nSelectedBootSlot));
+			m_pTM->Draw(m_nWeaponEquipmentId, 670, 35, 0.5f, 0.5f, &GetRect(TYPE_EQUIPMENT, m_nSelectedHeadSlot));
+			m_pTM->Draw(m_nWeaponEquipmentId, 800, 600-m_rImageRects[TYPE_EQUIPMENT].bottom, -1.0f, 1.0f, &GetRect(TYPE_EQUIPMENT, m_nSelectedWeapon));
+			m_pTM->Draw(m_nWeaponEquipmentId, 800-m_rImageRects[TYPE_EQUIPMENT].right, 600-m_rImageRects[TYPE_EQUIPMENT].bottom, -1.0f, 1.0f, &GetRect(TYPE_EQUIPMENT, 14));
+			
 			m_HudFont.Draw("Player 2", 720, 64, 0.5f, -1 );
 			m_HudFont.Draw(buffer, 510, 70, 0.75f, -1 );
 			break;
