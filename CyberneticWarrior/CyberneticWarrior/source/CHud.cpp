@@ -1,21 +1,14 @@
 #include "PrecompiledHeader.h"
 #include "CHud.h"
+#include "CPlayer.h"
 
 CHud::CHud( void )
 {
 	// Singleton Pointer
 	m_pTM = CSGD_TextureManager::GetInstance();
 
-	// Health
-	m_nRemainingHealth = 100;
-	m_nTotalHealth = 100;
-
-	// Energy
-	m_nRemainingEnergy = 0;
-	m_nTotalEnergy = 100;
-
-	// Score
-	m_nScore = 0;
+	// Player for health bars
+	m_pPlayer = NULL;
 
 	// Hud Image IDs
 	m_nHealthAndEnergyBarId = -1;
@@ -47,11 +40,6 @@ CHud::CHud( void )
 	m_rImageRects[3].right = 64;
 	m_rImageRects[3].bottom = 64;
 
-	// Currently Selected
-	m_nSelectedWeapon = 6;
-	m_nSelectedHeadSlot = 3;
-	m_nSelectedBootSlot = 2;
-
 	// Font
 	m_HudFont.InitFont( "resource/fonts/example.png", "resource/fonts/Example.fnt" );
 
@@ -78,7 +66,7 @@ RECT CHud::GetRect( int nType, int nEquipment )
 	case TYPE_HEALTH:
 		{	
 			float fPercentage;
-			fPercentage = m_nRemainingHealth / m_nTotalHealth;
+			fPercentage = m_pPlayer->m_nRemainingHealth/ m_pPlayer->m_nTotalHealth;
 			
 			rRectangle.right = (LONG)(fPercentage * rRectangle.right); 
 			break;
@@ -86,7 +74,7 @@ RECT CHud::GetRect( int nType, int nEquipment )
 	case TYPE_ENERGY:
 		{
 			float fPercentage;
-			fPercentage = m_nRemainingEnergy / m_nTotalEnergy;
+			fPercentage = m_pPlayer->m_nRemainingEnergy / m_pPlayer->m_nTotalEnergy;
 			
 			rRectangle.right = (LONG)(fPercentage * rRectangle.right); 
 			break;
@@ -112,17 +100,17 @@ void CHud::Update( float fElapsedTime )
 {
 	m_fElapsedTime += fElapsedTime;
 
-	if( m_fElapsedTime >= ENERGY_DELAY && m_nRemainingEnergy != m_nTotalEnergy )
+	if( m_fElapsedTime >= ENERGY_DELAY && m_pPlayer->m_nRemainingEnergy != m_pPlayer->m_nTotalEnergy )
 	{
 		m_fElapsedTime = 0.0f;
-		IncrementEnergy( (float)( 1 ) );
+		m_pPlayer->IncrementEnergy( (float)( 1 ) );
 	}
 }
 
 void CHud::Render( void )
 {
 	char buffer[32];
-	sprintf_s(buffer, "Score: %i", m_nScore);
+	sprintf_s(buffer, "Score: %i", m_pPlayer->m_nScore);
 
 	switch(m_nPlayerNumber)
 	{
@@ -131,9 +119,9 @@ void CHud::Render( void )
 			m_pTM->Draw(m_nHealthAndEnergyBarId, m_rImageRects[TYPE_PORTRAIT].right, 0, 1, 1, &GetRect(TYPE_HEALTH) );
 			m_pTM->Draw(m_nHealthAndEnergyBarId, m_rImageRects[TYPE_PORTRAIT].right, m_rImageRects[0].bottom, 1, 1, &GetRect(TYPE_ENERGY));
 			m_pTM->Draw(m_nCharacterPortraitId, 0, 0, 1, 1, &GetRect(TYPE_PORTRAIT));
-			m_pTM->Draw(m_nWeaponEquipmentId, 100, 35, 0.5f, 0.5f, &GetRect(TYPE_EQUIPMENT, m_nSelectedBootSlot));
-			m_pTM->Draw(m_nWeaponEquipmentId, 140, 35, 0.5f, 0.5f, &GetRect(TYPE_EQUIPMENT, m_nSelectedHeadSlot));
-			m_pTM->Draw(m_nWeaponEquipmentId, 0, 600-m_rImageRects[TYPE_EQUIPMENT].bottom, 1.0f, 1.0f, &GetRect(TYPE_EQUIPMENT, m_nSelectedWeapon));
+			m_pTM->Draw(m_nWeaponEquipmentId, 100, 35, 0.5f, 0.5f, &GetRect(TYPE_EQUIPMENT, m_pPlayer->m_nSelectedBootSlot));
+			m_pTM->Draw(m_nWeaponEquipmentId, 140, 35, 0.5f, 0.5f, &GetRect(TYPE_EQUIPMENT, m_pPlayer->m_nSelectedHeadSlot));
+			m_pTM->Draw(m_nWeaponEquipmentId, 0, 600-m_rImageRects[TYPE_EQUIPMENT].bottom, 1.0f, 1.0f, &GetRect(TYPE_EQUIPMENT, m_pPlayer->m_nSelectedWeapon));
 			m_pTM->Draw(m_nWeaponEquipmentId, m_rImageRects[TYPE_EQUIPMENT].right, 600-m_rImageRects[TYPE_EQUIPMENT].bottom, 1.0f, 1.0f, &GetRect(TYPE_EQUIPMENT, 14));
 			
 			m_HudFont.Draw("Player 1", 5, 64, 0.55f, -1 );
@@ -145,9 +133,9 @@ void CHud::Render( void )
 			m_pTM->Draw(m_nHealthAndEnergyBarId, 800-m_rImageRects[TYPE_PORTRAIT].right, 0, -1, 1, &GetRect(0));
 			m_pTM->Draw(m_nHealthAndEnergyBarId, 800-m_rImageRects[TYPE_PORTRAIT].right, m_rImageRects[0].bottom, -1, 1, &GetRect(1));
 			m_pTM->Draw(m_nCharacterPortraitId, 800-m_rImageRects[TYPE_PORTRAIT].right, 0, 1, 1, &GetRect(2));
-			m_pTM->Draw(m_nWeaponEquipmentId, 630, 35, 0.5f, 0.5f, &GetRect(TYPE_EQUIPMENT, m_nSelectedBootSlot));
-			m_pTM->Draw(m_nWeaponEquipmentId, 670, 35, 0.5f, 0.5f, &GetRect(TYPE_EQUIPMENT, m_nSelectedHeadSlot));
-			m_pTM->Draw(m_nWeaponEquipmentId, 800, 600-m_rImageRects[TYPE_EQUIPMENT].bottom, -1.0f, 1.0f, &GetRect(TYPE_EQUIPMENT, m_nSelectedWeapon));
+			m_pTM->Draw(m_nWeaponEquipmentId, 630, 35, 0.5f, 0.5f, &GetRect(TYPE_EQUIPMENT, m_pPlayer->m_nSelectedBootSlot));
+			m_pTM->Draw(m_nWeaponEquipmentId, 670, 35, 0.5f, 0.5f, &GetRect(TYPE_EQUIPMENT, m_pPlayer->m_nSelectedHeadSlot));
+			m_pTM->Draw(m_nWeaponEquipmentId, 800, 600-m_rImageRects[TYPE_EQUIPMENT].bottom, -1.0f, 1.0f, &GetRect(TYPE_EQUIPMENT, m_pPlayer->m_nSelectedWeapon));
 			m_pTM->Draw(m_nWeaponEquipmentId, 800-m_rImageRects[TYPE_EQUIPMENT].right, 600-m_rImageRects[TYPE_EQUIPMENT].bottom, -1.0f, 1.0f, &GetRect(TYPE_EQUIPMENT, 14));
 			
 			m_HudFont.Draw("Player 2", 720, 64, 0.5f, -1 );

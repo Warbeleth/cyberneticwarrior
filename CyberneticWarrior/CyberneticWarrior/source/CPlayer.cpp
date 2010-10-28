@@ -5,6 +5,7 @@
 #include "CCamera.h"
 #include "CSinglePlayerState.h"
 #include "CGrapplingHook.h"
+#include "CHud.h"
 
 CPlayer::CPlayer(void)
 {
@@ -21,20 +22,38 @@ CPlayer::CPlayer(void)
 	this->m_vVectorVelocity.fY = 0.0f;
 	this->m_vJoyVecPos.fX	   = 0.0f;
 	this->m_vJoyVecPos.fY	   = 0.0f;
-
+	
 	this->m_fJoyRot = 0.0f;
 	this->m_fWaitTime = 0.0f;
+	
+	// Health
+	m_nRemainingHealth = 100;
+	m_nTotalHealth = 100;
 
+	// Energy
+	m_nRemainingEnergy = 0;
+	m_nTotalEnergy = 100;
+
+	// Score
+	m_nScore = 0;
+
+	// Currently Selected
+	m_nSelectedWeapon = 6;
+	m_nSelectedHeadSlot = 3;
+	m_nSelectedBootSlot = 2;
 	
 	m_fHandRotation = 0.0f;
 	m_bHomingOn = false;
 	m_nHandID = CSGD_TextureManager::GetInstance()->LoadTexture( "resource/graphics/Arm.png" );
 
+	this->m_pHud = new CHud();
+	this->m_pHud->SetPlayerPointer(this);
 }
 
 CPlayer::~CPlayer(void)
 {
 	CSGD_TextureManager::GetInstance()->UnloadTexture(this->GetImageID());
+	delete m_pHud;
 }
 
 tVector2D CPlayer::GetSpeed(void)	{ return m_vSpeed; }
@@ -237,8 +256,8 @@ void CPlayer::Update(float fElapsedTime)
 
 	if(CCamera::GetInstance()->GetOffsetY() < 0)
 		CCamera::GetInstance()->SetCameraOffsetY(0);
-
-
+	
+	this->m_pHud->Update( fElapsedTime );
 	////////////////////////////////////////
 }
 
@@ -457,6 +476,8 @@ void CPlayer::Render(void)
 		(int)(((GetPosY() - (GetHeight()/4)) - OffsetY) * CCamera::GetInstance()->GetScale()), 
 		0.6f * CCamera::GetInstance()->GetScale(), 0.6f * CCamera::GetInstance()->GetScale(), 
 		0, 16, 64, m_fHandRotation, -1 );
+		
+	this->m_pHud->Render();
 }
 
 RECT CPlayer::GetRect(void) const
@@ -579,3 +600,8 @@ void	CPlayer::SetRotationPosY(float fY) {this->m_vRotationCenter.fY = fY;}
 
 float	CPlayer::GetRotation(void) {return this->m_fRotation;}
 void	CPlayer::SetRotation(float fRotation) {this->m_fRotation = fRotation;}
+
+void CPlayer::SetPlayerNumber( int nPlayer )
+{ 
+	m_pHud->SetPlayerNumber(nPlayer); 
+}
