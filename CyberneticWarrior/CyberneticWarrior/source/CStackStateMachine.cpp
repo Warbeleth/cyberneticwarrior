@@ -141,9 +141,12 @@ void	CStackStateMachine::RenderState(void)
 	{
 		if(this->m_pHead->pNext !=  NULL)
 		{
-			if(this->m_pHead->pNext->pData !=  NULL)
+			if(this->m_pHead->pNext != NULL) 
 			{
-				this->m_pHead->pNext->pData->Render();
+				if(this->m_pHead->pNext->pData->GetType() ==  GAMEPLAY)
+				{
+					this->m_pHead->pNext->pData->Render();
+				}
 			}
 		}
 		this->m_pHead->pData->Render();
@@ -153,10 +156,13 @@ void	CStackStateMachine::UpdateState(float fElapsedtime)
 {
 	if(this->m_pHead->pData != NULL)
 	{
-		/*if(((CSinglePlayerState*)this->m_pHead->pNext->pData)->GetInstance() == this->m_pHead->pNext->pData)
+		if(this->m_pHead->pNext != NULL)
 		{
-			this->m_pHead->pNext->pData->Update(fElapsedtime);
-		}*/
+			if(this->m_pHead->pData->GetType() == LOADING)
+			{
+				this->m_pHead->pNext->pData->Update(fElapsedtime);
+			}
+		}
 		this->m_pHead->pData->Update(fElapsedtime);
 	}
 }

@@ -1,6 +1,5 @@
-#include "CStackStateMachine.h"
-
 #include "IGameState.h"
+#include "CStackStateMachine.h"
 #include "CAtractModeState.h"
 
 void IGameState::AtractMode( float fElapsedTime )
@@ -19,3 +18,6 @@ void IGameState::AtractMode( float fElapsedTime )
 		m_fAtractModeTimer = 0.0f;
 	}
 }
+
+int	IGameState::GetType(void) const	{return this->m_nStateType;}
+void IGameState::SetType(int nStateType) {this->m_nStateType = nStateType;}

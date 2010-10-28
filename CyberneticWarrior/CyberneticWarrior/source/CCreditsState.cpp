@@ -1,4 +1,3 @@
-#include "PrecompiledHeader.h"
 #include "CCreditsState.h"
 #include "CStackStateMachine.h"
 

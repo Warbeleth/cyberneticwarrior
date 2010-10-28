@@ -1,5 +1,3 @@
-#include "PrecompiledHeader.h"
-
 #include "CLoadingState.h"
 #include "CStackStateMachine.h"
 #include "CSinglePlayerState.h"
@@ -37,9 +35,9 @@ CLoadingState::~CLoadingState(void)
 
 bool	CLoadingState::Input(void)
 {
-	if(this->m_pDI->KeyPressed(DIK_RETURN))
+	if(this->m_pDI->CheckKeys())
 	{
-		CStackStateMachine::GetInstance()->ChangeState(CSinglePlayerState::GetInstance());
+		CStackStateMachine::GetInstance()->Pop_back();
 	}
 	return 1;
 }
@@ -54,6 +52,7 @@ void	CLoadingState::Enter(void)
 	this->m_nBackgroundID = this->m_pTM->LoadTexture("resource/graphics/CyberneticHarmony-800.png");
 	this->m_nLoadingID = this->m_pTM->LoadTexture("resource/graphics/CyberneticHarmony.png");
 	this->m_nLoadFont.InitFont("resource/fonts/example.png", "resource/fonts/Example.fnt");
+	
 }
 void	CLoadingState::Update(float fElapsedTime)
 {
@@ -71,7 +70,7 @@ void	CLoadingState::Render(void)
 	this->m_pTM->Draw(this->m_nLoadingID, 0, 0, 1.0f, 1.0f, 0, 
 		(float)CGame::GetInstance()->GetScreenWidth()/2, (float)CGame::GetInstance()->GetScreenHeight()/2,
 		this->m_fRotation);
-	this->m_nLoadFont.Draw("Press Enter to Continue", 150, 250, 1.2f, D3DXCOLOR(1.0f,1.0f,0.4f,0.7f));
+	this->m_nLoadFont.Draw("Press Any Key to Continue", 150, 250, 1.2f, D3DXCOLOR(1.0f,1.0f,0.4f,0.7f));
 }
 void	CLoadingState::Exit(void)
 {
