@@ -401,8 +401,8 @@ void CGame::MessageProc(CBaseMessage*	pMsg)
 			pRocket->SetPosY(pCR->GetPlayerPointer()->GetPosY());
 
 			tVector2D vMousePos;
-			vMousePos.fX = (float)CSGD_DirectInput::GetInstance()->MouseGetPosX();
-			vMousePos.fY = (float)CSGD_DirectInput::GetInstance()->MouseGetPosY();
+			vMousePos.fX = (float)CSGD_DirectInput::GetInstance()->MouseGetPosX() + CCamera::GetInstance()->GetOffsetX();
+			vMousePos.fY = (float)CSGD_DirectInput::GetInstance()->MouseGetPosY() + CCamera::GetInstance()->GetOffsetY();
 
 			tVector2D vPlayerPos;
 			vPlayerPos.fX = pCR->GetPlayerPointer()->GetPosX() + (float)pCR->GetPlayerPointer()->GetWidth();

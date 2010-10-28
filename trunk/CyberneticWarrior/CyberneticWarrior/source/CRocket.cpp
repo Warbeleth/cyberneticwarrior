@@ -45,8 +45,8 @@ void CRocket::Update( float fElapsedTime)
 	case ROCKET_HOMING:
 		{
 			tVector2D vecMousePosition;
-			vecMousePosition.fX = (float)(CSGD_DirectInput::GetInstance()->MouseGetPosX());
-			vecMousePosition.fY = (float)(CSGD_DirectInput::GetInstance()->MouseGetPosY());
+			vecMousePosition.fX = (float)(CSGD_DirectInput::GetInstance()->MouseGetPosX() + CCamera::GetInstance()->GetOffsetX());
+			vecMousePosition.fY = (float)(CSGD_DirectInput::GetInstance()->MouseGetPosY()+ CCamera::GetInstance()->GetOffsetY());
 
 			SetBaseVelX( vecMousePosition.fX - 8 - GetPosX() );
 			SetBaseVelY( vecMousePosition.fY + 8 - GetPosY() );
