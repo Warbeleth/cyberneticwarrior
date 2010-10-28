@@ -38,6 +38,7 @@ private:
 
 	bool m_bHomingOn;
 
+	bool m_bForward;
 
 
 
