@@ -427,6 +427,10 @@
 					</FileConfiguration>
 				</File>
 				<File
+					RelativePath=".\source\CLoadingState.cpp"
+					>
+				</File>
+				<File
 					RelativePath=".\source\CMainMenuState.cpp"
 					>
 					<FileConfiguration
@@ -714,6 +718,10 @@
 				</File>
 				<File
 					RelativePath=".\source\CHowToPlayState.h"
+					>
+				</File>
+				<File
+					RelativePath=".\source\CLoadingState.h"
 					>
 				</File>
 				<File

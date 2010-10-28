@@ -8,18 +8,17 @@ class CCodeProfiler
 {
 private:
 	
-	//struct tFunction
-	//{
-	//	std::vector<int>	m_vPerformanceTimes;
-	//	
-	//	int					m_nID;
-	////	QueryPerformanceCounter()
-	//};
-	std::vector<LONG>					m_vPerformanceTimes;
+	struct tFunction
+	{
+		std::vector<LONG>	m_vPerformanceTimes;
+		std::string				m_nFunctionName;
+		int					m_nCallCount;
+		int					m_nID;
+	};
+
+	std::vector<tFunction>				m_vFunctions;
 	std::vector<int>					m_liCurrentCounter;
 	std::vector<int>					m_liCurrentFreq;
-	std::vector<std::string>					m_szFuncName;
-	std::vector<int>					m_nCallCounter;
 
 	//std::vector<tFunction*> m_vFunctions;
 

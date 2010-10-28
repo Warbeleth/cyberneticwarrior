@@ -3,6 +3,7 @@
 #include "CControlSelectState.h"
 #include "CStackStateMachine.h"
 #include "CSinglePlayerState.h"
+#include "CLoadingState.h"
 
 CControlSelectState*		CControlSelectState::sm_pControlSelectInstance = NULL;
 
@@ -82,11 +83,11 @@ bool	CControlSelectState::Input(void)
 		switch(this->m_nSelection)
 		{
 		case this->GAMEPAD:
-			CStackStateMachine::GetInstance()->ChangeState(CSinglePlayerState::GetInstance());
+			CStackStateMachine::GetInstance()->ChangeState(CLoadingState::GetInstance());
 			return 1;
 			break;
 		case this->KEYBOARD:
-			CStackStateMachine::GetInstance()->ChangeState(CSinglePlayerState::GetInstance());
+			CStackStateMachine::GetInstance()->ChangeState(CLoadingState::GetInstance());
 			return 1;
 			break;
 		case this->EXIT_MENU:

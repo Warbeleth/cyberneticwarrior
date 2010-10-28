@@ -2,8 +2,6 @@
 
 #include "COptionsMenuState.h"
 #include "CStackStateMachine.h"
-#include "CEventSystem.h"
-#include "CEvent.h"
 
 COptionsMenuState*	COptionsMenuState::sm_pOptionsMenuInstance = NULL;
 

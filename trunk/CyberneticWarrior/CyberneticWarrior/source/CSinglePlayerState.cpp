@@ -121,7 +121,7 @@ void CSinglePlayerState::Enter(void)
 
 	this->m_TempPlayer = (CPlayer*)m_pOF->CreateObject("CPlayer");
 	this->m_TempPlayer->SetImageID(this->m_pTM->LoadTexture("resource/graphics/Running1.bmp"));
-	this->m_TempPlayer->SetPosX((float)242);
+	this->m_TempPlayer->SetPosX((float)0);
 	this->m_TempPlayer->SetPosY((float)CGame::GetInstance()->GetScreenHeight() - 128);
 	this->m_TempPlayer->SetWidth(64);
 	this->m_TempPlayer->SetHeight(128);

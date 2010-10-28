@@ -9,7 +9,6 @@ class CSGD_DirectInput;
 class CSGD_TextureManager;
 class CSGD_WaveManager;
 class CSGD_DirectSound;
-class CEvent;
 
 #define SPMENU_SPACE 42
 

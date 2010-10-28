@@ -31,6 +31,7 @@
 #include "CPlayer.h"
 #include "CCreditsState.h"
 #include "CAtractModeState.h"
+#include "CLoadingState.h"
 
 
 
@@ -142,7 +143,7 @@ void CGame::Initialize(HWND hWnd, HINSTANCE hInstance,
 	this->m_nScreenHeight = nScreenHeight;
 
 
-	m_nCodeProfilerID = this->m_pCP->CreateFunction("Update");
+	//m_nCodeProfilerID = this->m_pCP->CreateFunction("");
 
 	this->m_pSSM->ChangeState(CMainMenuState::GetInstance());
 
@@ -154,7 +155,7 @@ void CGame::Initialize(HWND hWnd, HINSTANCE hInstance,
 void CGame::ShutDown(void)
 {
 
-	CCodeProfiler::GetInstance()->SavePerformance();
+	this->m_pCP->SavePerformance();
 
 
 	this->m_pMS->ShutdownSystem();
@@ -199,6 +200,7 @@ void CGame::ShutDown(void)
 	CControlSelectState::GetInstance()->DeleteInstance();
 	CCreditsState::GetInstance()->DeleteInstance();
 	CAtractModeState::GetInstance()->DeleteInstance();
+	CLoadingState::GetInstance()->DeleteInstance();
 
 	if(this->m_pDI)
 	{
@@ -292,14 +294,12 @@ bool CGame::Input(void)
 ////////////////////////////////////////////////////////////////////////////////////
 void CGame::Update(float fElapsedTime)
 {
-	this->m_pCP->FunctionStart(this->m_nCodeProfilerID);
 	
 	this->m_pWM->Update();
 	this->m_pSSM->UpdateState(fElapsedTime);
 	this->m_pES->ProcessEvents();
 	this->m_pMS->ProcessMessages();
 
-	this->m_pCP->FuntionEnd(this->m_nCodeProfilerID);
 }
 
 ////////////////////////////////////////////////////////////////////////////////////
