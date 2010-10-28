@@ -153,14 +153,12 @@ void CSinglePlayerState::Enter(void)
 
 
 	this->m_TempPlatform2 = (CBlock*)m_pOF->CreateObject("CBlock");
-	this->m_TempPlatform2->SetImageID(this->m_pTM->LoadTexture("resource/graphics/tile.png"));
 	this->m_TempPlatform2->SetPosX((float)330);
 	this->m_TempPlatform2->SetPosY((float)100);
 	vStartingPos.fX = this->m_TempPlatform2->GetPosX();
 	vStartingPos.fY = this->m_TempPlatform2->GetPosY();
 	this->m_TempPlatform2->SetWidth(256);
 	this->m_TempPlatform2->SetHeight(32);
-	this->m_TempPlatform2->SetBlockType(BLOCK_SOLID);
 	this->m_TempPlatform2->SetType(OBJ_BLOCK);
 
 
