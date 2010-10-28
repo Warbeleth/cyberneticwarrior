@@ -11,6 +11,7 @@ CPlayer::CPlayer(void)
 	this->SetType(OBJ_PLAYER);
 	this->m_bOnGround = 1;
 	this->m_bOnPlatform = 0;
+	this->m_bForward = 1;
 	this->SetMouseDown(0);
 	this->SetHookPointer(NULL);
 	this->m_fRotation = 0.0f;
@@ -58,6 +59,14 @@ void CPlayer::Update(float fElapsedTime)
 	this->Input(fElapsedTime);
 
 
+	if(CSGD_DirectInput::GetInstance()->MouseGetPosX() > this->GetPosX())
+	{
+		this->m_bForward = 1;
+	}
+	else
+	{
+		this->m_bForward = 0;
+	}
 	//this->m_fWaitTime +=  fElapsedTime;
 	
 	//this->m_vJoyVecPos.fX = this->GetPosX();
@@ -411,11 +420,23 @@ void CPlayer::Render(void)
 	int OffsetX = CCamera::GetInstance()->GetOffsetX();
 	int OffsetY = CCamera::GetInstance()->GetOffsetY();
 
-	CSGD_TextureManager::GetInstance()->Draw(this->GetImageID(), 
-		(int)((this->GetPosX() - OffsetX) * CCamera::GetInstance()->GetScale()),
+	if(!this->m_bForward)
+	{
+		CSGD_TextureManager::GetInstance()->Draw(this->GetImageID(), 
+			(int)((this->GetPosX() - OffsetX) * CCamera::GetInstance()->GetScale()) + this->GetWidth(),
+			(int)((this->GetPosY() - OffsetY) * CCamera::GetInstance()->GetScale()), 
+			-1.0f * CCamera::GetInstance()->GetScale(), 
+			1.0f * CCamera::GetInstance()->GetScale(), &rDrawRect);//, (float)GetWidth()/2, (float)GetHeight());
+	}
+	else
+	{
+		CSGD_TextureManager::GetInstance()->Draw(this->GetImageID(),
+		(int)((this->GetPosX() - OffsetX) * CCamera::GetInstance()->GetScale()), 
 		(int)((this->GetPosY() - OffsetY) * CCamera::GetInstance()->GetScale()), 
+		1.0f * CCamera::GetInstance()->GetScale(),
 		1.0f * CCamera::GetInstance()->GetScale(), 
-		1.0f * CCamera::GetInstance()->GetScale(), &rDrawRect);//, this->m_vRotationCenter.fX, this->m_vRotationCenter.fX, this->m_fRotation);//, (float)GetWidth()/2, (float)GetHeight());
+		&rDrawRect, this->m_vRotationCenter.fX, this->m_vRotationCenter.fX, this->m_fRotation);
+	}
 
 	if(m_bHomingOn)
 		CSGD_Direct3D::GetInstance()->DrawLine( (int)(((GetPosX() + (GetWidth()/2)) - OffsetX) * CCamera::GetInstance()->GetScale()),
@@ -424,12 +445,12 @@ void CPlayer::Render(void)
 		int((CSGD_DirectInput::GetInstance()->MouseGetPosY()+8) * CCamera::GetInstance()->GetScale()), 
 		255, 0, 0 );
 
-	CSGD_TextureManager::GetInstance()->Draw(this->GetImageID(),
+	/*CSGD_TextureManager::GetInstance()->Draw(this->GetImageID(),
 		(int)((this->GetPosX() - OffsetX) * CCamera::GetInstance()->GetScale()), 
 		(int)((this->GetPosY() - OffsetY) * CCamera::GetInstance()->GetScale()), 
 		1.0f * CCamera::GetInstance()->GetScale(),
 		1.0f * CCamera::GetInstance()->GetScale(), 
-		&rDrawRect, this->m_vRotationCenter.fX, this->m_vRotationCenter.fX, this->m_fRotation);
+		&rDrawRect, this->m_vRotationCenter.fX, this->m_vRotationCenter.fX, this->m_fRotation);/*
 
 	CSGD_TextureManager::GetInstance()->Draw(m_nHandID, 
 		(int)(((GetPosX() + (GetWidth()/2)) - OffsetX) * CCamera::GetInstance()->GetScale()), 
