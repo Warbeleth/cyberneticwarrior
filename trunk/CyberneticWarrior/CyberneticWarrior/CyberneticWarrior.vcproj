@@ -365,7 +365,7 @@
 						>
 						<Tool
 							Name="VCCLCompilerTool"
-							UsePrecompiledHeader="2"
+							UsePrecompiledHeader="0"
 							PrecompiledHeaderThrough="PrecompiledHeader.h"
 						/>
 					</FileConfiguration>
@@ -378,7 +378,7 @@
 						>
 						<Tool
 							Name="VCCLCompilerTool"
-							UsePrecompiledHeader="2"
+							UsePrecompiledHeader="0"
 							PrecompiledHeaderThrough="PrecompiledHeader.h"
 						/>
 					</FileConfiguration>
@@ -395,7 +395,7 @@
 						>
 						<Tool
 							Name="VCCLCompilerTool"
-							UsePrecompiledHeader="2"
+							UsePrecompiledHeader="0"
 							PrecompiledHeaderThrough="PrecompiledHeader.h"
 						/>
 					</FileConfiguration>
@@ -408,7 +408,7 @@
 						>
 						<Tool
 							Name="VCCLCompilerTool"
-							UsePrecompiledHeader="2"
+							UsePrecompiledHeader="0"
 							PrecompiledHeaderThrough="PrecompiledHeader.h"
 						/>
 					</FileConfiguration>
@@ -421,7 +421,7 @@
 						>
 						<Tool
 							Name="VCCLCompilerTool"
-							UsePrecompiledHeader="2"
+							UsePrecompiledHeader="0"
 							PrecompiledHeaderThrough="PrecompiledHeader.h"
 						/>
 					</FileConfiguration>
@@ -438,7 +438,7 @@
 						>
 						<Tool
 							Name="VCCLCompilerTool"
-							UsePrecompiledHeader="2"
+							UsePrecompiledHeader="0"
 							PrecompiledHeaderThrough="PrecompiledHeader.h"
 						/>
 					</FileConfiguration>
@@ -451,7 +451,7 @@
 						>
 						<Tool
 							Name="VCCLCompilerTool"
-							UsePrecompiledHeader="2"
+							UsePrecompiledHeader="0"
 							PrecompiledHeaderThrough="PrecompiledHeader.h"
 						/>
 					</FileConfiguration>
@@ -464,7 +464,7 @@
 						>
 						<Tool
 							Name="VCCLCompilerTool"
-							UsePrecompiledHeader="2"
+							UsePrecompiledHeader="0"
 							PrecompiledHeaderThrough="PrecompiledHeader.h"
 						/>
 					</FileConfiguration>
@@ -477,7 +477,7 @@
 						>
 						<Tool
 							Name="VCCLCompilerTool"
-							UsePrecompiledHeader="2"
+							UsePrecompiledHeader="0"
 							PrecompiledHeaderThrough="PrecompiledHeader.h"
 						/>
 					</FileConfiguration>
@@ -490,7 +490,7 @@
 						>
 						<Tool
 							Name="VCCLCompilerTool"
-							UsePrecompiledHeader="2"
+							UsePrecompiledHeader="0"
 							PrecompiledHeaderThrough="PrecompiledHeader.h"
 						/>
 					</FileConfiguration>

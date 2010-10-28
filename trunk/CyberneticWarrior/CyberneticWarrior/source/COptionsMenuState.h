@@ -20,12 +20,6 @@ private:
 	enum selections { MUSIC_VOLUME = 0, SFX_VOLUME, MUTE, EXIT_OMENU,
 		OMENU_START = 150, OM_CURSOR_POS = 130, MENUX = 125};
 
-	CSGD_Direct3D*				m_pD3D;
-	CSGD_DirectInput*			m_pDI;
-	CSGD_TextureManager*		m_pTM;
-	CSGD_WaveManager*			m_pWM;
-	CSGD_DirectSound*			m_pDS;
-
 	CFont	m_OptionsFont;
 	
 	float m_fWaitTime;

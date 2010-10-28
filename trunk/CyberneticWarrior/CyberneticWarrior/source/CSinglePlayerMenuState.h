@@ -19,11 +19,7 @@ private:
 	enum selections { NEW_GAME = 0, LOAD, DELETE_PROF, BACK,
 		SMENU_START =130, SM_CURSOR_POS = 110};
 
-	CSGD_Direct3D*				m_pD3D;
-	CSGD_DirectInput*			m_pDI;
-	CSGD_TextureManager*		m_pTM;
-	CSGD_WaveManager*			m_pWM;
-	CSGD_DirectSound*			m_pDS;
+
 
 	CFont	m_OptionsFont;
 

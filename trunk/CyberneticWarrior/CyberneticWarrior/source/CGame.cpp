@@ -143,8 +143,6 @@ void CGame::Initialize(HWND hWnd, HINSTANCE hInstance,
 	this->m_nScreenHeight = nScreenHeight;
 
 
-	//m_nCodeProfilerID = this->m_pCP->CreateFunction("");
-
 	this->m_pSSM->ChangeState(CMainMenuState::GetInstance());
 
 }
@@ -273,7 +271,7 @@ bool CGame::Main(void)
 bool CGame::Input(void)
 {
 	this->m_pDI->ReadDevices();
-	bool turn = this->m_pSSM->Input();
+//	bool turn = ;
 
 	///////////////////////////////////
 	// Temp
@@ -284,9 +282,8 @@ bool CGame::Input(void)
 	}*/
 	//////////////////////////////////
 
-	//return 1;
 
-	return turn;
+	return this->m_pSSM->Input();
 }
 
 ////////////////////////////////////////////////////////////////////////////////////

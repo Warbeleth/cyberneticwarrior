@@ -1,5 +1,3 @@
-#include "PrecompiledHeader.h"
-
 #include "CPauseMenuState.h"
 #include "CStackStateMachine.h"
 #include "CMainMenuState.h"

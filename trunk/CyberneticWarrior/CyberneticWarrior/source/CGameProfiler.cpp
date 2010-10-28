@@ -1,13 +1,10 @@
-#include "PrecompiledHeader.h"
-
 #include "CGameProfiler.h"
 #include "CStackStateMachine.h"
 #include "CGame.h"
 #include "CMainMenuState.h"
 #include "CSinglePlayerState.h"
 #include "CControlSelectState.h"
-#include "CEventSystem.h"
-#include "CEvent.h"
+#include <fstream>
 
 CGameProfiler*	CGameProfiler::sm_pGameProfilerInstance = NULL;
 

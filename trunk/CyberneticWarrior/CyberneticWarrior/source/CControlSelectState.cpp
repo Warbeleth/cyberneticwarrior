@@ -1,5 +1,3 @@
-#include "PrecompiledHeader.h"
-
 #include "CControlSelectState.h"
 #include "CStackStateMachine.h"
 #include "CSinglePlayerState.h"
@@ -83,11 +81,11 @@ bool	CControlSelectState::Input(void)
 		switch(this->m_nSelection)
 		{
 		case this->GAMEPAD:
-			CStackStateMachine::GetInstance()->ChangeState(CLoadingState::GetInstance());
+			CStackStateMachine::GetInstance()->ChangeState(CSinglePlayerState::GetInstance());
 			return 1;
 			break;
 		case this->KEYBOARD:
-			CStackStateMachine::GetInstance()->ChangeState(CLoadingState::GetInstance());
+			CStackStateMachine::GetInstance()->ChangeState(CSinglePlayerState::GetInstance());
 			return 1;
 			break;
 		case this->EXIT_MENU:

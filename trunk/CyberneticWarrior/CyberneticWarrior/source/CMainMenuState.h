@@ -22,12 +22,6 @@ private:
 		  MMENU_START = 130, MMCURSOR_POS = 90};
 
 
-	CSGD_Direct3D*				m_pD3D;
-	CSGD_DirectInput*			m_pDI;
-	CSGD_TextureManager*		m_pTM;
-	CSGD_WaveManager*			m_pWM;
-	CSGD_DirectSound*			m_pDS;
-
 	CFont	m_MenuFont;
 	
 	float	m_fWaitTime;

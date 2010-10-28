@@ -1,5 +1,3 @@
-#include "PrecompiledHeader.h"
-
 #include "CHowToPlayState.h"
 #include "CStackStateMachine.h"
 

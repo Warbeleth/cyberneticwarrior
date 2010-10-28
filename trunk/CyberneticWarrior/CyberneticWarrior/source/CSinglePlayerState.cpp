@@ -7,6 +7,7 @@
 #include "CStackStateMachine.h"
 #include "CMainMenuState.h"
 #include "CPauseMenuState.h"
+#include "CLoadingState.h"
 #include "COptionsMenuState.h"
 #include "CIdleEnemy.h"
 #include "CPatrolEnemy.h"
@@ -55,6 +56,8 @@ CSinglePlayerState::CSinglePlayerState(void)
 	this->SetNewGame(1);
 
 	this->m_Profile.m_bHaveHook = 0;
+
+	this->SetType(GAMEPLAY);
 }
 
 CSinglePlayerState::~CSinglePlayerState(void)
@@ -85,6 +88,7 @@ void CSinglePlayerState::DeleteInstance(void)
 void CSinglePlayerState::Enter(void)
 {
 	// File Include Needs conversion - Corey
+	CStackStateMachine::GetInstance()->Push_Back(CLoadingState::GetInstance());
 	this->m_TempMap = CMapLoad::GetInstance();
 
 	m_TempMap->LoadMap("CW-Map_01.CWM");
@@ -117,7 +121,7 @@ void CSinglePlayerState::Enter(void)
 	this->m_nBackgroundImageID = this->m_pTM->LoadTexture("resource/graphics/bgGame.png");
 	this->m_nCrossHairID = this->m_pTM->LoadTexture("resource/graphics/CrossHairs.png");
 	this->m_nBGMusic = this->m_pWM->LoadWave("resource/sounds/Jak2_Haven_City.wav");
-	m_nRocketID = m_pTM->LoadTexture("resource/graphics/CrossHairs.png");
+	this->m_nRocketID = m_pTM->LoadTexture("resource/graphics/CrossHairs.png");
 
 	this->m_TempPlayer = (CPlayer*)m_pOF->CreateObject("CPlayer");
 	this->m_TempPlayer->SetImageID(this->m_pTM->LoadTexture("resource/graphics/Running1.bmp"));
@@ -134,9 +138,9 @@ void CSinglePlayerState::Enter(void)
 
 	//if(!this->GetNewGame())	//{	//	//this->m_Profile.m_bHaveHook = 1;	//}
 	
-	Enemy_1 = new CIdleEnemy(Idle, Turret_Gun, -1, 100, 90, 50, 100, .5, 50, 100, 400, 32, 32);
-	Enemy_2 = new CPatrolEnemy(Patrol, 0, 250, Turret_Gun, -1, 100, 90, 50, 100, .5, 100, 300, 400, 32, 32);
-	Enemy_3 = new CFLCLMech(-1, 300, 400);
+	this->Enemy_1 = new CIdleEnemy(Idle, Turret_Gun, -1, 100, 90, 50, 100, .5, 50, 100, 400, 32, 32);
+	this->Enemy_2 = new CPatrolEnemy(Patrol, 0, 250, Turret_Gun, -1, 100, 90, 50, 100, .5, 100, 300, 400, 32, 32);
+	this->Enemy_3 = new CFLCLMech(-1, 300, 400);
 
 
 	tVector2D vStartingPos;
@@ -209,6 +213,7 @@ bool CSinglePlayerState::Input(void)
 		CStackStateMachine::GetInstance()->Push_Back(CPauseMenuState::GetInstance());
 		//CStackStateMachine::GetInstance()->Pop_back();
 	}
+
 	return 1;
 }
 

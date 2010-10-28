@@ -21,12 +21,6 @@ private:
 	enum selections { RESUME = 0, SAVE, CONTROLS, ACHIEVEMENTS, OPTIONS, MAIN_MENU,
 		PMENU_START =200, PM_CURSOR_POS = 90};
 
-	CSGD_Direct3D*				m_pD3D;
-	CSGD_DirectInput*			m_pDI;
-	CSGD_TextureManager*		m_pTM;
-	CSGD_WaveManager*			m_pWM;
-	CSGD_DirectSound*			m_pDS;
-
 	CFont	m_OptionsFont;
 
 	float m_fWaitTime;
