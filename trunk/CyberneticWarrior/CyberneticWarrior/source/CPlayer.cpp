@@ -450,7 +450,7 @@ void CPlayer::Render(void)
 		(int)((this->GetPosY() - OffsetY) * CCamera::GetInstance()->GetScale()), 
 		1.0f * CCamera::GetInstance()->GetScale(),
 		1.0f * CCamera::GetInstance()->GetScale(), 
-		&rDrawRect, this->m_vRotationCenter.fX, this->m_vRotationCenter.fX, this->m_fRotation);/*
+		&rDrawRect, this->m_vRotationCenter.fX, this->m_vRotationCenter.fX, this->m_fRotation);*/
 
 	CSGD_TextureManager::GetInstance()->Draw(m_nHandID, 
 		(int)(((GetPosX() + (GetWidth()/2)) - OffsetX) * CCamera::GetInstance()->GetScale()), 
