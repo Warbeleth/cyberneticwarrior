@@ -6,6 +6,7 @@
 
 class CEvent;
 class CGrapplingHook;
+class CHud;
 
 enum Input{KEYBOARD = 0, GAMEPAD};
 class CPlayer : public CBase, public IListener
@@ -21,6 +22,25 @@ private:
 
 	float m_fRotation;
 	float m_fJoyRot;
+
+	// HUD VARIABLES
+	// Health
+	float m_nRemainingHealth;
+	float m_nTotalHealth;
+
+	// Energy
+	float m_nRemainingEnergy;
+	float m_nTotalEnergy;
+
+	// Score
+	int m_nScore;
+
+	CHud* m_pHud;
+
+	// Currently Selected
+	int m_nSelectedWeapon;
+	int m_nSelectedHeadSlot;
+	int m_nSelectedBootSlot;
 
 	///////////////////
 	// Hand
@@ -40,8 +60,6 @@ private:
 
 	bool m_bForward;
 
-
-
 	CGrapplingHook*		m_pHook;
 	/////////////////////////////////
 	// Temp
@@ -50,6 +68,7 @@ private:
 	bool m_bMouseDown;
 	/////////////////////////////////
 
+	friend class CHud;
 
 public:
 
@@ -88,30 +107,25 @@ public:
 
 
 	tVector2D	GetRotationPos(void);
-	void	SetRotationPosX(float fX);
-	void	SetRotationPosY(float fY);
-
 	float	GetRotation(void);
-	void	SetRotation(float fRotation);
+	
 	////////////////////////////////////////////////////////////////////////////////////
-	//	Function : SetSpeedY
+	//	Function : Mutators
 	//
-	//	Purpose : Mutator that sets m_vSpeed.fY to the recieved parameter
-	////////////////////////////////////////////////////////////////////////////////////
-	void SetSpeedY(float nSpeedY);
-	////////////////////////////////////////////////////////////////////////////////////
-	//	Function : SetSpeedX
-	//
-	//	Purpose : Mutator that sets m_vSpeed.fX to the recieved parameter
-	////////////////////////////////////////////////////////////////////////////////////
-	void SetSpeedX(float nSpeedX);
-	////////////////////////////////////////////////////////////////////////////////////
-	//	Function : SetOnGround
-	//
-	//	Purpose : Mutator that sets m_bOnGround to the recieved parameter
-	////////////////////////////////////////////////////////////////////////////////////
+	//	Purpose : Change a value of a variable
+	///////////////////////////////////////////////////////////////////////////////////
 	void SetOnGround(bool bOnGround);
-	/////////////////////////////////////
-
+	void SetSpeedX(float nSpeedX);
+	void SetSpeedY(float nSpeedY);
+	void SetRotation(float fRotation);
+	void SetRotationPosX(float fX);
+	void SetRotationPosY(float fY);
+	void SetPlayerNumber( int nPlayer );
+	void IncrementScore( int nScore ) { m_nScore += nScore; }
+	void DecrementScore( int nScore ) { m_nScore -= nScore; }
+	void IncrementHealth( float nRemainingHealth ) { m_nRemainingHealth += nRemainingHealth; (m_nRemainingHealth > 100.0f) ? m_nRemainingHealth = 100.0f : m_nRemainingHealth = m_nRemainingHealth; }
+	void DecrementHealth( float nRemainingHealth ) { m_nRemainingHealth -= nRemainingHealth; (m_nRemainingHealth < 0.0f) ? m_nRemainingHealth = 0.0f : m_nRemainingHealth = m_nRemainingHealth; }
+	void IncrementEnergy( float nRemainingEnergy ) { m_nRemainingEnergy += nRemainingEnergy; (m_nRemainingEnergy > 100.0f) ? m_nRemainingEnergy = 100.0f : m_nRemainingEnergy = m_nRemainingEnergy; }
+	void DecrementEnergy( float nRemainingEnergy ) { m_nRemainingEnergy -= nRemainingEnergy; (m_nRemainingEnergy < 0.0f) ? m_nRemainingEnergy = 0.0f : m_nRemainingEnergy = m_nRemainingEnergy; }
 };
 #endif

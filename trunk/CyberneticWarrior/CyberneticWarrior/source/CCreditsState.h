@@ -9,6 +9,13 @@ class CCreditsState : public IGameState
 	CFont	m_CreditsFont;
 	int		m_nScrollingId;
 
+	int m_nCreditsBGId;
+
+	CCreditsState( void );
+	~CCreditsState( void );
+	CCreditsState(CCreditsState&);
+	CCreditsState& operator=(CCreditsState&);
+
 	static CCreditsState* sm_pCreditsInstance;
 public:
 	bool Input( void );
