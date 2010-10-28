@@ -130,3 +130,23 @@ Performace Times:
 
 Average: 385 milli Seconds
 TimeStamp: Thu Oct 28 09:49:16 2010
+
+Function Name: Change State
+Amount of Calls: 3
+Performace Times: 
+	Call #1: 185 milli Seconds
+	Call #2: 726 milli Seconds
+	Call #3: 197 milli Seconds
+
+Average: 369 milli Seconds
+TimeStamp: Thu Oct 28 09:49:16 2010
+
+Function Name: Change State
+Amount of Calls: 3
+Performace Times: 
+	Call #1: 180 milli Seconds
+	Call #2: 743 milli Seconds
+	Call #3: 195 milli Seconds
+
+Average: 372 milli Seconds
+TimeStamp: Thu Oct 28 09:49:16 2010
