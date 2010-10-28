@@ -1,0 +1,34 @@
+
+
+Function Name: Change State
+Amount of Calls: 4
+Performace Times: 
+	Call #1: 204 milli Seconds
+	Call #2: 150 milli Seconds
+	Call #3: 523 milli Seconds
+	Call #4: 272 milli Seconds
+
+Average: 287 milli Seconds
+TimeStamp: Thu Oct 28 09:24:19 2010
+
+Function Name: Change State
+Amount of Calls: 4
+Performace Times: 
+	Call #1: 229 milli Seconds
+	Call #2: 217 milli Seconds
+	Call #3: 746 milli Seconds
+	Call #4: 266 milli Seconds
+
+Average: 364 milli Seconds
+TimeStamp: Thu Oct 28 09:24:19 2010
+
+Function Name: Change State
+Amount of Calls: 4
+Performace Times: 
+	Call #1: 244 milli Seconds
+	Call #2: 167 milli Seconds
+	Call #3: 880 milli Seconds
+	Call #4: 228 milli Seconds
+
+Average: 379 milli Seconds
+TimeStamp: Thu Oct 28 09:24:19 2010

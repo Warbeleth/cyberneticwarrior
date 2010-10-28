@@ -73,13 +73,6 @@ public:
 	void Input(float fElapsedTime);
 
 
-
-	
-
-
-
-
-
 	bool GetMouseDown(void);
 	void SetMouseDown(bool bMouseDown);
 
