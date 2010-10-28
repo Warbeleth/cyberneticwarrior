@@ -22,15 +22,18 @@ class CHud
 	// Score
 	int m_nScore;
 
+	// Currently Selected
+	int m_nSelectedWeapon;
+	int m_nSelectedHeadSlot;
+	int m_nSelectedBootSlot;
+
 	// Hud Image IDs
 	int m_nHealthAndEnergyBarId;
 	int m_nCharacterPortraitId;
+	int m_nWeaponEquipmentId;
 
-	// Hud Image Width / Height
-	int m_nHealthAndEnergyBarWidth;
-	int m_nPortraitWidth;
-	int m_nPortraitHeight;
-	int m_nBarHeight;
+	// Hud Image RECTS
+	RECT m_rImageRects[4];
 
 	// Font
 	CFont m_HudFont;
@@ -45,6 +48,7 @@ class CHud
 	CHud& operator=(CHud&);
 
 protected:
+	enum Type { TYPE_HEALTH = 0, TYPE_ENERGY, TYPE_PORTRAIT, TYPE_EQUIPMENT };
 	enum Health { HP_HEALTHPACK = 30, DMG_SMALL = 15, DMG_MEDIUM = 30, DMG_LARGE = 45 };
 	enum Energy { ENERGY_ROCKET = 100, ENERGY_DASH = 100, ENERGY_HOVER = 10 };
 	enum Score  { SCORE_SMALL = 100, SCORE_MEDIUM = 250, SCORE_LARGE = 1000 };
@@ -60,7 +64,7 @@ public:
 	CHud( void );
 	~CHud( void );
 
-	RECT GetDisplayRect( int nHealthEnergyPortrait );
+	RECT GetRect( int nType, int nEquipment = -1 );
 
 	void Update( float fElapsedTime );
 	void Render( void );

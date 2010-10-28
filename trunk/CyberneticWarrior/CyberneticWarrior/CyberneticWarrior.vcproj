@@ -250,6 +250,10 @@
 						</FileConfiguration>
 					</File>
 					<File
+						RelativePath=".\source\CHud.cpp"
+						>
+					</File>
+					<File
 						RelativePath=".\source\CIdleEnemy.cpp"
 						>
 						<FileConfiguration
@@ -641,6 +645,10 @@
 					</File>
 					<File
 						RelativePath=".\source\CFLCLMech.h"
+						>
+					</File>
+					<File
+						RelativePath=".\source\CHud.h"
 						>
 					</File>
 					<File

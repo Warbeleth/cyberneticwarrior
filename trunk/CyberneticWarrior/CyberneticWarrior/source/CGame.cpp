@@ -33,6 +33,7 @@
 #include "CAtractModeState.h"
 
 
+
 // Singleton Instantiation
 CGame*	CGame::sm_pGameInstance = NULL;
 
