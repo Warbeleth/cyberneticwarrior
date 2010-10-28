@@ -4,8 +4,6 @@
 #include "CStackStateMachine.h"
 #include "CMainMenuState.h"
 #include "CGameProfiler.h"
-#include "CEventSystem.h"
-#include "CEvent.h"
 
 CSinglePlayerMenuState*	CSinglePlayerMenuState::sm_pSinglePlayerMenuInstance = NULL;
 

@@ -11,6 +11,7 @@
 #include "CGame.h"
 #include "CStackStateMachine.h"
 #include "CSinglePlayerState.h"
+#include "CCodeProfiler.h"
 #include "IGameState.h"
 
 CStackStateMachine*	CStackStateMachine::sm_pStateStackMachineInstance = NULL;
@@ -19,6 +20,7 @@ CStackStateMachine::CStackStateMachine(void)
 {
 	this->m_pHead = NULL;
 	this->m_nSize = 0;
+	this->m_nCID = CCodeProfiler::GetInstance()->CreateFunction("Change State");
 }
 
 CStackStateMachine::CStackStateMachine(const CStackStateMachine& assignment)
@@ -119,8 +121,12 @@ void	CStackStateMachine::Pop_back(void)
 
 void	CStackStateMachine::ChangeState(IGameState*	pNewState)
 {
+	CCodeProfiler::GetInstance()->FunctionStart(this->m_nCID);
+
 	this->Clear();
 	this->Push_Back(pNewState);
+
+	CCodeProfiler::GetInstance()->FuntionEnd(this->m_nCID);
 }
 
 

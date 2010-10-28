@@ -29,6 +29,8 @@ private:
 
 	static CStackStateMachine*		sm_pStateStackMachineInstance;
 
+	int		m_nCID;
+
 
 	CStackStateMachine(void);
 	~CStackStateMachine(void);

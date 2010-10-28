@@ -1,8 +1,6 @@
 #include "PrecompiledHeader.h"
 
 #include "CMainMenuState.h"
-#include "CEventSystem.h"
-#include "CEvent.h"
 #include "CStackStateMachine.h"
 #include "CSinglePlayerState.h"
 #include "CSinglePlayerMenuState.h"
