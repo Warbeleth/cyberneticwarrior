@@ -92,7 +92,8 @@ void CCodeProfiler::SavePerformance(void)
 	for(int i = 0; i < this->m_nFunctionCount; i++)
 	{
 		static LONG nAverage = 0;
-		static std::string sFileName = this->m_vFunctions[i].m_nFunctionName;
+		static std::string sFileName;
+		sFileName = this->m_vFunctions[i].m_nFunctionName;
 		sFileName.append(".csv");
 		save.clear();
 		save.open(sFileName.c_str(), std::ios_base::out | std::ios::app);
