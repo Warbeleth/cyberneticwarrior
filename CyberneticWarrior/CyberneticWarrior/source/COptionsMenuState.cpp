@@ -1,3 +1,4 @@
+#include "PrecompiledHeader.h"
 #include "COptionsMenuState.h"
 #include "CStackStateMachine.h"
 

@@ -1,3 +1,4 @@
+#include "PrecompiledHeader.h"
 #include "CLoadingState.h"
 #include "CStackStateMachine.h"
 #include "CSinglePlayerState.h"

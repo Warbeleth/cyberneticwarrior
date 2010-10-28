@@ -1,10 +1,9 @@
+#include "PrecompiledHeader.h"
 #include "CPauseMenuState.h"
 #include "CStackStateMachine.h"
 #include "CMainMenuState.h"
 #include "COptionsMenuState.h"
 #include "CGameProfiler.h"
-#include "CEventSystem.h"
-#include "CEvent.h"
 
 CPauseMenuState*	CPauseMenuState::sm_pPauseMenuInstance = NULL;
 
