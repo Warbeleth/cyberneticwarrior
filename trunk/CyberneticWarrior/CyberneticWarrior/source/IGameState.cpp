@@ -1,3 +1,4 @@
+#include "PrecompiledHeader.h"
 #include "IGameState.h"
 #include "CStackStateMachine.h"
 #include "CAtractModeState.h"

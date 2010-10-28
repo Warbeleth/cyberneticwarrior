@@ -365,7 +365,7 @@
 						>
 						<Tool
 							Name="VCCLCompilerTool"
-							UsePrecompiledHeader="0"
+							UsePrecompiledHeader="2"
 							PrecompiledHeaderThrough="PrecompiledHeader.h"
 						/>
 					</FileConfiguration>
@@ -378,7 +378,7 @@
 						>
 						<Tool
 							Name="VCCLCompilerTool"
-							UsePrecompiledHeader="0"
+							UsePrecompiledHeader="2"
 							PrecompiledHeaderThrough="PrecompiledHeader.h"
 						/>
 					</FileConfiguration>
@@ -386,6 +386,15 @@
 				<File
 					RelativePath=".\source\CControlSelectState.cpp"
 					>
+					<FileConfiguration
+						Name="Debug|Win32"
+						>
+						<Tool
+							Name="VCCLCompilerTool"
+							UsePrecompiledHeader="2"
+							PrecompiledHeaderThrough="PrecompiledHeader.h"
+						/>
+					</FileConfiguration>
 				</File>
 				<File
 					RelativePath=".\source\CCreditsState.cpp"
@@ -395,7 +404,7 @@
 						>
 						<Tool
 							Name="VCCLCompilerTool"
-							UsePrecompiledHeader="0"
+							UsePrecompiledHeader="2"
 							PrecompiledHeaderThrough="PrecompiledHeader.h"
 						/>
 					</FileConfiguration>
@@ -408,7 +417,7 @@
 						>
 						<Tool
 							Name="VCCLCompilerTool"
-							UsePrecompiledHeader="0"
+							UsePrecompiledHeader="2"
 							PrecompiledHeaderThrough="PrecompiledHeader.h"
 						/>
 					</FileConfiguration>
@@ -421,7 +430,7 @@
 						>
 						<Tool
 							Name="VCCLCompilerTool"
-							UsePrecompiledHeader="0"
+							UsePrecompiledHeader="2"
 							PrecompiledHeaderThrough="PrecompiledHeader.h"
 						/>
 					</FileConfiguration>
@@ -429,6 +438,15 @@
 				<File
 					RelativePath=".\source\CLoadingState.cpp"
 					>
+					<FileConfiguration
+						Name="Debug|Win32"
+						>
+						<Tool
+							Name="VCCLCompilerTool"
+							UsePrecompiledHeader="2"
+							PrecompiledHeaderThrough="PrecompiledHeader.h"
+						/>
+					</FileConfiguration>
 				</File>
 				<File
 					RelativePath=".\source\CMainMenuState.cpp"
@@ -438,7 +456,7 @@
 						>
 						<Tool
 							Name="VCCLCompilerTool"
-							UsePrecompiledHeader="0"
+							UsePrecompiledHeader="2"
 							PrecompiledHeaderThrough="PrecompiledHeader.h"
 						/>
 					</FileConfiguration>
@@ -451,7 +469,7 @@
 						>
 						<Tool
 							Name="VCCLCompilerTool"
-							UsePrecompiledHeader="0"
+							UsePrecompiledHeader="2"
 							PrecompiledHeaderThrough="PrecompiledHeader.h"
 						/>
 					</FileConfiguration>
@@ -464,7 +482,7 @@
 						>
 						<Tool
 							Name="VCCLCompilerTool"
-							UsePrecompiledHeader="0"
+							UsePrecompiledHeader="2"
 							PrecompiledHeaderThrough="PrecompiledHeader.h"
 						/>
 					</FileConfiguration>
@@ -477,7 +495,7 @@
 						>
 						<Tool
 							Name="VCCLCompilerTool"
-							UsePrecompiledHeader="0"
+							UsePrecompiledHeader="2"
 							PrecompiledHeaderThrough="PrecompiledHeader.h"
 						/>
 					</FileConfiguration>
@@ -490,7 +508,7 @@
 						>
 						<Tool
 							Name="VCCLCompilerTool"
-							UsePrecompiledHeader="0"
+							UsePrecompiledHeader="2"
 							PrecompiledHeaderThrough="PrecompiledHeader.h"
 						/>
 					</FileConfiguration>

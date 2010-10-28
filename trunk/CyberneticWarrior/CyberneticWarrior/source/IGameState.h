@@ -9,11 +9,12 @@
 //////////////////////////////////////////////////////////////////////////////////////////////////////
 #ifndef IGAMESTATE_H_
 #define IGAMESTATE_H_
-#include "SGD Wrappers/CSGD_Direct3D.h"
-#include "SGD Wrappers/CSGD_TextureManager.h"
-#include "SGD Wrappers/CSGD_WaveManager.h"
-#include "SGD Wrappers/CSGD_DirectInput.h"
-#include "SGD Wrappers/CSGD_DirectSound.h"
+
+class	CSGD_Direct3D;
+class	CSGD_DirectInput;
+class	CSGD_TextureManager;
+class	CSGD_WaveManager;
+class	CSGD_DirectSound;
 
 enum StateType { MENU = 0, OPTIONS, LOADING, ATTRACT, GAMEPLAY };
 class IGameState

@@ -1,3 +1,4 @@
+#include "PrecompiledHeader.h"
 #include "CGameProfiler.h"
 #include "CStackStateMachine.h"
 #include "CGame.h"

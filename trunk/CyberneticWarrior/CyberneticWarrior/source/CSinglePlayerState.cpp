@@ -196,6 +196,7 @@ void CSinglePlayerState::Enter(void)
 
 	this->m_pWM->Play(this->m_nBGMusic, DSBPLAY_LOOPING);
 
+
 }
 
 bool CSinglePlayerState::Input(void)
