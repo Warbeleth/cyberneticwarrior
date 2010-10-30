@@ -10,7 +10,7 @@ private:
 	
 	struct tFunction
 	{
-		std::vector<LONG>	m_vPerformanceTimes;
+		std::vector<double>	m_vPerformanceTimes;
 		std::string				m_nFunctionName;
 		int					m_nCallCount;
 		int					m_nID;
