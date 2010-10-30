@@ -74,11 +74,11 @@ void CCodeProfiler::FunctionStart(int nID)
 void CCodeProfiler::FuntionEnd(int nID)
 {
 	LARGE_INTEGER liCounterEnd;
-	LONG temp;
+	double temp;
 
 	QueryPerformanceCounter(&liCounterEnd);
 
-	temp = ((liCounterEnd.LowPart - m_liCurrentCounter[nID]) / (m_liCurrentFreq[nID] / 1000));
+	temp = (double(liCounterEnd.LowPart - m_liCurrentCounter[nID]) / double(m_liCurrentFreq[nID] / 1000));
 	this->m_vFunctions[nID].m_vPerformanceTimes.push_back(temp);
 	//this->m_vFunctions[nID]->m_vPerformanceTimes.push_back(temp);
 	//m_vPerformanceTimes.push_back(temp);
@@ -91,7 +91,7 @@ void CCodeProfiler::SavePerformance(void)
 
 	for(int i = 0; i < this->m_nFunctionCount; i++)
 	{
-		static LONG nAverage = 0;
+		static double nAverage = 0;
 		static std::string sFileName;
 		sFileName = this->m_vFunctions[i].m_nFunctionName;
 		sFileName.append(".csv");
