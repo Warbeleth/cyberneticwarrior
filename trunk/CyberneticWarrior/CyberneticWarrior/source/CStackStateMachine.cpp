@@ -75,10 +75,10 @@ void	CStackStateMachine::Push_Back(IGameState*	pGameState)
 		pNewNode->pData = pGameState;
 		pNewNode->pNext = m_pHead;
 		pNewNode->pPrev = NULL;
-	
+
 		//this->m_pHead->pPrev = pNewNode;
 		this->m_pHead = pNewNode;
-			
+
 		++this->m_nSize;
 
 
@@ -95,10 +95,10 @@ void	CStackStateMachine::Push_Back(IGameState*	pGameState)
 		pNewNode->pData = pGameState;
 		pNewNode->pNext = m_pHead;
 		pNewNode->pPrev = NULL;
-	
+
 		this->m_pHead->pPrev = pNewNode;
 		this->m_pHead = pNewNode;
-			
+
 		++this->m_nSize;
 
 
@@ -135,19 +135,19 @@ void	CStackStateMachine::Pop_back(void)
 	}
 	/*else if(m_pHead->pData == m_pTail->pData)
 	{
-		m_pHead->pData->Exit();
-		m_pHead->pData = NULL;
-		//m_tHead.pNext = NULL;
-		m_pTail->pData = NULL;
-		//m_tTail.pNext = NULL;
-		--m_nSize;
+	m_pHead->pData->Exit();
+	m_pHead->pData = NULL;
+	//m_tHead.pNext = NULL;
+	m_pTail->pData = NULL;
+	//m_tTail.pNext = NULL;
+	--m_nSize;
 	}*/
 }
 
 void CStackStateMachine::RemoveState(int	nStateID)
 {
 	tNode*	pRemoveNode = this->m_pHead;
-	
+
 	do
 	{
 		if(!pRemoveNode)
@@ -238,15 +238,22 @@ void	CStackStateMachine::UpdateState(float fElapsedtime)
 			{
 				this->m_pHead->pNext->pData->Update(fElapsedtime);
 			}
+			else if(this->m_pHead->pNext->pData->GetType() != LOADING)
+			{
+				this->m_pHead->pData->Update(fElapsedtime);
+			}
+		}else
+		{
+
+			this->m_pHead->pData->Update(fElapsedtime);
 		}
-		this->m_pHead->pData->Update(fElapsedtime);
 	}
 }
 bool	CStackStateMachine::Input(void)
 {
 	/*if(m_tHead.pData == CHudState::GetInstance() && m_tHead.pData != NULL)
 	{
-		return m_tHead.pNext->pData->Input();
+	return m_tHead.pNext->pData->Input();
 	}
 	else */
 	if(this->m_pHead->pData != NULL)
@@ -257,8 +264,15 @@ bool	CStackStateMachine::Input(void)
 			{
 				this->m_pHead->pNext->pData->Input();
 			}
+			else if(this->m_pHead->pNext->pData->GetType() != LOADING)
+			{
+				this->m_pHead->pData->Input();
+			}
 		}
-		return this->m_pHead->pData->Input();
+		else
+		{
+			return this->m_pHead->pData->Input();
+		}
 	}
 
 	return 1;

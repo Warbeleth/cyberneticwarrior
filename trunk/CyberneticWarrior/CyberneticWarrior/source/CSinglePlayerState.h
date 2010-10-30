@@ -53,6 +53,7 @@ private:
 	}m_Profile;
 	
 	bool m_bNewGame;
+	bool m_bMusic;
 	bool m_bInput;
 
 
