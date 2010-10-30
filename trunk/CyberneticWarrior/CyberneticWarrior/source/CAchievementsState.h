@@ -26,11 +26,7 @@ class CEvent;
 class CAchievementsState : public IGameState
 {
 private:
-	CSGD_Direct3D*				m_pD3D;
-	CSGD_DirectInput*			m_pDI;
-	CSGD_TextureManager*		m_pTM;
-	CSGD_WaveManager*			m_pWM;
-	CSGD_DirectSound*			m_pDS;
+
 
 	// Font
 	CFont	m_OptionsFont;

@@ -23,7 +23,8 @@ private:
 	{
 		IGameState*		pData;
 		tNode*			pNext;
-	}*m_pHead;
+		tNode*			pPrev;
+	}*m_pHead;//, *m_pTail;
 
 	unsigned int m_nSize;
 
@@ -50,6 +51,7 @@ public:
 	void							Pop_back(void);
 
 	void							ChangeState(IGameState*	pNewState);
+	void							RemoveState(int	nStateID);
 
 	void							RenderState(void);
 	void							UpdateState(float fElapsedtime);

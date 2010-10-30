@@ -30,6 +30,8 @@ class CSinglePlayerState : public IGameState
 {
 private:
 
+	enum Input {CKEYBOARD = 0, CGAMEPAD = 1};
+
 	//////////////////////////
 	//***Temp***
 	//////////////////////////
@@ -51,6 +53,7 @@ private:
 	}m_Profile;
 	
 	bool m_bNewGame;
+	bool m_bInput;
 
 
 	int			m_nMusicVolume;
@@ -63,11 +66,7 @@ private:
 	int			m_nBGMusic;
 	int			m_nRocketID;
 	
-	CSGD_Direct3D*				m_pD3D;
-	CSGD_DirectInput*			m_pDI;
-	CSGD_TextureManager*		m_pTM;
-	CSGD_WaveManager*			m_pWM;
-	CSGD_DirectSound*			m_pDS;
+	
 
 	CObjectFactory<string, CBase>*			m_pOF;
 	CObjectManager*							m_pOM;
@@ -98,6 +97,8 @@ public:
 
 	inline bool		GetNewGame(void) { return this->m_bNewGame;}
 	inline void		SetNewGame(bool bNewGame) {this->m_bNewGame = bNewGame;}
+	inline bool		GetInputType(void) { return this->m_bInput;}
+	inline void		SetInputType(bool bInput) {this->m_bInput = bInput;}
 
 
 	bool	Input(void);
