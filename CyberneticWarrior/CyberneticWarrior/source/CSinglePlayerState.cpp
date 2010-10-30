@@ -55,6 +55,7 @@ CSinglePlayerState::CSinglePlayerState(void)
 
 	this->SetType(GAMEPLAY);
 	this->SetInputType(this->CKEYBOARD);
+	this->m_bMusic = 1;
 }
 
 CSinglePlayerState::~CSinglePlayerState(void)
@@ -63,6 +64,7 @@ CSinglePlayerState::~CSinglePlayerState(void)
 	this->m_TempPlatform1 = NULL;
 	this->m_TempPlatform2 = NULL;
 	this->SetInputType(this->CKEYBOARD);
+	this->m_bMusic = 1;
 }
 
 CSinglePlayerState* CSinglePlayerState::GetInstance(void)
@@ -194,7 +196,6 @@ void CSinglePlayerState::Enter(void)
 	this->m_pOM->AddObject(this->m_TempPlatform2);
 	this->m_TempPlatform2->Release();
 
-	this->m_pWM->Play(this->m_nBGMusic, DSBPLAY_LOOPING);
 
 	CLoadingState::GetInstance()->SetReady(1);
 
@@ -213,6 +214,12 @@ bool CSinglePlayerState::Input(void)
 
 void CSinglePlayerState::Update(float fElapsedTime)
 {
+	if(this->m_bMusic)
+	{
+		this->m_pWM->Play(this->m_nBGMusic, DSBPLAY_LOOPING);
+		this->m_bMusic = 0;
+	}
+
 	m_nAnimation.Update( fElapsedTime );
 
 	this->m_tBGOffset.fX = 0;
@@ -289,6 +296,8 @@ void CSinglePlayerState::Render(void)
 
 void CSinglePlayerState::Exit(void)
 {
+	this->m_bMusic = 1;
+
 	if(Enemy_1)
 	{
 		delete Enemy_1;
