@@ -378,49 +378,56 @@ void CPlayer::Input(float fElapsedTime)
 	//}
 
 
-	/*if(CSGD_DirectInput::GetInstance()->JoystickGetRStickDirDown(DIR_RIGHT))
+	if(CSinglePlayerState::GetInstance()->GetInputType())
 	{
-		this->m_vJoyVecPos.fX = 1.0f;
-		this->m_vJoyVecPos.fY = 0.0f;
-	}
-	if(CSGD_DirectInput::GetInstance()->JoystickGetRStickDirDown(DIR_LEFT))
-	{
-		this->m_vJoyVecPos.fX = -1.0f;
-		this->m_vJoyVecPos.fY = 0.0f;
-	}
-	if(CSGD_DirectInput::GetInstance()->JoystickGetRStickDirDown(DIR_UP))
-	{
-		this->m_vJoyVecPos.fX = 0.0f;
-		this->m_vJoyVecPos.fY = -1.0f;
-	}
-	if(CSGD_DirectInput::GetInstance()->JoystickGetRStickDirDown(DIR_DOWN))
-	{
-		this->m_vJoyVecPos.fX = 0.0f;
-		this->m_vJoyVecPos.fY = 1.0f;
-	}
+		if(CSGD_DirectInput::GetInstance()->JoystickGetRStickDirDown(DIR_DOWN) && CSGD_DirectInput::GetInstance()->JoystickGetRStickDirDown(DIR_RIGHT))
+		{
+			this->m_vJoyVecPos.fX = 1.0f;
+			this->m_vJoyVecPos.fY = 1.0f;
+		}
+		else if(CSGD_DirectInput::GetInstance()->JoystickGetRStickDirDown(DIR_DOWN) && CSGD_DirectInput::GetInstance()->JoystickGetRStickDirDown(DIR_LEFT))
+		{
+			this->m_vJoyVecPos.fX = -1.0f;
+			this->m_vJoyVecPos.fY = 1.0f;
+		}
+		else if(CSGD_DirectInput::GetInstance()->JoystickGetRStickDirDown(DIR_UP) && CSGD_DirectInput::GetInstance()->JoystickGetRStickDirDown(DIR_RIGHT))
+		{
+			this->m_vJoyVecPos.fX = 1.0f;
+			this->m_vJoyVecPos.fY = -1.0f;
+		}
+		else if(CSGD_DirectInput::GetInstance()->JoystickGetRStickDirDown(DIR_UP) && CSGD_DirectInput::GetInstance()->JoystickGetRStickDirDown(DIR_LEFT))
+		{
+			this->m_vJoyVecPos.fX = -1.0f;
+			this->m_vJoyVecPos.fY = -1.0f;
+		}
 
 
 
-	if(CSGD_DirectInput::GetInstance()->JoystickGetRStickDirDown(DIR_DOWN) && CSGD_DirectInput::GetInstance()->JoystickGetRStickDirDown(DIR_RIGHT))
-	{
-		this->m_vJoyVecPos.fX = 1.0f;
-		this->m_vJoyVecPos.fY = 1.0f;
+
+
+
+
+		if(CSGD_DirectInput::GetInstance()->JoystickGetRStickDirDown(DIR_RIGHT))
+		{
+			this->m_vJoyVecPos.fX = 1.0f;
+			this->m_vJoyVecPos.fY = 0.0f;
+		}
+		if(CSGD_DirectInput::GetInstance()->JoystickGetRStickDirDown(DIR_LEFT))
+		{
+			this->m_vJoyVecPos.fX = -1.0f;
+			this->m_vJoyVecPos.fY = 0.0f;
+		}
+		if(CSGD_DirectInput::GetInstance()->JoystickGetRStickDirDown(DIR_UP))
+		{
+			this->m_vJoyVecPos.fX = 0.0f;
+			this->m_vJoyVecPos.fY = -1.0f;
+		}
+		if(CSGD_DirectInput::GetInstance()->JoystickGetRStickDirDown(DIR_DOWN))
+		{
+			this->m_vJoyVecPos.fX = 0.0f;
+			this->m_vJoyVecPos.fY = 1.0f;
+		}
 	}
-	else if(CSGD_DirectInput::GetInstance()->JoystickGetRStickDirDown(DIR_DOWN) && CSGD_DirectInput::GetInstance()->JoystickGetRStickDirDown(DIR_LEFT))
-	{
-		this->m_vJoyVecPos.fX = -1.0f;
-		this->m_vJoyVecPos.fY = 1.0f;
-	}
-	else if(CSGD_DirectInput::GetInstance()->JoystickGetRStickDirDown(DIR_UP) && CSGD_DirectInput::GetInstance()->JoystickGetRStickDirDown(DIR_RIGHT))
-	{
-		this->m_vJoyVecPos.fX = 1.0f;
-		this->m_vJoyVecPos.fY = -1.0f;
-	}
-	else if(CSGD_DirectInput::GetInstance()->JoystickGetRStickDirDown(DIR_UP) && CSGD_DirectInput::GetInstance()->JoystickGetRStickDirDown(DIR_LEFT))
-	{
-		this->m_vJoyVecPos.fX = -1.0f;
-		this->m_vJoyVecPos.fY = -1.0f;
-	}*/
 
 
 	///////////////////////////////

@@ -15,7 +15,7 @@ class CControlSelectState : public IGameState
 private:
 
 	enum selection{ KEYBOARD = 0, GAMEPAD, EXIT_MENU };
-;
+
 
 	CFont		m_ControlSelFont;
 

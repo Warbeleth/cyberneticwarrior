@@ -19,6 +19,10 @@ CLoadingState::CLoadingState(void)
 	this->m_fRotation		= 0.0f;
 	this->m_nBackgroundID	= -1;
 	this->m_nLoadingID		= -1;
+
+	this->SetReady(0);
+	this->m_bLoad = 1;
+	this->m_bReadyLoad = 0;
 }
 
 CLoadingState::~CLoadingState(void)
@@ -32,13 +36,17 @@ CLoadingState::~CLoadingState(void)
 	this->m_fRotateTime		= 0.0f;
 	this->m_nBackgroundID	= -1;
 	this->m_nLoadingID		= -1;
+
+	this->SetReady(0);
+	this->m_bLoad = 1;
+	this->m_bReadyLoad = 0;
 }
 
 bool	CLoadingState::Input(void)
 {
-	if(this->m_pDI->CheckKeys())
+	if(this->m_pDI->CheckKeys() && this->GetReady())
 	{
-		CStackStateMachine::GetInstance()->Pop_back();
+		CStackStateMachine::GetInstance()->RemoveState(LOADING);
 	}
 	return 1;
 }
@@ -53,7 +61,8 @@ void	CLoadingState::Enter(void)
 	this->m_nBackgroundID = this->m_pTM->LoadTexture("resource/graphics/CyberneticHarmony-800.png");
 	this->m_nLoadingID = this->m_pTM->LoadTexture("resource/graphics/CyberneticHarmony.png");
 	this->m_nLoadFont.InitFont("resource/fonts/example.png", "resource/fonts/Example.fnt");
-	
+	this->SetType(LOADING);
+
 }
 void	CLoadingState::Update(float fElapsedTime)
 {
@@ -64,6 +73,12 @@ void	CLoadingState::Update(float fElapsedTime)
 		this->m_fRotation += this->m_fRotationRate;
 		this->m_fRotateTime = 0.0f;
 	}
+	if(!this->m_bLoad)
+	{
+		CStackStateMachine::GetInstance()->Push_Back(CSinglePlayerState::GetInstance());
+		this->m_bLoad = 1;
+	}
+
 }
 void	CLoadingState::Render(void)
 {
@@ -71,10 +86,27 @@ void	CLoadingState::Render(void)
 	this->m_pTM->Draw(this->m_nLoadingID, 0, 0, 1.0f, 1.0f, 0, 
 		(float)CGame::GetInstance()->GetScreenWidth()/2, (float)CGame::GetInstance()->GetScreenHeight()/2,
 		this->m_fRotation);
-	this->m_nLoadFont.Draw("Press Any Key to Continue", 150, 250, 1.2f, D3DXCOLOR(1.0f,1.0f,0.4f,0.7f));
+	if(this->GetReady())
+	{
+		this->m_nLoadFont.Draw("Press Any Key to Continue", 150, 250, 1.2f, D3DXCOLOR(1.0f,1.0f,0.4f,0.7f));
+	}
+	else
+	{
+		this->m_nLoadFont.Draw("Loading...", 150, 250, 1.2f, D3DXCOLOR(1.0f,1.0f,0.4f,0.7f));
+	}
+	
+	if(!this->m_bReadyLoad)
+	{
+		this->m_bLoad = 0;
+		this->m_bReadyLoad = 1;
+	}
 }
 void	CLoadingState::Exit(void)
 {
+	this->SetReady(0);
+	this->m_bReadyLoad = 0;
+	this->m_bLoad = 1;
+
 	if(this->m_nLoadingID > -1)
 	{
 		this->m_pTM->UnloadTexture(this->m_nLoadingID);

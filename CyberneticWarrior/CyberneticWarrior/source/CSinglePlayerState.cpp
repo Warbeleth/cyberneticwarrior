@@ -54,6 +54,7 @@ CSinglePlayerState::CSinglePlayerState(void)
 	this->m_Profile.m_bHaveHook = 0;
 
 	this->SetType(GAMEPLAY);
+	this->SetInputType(this->CKEYBOARD);
 }
 
 CSinglePlayerState::~CSinglePlayerState(void)
@@ -61,6 +62,7 @@ CSinglePlayerState::~CSinglePlayerState(void)
 	this->m_TempPlayer = NULL;
 	this->m_TempPlatform1 = NULL;
 	this->m_TempPlatform2 = NULL;
+	this->SetInputType(this->CKEYBOARD);
 }
 
 CSinglePlayerState* CSinglePlayerState::GetInstance(void)
@@ -84,7 +86,7 @@ void CSinglePlayerState::DeleteInstance(void)
 void CSinglePlayerState::Enter(void)
 {
 	// File Include Needs conversion - Corey
-	CStackStateMachine::GetInstance()->Push_Back(CLoadingState::GetInstance());
+	//CStackStateMachine::GetInstance()->Push_Back(CLoadingState::GetInstance());
 	this->m_TempMap = CMapLoad::GetInstance();
 
 	m_TempMap->LoadMap("CW-Map_01.CWM");
@@ -194,6 +196,7 @@ void CSinglePlayerState::Enter(void)
 
 	this->m_pWM->Play(this->m_nBGMusic, DSBPLAY_LOOPING);
 
+	CLoadingState::GetInstance()->SetReady(1);
 
 }
 
@@ -271,21 +274,33 @@ void CSinglePlayerState::Render(void)
 
 	//this->m_pTM->Draw(this->m_nCrossHairID, ((int)(this->m_TempPlayer->GetJoyPos()->fX - (int)this->m_TempPlayer->GetPosX())+8),
 		//(((int)this->m_TempPlayer->GetJoyPos()->fY - (int)this->m_TempPlayer->GetPosX())+8), 1.0f, 1.0f, &rCrossHairs);
-	this->m_pTM->Draw(this->m_nCrossHairID, this->m_pDI->MouseGetPosX() + 8, this->m_pDI->MouseGetPosY() + 8, 1.0f * CCamera::GetInstance()->GetScale(), 1.0f * CCamera::GetInstance()->GetScale(), &rCrossHairs);
-
-	/*this->m_pTM->Draw(this->m_nCrossHairID, 
-		int((((int)(this->m_TempPlayer->GetJoyPos()->fX - (int)this->m_TempPlayer->GetPosX())+8)) * CCamera::GetInstance()->GetScale()),
-		int((((int)this->m_TempPlayer->GetJoyPos()->fY - (int)this->m_TempPlayer->GetPosX())+8) * CCamera::GetInstance()->GetScale()), 
-		1.0f * CCamera::GetInstance()->GetScale(), 1.0f * CCamera::GetInstance()->GetScale(), &rCrossHairs);
-*/
+	if(!this->GetInputType())
+	{
+		this->m_pTM->Draw(this->m_nCrossHairID, this->m_pDI->MouseGetPosX() + 8, this->m_pDI->MouseGetPosY() + 8, 1.0f * CCamera::GetInstance()->GetScale(), 1.0f * CCamera::GetInstance()->GetScale(), &rCrossHairs);
+	}
+	else if(this->GetInputType())
+	{
+		this->m_pTM->Draw(this->m_nCrossHairID, 
+			int((((int)(this->m_TempPlayer->GetJoyPos()->fX - (int)this->m_TempPlayer->GetPosX())+8)) * CCamera::GetInstance()->GetScale()),
+			int((((int)this->m_TempPlayer->GetJoyPos()->fY - (int)this->m_TempPlayer->GetPosX())+8) * CCamera::GetInstance()->GetScale()), 
+			1.0f * CCamera::GetInstance()->GetScale(), 1.0f * CCamera::GetInstance()->GetScale(), &rCrossHairs);
+	}
 }
 
 void CSinglePlayerState::Exit(void)
 {
-	delete Enemy_1;
-	delete Enemy_2;
-	delete Enemy_3;	
-
+	if(Enemy_1)
+	{
+		delete Enemy_1;
+	}
+	if(Enemy_1)
+	{
+		delete Enemy_2;
+	}
+	if(Enemy_1)
+	{
+		delete Enemy_3;	
+	}
 	this->m_Profile.m_bHaveHook = 0;	
 
 	CObjectManager::GetInstance()->RemoveObject(this->m_PickUp);	

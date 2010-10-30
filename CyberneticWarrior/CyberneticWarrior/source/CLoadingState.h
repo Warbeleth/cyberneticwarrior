@@ -25,6 +25,8 @@ private:
 	int							m_nLoadingID;
 
 	bool						m_bReady;
+	bool						m_bLoad;
+	bool						m_bReadyLoad;
 
 	CLoadingState(void);
 	~CLoadingState(void);
