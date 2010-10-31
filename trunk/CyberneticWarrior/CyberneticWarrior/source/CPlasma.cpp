@@ -7,7 +7,7 @@
 
 CPlasma::CPlasma(void)
 {
-	this->SetType(OBJ_BULLET);
+	this->SetType(OBJ_PLASMA);
 	this->SetImageID(CSinglePlayerState::GetInstance()->GetPlasmaID());
 	this->SetRotation(0.0f);
 }

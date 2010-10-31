@@ -32,6 +32,7 @@
 #include "CObjectManager.h"
 
 #include "CBase.h"
+#include "CBaseEnemy.h"
 #include "CPlayer.h"
 #include "CGrapplingHook.h"
 #include "CRocket.h"
@@ -451,11 +452,11 @@ void CGame::MessageProc(CBaseMessage*	pMsg)
 			CCreateFlameMessage* pCR = (CCreateFlameMessage*)pMsg;
 			CFlame* pFlame;
 
-			float fRocketVelocity = 300;
+			float fFlameVelocity = 300;
 
 			pFlame = (CFlame*)CObjectFactory<std::string, CBase>::GetInstance()->CreateObject("CFlame");
-			pFlame->SetWidth(16);
-			pFlame->SetHeight(16);
+			pFlame->SetWidth(256);
+			pFlame->SetHeight(90);
 			pFlame->SetPosX(pCR->GetPlayerPointer()->GetPosX() + (float)pCR->GetPlayerPointer()->GetWidth());
 			pFlame->SetPosY(pCR->GetPlayerPointer()->GetPosY());
 
@@ -474,8 +475,8 @@ void CGame::MessageProc(CBaseMessage*	pMsg)
 			vShot = Vector2DNormalize(vShot);
 
 
-			pFlame->SetBaseVelX(vShot.fX * fRocketVelocity);
-			pFlame->SetBaseVelY(vShot.fY * fRocketVelocity);
+			pFlame->SetBaseVelX(vShot.fX * fFlameVelocity);
+			pFlame->SetBaseVelY(vShot.fY * fFlameVelocity);
 
 			CObjectManager::GetInstance()->AddObject(pFlame);
 
@@ -487,6 +488,96 @@ void CGame::MessageProc(CBaseMessage*	pMsg)
 		{
 			CDestroyFlameMessage* pDR = (CDestroyFlameMessage*)pMsg;
 			CObjectManager::GetInstance()->RemoveObject(pDR->GetFlamePointer());
+
+			pDR = NULL;
+		}
+		break;
+	case MSG_CREATE_FIRE:
+		{
+			CCreateFireMessage* pCR = (CCreateFireMessage*)pMsg;
+			CFire* pFire;
+
+			float fFireVelocity = 400;
+
+			pFire = (CFire*)CObjectFactory<std::string, CBase>::GetInstance()->CreateObject("CFire");
+			pFire->SetWidth(50);
+			pFire->SetHeight(32);
+			pFire->SetPosX(pCR->GetOwnerPointer()->GetPosX());
+			pFire->SetPosY(pCR->GetOwnerPointer()->GetPosY());
+
+			tVector2D vOwnerPos;
+			vOwnerPos.fX = (float)pCR->GetOwnerPointer()->GetPosX();
+			vOwnerPos.fY = (float)pCR->GetOwnerPointer()->GetPosY();
+
+			tVector2D vPlayerPos;
+			vPlayerPos.fX = pCR->GetPlayerPointer()->GetPosX() + (float)pCR->GetPlayerPointer()->GetWidth();
+			vPlayerPos.fY = pCR->GetPlayerPointer()->GetPosY();
+
+			tVector2D vShot;
+
+			vShot = vPlayerPos - vOwnerPos;
+
+			vShot = Vector2DNormalize(vShot);
+
+
+			pFire->SetBaseVelX(vShot.fX * fFireVelocity);
+			pFire->SetBaseVelY(vShot.fY * fFireVelocity);
+
+			CObjectManager::GetInstance()->AddObject(pFire);
+
+			pFire->Release();
+
+		}
+		break;
+	case MSG_DESTROY_FIRE:
+		{
+			CDestroyFireMessage* pDR = (CDestroyFireMessage*)pMsg;
+			CObjectManager::GetInstance()->RemoveObject(pDR->GetFirePointer());
+
+			pDR = NULL;
+		}
+		break;
+	case MSG_CREATE_ICE:
+		{
+			CCreateIceMessage* pCR = (CCreateIceMessage*)pMsg;
+			CIce* pIce;
+
+			float fFireVelocity = 400;
+
+			pIce = (CIce*)CObjectFactory<std::string, CBase>::GetInstance()->CreateObject("CIce");
+			pIce->SetWidth(50);
+			pIce->SetHeight(32);
+			pIce->SetPosX(pCR->GetOwnerPointer()->GetPosX());
+			pIce->SetPosY(pCR->GetOwnerPointer()->GetPosY());
+
+			tVector2D vOwnerPos;
+			vOwnerPos.fX = (float)pCR->GetOwnerPointer()->GetPosX();
+			vOwnerPos.fY = (float)pCR->GetOwnerPointer()->GetPosY();
+
+			tVector2D vPlayerPos;
+			vPlayerPos.fX = pCR->GetPlayerPointer()->GetPosX() + (float)pCR->GetPlayerPointer()->GetWidth();
+			vPlayerPos.fY = pCR->GetPlayerPointer()->GetPosY();
+
+			tVector2D vShot;
+
+			vShot = vPlayerPos - vOwnerPos;
+
+			vShot = Vector2DNormalize(vShot);
+
+
+			pIce->SetBaseVelX(vShot.fX * fFireVelocity);
+			pIce->SetBaseVelY(vShot.fY * fFireVelocity);
+
+			CObjectManager::GetInstance()->AddObject(pIce);
+
+			pIce->Release();
+
+		}
+		break;
+	case MSG_DESTROY_ICE:
+		{
+			CDestroyIceMessage* pDR = (CDestroyIceMessage*)pMsg;
+			CObjectManager::GetInstance()->RemoveObject(pDR->GetIcePointer());
 
 			pDR = NULL;
 		}

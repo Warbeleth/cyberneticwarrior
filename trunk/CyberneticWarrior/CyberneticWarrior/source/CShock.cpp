@@ -7,7 +7,7 @@
 
 CShock::CShock(void)
 {
-	this->SetType(OBJ_BULLET);
+	this->SetType(OBJ_SHOCK);
 	this->SetImageID(CSinglePlayerState::GetInstance()->GetShockID());
 	this->SetRotation(0.0f);
 }

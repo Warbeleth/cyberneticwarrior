@@ -7,7 +7,7 @@
 
 CFire::CFire(void)
 {
-	this->SetType(OBJ_BULLET);
+	this->SetType(OBJ_FIRE);
 	this->SetImageID(CSinglePlayerState::GetInstance()->GetFireID());
 	this->SetRotation(0.0f);
 }
@@ -56,7 +56,7 @@ bool CFire::CheckCollision(CBase *pBase)
 		if( pBase->GetType() != OBJ_PLAYER )
 		{
 			// Destroy the bullet
-			CGame::GetInstance()->GetMessageSystemPointer()->SendMsg( new CDestroyFireMessage( this, CSinglePlayerState::GetInstance()->GetPlayerPointer()) );
+			//CGame::GetInstance()->GetMessageSystemPointer()->SendMsg( new CDestroyFireMessage( this, CSinglePlayerState::GetInstance()->GetPlayerPointer()) );
 		}
 
 		return 1;

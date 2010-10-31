@@ -7,9 +7,10 @@
 
 CIce::CIce(void)
 {
-	this->SetType(OBJ_BULLET);
+	this->SetType(OBJ_ICE);
 	this->SetImageID(CSinglePlayerState::GetInstance()->GetIceID());
 	this->SetRotation(0.0f);
+	this->m_fLifeTime = 1.0f;
 }
 
 CIce::~CIce(void)
@@ -19,6 +20,13 @@ CIce::~CIce(void)
 void CIce::Update(float fElapsedTime)
 {
 	CBase::Update(fElapsedTime);
+
+	static float fAge = 0.0f;
+	if(fAge > this->m_fLifeTime)
+	{
+		//CGame::GetInstance()->GetMessageSystemPointer()->SendMsg( new CDestroyIceMessage( this, CSinglePlayerState::GetInstance()->GetPlayerPointer()) );
+		fAge = 0.0f;
+	}
 }
 
 void CIce::Render(void)
@@ -56,7 +64,7 @@ bool CIce::CheckCollision(CBase *pBase)
 		if( pBase->GetType() != OBJ_PLAYER )
 		{
 			// Destroy the bullet
-			CGame::GetInstance()->GetMessageSystemPointer()->SendMsg( new CDestroyIceMessage( this, CSinglePlayerState::GetInstance()->GetPlayerPointer()) );
+			//CGame::GetInstance()->GetMessageSystemPointer()->SendMsg( new CDestroyIceMessage( this, CSinglePlayerState::GetInstance()->GetPlayerPointer()) );
 		}
 
 		return 1;
