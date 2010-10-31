@@ -1,7 +1,7 @@
 #include "PrecompiledHeader.h"
 
 #include "CBlock.h"
-//#include "CCamera.h"
+#include "CPlayer.h"
 
 CBlock::CBlock(int nBlockType, float fPosX, float fPosY, int nWidth, int nHeight)
 {
@@ -22,6 +22,15 @@ void CBlock::Update(float fElapsedTime)
 
 void CBlock::Render(void)
 {
+	int left = (int)GetPosX() - CCamera::GetInstance()->GetOffsetX();
+	int top = (int)GetPosY() - CCamera::GetInstance()->GetOffsetY();
+	int right = left + GetWidth();
+	int bottom = top + GetHeight();
+
+	CSGD_Direct3D::GetInstance()->DrawLine(left, top, right, top, 255, 0, 0);
+	CSGD_Direct3D::GetInstance()->DrawLine(left, bottom, right, bottom, 255, 0, 0);
+	CSGD_Direct3D::GetInstance()->DrawLine(left, top, left, bottom, 255, 0, 0);
+	CSGD_Direct3D::GetInstance()->DrawLine(right, top, right, bottom, 255, 0, 0);
 }	
 
 RECT CBlock::GetRect(void)
@@ -38,13 +47,16 @@ RECT CBlock::GetRect(void)
 bool CBlock::CheckCollision(CBase* pBase)
 {
 	RECT rIntersect;
+
+	if(pBase == this)
+		return false;
+
 	if(IntersectRect(&rIntersect, &this->GetRect(), &(pBase->GetRect())))
 	{
-		return 1;
+		return true;
 	}
 	else
 	{
-		return 0;
+		return false;
 	}
-	return 0;
 }
