@@ -4,19 +4,28 @@
 #include "CObjectManager.h"
 #include "CGame.h"
 #include "CCamera.h"
+
 #include "CStackStateMachine.h"
 #include "CMainMenuState.h"
 #include "CPauseMenuState.h"
 #include "CLoadingState.h"
 #include "COptionsMenuState.h"
+#include "CMapLoad.h"
+
+#include "CBlock.h"
+#include "CPickup.h"
 #include "CIdleEnemy.h"
 #include "CPatrolEnemy.h"
 #include "CFLCLMech.h"
 #include "CRocket.h"
-#include "CBlock.h"
-#include "CPickUp.h"
-#include "CMapLoad.h"
 #include "CGrapplingHook.h"
+#include "CRocket.h"
+#include "CFlame.h"
+#include "CPlasma.h"
+#include "CShock.h"
+#include "CGrenade.h"
+#include "CFire.h"
+#include "CIce.h"
 
 CSinglePlayerState*	CSinglePlayerState::sm_pGamePlayInstance = NULL;
 
@@ -33,6 +42,15 @@ CSinglePlayerState::CSinglePlayerState(void)
 	this->m_nBackgroundImageID		= -1;
 	this->m_nCrossHairID			= -1;
 	this->m_nBGMusic				= -1;
+
+	this->m_nRocketID				= -1;
+	this->m_nFlameID				= -1;
+	this->m_nPlasmaID				= -1;
+	this->m_nShockID				= -1;
+	this->m_nGrenadeID				= -1;
+	this->m_nIceID					= -1;
+	this->m_nFireID					= -1;
+
 
 	this->m_tBGOffset.fX = 0;
 	this->m_tBGOffset.fY = 0;
@@ -60,6 +78,18 @@ CSinglePlayerState::CSinglePlayerState(void)
 
 CSinglePlayerState::~CSinglePlayerState(void)
 {
+	this->m_nBackgroundImageID		= -1;
+	this->m_nCrossHairID			= -1;
+	this->m_nBGMusic				= -1;
+
+	this->m_nRocketID				= -1;
+	this->m_nFlameID				= -1;
+	this->m_nPlasmaID				= -1;
+	this->m_nShockID				= -1;
+	this->m_nGrenadeID				= -1;
+	this->m_nIceID					= -1;
+	this->m_nFireID					= -1;
+
 	this->m_TempPlayer = NULL;
 	this->m_TempPlatform1 = NULL;
 	this->m_TempPlatform2 = NULL;
@@ -107,16 +137,31 @@ void CSinglePlayerState::Enter(void)
 
 	
 	this->m_pOF->RegisterClassType<CBase>("CBase");
-	this->m_pOF->RegisterClassType<CGrapplingHook>("CHook");
 	this->m_pOF->RegisterClassType<CPlayer>("CPlayer");
 	this->m_pOF->RegisterClassType<CBlock>("CBlock");
 	this->m_pOF->RegisterClassType<CPickUp>("CPickUp");
+	this->m_pOF->RegisterClassType<CGrapplingHook>("CHook");
 	this->m_pOF->RegisterClassType<CRocket>("CRocket");
+	this->m_pOF->RegisterClassType<CFlame>("CFlame");
+	this->m_pOF->RegisterClassType<CPlasma>("CPlasma");
+	this->m_pOF->RegisterClassType<CShock>("CShock");
+	this->m_pOF->RegisterClassType<CGrenade>("CGrenade");
+	this->m_pOF->RegisterClassType<CFire>("CFire");
+	this->m_pOF->RegisterClassType<CIce>("CIce");
+
 
 	this->m_nBackgroundImageID = this->m_pTM->LoadTexture("resource/graphics/bgGame.png");
 	this->m_nCrossHairID = this->m_pTM->LoadTexture("resource/graphics/CrossHairs.png");
 	this->m_nBGMusic = this->m_pWM->LoadWave("resource/sounds/Jak2_Haven_City.wav");
+	
 	this->m_nRocketID = m_pTM->LoadTexture("resource/graphics/Weapons.png");
+	this->m_nFlameID = m_pTM->LoadTexture("resource/graphics/Weapons.png");			
+	this->m_nPlasmaID = m_pTM->LoadTexture("resource/graphics/Weapons.png");			
+	this->m_nShockID = m_pTM->LoadTexture("resource/graphics/Weapons.png");
+	this->m_nGrenadeID = m_pTM->LoadTexture("resource/graphics/Weapons.png");
+	this->m_nIceID = m_pTM->LoadTexture("resource/graphics/Weapons.png");
+	this->m_nFireID = m_pTM->LoadTexture("resource/graphics/Weapons.png");
+
 
 	this->m_TempPlayer = (CPlayer*)m_pOF->CreateObject("CPlayer");
 	this->m_TempPlayer->SetImageID(this->m_pTM->LoadTexture("resource/graphics/Running1.bmp"));
@@ -313,7 +358,7 @@ void CSinglePlayerState::Exit(void)
 	this->m_Profile.m_bHaveHook = 0;	
 
 	CObjectManager::GetInstance()->RemoveObject(this->m_PickUp);	
-	this->m_pOF->UnregisterClassType("CPickUp");	
+	this->m_pOF->UnregisterClassType ("CPickUp");	
 	this->m_pOF->UnregisterClassType("CBlock");	
 	this->m_pOF->UnregisterClassType("CHook");	
 	this->m_pOF->UnregisterClassType("CPlayer");	
@@ -339,6 +384,45 @@ void CSinglePlayerState::Exit(void)
 	//	this->m_pTM->UnloadTexture(this->m_TempPlatform1->GetImageID());
 	//	this->m_pTM->UnloadTexture(this->m_TempPlatform2->GetImageID());
 	}
+
+	
+	if(this->m_nFireID > -1)
+	{
+		this->m_pTM->UnloadTexture(this->m_nFireID);
+		this->m_nFireID = -1;
+	}
+	if(this->m_nIceID > -1)
+	{
+		this->m_pTM->UnloadTexture(this->m_nIceID);
+		this->m_nFireID = -1;
+	}
+	if(this->m_nGrenadeID > -1)
+	{
+		this->m_pTM->UnloadTexture(this->m_nGrenadeID);
+		this->m_nFireID = -1;
+	}
+	if(this->m_nShockID > -1)
+	{
+		this->m_pTM->UnloadTexture(this->m_nShockID);
+		this->m_nFireID = -1;
+	}
+	if(this->m_nPlasmaID > -1)
+	{
+		this->m_pTM->UnloadTexture(this->m_nPlasmaID);
+		this->m_nFireID = -1;
+	}
+	if(this->m_nRocketID > -1)
+	{
+		this->m_pTM->UnloadTexture(this->m_nRocketID);
+		this->m_nFireID = -1;
+	}
+	
+	
+	
+	
+	
+		
+		
 
 
 	if(this->m_nBGMusic > -1)

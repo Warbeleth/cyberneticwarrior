@@ -226,11 +226,11 @@ void CPlayer::Update(float fElapsedTime)
 	this->m_bOnGround = 0;
 	}*/
 
-	//if(this->GetPosY() > 600 - this->GetHeight())
-	//{
-	//	this->m_bOnGround = 1;
-	//	this->SetPosY(600 - (float)this->GetHeight());
-	//}
+	if(this->GetPosY() > 600 - this->GetHeight())
+	{
+		this->m_bOnGround = 1;
+		this->SetPosY(600 - (float)this->GetHeight());
+	}
 	////////////////////////////////////////
 
 	tVector2D vecHandRotation;
@@ -270,7 +270,7 @@ void CPlayer::Input(float fElapsedTime)
 	///////////////////////////////
 	// Input Checking
 	///////////////////////////////
-	static float fJumpSpeed = -500.0f;
+	static float fJumpSpeed = -550.0f;
 	if((CSGD_DirectInput::GetInstance()->KeyDown(DIK_SPACE)
 		|| CSGD_DirectInput::GetInstance()->JoystickButtonPressed(1)) && this->m_bOnGround)
 	{
@@ -360,9 +360,9 @@ void CPlayer::Input(float fElapsedTime)
 		//CGame::GetInstance()->GetMessageSystemPointer()->SendMsg(new CDestroyHookMessage(this));
 	}
 
-	if((CSGD_DirectInput::GetInstance()->MouseButtonPressed(MOUSE_LEFT) || CSGD_DirectInput::GetInstance()->JoystickButtonPressed(7)))
+	if((CSGD_DirectInput::GetInstance()->MouseButtonDown(MOUSE_LEFT) || CSGD_DirectInput::GetInstance()->JoystickButtonPressed(7)))
 	{
-		CGame::GetInstance()->GetMessageSystemPointer()->SendMsg(new CCreateRocketMessage(this));
+		CGame::GetInstance()->GetMessageSystemPointer()->SendMsg(new CCreateFlameMessage(this));
 	}
 
 	if(CSGD_DirectInput::GetInstance()->KeyPressed(DIK_LSHIFT))
@@ -530,21 +530,21 @@ bool CPlayer::CheckCollision(CBase* pBase)
 		float myY = GetPosY();
 		float myRight = myX + GetWidth();
 		float myBottom = myY + GetHeight();
-		float hisX = BLOCK->GetPosX();
-		float hisY = BLOCK->GetPosY();
-		float hisRight = hisX + BLOCK->GetWidth();
-		float hisBottom = hisY + BLOCK->GetHeight();
+		static float hisX = BLOCK->GetPosX();
+		static float hisY = BLOCK->GetPosY();
+		static float hisRight = hisX + BLOCK->GetWidth();
+		static float hisBottom = hisY + BLOCK->GetHeight();
 
-		if(myBottom > hisY  
+		if(myBottom >= hisY  
 			&& (myBottom) < (hisBottom)
 			&& (myRight) > hisX
 			&& (myX) < (hisRight)
 			&& !this->m_bOnGround
-			&& this->m_vSpeed.fY > 0.0f)
+			&& this->m_vSpeed.fY >= 0.0f)
 		{
 			this->m_bOnGround = 1;
 			this->m_bOnPlatform = 1;
-			this->SetPosY(pBase->GetPosY() - this->GetHeight());
+			this->SetPosY(hisY - this->GetHeight());
 			return true;
 		}
 		else
@@ -554,7 +554,7 @@ bool CPlayer::CheckCollision(CBase* pBase)
 				this->m_bOnGround = 0;
 				this->m_bOnPlatform = 0;
 			}
-					return false;
+		return false;
 		}
 	}
 
