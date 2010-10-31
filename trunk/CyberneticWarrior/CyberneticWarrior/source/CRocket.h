@@ -11,7 +11,6 @@ class CEvent;
 class CRocket : public CBase, public IListener
 {
 private:
-	float m_fRotation;
 	int	  m_nRocketState;
 	float m_fDeathTimer;
 

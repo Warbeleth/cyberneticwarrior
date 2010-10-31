@@ -203,6 +203,12 @@ float CBase::GetBaseVelY(void) const
 	return this->m_vBaseVelocity.fY;
 }
 
+
+float CBase::GetRotation(void) const
+{
+	return this->m_fRotation;
+}
+
 ////////////////////////////////////////////////////////////////////////////////////
 //	Mutator : SetImageID
 ////////////////////////////////////////////////////////////////////////////////////
@@ -268,3 +274,7 @@ void CBase::SetHeight(int nHeight)
 }
 
 
+void CBase::SetRotation(float fRotation)
+{
+	this->m_fRotation = fRotation;
+}

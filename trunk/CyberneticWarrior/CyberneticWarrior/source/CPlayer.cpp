@@ -42,9 +42,9 @@ CPlayer::CPlayer(void)
 	m_nSelectedHeadSlot = 3;
 	m_nSelectedBootSlot = 2;
 	
-	m_fHandRotation = 0.0f;
+	m_fHandRotation = 4.2f;
 	m_bHomingOn = false;
-	m_nHandID = CSGD_TextureManager::GetInstance()->LoadTexture( "resource/graphics/Arm.png" );
+	m_nHandID = CSGD_TextureManager::GetInstance()->LoadTexture( "resource/graphics/Weapons.png" );
 
 	this->m_pHud = new CHud();
 	this->m_pHud->SetPlayerPointer(this);
@@ -78,7 +78,7 @@ void CPlayer::Update(float fElapsedTime)
 	this->Input(fElapsedTime);
 
 
-	if(CSGD_DirectInput::GetInstance()->MouseGetPosX() > this->GetPosX())
+	if(CSGD_DirectInput::GetInstance()->MouseGetPosX() + CCamera::GetInstance()->GetOffsetX() > this->GetPosX())
 	{
 		this->m_bForward = 1;
 	}
@@ -138,16 +138,19 @@ void CPlayer::Update(float fElapsedTime)
 			//this->m_vVectorVelocity = Vector2DNormalize(this->m_vVectorVelocity);
 			
 			this->m_vVectorVelocity = this->m_vVectorVelocity - vHook;
+			
 
 
 			//D3DXToDegree(
+			//this->SetRotation(/*this->GetRotation() + */AngleBetweenVectors(vHook, this->m_vVectorVelocity));
+			//this->SetRotation(SGD_PI +(SGD_PI - this->GetRotation()));
 			//this->m_vVectorVelocity = this->m_vVectorVelocity * 500.0f;// this->m_vSpeed.fX;
 			this->m_vVectorVelocity = Vector2DRotate(this->m_vVectorVelocity, this->GetRotation());
 			//this->SetBaseVelX(0.0f);
 			//this->SetBaseVelY(0.0f);
 
-			this->m_vSpeed.fY = -this->m_vVectorVelocity.fY;	
-
+			this->m_vSpeed.fY = -this->m_vVectorVelocity.fY;
+			
 			this->SetPosX(this->m_vVectorVelocity.fX + vHook.fX);
 			this->SetPosY(this->m_vVectorVelocity.fY + vHook.fY);
 		}
@@ -478,11 +481,27 @@ void CPlayer::Render(void)
 		1.0f * CCamera::GetInstance()->GetScale(), 
 		&rDrawRect, this->m_vRotationCenter.fX, this->m_vRotationCenter.fX, this->m_fRotation);*/
 
+	RECT rRender;
+	rRender.top = 164;
+	rRender.left = 340;
+	rRender.bottom = 234;
+	rRender.right = 550;
+	if(this->m_bForward)
+	{
 	CSGD_TextureManager::GetInstance()->Draw(m_nHandID, 
-		(int)(((GetPosX() + (GetWidth()/2)) - OffsetX) * CCamera::GetInstance()->GetScale()), 
-		(int)(((GetPosY() - (GetHeight()/4)) - OffsetY) * CCamera::GetInstance()->GetScale()), 
+		(int)(((GetPosX() + (GetWidth()/2)) - OffsetX) * CCamera::GetInstance()->GetScale()+5), 
+		(int)(((GetPosY() - (GetHeight()/4)) - OffsetY) * CCamera::GetInstance()->GetScale()+35), 
 		0.6f * CCamera::GetInstance()->GetScale(), 0.6f * CCamera::GetInstance()->GetScale(), 
-		0, 16, 64, m_fHandRotation, -1 );
+		&rRender, 16, 64, m_fHandRotation, -1 );
+	}
+	else
+	{
+		CSGD_TextureManager::GetInstance()->Draw(m_nHandID, 
+		(int)(((GetPosX() + (GetWidth()/2)) - OffsetX) * CCamera::GetInstance()->GetScale()-5)+GetWidth()/2, 
+		(int)(((GetPosY() - (GetHeight()/4)) - OffsetY) * CCamera::GetInstance()->GetScale()+35), 
+		-0.6f * CCamera::GetInstance()->GetScale(), 0.6f * CCamera::GetInstance()->GetScale(), 
+		&rRender, 16, 64, m_fHandRotation, -1 );
+	}
 		
 	this->m_pHud->Render();
 }
