@@ -301,6 +301,14 @@
 						>
 					</File>
 					<File
+						RelativePath=".\source\CFire.cpp"
+						>
+					</File>
+					<File
+						RelativePath=".\source\CFlame.cpp"
+						>
+					</File>
+					<File
 						RelativePath=".\source\CGrapplingHook.cpp"
 						>
 						<FileConfiguration
@@ -314,6 +322,18 @@
 						</FileConfiguration>
 					</File>
 					<File
+						RelativePath=".\source\CGrenade.cpp"
+						>
+					</File>
+					<File
+						RelativePath=".\source\CIce.cpp"
+						>
+					</File>
+					<File
+						RelativePath=".\source\CPlasma.cpp"
+						>
+					</File>
+					<File
 						RelativePath=".\source\CRocket.cpp"
 						>
 						<FileConfiguration
@@ -325,6 +345,10 @@
 								PrecompiledHeaderThrough="PrecompiledHeader.h"
 							/>
 						</FileConfiguration>
+					</File>
+					<File
+						RelativePath=".\source\CShock.cpp"
+						>
 					</File>
 				</Filter>
 				<Filter
@@ -698,11 +722,35 @@
 						>
 					</File>
 					<File
+						RelativePath=".\source\CFire.h"
+						>
+					</File>
+					<File
+						RelativePath=".\source\CFlame.h"
+						>
+					</File>
+					<File
 						RelativePath=".\source\CGrapplingHook.h"
 						>
 					</File>
 					<File
+						RelativePath=".\source\CGrenade.h"
+						>
+					</File>
+					<File
+						RelativePath=".\source\CIce.h"
+						>
+					</File>
+					<File
+						RelativePath=".\source\CPlasma.h"
+						>
+					</File>
+					<File
 						RelativePath=".\source\CRocket.h"
+						>
+					</File>
+					<File
+						RelativePath=".\source\CShock.h"
 						>
 					</File>
 				</Filter>

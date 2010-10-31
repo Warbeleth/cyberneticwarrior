@@ -13,25 +13,35 @@
 #include "CGame.h"
 #include "CCodeProfiler.h"
 #include "CCamera.h"
+
 #include "CStackStateMachine.h"
 #include "CMainMenuState.h"
 #include "CSinglePlayerState.h"
 #include "CSinglePlayerMenuState.h"
-#include "CGameProfiler.h"
 #include "CControlSelectState.h"
 #include "CPauseMenuState.h"
 #include "COptionsMenuState.h"
 #include "CAchievementsState.h"
-#include "CEventSystem.h"
-#include "CObjectFactory.h"
-#include "CObjectManager.h"
-#include "CBase.h"
-#include "CGrapplingHook.h"
-#include "CRocket.h"
-#include "CPlayer.h"
 #include "CCreditsState.h"
 #include "CAtractModeState.h"
 #include "CLoadingState.h"
+
+#include "CGameProfiler.h"
+#include "CEventSystem.h"
+#include "CObjectFactory.h"
+#include "CObjectManager.h"
+
+#include "CBase.h"
+#include "CPlayer.h"
+#include "CGrapplingHook.h"
+#include "CRocket.h"
+#include "CFlame.h"
+#include "CPlasma.h"
+#include "CShock.h"
+#include "CGrenade.h"
+#include "CFire.h"
+#include "CIce.h"
+
 
 
 
@@ -434,6 +444,47 @@ void CGame::MessageProc(CBaseMessage*	pMsg)
 			CObjectManager::GetInstance()->RemoveObject(pDR->GetRocketPointer());
 
 			pDR = NULL;
+		}
+		break;
+	case MSG_CREATE_FLAME:
+		{
+			CCreateFlameMessage* pCR = (CCreateFlameMessage*)pMsg;
+			CFlame* pFlame;
+
+			float fRocketVelocity = 300;
+
+			pFlame = (CFlame*)CObjectFactory<std::string, CBase>::GetInstance()->CreateObject("CFlame");
+			pFlame->SetWidth(16);
+			pFlame->SetHeight(16);
+			pFlame->SetPosX(pCR->GetPlayerPointer()->GetPosX() + (float)pCR->GetPlayerPointer()->GetWidth());
+			pFlame->SetPosY(pCR->GetPlayerPointer()->GetPosY());
+
+			tVector2D vMousePos;
+			vMousePos.fX = (float)CSGD_DirectInput::GetInstance()->MouseGetPosX() + CCamera::GetInstance()->GetOffsetX();
+			vMousePos.fY = (float)CSGD_DirectInput::GetInstance()->MouseGetPosY() + CCamera::GetInstance()->GetOffsetY();
+
+			tVector2D vPlayerPos;
+			vPlayerPos.fX = pCR->GetPlayerPointer()->GetPosX() + (float)pCR->GetPlayerPointer()->GetWidth();
+			vPlayerPos.fY = pCR->GetPlayerPointer()->GetPosY();
+
+			tVector2D vShot;
+
+			vShot = vMousePos - vPlayerPos;
+
+			vShot = Vector2DNormalize(vShot);
+
+
+			pFlame->SetBaseVelX(vShot.fX * fRocketVelocity);
+			pFlame->SetBaseVelY(vShot.fY * fRocketVelocity);
+
+			CObjectManager::GetInstance()->AddObject(pFlame);
+
+			pFlame->Release();
+
+		}
+		break;
+	case MSG_DESTROY_FLAME:
+		{
 		}
 		break;
 	};

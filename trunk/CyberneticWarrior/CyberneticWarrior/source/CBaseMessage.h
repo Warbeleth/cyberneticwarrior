@@ -4,11 +4,28 @@
 class CGrapplingHook;
 class CPlayer;
 class CRocket;
+class CBullet;
+class CFlame;
+class CPlasma;
+class CShock;
+class CGrenade;
+class CIce;
+class CFire;
 
 typedef  int MSGID;
 
 /*unsigned char*/
-enum eMsgTypes	{ MSG_NULL = 0, MSG_CREATE_HOOK, MSG_DESTROY_HOOK, MSG_CREATE_ROCKET, MSG_DESTROY_ROCKET,/*MSG_CREATE_PICKUP,*/ MSG_MAX };
+enum eMsgTypes	{ MSG_NULL = 0, 
+					MSG_CREATE_HOOK, MSG_DESTROY_HOOK,
+					MSG_CREATE_ROCKET, MSG_DESTROY_ROCKET,
+					MSG_CREATE_BULLET, MSG_DESTROY_BULLET, 
+					MSG_CREATE_FLAME, MSG_DESTROY_FLAME,
+					MSG_CREATE_GRENADE, MSG_DESTROY_GRENADE,
+					MSG_CREATE_PLASMA, MSG_DESTROY_PLASMA,
+					MSG_CREATE_SHOCK, MSG_DESTROY_SHOCK,
+					MSG_CREATE_FIRE, MSG_DESTROY_FIRE,
+					MSG_CREATE_ICE, MSG_DESTROY_ICE,
+					/*MSG_CREATE_PICKUP,*/ MSG_MAX };
 
 class CBaseMessage
 {
@@ -74,6 +91,175 @@ public:
 	CPlayer* GetPlayerPointer(void);
 	CRocket* GetRocketPointer(void);
 };
+
+class CCreateBulletMessage : public CBaseMessage
+{
+private:
+	CPlayer*		m_pPlayer;
+public:
+	CCreateBulletMessage(CPlayer* pPlayer);
+	~CCreateBulletMessage(void);
+
+	CPlayer* GetPlayerPointer(void);
+	void SetPlayerPointer(CPlayer* pPlayer);
+};
+
+class CDestroyBulletMessage : public CBaseMessage
+{
+private:
+	CBullet*		m_pBullet;
+	CPlayer*		m_pPlayer;
+public:
+	CDestroyBulletMessage(CBullet* pBullet, CPlayer* pPlayer);
+	~CDestroyBulletMessage(void);
+	CPlayer*	GetPlayerPointer(void);
+	CBullet*	GetBulletPointer(void);
+};
+
+class CCreateFlameMessage : public CBaseMessage
+{
+private:
+	CPlayer*		m_pPlayer;
+public:
+	CCreateFlameMessage(CPlayer* pPlayer);
+	~CCreateFlameMessage(void);
+
+	CPlayer* GetPlayerPointer(void);
+	void SetPlayerPointer(CPlayer* pPlayer);
+};
+
+class CDestroyFlameMessage : public CBaseMessage
+{
+private:
+	CFlame*			m_pFlame;
+	CPlayer*		m_pPlayer;
+public:
+	CDestroyFlameMessage(CFlame* pFlame, CPlayer* pPlayer);
+	~CDestroyFlameMessage(void);
+	CPlayer*	GetPlayerPointer(void);
+	CFlame*		GetFlamePointer(void);
+};
+
+class CCreatePlasmaMessage : public CBaseMessage
+{
+private:
+	CPlayer*		m_pPlayer;
+public:
+	CCreatePlasmaMessage(CPlayer* pPlayer);
+	~CCreatePlasmaMessage(void);
+
+	CPlayer* GetPlayerPointer(void);
+	void SetPlayerPointer(CPlayer* pPlayer);
+};
+
+class CDestroyPlasmaMessage : public CBaseMessage
+{
+private:
+	CPlasma*			m_pPlasma;
+	CPlayer*			m_pPlayer;
+public:
+	CDestroyPlasmaMessage(CPlasma* pPlasma, CPlayer* pPlayer);
+	~CDestroyPlasmaMessage(void);
+	CPlayer*		GetPlayerPointer(void);
+	CPlasma*		GetPlasmaPointer(void);
+};
+
+class CCreateShockMessage : public CBaseMessage
+{
+private:
+	CPlayer*		m_pPlayer;
+public:
+	CCreateShockMessage(CPlayer* pPlayer);
+	~CCreateShockMessage(void);
+
+	CPlayer* GetPlayerPointer(void);
+	void SetPlayerPointer(CPlayer* pPlayer);
+};
+
+class CDestroyShockMessage : public CBaseMessage
+{
+private:
+	CShock*				m_pShock;
+	CPlayer*			m_pPlayer;
+public:
+	CDestroyShockMessage(CShock* pShock, CPlayer* pPlayer);
+	~CDestroyShockMessage(void);
+	CPlayer*		GetPlayerPointer(void);
+	CShock*			GetShockPointer(void);
+};
+
+class CCreateGrenadeMessage : public CBaseMessage
+{
+private:
+	CPlayer*		m_pPlayer;
+public:
+	CCreateGrenadeMessage(CPlayer* pPlayer);
+	~CCreateGrenadeMessage(void);
+
+	CPlayer* GetPlayerPointer(void);
+	void SetPlayerPointer(CPlayer* pPlayer);
+};
+
+class CDestroyGrenadeMessage : public CBaseMessage
+{
+private:
+	CGrenade*			m_pGrenade;
+	CPlayer*			m_pPlayer;
+public:
+	CDestroyGrenadeMessage(CGrenade* pGrenade, CPlayer* pPlayer);
+	~CDestroyGrenadeMessage(void);
+	CPlayer*		GetPlayerPointer(void);
+	CGrenade*		GetGrenadePointer(void);
+};
+
+class CCreateIceMessage : public CBaseMessage
+{
+private:
+	CPlayer*		m_pPlayer;
+public:
+	CCreateIceMessage(CPlayer* pPlayer);
+	~CCreateIceMessage(void);
+
+	CPlayer* GetPlayerPointer(void);
+	void SetPlayerPointer(CPlayer* pPlayer);
+};
+
+class CDestroyIceMessage : public CBaseMessage
+{
+private:
+	CIce*				m_pIce;
+	CPlayer*			m_pPlayer;
+public:
+	CDestroyIceMessage(CIce* pIce, CPlayer* pPlayer);
+	~CDestroyIceMessage(void);
+	CPlayer*		GetPlayerPointer(void);
+	CIce*			GetIcePointer(void);
+};
+
+class CCreateFireMessage : public CBaseMessage
+{
+private:
+	CPlayer*		m_pPlayer;
+public:
+	CCreateFireMessage(CPlayer* pPlayer);
+	~CCreateFireMessage(void);
+
+	CPlayer* GetPlayerPointer(void);
+	void SetPlayerPointer(CPlayer* pPlayer);
+};
+
+class CDestroyFireMessage : public CBaseMessage
+{
+private:
+	CFire*				m_pFire;
+	CPlayer*			m_pPlayer;
+public:
+	CDestroyFireMessage(CFire* pFire, CPlayer* pPlayer);
+	~CDestroyFireMessage(void);
+	CPlayer*		GetPlayerPointer(void);
+	CFire*			GetFirePointer(void);
+};
+
 /*	---Message Class Example---
 class CCreateEnemyMessage : public CBaseMessage
 {

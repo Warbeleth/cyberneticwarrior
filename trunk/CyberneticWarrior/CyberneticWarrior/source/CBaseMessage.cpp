@@ -2,6 +2,12 @@
 #include "CGrapplingHook.h"
 #include "CPlayer.h"
 #include "CRocket.h"
+#include "CFlame.h"
+#include "CPlasma.h"
+#include "CShock.h"
+#include "CGrenade.h"
+#include "CFire.h"
+#include "CIce.h"
 
 ///////////////////////////////////////////////////////////////////////////////
 //	class "CBaseMessage"
@@ -52,7 +58,7 @@ CPlayer*	CDestroyHookMessage::GetPlayerPointer(void)
 ///////////////////////////////////////////////////////////////////////////////
 CCreateRocketMessage::CCreateRocketMessage( CPlayer* pPlayer ) : CBaseMessage(MSG_CREATE_ROCKET)
 {	
-	m_pPlayer = pPlayer;
+	this->m_pPlayer = pPlayer;
 }
 
 CCreateRocketMessage::~CCreateRocketMessage( void )
@@ -61,12 +67,12 @@ CCreateRocketMessage::~CCreateRocketMessage( void )
 
 CPlayer* CCreateRocketMessage::GetPlayerPointer( void )
 {
-	return m_pPlayer;
+	return this->m_pPlayer;
 }
 
 void CCreateRocketMessage::SetPlayerPointer( CPlayer* pPlayer )
 {
-	m_pPlayer = pPlayer;
+	this->m_pPlayer = pPlayer;
 }
 
 
@@ -75,8 +81,8 @@ void CCreateRocketMessage::SetPlayerPointer( CPlayer* pPlayer )
 ///////////////////////////////////////////////////////////////////////////////
 CDestroyRocketMessage::CDestroyRocketMessage(CRocket* pRocket, CPlayer* pPlayer) : CBaseMessage(MSG_DESTROY_ROCKET)
 {
-	m_pRocket = pRocket;
-	m_pPlayer = pPlayer;
+	this->m_pRocket = pRocket;
+	this->m_pPlayer = pPlayer;
 }
 
 CDestroyRocketMessage::~CDestroyRocketMessage(void)
@@ -85,14 +91,342 @@ CDestroyRocketMessage::~CDestroyRocketMessage(void)
 
 CPlayer* CDestroyRocketMessage::GetPlayerPointer(void)
 {
-	return m_pPlayer;
+	return this->m_pPlayer;
 }
 
 CRocket* CDestroyRocketMessage::GetRocketPointer(void)
 {
-	return m_pRocket;
+	return this->m_pRocket;
 }
 
+
+///////////////////////////////////////////////////////////////////////////////
+//	class "CCreateBulletMessage"
+///////////////////////////////////////////////////////////////////////////////
+CCreateBulletMessage::CCreateBulletMessage( CPlayer* pPlayer ) : CBaseMessage(MSG_CREATE_BULLET)
+{	
+	this->m_pPlayer = pPlayer;
+}
+
+CCreateBulletMessage::~CCreateBulletMessage( void )
+{
+}
+
+CPlayer* CCreateBulletMessage::GetPlayerPointer( void )
+{
+	return this->m_pPlayer;
+}
+
+void CCreateBulletMessage::SetPlayerPointer( CPlayer* pPlayer )
+{
+	this->m_pPlayer = pPlayer;
+}
+
+
+///////////////////////////////////////////////////////////////////////////////
+//	class "CDestroyBulletMessage"
+///////////////////////////////////////////////////////////////////////////////
+CDestroyBulletMessage::CDestroyBulletMessage(CBullet* pBullet, CPlayer* pPlayer) : CBaseMessage(MSG_DESTROY_ROCKET)
+{
+	this->m_pBullet = pBullet;
+	this->m_pPlayer = pPlayer;
+}
+
+CDestroyBulletMessage::~CDestroyBulletMessage(void)
+{
+}
+
+CPlayer* CDestroyBulletMessage::GetPlayerPointer(void)
+{
+	return this->m_pPlayer;
+}
+
+CBullet* CDestroyBulletMessage::GetBulletPointer(void)
+{
+	return this->m_pBullet;
+}
+
+///////////////////////////////////////////////////////////////////////////////
+//	class "CCreateFlameMessage"
+///////////////////////////////////////////////////////////////////////////////
+CCreateFlameMessage::CCreateFlameMessage( CPlayer* pPlayer ) : CBaseMessage(MSG_CREATE_FLAME)
+{	
+	this->m_pPlayer = pPlayer;
+}
+
+CCreateFlameMessage::~CCreateFlameMessage( void )
+{
+}
+
+CPlayer* CCreateFlameMessage::GetPlayerPointer( void )
+{
+	return this->m_pPlayer;
+}
+
+void CCreateFlameMessage::SetPlayerPointer( CPlayer* pPlayer )
+{
+	m_pPlayer = pPlayer;
+}
+
+
+///////////////////////////////////////////////////////////////////////////////
+//	class "CDestroyFlameMessage"
+///////////////////////////////////////////////////////////////////////////////
+CDestroyFlameMessage::CDestroyFlameMessage(CFlame* pFlame, CPlayer* pPlayer) : CBaseMessage(MSG_DESTROY_FLAME)
+{
+	this->m_pFlame = pFlame;
+	this->m_pPlayer = pPlayer;
+}
+
+CDestroyFlameMessage::~CDestroyFlameMessage(void)
+{
+}
+
+CPlayer* CDestroyFlameMessage::GetPlayerPointer(void)
+{
+	return this->m_pPlayer;
+}
+
+CFlame* CDestroyFlameMessage::GetFlamePointer(void)
+{
+	return this->m_pFlame;
+}
+
+
+
+///////////////////////////////////////////////////////////////////////////////
+//	class "CCreatePlasmaMessage"
+///////////////////////////////////////////////////////////////////////////////
+CCreatePlasmaMessage::CCreatePlasmaMessage( CPlayer* pPlayer ) : CBaseMessage(MSG_CREATE_PLASMA)
+{	
+	this->m_pPlayer = pPlayer;
+}
+
+CCreatePlasmaMessage::~CCreatePlasmaMessage( void )
+{
+}
+
+CPlayer* CCreatePlasmaMessage::GetPlayerPointer( void )
+{
+	return this->m_pPlayer;
+}
+
+void CCreatePlasmaMessage::SetPlayerPointer( CPlayer* pPlayer )
+{
+	this->m_pPlayer = pPlayer;
+}
+
+
+///////////////////////////////////////////////////////////////////////////////
+//	class "CDestroyPlasmaMessage"
+///////////////////////////////////////////////////////////////////////////////
+CDestroyPlasmaMessage::CDestroyPlasmaMessage(CPlasma* pPlasma, CPlayer* pPlayer) : CBaseMessage(MSG_DESTROY_PLASMA)
+{
+	this->m_pPlasma = pPlasma;
+	this->m_pPlayer = pPlayer;
+}
+
+CDestroyPlasmaMessage::~CDestroyPlasmaMessage(void)
+{
+}
+
+CPlayer* CDestroyPlasmaMessage::GetPlayerPointer(void)
+{
+	return this->m_pPlayer;
+}
+
+CPlasma* CDestroyPlasmaMessage::GetPlasmaPointer(void)
+{
+	return this->m_pPlasma;
+}
+
+
+///////////////////////////////////////////////////////////////////////////////
+//	class "CCreateShockMessage"
+///////////////////////////////////////////////////////////////////////////////
+CCreateShockMessage::CCreateShockMessage( CPlayer* pPlayer ) : CBaseMessage(MSG_CREATE_SHOCK)
+{	
+	this->m_pPlayer = pPlayer;
+}
+
+CCreateShockMessage::~CCreateShockMessage( void )
+{
+}
+
+CPlayer* CCreateShockMessage::GetPlayerPointer( void )
+{
+	return this->m_pPlayer;
+}
+
+void CCreateShockMessage::SetPlayerPointer( CPlayer* pPlayer )
+{
+	this->m_pPlayer = pPlayer;
+}
+
+
+///////////////////////////////////////////////////////////////////////////////
+//	class "CDestroyShockMessage"
+///////////////////////////////////////////////////////////////////////////////
+CDestroyShockMessage::CDestroyShockMessage(CShock* pShock, CPlayer* pPlayer) : CBaseMessage(MSG_DESTROY_SHOCK)
+{
+	this->m_pShock = pShock;
+	this->m_pPlayer = pPlayer;
+}
+
+CDestroyShockMessage::~CDestroyShockMessage(void)
+{
+}
+
+CPlayer* CDestroyShockMessage::GetPlayerPointer(void)
+{
+	return this->m_pPlayer;
+}
+
+CShock* CDestroyShockMessage::GetShockPointer(void)
+{
+	return this->m_pShock;
+}
+
+
+///////////////////////////////////////////////////////////////////////////////
+//	class "CCreateGrenadeMessage"
+///////////////////////////////////////////////////////////////////////////////
+CCreateGrenadeMessage::CCreateGrenadeMessage( CPlayer* pPlayer ) : CBaseMessage(MSG_CREATE_GRENADE)
+{	
+	this->m_pPlayer = pPlayer;
+}
+
+CCreateGrenadeMessage::~CCreateGrenadeMessage( void )
+{
+}
+
+CPlayer* CCreateGrenadeMessage::GetPlayerPointer( void )
+{
+	return this->m_pPlayer;
+}
+
+void CCreateGrenadeMessage::SetPlayerPointer( CPlayer* pPlayer )
+{
+	this->m_pPlayer = pPlayer;
+}
+
+
+///////////////////////////////////////////////////////////////////////////////
+//	class "CDestroyGrenadeMessage"
+///////////////////////////////////////////////////////////////////////////////
+CDestroyGrenadeMessage::CDestroyGrenadeMessage(CGrenade* pGrenade, CPlayer* pPlayer) : CBaseMessage(MSG_DESTROY_GRENADE)
+{
+	this->m_pGrenade = pGrenade;
+	this->m_pPlayer = pPlayer;
+}
+
+CDestroyGrenadeMessage::~CDestroyGrenadeMessage(void)
+{
+}
+
+CPlayer* CDestroyGrenadeMessage::GetPlayerPointer(void)
+{
+	return this->m_pPlayer;
+}
+
+CGrenade* CDestroyGrenadeMessage::GetGrenadePointer(void)
+{
+	return this->m_pGrenade;
+}
+
+
+///////////////////////////////////////////////////////////////////////////////
+//	class "CCreateIceMessage"
+///////////////////////////////////////////////////////////////////////////////
+CCreateIceMessage::CCreateIceMessage( CPlayer* pPlayer ) : CBaseMessage(MSG_CREATE_ICE)
+{	
+	this->m_pPlayer = pPlayer;
+}
+
+CCreateIceMessage::~CCreateIceMessage( void )
+{
+}
+
+CPlayer* CCreateIceMessage::GetPlayerPointer( void )
+{
+	return this->m_pPlayer;
+}
+
+void CCreateIceMessage::SetPlayerPointer( CPlayer* pPlayer )
+{
+	this->m_pPlayer = pPlayer;
+}
+
+
+///////////////////////////////////////////////////////////////////////////////
+//	class "CDestroyIceMessage"
+///////////////////////////////////////////////////////////////////////////////
+CDestroyIceMessage::CDestroyIceMessage(CIce* pIce, CPlayer* pPlayer) : CBaseMessage(MSG_DESTROY_ICE)
+{
+	this->m_pIce = pIce;
+	this->m_pPlayer = pPlayer;
+}
+
+CDestroyIceMessage::~CDestroyIceMessage(void)
+{
+}
+
+CPlayer* CDestroyIceMessage::GetPlayerPointer(void)
+{
+	return this->m_pPlayer;
+}
+
+CIce* CDestroyIceMessage::GetIcePointer(void)
+{
+	return this->m_pIce;
+}
+
+
+///////////////////////////////////////////////////////////////////////////////
+//	class "CCreateFireMessage"
+///////////////////////////////////////////////////////////////////////////////
+CCreateFireMessage::CCreateFireMessage( CPlayer* pPlayer ) : CBaseMessage(MSG_CREATE_FIRE)
+{	
+	this->m_pPlayer = pPlayer;
+}
+
+CCreateFireMessage::~CCreateFireMessage( void )
+{
+}
+
+CPlayer* CCreateFireMessage::GetPlayerPointer( void )
+{
+	return this->m_pPlayer;
+}
+
+void CCreateFireMessage::SetPlayerPointer( CPlayer* pPlayer )
+{
+	this->m_pPlayer = pPlayer;
+}
+
+
+///////////////////////////////////////////////////////////////////////////////
+//	class "CDestroyFireMessage"
+///////////////////////////////////////////////////////////////////////////////
+CDestroyFireMessage::CDestroyFireMessage(CFire* pFire, CPlayer* pPlayer) : CBaseMessage(MSG_DESTROY_FIRE)
+{
+	this->m_pFire = pFire;
+	this->m_pPlayer = pPlayer;
+}
+
+CDestroyFireMessage::~CDestroyFireMessage(void)
+{
+}
+
+CPlayer* CDestroyFireMessage::GetPlayerPointer(void)
+{
+	return this->m_pPlayer;
+}
+
+CFire* CDestroyFireMessage::GetFirePointer(void)
+{
+	return this->m_pFire;
+}
 /* ---Message Class Example---
 CCreateEnemyMessage::CCreateEnemyMessage(CEnemy* pEnemy) : CBaseMessage(MSG_CREATE_ENEMY)
 {
