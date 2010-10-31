@@ -47,6 +47,12 @@ void CGrapplingHook::Update(float fElapsedTime)
 		CBase::Update(fElapsedTime);
 	}
 
+	
+
+	
+
+
+
 
 
 	static tVector2D vScreenDimensions;

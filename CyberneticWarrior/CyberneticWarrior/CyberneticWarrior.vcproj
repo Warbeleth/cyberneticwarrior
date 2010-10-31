@@ -297,6 +297,10 @@
 					Name="Equipment"
 					>
 					<File
+						RelativePath=".\source\CBullet.cpp"
+						>
+					</File>
+					<File
 						RelativePath=".\source\CGrapplingHook.cpp"
 						>
 						<FileConfiguration
@@ -689,6 +693,10 @@
 				<Filter
 					Name="Equipment"
 					>
+					<File
+						RelativePath=".\source\CBullet.h"
+						>
+					</File>
 					<File
 						RelativePath=".\source\CGrapplingHook.h"
 						>

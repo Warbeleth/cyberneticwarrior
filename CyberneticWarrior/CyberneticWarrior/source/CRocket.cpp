@@ -9,11 +9,14 @@
 
 CRocket::CRocket( void )
 {
-	m_fRotation		= 0.0f;
 	m_fDeathTimer	= 0.0f;
 	m_nRocketState	= ROCKET_DIRECTIONAL;
 	SetType( OBJ_ROCKET );
 	SetImageID(CSinglePlayerState::GetInstance()->GetRocketID());
+
+	this->SetRotation(0.0f);
+
+
 }
 
 CRocket::~CRocket( void )
@@ -34,6 +37,30 @@ void CRocket::Update( float fElapsedTime)
 
 	if( m_fDeathTimer > DEATH_TIME )
 		CGame::GetInstance()->GetMessageSystemPointer()->SendMsg( new CDestroyRocketMessage( this, CSinglePlayerState::GetInstance()->GetPlayerPointer()) );
+
+
+
+
+	
+	/*tVector2D vecHandRotation;
+	vecHandRotation.fX = 0;
+	vecHandRotation.fY = -1;
+
+	//vecHandRotation = Vector2DRotate( vecHandRotation,)
+
+	tVector2D vecMouseVector;
+	vecMouseVector.fX = CSGD_DirectInput::GetInstance()->MouseGetPosX() - GetPosX() + CCamera::GetInstance()->GetOffsetX();
+	vecMouseVector.fY = CSGD_DirectInput::GetInstance()->MouseGetPosY() - GetPosY() + CCamera::GetInstance()->GetOffsetY();
+
+
+
+	this->m_fRotation = AngleBetweenVectors( vecHandRotation, vecMouseVector );
+	
+	if( CSGD_DirectInput::GetInstance()->MouseGetPosX() < GetPosX()  - CCamera::GetInstance()->GetOffsetX() )
+		this->m_fRotation = SGD_PI + (SGD_PI - this->m_fRotation);*/
+
+
+	
 
 
 	switch(m_nRocketState)
@@ -60,13 +87,18 @@ void CRocket::Update( float fElapsedTime)
 
 void CRocket::Render( void )
 {
+	static RECT rRender;
+	rRender.top = 370;
+	rRender.left = 532;
+	rRender.bottom = 420;
+	rRender.right = 640;
 	CSGD_TextureManager::GetInstance()->Draw( GetImageID(), 
 		(int)(((GetPosX() + (GetWidth()/2.0f) ) - CCamera::GetInstance()->GetOffsetX()) * CCamera::GetInstance()->GetScale()), 
 		(int)(((GetPosY() - (GetHeight()/2.0f)) - CCamera::GetInstance()->GetOffsetY()) * CCamera::GetInstance()->GetScale()), 
 		1.0f * CCamera::GetInstance()->GetScale(), 
 		1.0f * CCamera::GetInstance()->GetScale(), 
-		0, (GetWidth()/2.0f), (GetHeight()/2.0f),
-		m_fRotation );
+		&rRender, (GetWidth()/2.0f), (GetHeight()/2.0f),
+		this->GetRotation() );
 }
 
 RECT CRocket::GetRect( void ) const

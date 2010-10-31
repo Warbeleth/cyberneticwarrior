@@ -16,8 +16,8 @@
 #include <vector>
 using std::vector;
 
-enum{OBJ_BASE, OBJ_PLAYER, OBJ_GRAPPLING_HOOK, OBJ_ROCKET, OBJ_BLOCK, OBJ_PICKUP, OBJ_ENEMY};
-
+enum Type{OBJ_BASE, OBJ_PLAYER, OBJ_ENEMY, OBJ_BLOCK, OBJ_PICKUP, OBJ_GRAPPLING_HOOK, 
+			 OBJ_SHOCKWAVE, OBJ_ROCKET, OBJ_FLAME, OBJ_FIRE, OBJ_ICE, OBJ_BULLET, OBJ_PLASMA};
 class CBase: public IBaseInterface
 {
 private:
@@ -32,6 +32,9 @@ private:
 
 	tVector2D m_vBaseVelocity;
 	tVector2D m_vSpeed;
+
+	float m_fRotation;
+
 
 	int m_nImageID;
 
@@ -158,6 +161,8 @@ public:
 	//	Purpose : Accessor that returns the CBase object's Base Y Velocity
 	////////////////////////////////////////////////////////////////////////////////////
 	float GetBaseVelY(void) const;
+
+	float GetRotation(void) const;
 	
 	
 	////////////////////////////////////////////////////////////////////////////////////
@@ -227,6 +232,8 @@ public:
 	//	Purpose : Mutator that sets m_vSpeed.fX to the recieved parameter
 	////////////////////////////////////////////////////////////////////////////////////
 	void SetSpeedX(float nSpeedX);
+
+	void SetRotation(float fRotation);
 	////////////////////////////////////////////////////////////////////////////////////
 	//	Function : SetOnGround
 	//
