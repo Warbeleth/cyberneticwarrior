@@ -7,7 +7,7 @@
 
 CGrenade::CGrenade(void)
 {
-	this->SetType(OBJ_BULLET);
+	this->SetType(OBJ_GRENADE);
 	this->SetImageID(CSinglePlayerState::GetInstance()->GetGrenadeID());
 	this->SetRotation(0.0f);
 }

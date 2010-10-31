@@ -149,7 +149,7 @@ CBullet* CDestroyBulletMessage::GetBulletPointer(void)
 ///////////////////////////////////////////////////////////////////////////////
 //	class "CCreateFlameMessage"
 ///////////////////////////////////////////////////////////////////////////////
-CCreateFlameMessage::CCreateFlameMessage( CPlayer* pPlayer ) : CBaseMessage(MSG_CREATE_FLAME)
+CCreateFlameMessage::CCreateFlameMessage( CPlayer* pPlayer) : CBaseMessage(MSG_CREATE_FLAME)
 {	
 	this->m_pPlayer = pPlayer;
 }
@@ -338,9 +338,10 @@ CGrenade* CDestroyGrenadeMessage::GetGrenadePointer(void)
 ///////////////////////////////////////////////////////////////////////////////
 //	class "CCreateIceMessage"
 ///////////////////////////////////////////////////////////////////////////////
-CCreateIceMessage::CCreateIceMessage( CPlayer* pPlayer ) : CBaseMessage(MSG_CREATE_ICE)
+CCreateIceMessage::CCreateIceMessage( CPlayer* pPlayer, CBaseEnemy* pOwner ) : CBaseMessage(MSG_CREATE_ICE)
 {	
 	this->m_pPlayer = pPlayer;
+	this->m_pOwner = pOwner;
 }
 
 CCreateIceMessage::~CCreateIceMessage( void )
@@ -357,23 +358,32 @@ void CCreateIceMessage::SetPlayerPointer( CPlayer* pPlayer )
 	this->m_pPlayer = pPlayer;
 }
 
+CBaseEnemy*	CCreateIceMessage::GetOwnerPointer(void)
+{
+	return this->m_pOwner;
+}
+
+void CCreateIceMessage::SetOwnerPointer(CBaseEnemy* pOwner)
+{
+	this->m_pOwner = pOwner;
+}
 
 ///////////////////////////////////////////////////////////////////////////////
 //	class "CDestroyIceMessage"
 ///////////////////////////////////////////////////////////////////////////////
-CDestroyIceMessage::CDestroyIceMessage(CIce* pIce, CPlayer* pPlayer) : CBaseMessage(MSG_DESTROY_ICE)
+CDestroyIceMessage::CDestroyIceMessage(CIce* pIce, CBaseEnemy* pOwner) : CBaseMessage(MSG_DESTROY_ICE)
 {
 	this->m_pIce = pIce;
-	this->m_pPlayer = pPlayer;
+	this->m_pOwner = pOwner;
 }
 
 CDestroyIceMessage::~CDestroyIceMessage(void)
 {
 }
 
-CPlayer* CDestroyIceMessage::GetPlayerPointer(void)
+CBaseEnemy* CDestroyIceMessage::GetOwnerPointer(void)
 {
-	return this->m_pPlayer;
+	return this->m_pOwner;
 }
 
 CIce* CDestroyIceMessage::GetIcePointer(void)
@@ -385,16 +395,17 @@ CIce* CDestroyIceMessage::GetIcePointer(void)
 ///////////////////////////////////////////////////////////////////////////////
 //	class "CCreateFireMessage"
 ///////////////////////////////////////////////////////////////////////////////
-CCreateFireMessage::CCreateFireMessage( CPlayer* pPlayer ) : CBaseMessage(MSG_CREATE_FIRE)
+CCreateFireMessage::CCreateFireMessage( CPlayer* pPlayer, CBaseEnemy* pOwner ) : CBaseMessage(MSG_CREATE_FIRE)
 {	
 	this->m_pPlayer = pPlayer;
+	this->m_pOwner = pOwner;
 }
 
 CCreateFireMessage::~CCreateFireMessage( void )
 {
 }
 
-CPlayer* CCreateFireMessage::GetPlayerPointer( void )
+CPlayer* CCreateFireMessage::GetPlayerPointer( void ) 
 {
 	return this->m_pPlayer;
 }
@@ -404,23 +415,32 @@ void CCreateFireMessage::SetPlayerPointer( CPlayer* pPlayer )
 	this->m_pPlayer = pPlayer;
 }
 
+CBaseEnemy* CCreateFireMessage::GetOwnerPointer(void) 
+{
+	return this->m_pOwner;
+}
+
+void CCreateFireMessage::SetOwnerPointer(CBaseEnemy* pOwner)
+{
+	this->m_pOwner = pOwner;
+}
 
 ///////////////////////////////////////////////////////////////////////////////
 //	class "CDestroyFireMessage"
 ///////////////////////////////////////////////////////////////////////////////
-CDestroyFireMessage::CDestroyFireMessage(CFire* pFire, CPlayer* pPlayer) : CBaseMessage(MSG_DESTROY_FIRE)
+CDestroyFireMessage::CDestroyFireMessage(CFire* pFire, CBaseEnemy* pOwner) : CBaseMessage(MSG_DESTROY_FIRE)
 {
 	this->m_pFire = pFire;
-	this->m_pPlayer = pPlayer;
+	this->m_pOwner = pOwner;
 }
 
 CDestroyFireMessage::~CDestroyFireMessage(void)
 {
 }
 
-CPlayer* CDestroyFireMessage::GetPlayerPointer(void)
+CBaseEnemy* CDestroyFireMessage::GetOwnerPointer(void)
 {
-	return this->m_pPlayer;
+	return this->m_pOwner;
 }
 
 CFire* CDestroyFireMessage::GetFirePointer(void)

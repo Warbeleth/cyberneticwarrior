@@ -6,6 +6,7 @@
 class CIce : public CBase
 {
 private:
+	float	m_fLifeTime;
 	int	m_nDamage;
 public:
 	CIce(void);
