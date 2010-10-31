@@ -1,0 +1,66 @@
+#include "PrecompiledHeader.h"
+
+#include "CIce.h"
+#include "CGame.h"
+#include "CSinglePlayerState.h"
+#include "CPlayer.h"
+
+CIce::CIce(void)
+{
+	this->SetType(OBJ_BULLET);
+	this->SetImageID(CSinglePlayerState::GetInstance()->GetIceID());
+	this->SetRotation(0.0f);
+}
+
+CIce::~CIce(void)
+{
+}
+
+void CIce::Update(float fElapsedTime)
+{
+	CBase::Update(fElapsedTime);
+}
+
+void CIce::Render(void)
+{
+	RECT rRender;
+	rRender.top = 620;
+	rRender.left = 815;
+	rRender.right = 870;
+	rRender.bottom = 650;
+	CSGD_TextureManager::GetInstance()->Draw( GetImageID(), 
+		(int)(((GetPosX() + (GetWidth()/2.0f) ) - CCamera::GetInstance()->GetOffsetX()) * CCamera::GetInstance()->GetScale()), 
+		(int)(((GetPosY() - (GetHeight()/2.0f)) - CCamera::GetInstance()->GetOffsetY()) * CCamera::GetInstance()->GetScale()), 
+		1.0f * CCamera::GetInstance()->GetScale(), 
+		1.0f * CCamera::GetInstance()->GetScale(), 
+		&rRender, (GetWidth()/2.0f), (GetHeight()/2.0f),
+		this->GetRotation() );
+}
+
+RECT CIce::GetRect(void) const
+{
+	RECT rCollision;
+	rCollision.top = (LONG)( GetPosY() );
+	rCollision.left = (LONG)( GetPosX() );
+	rCollision.bottom = (LONG)( rCollision.top + GetHeight() );
+	rCollision.right = rCollision.left + GetWidth();
+
+	return rCollision;
+}
+
+bool CIce::CheckCollision(CBase *pBase)
+{
+	RECT rIntersect;
+	if( IntersectRect(&rIntersect, &GetRect(), &pBase->GetRect()) )
+	{
+		if( pBase->GetType() != OBJ_PLAYER )
+		{
+			// Destroy the bullet
+			CGame::GetInstance()->GetMessageSystemPointer()->SendMsg( new CDestroyIceMessage( this, CSinglePlayerState::GetInstance()->GetPlayerPointer()) );
+		}
+
+		return 1;
+	}
+	else
+		return 0;
+}
