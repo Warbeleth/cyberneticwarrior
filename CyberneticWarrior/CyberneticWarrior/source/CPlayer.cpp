@@ -6,6 +6,7 @@
 #include "CSinglePlayerState.h"
 #include "CGrapplingHook.h"
 #include "CHud.h"
+#include "CBlock.h"
 
 CPlayer::CPlayer(void)
 {
@@ -22,10 +23,10 @@ CPlayer::CPlayer(void)
 	this->m_vVectorVelocity.fY = 0.0f;
 	this->m_vJoyVecPos.fX	   = 0.0f;
 	this->m_vJoyVecPos.fY	   = 0.0f;
-	
+
 	this->m_fJoyRot = 0.0f;
 	this->m_fWaitTime = 0.0f;
-	
+
 	// Health
 	m_nRemainingHealth = 100;
 	m_nTotalHealth = 100;
@@ -41,7 +42,7 @@ CPlayer::CPlayer(void)
 	m_nSelectedWeapon = 6;
 	m_nSelectedHeadSlot = 3;
 	m_nSelectedBootSlot = 2;
-	
+
 	m_fHandRotation = 4.2f;
 	m_bHomingOn = false;
 	m_nHandID = CSGD_TextureManager::GetInstance()->LoadTexture( "resource/graphics/Weapons.png" );
@@ -87,13 +88,13 @@ void CPlayer::Update(float fElapsedTime)
 		this->m_bForward = 0;
 	}
 	//this->m_fWaitTime +=  fElapsedTime;
-	
+
 	//this->m_vJoyVecPos.fX = this->GetPosX();
 	//this->m_vJoyVecPos.fY = this->GetPosY();
 	//this->m_vJoyVecPos = Vector2DRotate(this->m_vJoyVecPos, this->m_fJoyRot);
 	//this->m_vJoyVecPos.fX = this->GetPosX() + this->m_vJoyVecPos.fX;
 	//this->m_vJoyVecPos.fY = this->GetPosY() - this->m_vJoyVecPos.fY;
-	
+
 
 
 	if(this->m_pHook)
@@ -136,7 +137,7 @@ void CPlayer::Update(float fElapsedTime)
 			vHook.fY = this->m_pHook->GetPosY();
 
 			//this->m_vVectorVelocity = Vector2DNormalize(this->m_vVectorVelocity);
-			
+
 			this->m_vVectorVelocity = this->m_vVectorVelocity - vHook;
 			
 
@@ -225,11 +226,11 @@ void CPlayer::Update(float fElapsedTime)
 	this->m_bOnGround = 0;
 	}*/
 
-	if(this->GetPosY() > 600 - this->GetHeight())
-	{
-		this->m_bOnGround = 1;
-		this->SetPosY(600 - (float)this->GetHeight());
-	}
+	//if(this->GetPosY() > 600 - this->GetHeight())
+	//{
+	//	this->m_bOnGround = 1;
+	//	this->SetPosY(600 - (float)this->GetHeight());
+	//}
 	////////////////////////////////////////
 
 	tVector2D vecHandRotation;
@@ -243,7 +244,7 @@ void CPlayer::Update(float fElapsedTime)
 	vecMouseVector.fY = CSGD_DirectInput::GetInstance()->MouseGetPosY() - GetPosY() + CCamera::GetInstance()->GetOffsetY();
 
 	m_fHandRotation = AngleBetweenVectors( vecHandRotation, vecMouseVector );
-	
+
 	if( CSGD_DirectInput::GetInstance()->MouseGetPosX() < GetPosX()  - CCamera::GetInstance()->GetOffsetX() )
 		m_fHandRotation = SGD_PI + (SGD_PI - m_fHandRotation);
 
@@ -251,15 +252,15 @@ void CPlayer::Update(float fElapsedTime)
 	// Camera boundary checking
 	////////////////////////////////////////
 	CCamera::GetInstance()->SetCameraOffsetX(int(this->GetPosX()-400));
-	
+
 	if(CCamera::GetInstance()->GetOffsetX() < 0)
 		CCamera::GetInstance()->SetCameraOffsetX(0);
-		
+
 	CCamera::GetInstance()->SetCameraOffsetY(int(this->GetPosY()-430));
 
 	if(CCamera::GetInstance()->GetOffsetY() < 0)
 		CCamera::GetInstance()->SetCameraOffsetY(0);
-	
+
 	this->m_pHud->Update( fElapsedTime );
 	////////////////////////////////////////
 }
@@ -358,7 +359,7 @@ void CPlayer::Input(float fElapsedTime)
 		}
 		//CGame::GetInstance()->GetMessageSystemPointer()->SendMsg(new CDestroyHookMessage(this));
 	}
-		
+
 	if((CSGD_DirectInput::GetInstance()->MouseButtonPressed(MOUSE_LEFT) || CSGD_DirectInput::GetInstance()->JoystickButtonPressed(7)))
 	{
 		CGame::GetInstance()->GetMessageSystemPointer()->SendMsg(new CCreateRocketMessage(this));
@@ -460,11 +461,11 @@ void CPlayer::Render(void)
 	else
 	{
 		CSGD_TextureManager::GetInstance()->Draw(this->GetImageID(),
-		(int)((this->GetPosX() - OffsetX) * CCamera::GetInstance()->GetScale()), 
-		(int)((this->GetPosY() - OffsetY) * CCamera::GetInstance()->GetScale()), 
-		1.0f * CCamera::GetInstance()->GetScale(),
-		1.0f * CCamera::GetInstance()->GetScale(), 
-		&rDrawRect, this->m_vRotationCenter.fX, this->m_vRotationCenter.fX, this->m_fRotation);
+			(int)((this->GetPosX() - OffsetX) * CCamera::GetInstance()->GetScale()), 
+			(int)((this->GetPosY() - OffsetY) * CCamera::GetInstance()->GetScale()), 
+			1.0f * CCamera::GetInstance()->GetScale(),
+			1.0f * CCamera::GetInstance()->GetScale(), 
+			&rDrawRect, this->m_vRotationCenter.fX, this->m_vRotationCenter.fX, this->m_fRotation);
 	}
 
 	if(m_bHomingOn)
@@ -475,11 +476,11 @@ void CPlayer::Render(void)
 		255, 0, 0 );
 
 	/*CSGD_TextureManager::GetInstance()->Draw(this->GetImageID(),
-		(int)((this->GetPosX() - OffsetX) * CCamera::GetInstance()->GetScale()), 
-		(int)((this->GetPosY() - OffsetY) * CCamera::GetInstance()->GetScale()), 
-		1.0f * CCamera::GetInstance()->GetScale(),
-		1.0f * CCamera::GetInstance()->GetScale(), 
-		&rDrawRect, this->m_vRotationCenter.fX, this->m_vRotationCenter.fX, this->m_fRotation);*/
+	(int)((this->GetPosX() - OffsetX) * CCamera::GetInstance()->GetScale()), 
+	(int)((this->GetPosY() - OffsetY) * CCamera::GetInstance()->GetScale()), 
+	1.0f * CCamera::GetInstance()->GetScale(),
+	1.0f * CCamera::GetInstance()->GetScale(), 
+	&rDrawRect, this->m_vRotationCenter.fX, this->m_vRotationCenter.fX, this->m_fRotation);*/
 
 	RECT rRender;
 	rRender.top = 164;
@@ -502,7 +503,7 @@ void CPlayer::Render(void)
 		-0.6f * CCamera::GetInstance()->GetScale(), 0.6f * CCamera::GetInstance()->GetScale(), 
 		&rRender, 16, 64, m_fHandRotation, -1 );
 	}
-		
+
 	this->m_pHud->Render();
 }
 
@@ -519,28 +520,44 @@ RECT CPlayer::GetRect(void) const
 
 bool CPlayer::CheckCollision(CBase* pBase)
 {
-	if((this->GetPosY() + this->GetHeight()) > pBase->GetPosY()  
-		&& (this->GetPosY() + this->GetHeight()) < (pBase->GetPosY() + pBase->GetHeight())
-		&& (this->GetPosX() + this->GetWidth() - 5) > pBase->GetPosX()
-		&& (this->GetPosX()+20) < (pBase->GetPosX() + pBase->GetWidth())
-		&& !this->m_bOnGround
-		&& this->m_vSpeed.fY > 0.0f
-		&& pBase->GetType() == OBJ_BLOCK)
+
+
+	if(pBase->GetType() == OBJ_BLOCK)
 	{
-		this->m_bOnGround = 1;
-		this->m_bOnPlatform = 1;
-		this->SetPosY(pBase->GetPosY() - this->GetHeight());
-		return 1;
-	}
-	else
-	{
-		if(this->m_bOnPlatform)
+		CBlock* BLOCK = (CBlock*)pBase;
+		//Descriptive replacement variables
+		float myX = GetPosX();
+		float myY = GetPosY();
+		float myRight = myX + GetWidth();
+		float myBottom = myY + GetHeight();
+		float hisX = BLOCK->GetPosX();
+		float hisY = BLOCK->GetPosY();
+		float hisRight = hisX + BLOCK->GetWidth();
+		float hisBottom = hisY + BLOCK->GetHeight();
+
+		if(myBottom > hisY  
+			&& (myBottom) < (hisBottom)
+			&& (myRight) > hisX
+			&& (myX) < (hisRight)
+			&& !this->m_bOnGround
+			&& this->m_vSpeed.fY > 0.0f)
 		{
-			this->m_bOnGround = 0;
-			this->m_bOnPlatform = 0;
+			this->m_bOnGround = 1;
+			this->m_bOnPlatform = 1;
+			this->SetPosY(pBase->GetPosY() - this->GetHeight());
+			return true;
 		}
-//		return 0;
+		else
+		{
+			if(this->m_bOnPlatform)
+			{
+				this->m_bOnGround = 0;
+				this->m_bOnPlatform = 0;
+			}
+					return false;
+		}
 	}
+
 
 
 	RECT rIntersect;
@@ -556,12 +573,12 @@ bool CPlayer::CheckCollision(CBase* pBase)
 	}
 	/*else
 	{
-		if(this->GetPosX() < (480 - this->GetHeight()) && this->m_bOnPlatform)
-		{
-			this->m_bOnGround = 0;
-			this->m_bOnPlatform = 0;
-		}
-		return false;
+	if(this->GetPosX() < (480 - this->GetHeight()) && this->m_bOnPlatform)
+	{
+	this->m_bOnGround = 0;
+	this->m_bOnPlatform = 0;
+	}
+	return false;
 	}*/
 
 	return false;
