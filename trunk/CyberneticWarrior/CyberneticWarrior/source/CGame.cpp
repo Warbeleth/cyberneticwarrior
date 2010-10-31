@@ -485,6 +485,10 @@ void CGame::MessageProc(CBaseMessage*	pMsg)
 		break;
 	case MSG_DESTROY_FLAME:
 		{
+			CDestroyFlameMessage* pDR = (CDestroyFlameMessage*)pMsg;
+			CObjectManager::GetInstance()->RemoveObject(pDR->GetFlamePointer());
+
+			pDR = NULL;
 		}
 		break;
 	};

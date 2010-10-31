@@ -7,9 +7,10 @@
 
 CFlame::CFlame(void)
 {
-	this->SetType(OBJ_BULLET);
+	this->SetType(OBJ_FLAME);
 	this->SetImageID(CSinglePlayerState::GetInstance()->GetFlameID());
 	this->SetRotation(0.0f);
+	this->m_fLifeTime = 0.1f;
 }
 
 CFlame::~CFlame(void)
@@ -19,6 +20,14 @@ CFlame::~CFlame(void)
 void CFlame::Update(float fElapsedTime)
 {
 	CBase::Update(fElapsedTime);
+
+	static float fAge = 0.0f;
+	fAge += fElapsedTime;
+	if(fAge > this->m_fLifeTime)
+	{
+		CGame::GetInstance()->GetMessageSystemPointer()->SendMsg( new CDestroyFlameMessage( this, CSinglePlayerState::GetInstance()->GetPlayerPointer()) );
+		fAge = 0.0f;
+	}
 }
 
 void CFlame::Render(void)
@@ -53,7 +62,7 @@ bool CFlame::CheckCollision(CBase *pBase)
 	RECT rIntersect;
 	if( IntersectRect(&rIntersect, &GetRect(), &pBase->GetRect()) )
 	{
-		if( pBase->GetType() != OBJ_PLAYER )
+		if( pBase->GetType() != OBJ_PLAYER && pBase->GetType() != OBJ_FLAME)
 		{
 			// Destroy the bullet
 			CGame::GetInstance()->GetMessageSystemPointer()->SendMsg( new CDestroyFlameMessage( this, CSinglePlayerState::GetInstance()->GetPlayerPointer()) );
