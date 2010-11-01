@@ -236,10 +236,10 @@ void CSinglePlayerState::Enter(void)
 
 	this->m_pOM->AddObject(this->m_TempPlayer);
 	this->m_TempPlayer->Release();
-	
+	/*
 
 	this->m_pOM->AddObject(this->m_TempPlatform2);
-	this->m_TempPlatform2->Release();
+	this->m_TempPlatform2->Release();*/
 
 
 	CLoadingState::GetInstance()->SetReady(1);

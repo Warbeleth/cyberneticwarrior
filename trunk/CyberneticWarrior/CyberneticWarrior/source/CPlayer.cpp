@@ -530,10 +530,10 @@ bool CPlayer::CheckCollision(CBase* pBase)
 		float myY = GetPosY();
 		float myRight = myX + GetWidth();
 		float myBottom = myY + GetHeight();
-		static float hisX = BLOCK->GetPosX();
-		static float hisY = BLOCK->GetPosY();
-		static float hisRight = hisX + BLOCK->GetWidth();
-		static float hisBottom = hisY + BLOCK->GetHeight();
+		float hisX = BLOCK->GetPosX();
+		float hisY = BLOCK->GetPosY();
+		float hisRight = hisX + BLOCK->GetWidth();
+		float hisBottom = hisY + BLOCK->GetHeight();
 
 		if(BLOCK->GetBlock() == BLOCK_SOLID)
 		{
@@ -548,6 +548,12 @@ bool CPlayer::CheckCollision(CBase* pBase)
 				this->m_bOnPlatform = 1;
 				this->SetPosY(hisY - this->GetHeight());
 				return true;
+			}
+			else if(this->m_bOnPlatform)
+			{
+				this->m_bOnGround = 0;
+				this->m_bOnPlatform = 0;
+				return false;
 			}
 		}
 		else if(BLOCK->GetBlock() == BLOCK_PARTIAL)
@@ -581,12 +587,8 @@ bool CPlayer::CheckCollision(CBase* pBase)
 				return true;
 			}
 		}
-		if(this->m_bOnPlatform)
-		{
-			this->m_bOnGround = 0;
-			this->m_bOnPlatform = 0;
-			return false;
-		}
+		
+		
 	}
 
 

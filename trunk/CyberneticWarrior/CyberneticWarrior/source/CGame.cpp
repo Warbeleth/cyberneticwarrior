@@ -455,9 +455,9 @@ void CGame::MessageProc(CBaseMessage*	pMsg)
 			float fFlameVelocity = 300;
 
 			pFlame = (CFlame*)CObjectFactory<std::string, CBase>::GetInstance()->CreateObject("CFlame");
-			pFlame->SetWidth(256);
+			pFlame->SetWidth(200);
 			pFlame->SetHeight(90);
-			pFlame->SetPosX(pCR->GetPlayerPointer()->GetPosX() + (float)pCR->GetPlayerPointer()->GetWidth());
+			pFlame->SetPosX(pCR->GetPlayerPointer()->GetPosX());// + (float)pCR->GetPlayerPointer()->GetWidth());
 			pFlame->SetPosY(pCR->GetPlayerPointer()->GetPosY());
 
 			tVector2D vMousePos;
