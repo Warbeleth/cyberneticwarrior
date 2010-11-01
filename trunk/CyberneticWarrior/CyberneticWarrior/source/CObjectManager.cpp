@@ -1,6 +1,7 @@
 // Liz, pat, steve, jeremy, dave, john
 #include "CObjectManager.h"
 #include "CBase.h"
+#include "CMapLoad.h"
 
 CObjectManager* CObjectManager::sm_pObjectManagerInstance = NULL;
 
@@ -64,6 +65,8 @@ void CObjectManager::RemoveAllObjects(void)
 
 bool CObjectManager::CheckCollisions(void)
 {
+	CMapLoad::GetInstance()->m_bCollisionCheck = false;
+
 	for(unsigned int i = 0; i < this->m_vObjectList.size(); i++)
 	{
 		for(unsigned int j = 0; j < this->m_vObjectList.size(); j++)

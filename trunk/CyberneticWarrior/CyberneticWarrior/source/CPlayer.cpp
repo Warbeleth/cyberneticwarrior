@@ -7,6 +7,7 @@
 #include "CGrapplingHook.h"
 #include "CHud.h"
 #include "CBlock.h"
+#include "CMapLoad.h"
 
 CPlayer::CPlayer(void)
 {
@@ -547,9 +548,10 @@ bool CPlayer::CheckCollision(CBase* pBase)
 				this->m_bOnGround = 1;
 				this->m_bOnPlatform = 1;
 				this->SetPosY(hisY - this->GetHeight());
+				CMapLoad::GetInstance()->m_bCollisionCheck = true;
 				return true;
 			}
-			else if(this->m_bOnPlatform)
+			else if(this->m_bOnPlatform && CMapLoad::GetInstance()->m_bCollisionCheck == false)
 			{
 				this->m_bOnGround = 0;
 				this->m_bOnPlatform = 0;
@@ -568,7 +570,14 @@ bool CPlayer::CheckCollision(CBase* pBase)
 				this->m_bOnGround = 1;
 				this->m_bOnPlatform = 1;
 				this->SetPosY(hisY - this->GetHeight());
+				CMapLoad::GetInstance()->m_bCollisionCheck = true;
 				return true;
+			}
+			else if(this->m_bOnPlatform && CMapLoad::GetInstance()->m_bCollisionCheck == false)
+			{
+				this->m_bOnGround = 0;
+				this->m_bOnPlatform = 0;
+				return false;
 			}
 		}
 		else if(BLOCK->GetBlock() == BLOCK_TRAP)
@@ -584,7 +593,14 @@ bool CPlayer::CheckCollision(CBase* pBase)
 				this->m_bOnPlatform = 1;
 				this->SetPosY(hisBottom - this->GetHeight());
 				this->DecrementHealth(20);
+				CMapLoad::GetInstance()->m_bCollisionCheck = true;
 				return true;
+			}
+			else if(this->m_bOnPlatform && CMapLoad::GetInstance()->m_bCollisionCheck == false)
+			{
+				this->m_bOnGround = 0;
+				this->m_bOnPlatform = 0;
+				return false;
 			}
 		}
 		

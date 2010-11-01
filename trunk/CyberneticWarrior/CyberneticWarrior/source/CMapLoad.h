@@ -124,6 +124,8 @@ public:
 	string m_szWorkingDirectoryGRAPHICS;
 	string m_szWorkingDirectoryMAPS;
 	string m_szMap_01;
+	
+	bool m_bCollisionCheck;
 
 	float m_fScaleX;
 	float m_fScaleY;

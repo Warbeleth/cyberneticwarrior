@@ -208,6 +208,7 @@ void CSinglePlayerState::Enter(void)
 	vStartingPos.fY = this->m_TempPlatform2->GetPosY();
 	this->m_TempPlatform2->SetWidth(256);
 	this->m_TempPlatform2->SetHeight(32);
+	this->m_TempPlatform2->SetBlock(BLOCK_SOLID);
 	this->m_TempPlatform2->SetType(OBJ_BLOCK);
 
 
