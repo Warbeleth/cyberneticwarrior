@@ -11,7 +11,7 @@ using Types;
 using System.IO;
 
 namespace SGP_Map_Editor
-{  
+{
     //Formulas
     //Index = Row * TotalCols + Cols
     //y = i/width
@@ -20,6 +20,7 @@ namespace SGP_Map_Editor
     //Right = Left + Width
     //Top = Row * Height
     //Bottom = Top * Height
+
 
     public partial class Map_Editor : Form
     {
@@ -106,7 +107,7 @@ namespace SGP_Map_Editor
             numericSourceRow.Value = 2;
             numericSourceTileWidth.Value = 64;
             numericSourceTileHeight.Value = 64;
-            
+
             //Run Editor
             ScaleX = (float)(numericGridTileWidth.Value / numericSourceTileWidth.Value);
             ScaleY = (float)(numericGridTileHeight.Value / numericSourceTileHeight.Value);
@@ -334,7 +335,7 @@ namespace SGP_Map_Editor
 
                             D3D.DrawLine(rDrawRect.Left, rDrawRect.Top, rDrawRect.Right, rDrawRect.Top, 0, 0, 0);
                         }
-                       
+
                         //Creates the vertical line segments
                         for (int Col = 0; Col <= m_gTileMap.m_nColumns; Col++)
                         {
@@ -348,7 +349,7 @@ namespace SGP_Map_Editor
 
                             D3D.DrawLine(rDrawRect.Left, rDrawRect.Top, rDrawRect.Left, rDrawRect.Bottom, 0, 0, 0);
                         }
-                    
+
 
 
                         D3D.SpriteEnd();
@@ -658,7 +659,7 @@ namespace SGP_Map_Editor
                                             break;
                                     }
                                 }
-                               }
+                            }
 
 
                         //Creates the horizontal line segments
@@ -698,7 +699,7 @@ namespace SGP_Map_Editor
 
                 case 3: //Google, no render necessary.
                     break;
-                    
+
                 default:
                     break;
             }
@@ -847,7 +848,7 @@ namespace SGP_Map_Editor
                 m_lMap.Add(NewObject);
             }
         }
-        
+
         private void ReCreateList(int OldRows, int OldCols, int NewRows, int NewCols)
         {
             m_lTempMap = null;
@@ -861,7 +862,7 @@ namespace SGP_Map_Editor
             }
 
 
-            for(int Rows = 0; Rows < OldRows; Rows++)
+            for (int Rows = 0; Rows < OldRows; Rows++)
                 for (int Cols = 0; Cols < OldCols; Cols++)
                 {
                     int FirstIndex = Rows * OldCols + Cols;
@@ -903,7 +904,7 @@ namespace SGP_Map_Editor
 
             toolStripStatusXValue.Text = Mouse.X.ToString();
             toolStripStatusYValue.Text = Mouse.Y.ToString();
-            
+
             for (int Row = 0; Row < m_sTileSelection.m_nRows; Row++)
                 for (int Col = 0; Col < m_sTileSelection.m_nColumns; Col++)
                 {
@@ -1000,7 +1001,7 @@ namespace SGP_Map_Editor
                             else if (CollisionSelection == 1)
                             {
                                 NewNode.m_bCollision = true;
-                                NewNode.m_bEnemy = false ;
+                                NewNode.m_bEnemy = false;
                                 NewNode.m_cCollision = new Collision(comboCollision.SelectedIndex, rDrawSelection.Left, rDrawSelection.Top, rDrawSelection.Right, rDrawSelection.Bottom);
                             }
                             else if (CollisionSelection == 2)
@@ -1166,7 +1167,7 @@ namespace SGP_Map_Editor
                 D3D.ChangeDisplayParam(splitContainerCollision.Panel2, splitContainerCollision.Panel2.Width, splitContainerCollision.Panel2.Height - 15, true);
             else
                 D3D.ChangeDisplayParam(splitContainerCollision.Panel2, splitContainerCollision.Panel2.Width - 15, splitContainerCollision.Panel2.Height - 15, true);
-            
+
         }
 
         private void buttonEnemy_Click(object sender, EventArgs e)
