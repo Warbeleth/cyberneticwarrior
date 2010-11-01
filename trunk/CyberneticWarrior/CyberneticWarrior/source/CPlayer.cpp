@@ -535,26 +535,57 @@ bool CPlayer::CheckCollision(CBase* pBase)
 		static float hisRight = hisX + BLOCK->GetWidth();
 		static float hisBottom = hisY + BLOCK->GetHeight();
 
-		if(myBottom >= hisY  
-			&& (myBottom) < (hisBottom)
-			&& (myRight) > hisX
-			&& (myX) < (hisRight)
-			&& !this->m_bOnGround
-			&& this->m_vSpeed.fY >= 0.0f)
+		if(BLOCK->GetBlock() == BLOCK_SOLID)
 		{
-			this->m_bOnGround = 1;
-			this->m_bOnPlatform = 1;
-			this->SetPosY(hisY - this->GetHeight());
-			return true;
-		}
-		else
-		{
-			if(this->m_bOnPlatform)
+			if(myBottom >= hisY  
+				&& (myBottom) < (hisBottom)
+				&& (myRight) > hisX
+				&& (myX) < (hisRight)
+				&& !this->m_bOnGround
+				&& this->m_vSpeed.fY >= 0.0f)
 			{
-				this->m_bOnGround = 0;
-				this->m_bOnPlatform = 0;
+				this->m_bOnGround = 1;
+				this->m_bOnPlatform = 1;
+				this->SetPosY(hisY - this->GetHeight());
+				return true;
 			}
-		return false;
+		}
+		else if(BLOCK->GetBlock() == BLOCK_PARTIAL)
+		{
+			if((myBottom*0.5f) >= hisY  
+				&& (myBottom*0.5f) < (hisBottom)
+				&& (myRight) > hisX
+				&& (myX) < (hisRight)
+				&& !this->m_bOnGround
+				&& this->m_vSpeed.fY >= 0.0f)
+			{
+				this->m_bOnGround = 1;
+				this->m_bOnPlatform = 1;
+				this->SetPosY(hisY - this->GetHeight());
+				return true;
+			}
+		}
+		else if(BLOCK->GetBlock() == BLOCK_TRAP)
+		{
+			if(myBottom >= hisY  
+				&& (myBottom) < (hisBottom)
+				&& (myRight) > hisX
+				&& (myX) < (hisRight)
+				&& !this->m_bOnGround
+				&& this->m_vSpeed.fY >= 0.0f)
+			{
+				this->m_bOnGround = 1;
+				this->m_bOnPlatform = 1;
+				this->SetPosY(hisBottom - this->GetHeight());
+				this->DecrementHealth(20);
+				return true;
+			}
+		}
+		if(this->m_bOnPlatform)
+		{
+			this->m_bOnGround = 0;
+			this->m_bOnPlatform = 0;
+			return false;
 		}
 	}
 

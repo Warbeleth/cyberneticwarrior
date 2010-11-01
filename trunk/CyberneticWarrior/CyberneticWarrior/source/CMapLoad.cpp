@@ -22,6 +22,12 @@ bool CMapLoad::LoadMap(const char* szFilename)
 		int nEnemyCount, nSpawnerCount, nCollisionCount;
 		char cSizeOfString;
 
+		CObjectFactory<string, CBase>* m_pOF = CObjectFactory<string, CBase>::GetInstance();
+		CObjectManager*				   m_pOM = CObjectManager::GetInstance();
+
+		m_pOF->RegisterClassType<CBase>("CBase");
+		m_pOF->RegisterClassType<CBlock>("CBlock");
+
 		Import.read((char*)&m_gTileMap.m_nColumns, sizeof(int));
 		Import.read((char*)&m_gTileMap.m_nRows, sizeof(int));
 		Import.read((char*)&m_gTileMap.m_nWidth, sizeof(int));
@@ -132,6 +138,18 @@ bool CMapLoad::LoadMap(const char* szFilename)
 			Import.read((char*)&NewNode.m_cCollision.m_rWorldPos.bottom, sizeof(int));
 
 			m_lMap[Index] = NewNode;
+
+			CBlock* newPlatform = (CBlock*)m_pOF->CreateObject("CBlock");
+			newPlatform->SetPosX((float)NewNode.m_cCollision.m_rWorldPos.left);
+			newPlatform->SetPosY((float)NewNode.m_cCollision.m_rWorldPos.top);
+
+			newPlatform->SetWidth(NewNode.m_cCollision.m_rWorldPos.right - NewNode.m_cCollision.m_rWorldPos.left);
+			newPlatform->SetHeight(NewNode.m_cCollision.m_rWorldPos.bottom - NewNode.m_cCollision.m_rWorldPos.top);
+			newPlatform->SetBlock(NewNode.m_cCollision.m_nType);
+			newPlatform->SetType(OBJ_BLOCK);
+
+			m_pOM->AddObject(newPlatform);
+			newPlatform->Release();
 		}
 	}
 	return true;

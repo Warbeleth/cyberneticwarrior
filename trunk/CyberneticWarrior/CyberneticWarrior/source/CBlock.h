@@ -28,11 +28,13 @@ public:
 	float GetPosY() { return m_fPosY; }
 	int GetWidth() { return m_nWidth; }
 	int GetHeight() { return m_nHeight; }
+	int GetBlock() { return m_nBlockType; }
 
 	void SetPosX(float fPosX) { m_fPosX = fPosX; }
 	void SetPosY(float fPosY) { m_fPosY = fPosY; }
 	void SetWidth(int nWidth) { m_nWidth = nWidth; }
 	void SetHeight(int nHeight) { m_nHeight = nHeight; }
+	void SetBlock(int nType) { m_nBlockType = nType; }
 
 
 	bool CheckCollision(CBase* pBase);

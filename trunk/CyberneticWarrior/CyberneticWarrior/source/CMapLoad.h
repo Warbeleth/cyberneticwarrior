@@ -13,6 +13,10 @@
 #include "CCamera.h"
 #include "SGD Wrappers\CSGD_TextureManager.h"
 #include "SGD Wrappers\CSGD_Direct3D.h"
+#include "CObjectFactory.h"
+#include "CObjectManager.h"
+#include "CBlock.h"
+#include "CBase.h"
 
 namespace SGP_Map_Editor
 {
