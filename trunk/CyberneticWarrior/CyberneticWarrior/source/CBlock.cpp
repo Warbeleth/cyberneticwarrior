@@ -2,6 +2,7 @@
 
 #include "CBlock.h"
 #include "CPlayer.h"
+#include "CObjectManager.h"
 
 CBlock::CBlock(int nBlockType, float fPosX, float fPosY, int nWidth, int nHeight)
 {
@@ -10,6 +11,9 @@ CBlock::CBlock(int nBlockType, float fPosX, float fPosY, int nWidth, int nHeight
 	SetPosY(fPosY);
 	SetWidth(nWidth);
 	SetHeight(nHeight);
+	m_fTimeWaited = 0;
+	m_fSpeed = 75;
+	m_bStable = true;
 }
 
 CBlock::~CBlock(void)
@@ -18,6 +22,27 @@ CBlock::~CBlock(void)
 
 void CBlock::Update(float fElapsedTime)
 {
+	m_fTimeWaited += fElapsedTime;
+
+	if(m_fTimeWaited >= 7 && GetBlock()==BLOCK_MOVING)
+	{
+		m_fTimeWaited = 0;
+		m_fSpeed = -m_fSpeed;
+	}
+
+	if(GetBlock()==BLOCK_MOVING)
+	{
+		SetPosX(GetPosX() + m_fSpeed*fElapsedTime);
+	}
+	else if(GetBlock()==BLOCK_UNSTABLE && m_bStable == false)
+	{
+		SetPosY(GetPosY() + m_fSpeed*fElapsedTime);
+
+		if(GetPosY() > CCamera::GetInstance()->GetOffsetY()+2000)
+		{
+			CObjectManager::GetInstance()->RemoveObject(this);
+		}
+	}
 }
 
 void CBlock::Render(void)
