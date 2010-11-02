@@ -1019,46 +1019,6 @@
 			</Filter>
 		</Filter>
 		<Filter
-			Name="Tiny Xml"
-			>
-			<Filter
-				Name="Header"
-				>
-				<File
-					RelativePath=".\source\tinyxml\tinystr.h"
-					>
-				</File>
-				<File
-					RelativePath=".\source\tinyxml\tinyxml.h"
-					>
-				</File>
-			</Filter>
-			<Filter
-				Name="Source"
-				>
-				<File
-					RelativePath=".\source\tinyxml\tinystr.cpp"
-					>
-				</File>
-				<File
-					RelativePath=".\source\tinyxml\tinyxml.cpp"
-					>
-				</File>
-				<File
-					RelativePath=".\source\tinyxml\tinyxmlerror.cpp"
-					>
-				</File>
-				<File
-					RelativePath=".\source\tinyxml\tinyxmlparser.cpp"
-					>
-				</File>
-				<File
-					RelativePath=".\source\tinyxml\xmltest.cpp"
-					>
-				</File>
-			</Filter>
-		</Filter>
-		<Filter
 			Name="Messaging and Event"
 			>
 			<Filter
@@ -1102,6 +1062,46 @@
 				</File>
 				<File
 					RelativePath=".\source\CMessageSystem.cpp"
+					>
+				</File>
+			</Filter>
+		</Filter>
+		<Filter
+			Name="Tiny Xml"
+			>
+			<Filter
+				Name="Header"
+				>
+				<File
+					RelativePath=".\source\tinyxml\tinystr.h"
+					>
+				</File>
+				<File
+					RelativePath=".\source\tinyxml\tinyxml.h"
+					>
+				</File>
+			</Filter>
+			<Filter
+				Name="Source"
+				>
+				<File
+					RelativePath=".\source\tinyxml\tinystr.cpp"
+					>
+				</File>
+				<File
+					RelativePath=".\source\tinyxml\tinyxml.cpp"
+					>
+				</File>
+				<File
+					RelativePath=".\source\tinyxml\tinyxmlerror.cpp"
+					>
+				</File>
+				<File
+					RelativePath=".\source\tinyxml\tinyxmlparser.cpp"
+					>
+				</File>
+				<File
+					RelativePath=".\source\tinyxml\xmltest.cpp"
 					>
 				</File>
 			</Filter>

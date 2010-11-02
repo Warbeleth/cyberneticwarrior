@@ -224,6 +224,8 @@ bool CSinglePlayerState::Input(void)
 {
 	if(this->m_pDI->KeyPressed(DIK_ESCAPE) || this->m_pDI->JoystickButtonPressed(9))
 	{
+		this->GetPlayerPointer()->SetShutDown(true);
+		CStackStateMachine::GetInstance()->UpdateState(0.0f);
 		CStackStateMachine::GetInstance()->Push_Back(CPauseMenuState::GetInstance());
 		//CStackStateMachine::GetInstance()->Pop_back();
 	}

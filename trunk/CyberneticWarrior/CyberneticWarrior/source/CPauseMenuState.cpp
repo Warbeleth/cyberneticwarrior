@@ -3,6 +3,9 @@
 #include "CStackStateMachine.h"
 #include "CMainMenuState.h"
 #include "COptionsMenuState.h"
+#include "CSinglePlayerState.h"
+#include "CPlayer.h"
+#include "CGame.h"
 #include "CGameProfiler.h"
 
 CPauseMenuState*	CPauseMenuState::sm_pPauseMenuInstance = NULL;
@@ -91,7 +94,8 @@ bool	CPauseMenuState::Input(void)
 			break;
 		case this->MAIN_MENU:
 			//PostQuitMessage(0);
-			CStackStateMachine::GetInstance()->ChangeState(CMainMenuState::GetInstance());
+			//CSinglePlayerState::GetInstance()->GetPlayerPointer()->SetShutDown(true);
+			CStackStateMachine::GetInstance()->ChangeState(CMainMenuState::GetInstance());		
 			break;
 		default:
 			break;
