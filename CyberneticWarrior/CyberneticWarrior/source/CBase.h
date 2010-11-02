@@ -13,8 +13,10 @@
 #include <d3d9.h>
 #include "IBaseInterface.h"
 #include "SGD Wrappers/SGD_Math.h"
+#include "CAnimationLoad.h"
 #include <vector>
 using std::vector;
+
 
 enum Type{OBJ_BASE, OBJ_PLAYER, OBJ_ENEMY, OBJ_BLOCK, OBJ_PICKUP, OBJ_GRAPPLING_HOOK, 
 			 OBJ_GRENADE, OBJ_SHOCK, OBJ_ROCKET, OBJ_FLAME, OBJ_FIRE, OBJ_ICE, OBJ_BULLET, OBJ_PLASMA};
@@ -42,6 +44,7 @@ private:
 
 	unsigned int m_uiRefCount;
 
+	CAnimations* m_pAnimations;
 
 public:
 
@@ -164,7 +167,6 @@ public:
 
 	float GetRotation(void) const;
 	
-	
 	////////////////////////////////////////////////////////////////////////////////////
 	// Mutators
 	////////////////////////////////////////////////////////////////////////////////////
@@ -241,5 +243,8 @@ public:
 	////////////////////////////////////////////////////////////////////////////////////
 	void SetOnGround(bool bOnGround);
 	/////////////////////////////////////
+
+	CAnimations* GetAnimations( void ) { return m_pAnimations; }
+	void SetAnimations( CAnimations* pAnimation ) { m_pAnimations = pAnimation; }
 };
 #endif

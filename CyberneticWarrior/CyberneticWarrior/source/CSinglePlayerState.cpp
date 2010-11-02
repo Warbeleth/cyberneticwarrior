@@ -4,14 +4,12 @@
 #include "CObjectManager.h"
 #include "CGame.h"
 #include "CCamera.h"
-
 #include "CStackStateMachine.h"
 #include "CMainMenuState.h"
 #include "CPauseMenuState.h"
 #include "CLoadingState.h"
 #include "COptionsMenuState.h"
 #include "CMapLoad.h"
-
 #include "CBlock.h"
 #include "CPickup.h"
 #include "CIdleEnemy.h"
@@ -116,14 +114,9 @@ void CSinglePlayerState::Enter(void)
 	this->m_pTM		=		CSGD_TextureManager::GetInstance();
 	this->m_pWM		=		CSGD_WaveManager::GetInstance();
 	this->m_pDS		=		CSGD_DirectSound::GetInstance();
- 
 	this->m_pOF		=		CObjectFactory<string, CBase>::GetInstance();
 	this->m_pOM		=		CObjectManager::GetInstance();
 
-
-	m_nAnimation.LoadBinary("resource/binary/akainu.bae");
-
-	
 	this->m_pOF->RegisterClassType<CBase>("CBase");
 	this->m_pOF->RegisterClassType<CPlayer>("CPlayer");
 	this->m_pOF->RegisterClassType<CBlock>("CBlock");
@@ -141,22 +134,18 @@ void CSinglePlayerState::Enter(void)
 	this->m_nBackgroundImageID = this->m_pTM->LoadTexture("resource/graphics/bgGame.png");
 	this->m_nCrossHairID = this->m_pTM->LoadTexture("resource/graphics/CrossHairs.png");
 	this->m_nBGMusic = this->m_pWM->LoadWave("resource/sounds/Jak2_Haven_City.wav");
-	
 	this->m_nWeaponID = m_pTM->LoadTexture("resource/graphics/Weapons.png");
-
 
 	this->m_TempPlayer = (CPlayer*)m_pOF->CreateObject("CPlayer");
 	this->m_TempPlayer->SetImageID(this->m_pTM->LoadTexture("resource/graphics/Running1.bmp"));
 	this->m_TempPlayer->SetPosX((float)0);
-	this->m_TempPlayer->SetPosY((float)CGame::GetInstance()->GetScreenHeight() - 128);
+	this->m_TempPlayer->SetPosY((float)200);
 	this->m_TempPlayer->SetWidth(64);
-	this->m_TempPlayer->SetHeight(128);
+	this->m_TempPlayer->SetHeight(143);
 	this->m_TempPlayer->SetBaseVelX(0);
 	this->m_TempPlayer->SetBaseVelY(0);
 	this->m_TempPlayer->SetSpeedX(0.0f);
 	this->m_TempPlayer->SetSpeedY(0.0f);
-	this->m_TempPlayer->SetOnGround(1);
-	this->m_TempPlayer->SetMouseDown(0);
 	this->m_TempPlayer->SetPlayerNumber(0);
 
 	//if(!this->GetNewGame())	//{	//	//this->m_Profile.m_bHaveHook = 1;	//}
@@ -237,6 +226,12 @@ bool CSinglePlayerState::Input(void)
 		//CStackStateMachine::GetInstance()->Pop_back();
 	}
 
+	if(this->m_pDI->KeyPressed(DIK_SPACE))
+		m_TempPlayer->DecrementEnergy(40);
+
+	if(this->m_pDI->MouseButtonPressed(MOUSE_RIGHT))
+		m_TempPlayer->DecrementHealth(20);
+
 	return 1;
 }
 
@@ -247,8 +242,6 @@ void CSinglePlayerState::Update(float fElapsedTime)
 		//this->m_pWM->Play(this->m_nBGMusic, DSBPLAY_LOOPING);
 		this->m_bMusic = 0;
 	}
-
-	m_nAnimation.Update( fElapsedTime );
 
 	this->m_tBGOffset.fX = 0;
 
@@ -293,8 +286,6 @@ void CSinglePlayerState::Render(void)
 		1.0f*CCamera::GetInstance()->GetScale(),
 		1.0f*CCamera::GetInstance()->GetScale());
 	
-
-	m_nAnimation.Render(400, 450);
 	//////////////////////////////
 	// TEMP
 	//////////////////////////////
@@ -393,14 +384,6 @@ void CSinglePlayerState::Exit(void)
 		this->m_pTM->UnloadTexture(this->m_nWeaponID);
 		this->m_nWeaponID = -1;
 	}
-	
-	
-	
-	
-	
-		
-		
-
 
 	if(this->m_nBGMusic > -1)
 	{

@@ -31,11 +31,8 @@ CBase::CBase(void)
 
 	this->SetPosX(0.0f);
 	this->SetPosY(0.0f);
-	/*tVector2D vWorldPos;
-	vWorldPos.fX = 0.0f;
-	vWorldPos.fY = 0.0f;
-	this->SetWorldPos(vWorldPos);*/
-	//this->SetWorldPosY(0.0f);
+
+	m_pAnimations = NULL;
 
 	this->m_vSpeed.fX = this->m_vSpeed.fY = 0.0f;
 }
@@ -67,7 +64,8 @@ CBase::CBase(int nType, float fPosX, float fPosY, int nWidth, int nHeight, float
 ////////////////////////////////////////////////////////////////////////////////////
 CBase::~CBase(void)
 {
-
+	if( m_pAnimations )
+		delete m_pAnimations;
 }
 
 ////////////////////////////////////////////////////////////////////////////////////

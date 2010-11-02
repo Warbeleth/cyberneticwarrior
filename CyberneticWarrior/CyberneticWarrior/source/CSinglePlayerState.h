@@ -56,7 +56,6 @@ private:
 	bool m_bMusic;
 	bool m_bInput;
 
-
 	int			m_nMusicVolume;
 	int			m_nSFXVolume;
 

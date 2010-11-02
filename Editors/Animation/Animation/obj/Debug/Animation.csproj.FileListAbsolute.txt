@@ -34,3 +34,5 @@ C:\Users\AnthonyMuccio\Desktop\HolyMelon\HolyMelon-TeamFolder\Editors\Animation\
 C:\Users\AnthonyMuccio\Desktop\HolyMelon\HolyMelon-TeamFolder\Editors\Animation\Animation\obj\Debug\Animation.Preview.resources
 C:\Users\AnthonyMuccio\Desktop\HolyMelon\HolyMelon-TeamFolder\Editors\Animation\Animation\obj\Debug\Animation.Properties.Resources.resources
 C:\Users\AnthonyMuccio\Desktop\HolyMelon\HolyMelon-TeamFolder\Editors\Animation\Animation\obj\Debug\Animation.csproj.GenerateResource.Cache
+C:\Users\AnthonyMuccio\Desktop\HolyMelon-TeamFolder\Editors\Animation\Animation\obj\Debug\Animation.exe
+C:\Users\AnthonyMuccio\Desktop\HolyMelon-TeamFolder\Editors\Animation\Animation\obj\Debug\Animation.pdb
