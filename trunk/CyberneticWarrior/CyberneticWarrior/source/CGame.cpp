@@ -774,6 +774,14 @@ void CGame::MessageProc(CBaseMessage*	pMsg)
 			pDR = NULL;
 		}
 		break;
+	case MSG_DESTROY_BLOCK:
+		{
+			CDestroyBlockMessage* pDestroyBlock = (CDestroyBlockMessage*)pMsg;
+			CObjectManager::GetInstance()->RemoveObject(pDestroyBlock->GetBlockPointer());
+
+			pDestroyBlock = NULL;
+		}
+		break;
 	};
 
 }
