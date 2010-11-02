@@ -36,6 +36,7 @@
 #include "CBaseEnemy.h"
 #include "CPlayer.h"
 #include "CGrapplingHook.h"
+#include "CBullet.h"
 #include "CRocket.h"
 #include "CFlame.h"
 #include "CPlasma.h"
@@ -403,6 +404,51 @@ void CGame::MessageProc(CBaseMessage*	pMsg)
 			pDH = NULL;
 		}
 		break;
+	case MSG_CREATE_BULLET:
+		{
+			CCreateBulletMessage* pCR = (CCreateBulletMessage*)pMsg;
+			CBullet* pBullet;
+
+			float fRocketVelocity = 300;
+
+			pBullet = (CBullet*)CObjectFactory<std::string, CBase>::GetInstance()->CreateObject("CBullet");
+			pBullet->SetWidth(16);
+			pBullet->SetHeight(16);
+			pBullet->SetPosX(pCR->GetPlayerPointer()->GetPosX() + (float)pCR->GetPlayerPointer()->GetWidth());
+			pBullet->SetPosY(pCR->GetPlayerPointer()->GetPosY());
+
+			tVector2D vMousePos;
+			vMousePos.fX = (float)CSGD_DirectInput::GetInstance()->MouseGetPosX() + CCamera::GetInstance()->GetOffsetX();
+			vMousePos.fY = (float)CSGD_DirectInput::GetInstance()->MouseGetPosY() + CCamera::GetInstance()->GetOffsetY();
+
+			tVector2D vPlayerPos;
+			vPlayerPos.fX = pCR->GetPlayerPointer()->GetPosX() + (float)pCR->GetPlayerPointer()->GetWidth();
+			vPlayerPos.fY = pCR->GetPlayerPointer()->GetPosY();
+
+			tVector2D vShot;
+
+			vShot = vMousePos - vPlayerPos;
+
+			vShot = Vector2DNormalize(vShot);
+
+
+			pBullet->SetBaseVelX(vShot.fX * fRocketVelocity);
+			pBullet->SetBaseVelY(vShot.fY * fRocketVelocity);
+
+			CObjectManager::GetInstance()->AddObject(pBullet);
+
+			pBullet->Release();
+
+			break;
+		}	
+	case MSG_DESTROY_BULLET:
+		{
+			CDestroyBulletMessage* pDR = (CDestroyBulletMessage*)pMsg;
+			CObjectManager::GetInstance()->RemoveObject(pDR->GetBulletPointer());
+
+			pDR = NULL;
+		}
+		break;
 	case MSG_CREATE_ROCKET:
 		{
 			CCreateRocketMessage* pCR = (CCreateRocketMessage*)pMsg;
@@ -501,9 +547,9 @@ void CGame::MessageProc(CBaseMessage*	pMsg)
 			float fFlameVelocity = 300;
 
 			pPlasma = (CPlasma*)CObjectFactory<std::string, CBase>::GetInstance()->CreateObject("CPlasma");
-			pPlasma->SetWidth(200);
-			pPlasma->SetHeight(90);
-			pPlasma->SetPosX(pCR->GetPlayerPointer()->GetPosX());// + (float)pCR->GetPlayerPointer()->GetWidth());
+			pPlasma->SetWidth(45);
+			pPlasma->SetHeight(45);
+			pPlasma->SetPosX(pCR->GetPlayerPointer()->GetPosX());// +aaaaaa (float)pCR->GetPlayerPointer()->GetWidth());
 			pPlasma->SetPosY(pCR->GetPlayerPointer()->GetPosY());
 
 			tVector2D vMousePos;

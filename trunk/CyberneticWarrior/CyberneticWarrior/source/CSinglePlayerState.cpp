@@ -17,6 +17,7 @@
 #include "CFLCLMech.h"
 #include "CRocket.h"
 #include "CGrapplingHook.h"
+#include "CBullet.h"
 #include "CRocket.h"
 #include "CFlame.h"
 #include "CPlasma.h"
@@ -122,6 +123,7 @@ void CSinglePlayerState::Enter(void)
 	this->m_pOF->RegisterClassType<CBlock>("CBlock");
 	this->m_pOF->RegisterClassType<CPickUp>("CPickUp");
 	this->m_pOF->RegisterClassType<CGrapplingHook>("CHook");
+	this->m_pOF->RegisterClassType<CBullet>("CBullet");
 	this->m_pOF->RegisterClassType<CRocket>("CRocket");
 	this->m_pOF->RegisterClassType<CFlame>("CFlame");
 	this->m_pOF->RegisterClassType<CPlasma>("CPlasma");

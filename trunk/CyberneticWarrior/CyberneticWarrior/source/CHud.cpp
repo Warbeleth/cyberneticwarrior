@@ -87,8 +87,18 @@ RECT CHud::GetRect( int nType, int nEquipment )
 		}
 	case TYPE_EQUIPMENT:
 		{
-			rRectangle.left = rRectangle.right * nEquipment;
-			rRectangle.right = rRectangle.right + rRectangle.left;
+			if(nEquipment < 16)
+			{
+				rRectangle.left = rRectangle.right * nEquipment;
+				rRectangle.right = rRectangle.right + rRectangle.left;
+			}
+			else
+			{
+				rRectangle.left = rRectangle.right* (nEquipment - 10);
+				rRectangle.right = rRectangle.right + rRectangle.left;
+				rRectangle.top = rRectangle.bottom;
+				rRectangle.bottom = rRectangle.top + rRectangle.bottom;
+			}
 			break;
 		}
 	};
@@ -122,7 +132,7 @@ void CHud::Render( void )
 			m_pTM->Draw(m_nWeaponEquipmentId, 100, 35, 0.5f, 0.5f, &GetRect(TYPE_EQUIPMENT, m_pPlayer->m_nSelectedBootSlot));
 			m_pTM->Draw(m_nWeaponEquipmentId, 140, 35, 0.5f, 0.5f, &GetRect(TYPE_EQUIPMENT, m_pPlayer->m_nSelectedHeadSlot));
 			m_pTM->Draw(m_nWeaponEquipmentId, 0, 600-m_rImageRects[TYPE_EQUIPMENT].bottom, 1.0f, 1.0f, &GetRect(TYPE_EQUIPMENT, m_pPlayer->m_nSelectedWeapon));
-			m_pTM->Draw(m_nWeaponEquipmentId, m_rImageRects[TYPE_EQUIPMENT].right, 600-m_rImageRects[TYPE_EQUIPMENT].bottom, 1.0f, 1.0f, &GetRect(TYPE_EQUIPMENT, 14));
+			m_pTM->Draw(m_nWeaponEquipmentId, m_rImageRects[TYPE_EQUIPMENT].right, 600-m_rImageRects[TYPE_EQUIPMENT].bottom, 1.0f, 1.0f, &GetRect(TYPE_EQUIPMENT, 18));
 			
 			m_HudFont.Draw("Player 1", 5, 64, 0.55f, -1 );
 			m_HudFont.Draw(buffer, 110, 70, 0.75f, -1 );
