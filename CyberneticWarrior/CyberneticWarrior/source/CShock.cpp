@@ -8,7 +8,7 @@
 CShock::CShock(void)
 {
 	this->SetType(OBJ_SHOCK);
-	this->SetImageID(CSinglePlayerState::GetInstance()->GetShockID());
+	this->SetImageID(CSinglePlayerState::GetInstance()->GetWeaponID());
 	this->SetRotation(0.0f);
 }
 
@@ -25,9 +25,9 @@ void CShock::Render(void)
 {
 	RECT rRender;
 	rRender.top = 160;
-	rRender.left = 670;
+	rRender.left = 680;
 	rRender.right = 730;
-	rRender.bottom = 290;
+	rRender.bottom = 280;
 	CSGD_TextureManager::GetInstance()->Draw( GetImageID(), 
 		(int)(((GetPosX() + (GetWidth()/2.0f) ) - CCamera::GetInstance()->GetOffsetX()) * CCamera::GetInstance()->GetScale()), 
 		(int)(((GetPosY() - (GetHeight()/2.0f)) - CCamera::GetInstance()->GetOffsetY()) * CCamera::GetInstance()->GetScale()), 
@@ -40,7 +40,7 @@ void CShock::Render(void)
 RECT CShock::GetRect(void) const
 {
 	RECT rCollision;
-	rCollision.top = (LONG)( GetPosY() );
+	rCollision.top = (LONG)( GetPosY() + (GetWidth()/2.0f)  );
 	rCollision.left = (LONG)( GetPosX() );
 	rCollision.bottom = (LONG)( rCollision.top + GetHeight() );
 	rCollision.right = rCollision.left + GetWidth();
@@ -53,7 +53,7 @@ bool CShock::CheckCollision(CBase *pBase)
 	RECT rIntersect;
 	if( IntersectRect(&rIntersect, &GetRect(), &pBase->GetRect()) )
 	{
-		if( pBase->GetType() != OBJ_PLAYER )
+		if( pBase->GetType() != OBJ_PLAYER && pBase->GetType() != OBJ_SHOCK)
 		{
 			// Destroy the bullet
 			CGame::GetInstance()->GetMessageSystemPointer()->SendMsg( new CDestroyShockMessage( this, CSinglePlayerState::GetInstance()->GetPlayerPointer()) );

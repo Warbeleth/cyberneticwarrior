@@ -43,13 +43,7 @@ CSinglePlayerState::CSinglePlayerState(void)
 	this->m_nCrossHairID			= -1;
 	this->m_nBGMusic				= -1;
 
-	this->m_nRocketID				= -1;
-	this->m_nFlameID				= -1;
-	this->m_nPlasmaID				= -1;
-	this->m_nShockID				= -1;
-	this->m_nGrenadeID				= -1;
-	this->m_nIceID					= -1;
-	this->m_nFireID					= -1;
+	this->m_nWeaponID				= -1;
 
 
 	this->m_tBGOffset.fX = 0;
@@ -82,13 +76,7 @@ CSinglePlayerState::~CSinglePlayerState(void)
 	this->m_nCrossHairID			= -1;
 	this->m_nBGMusic				= -1;
 
-	this->m_nRocketID				= -1;
-	this->m_nFlameID				= -1;
-	this->m_nPlasmaID				= -1;
-	this->m_nShockID				= -1;
-	this->m_nGrenadeID				= -1;
-	this->m_nIceID					= -1;
-	this->m_nFireID					= -1;
+	this->m_nWeaponID					= -1;
 
 	this->m_TempPlayer = NULL;
 	this->m_TempPlatform1 = NULL;
@@ -154,13 +142,7 @@ void CSinglePlayerState::Enter(void)
 	this->m_nCrossHairID = this->m_pTM->LoadTexture("resource/graphics/CrossHairs.png");
 	this->m_nBGMusic = this->m_pWM->LoadWave("resource/sounds/Jak2_Haven_City.wav");
 	
-	this->m_nRocketID = m_pTM->LoadTexture("resource/graphics/Weapons.png");
-	this->m_nFlameID = m_pTM->LoadTexture("resource/graphics/Weapons.png");			
-	this->m_nPlasmaID = m_pTM->LoadTexture("resource/graphics/Weapons.png");			
-	this->m_nShockID = m_pTM->LoadTexture("resource/graphics/Weapons.png");
-	this->m_nGrenadeID = m_pTM->LoadTexture("resource/graphics/Weapons.png");
-	this->m_nIceID = m_pTM->LoadTexture("resource/graphics/Weapons.png");
-	this->m_nFireID = m_pTM->LoadTexture("resource/graphics/Weapons.png");
+	this->m_nWeaponID = m_pTM->LoadTexture("resource/graphics/Weapons.png");
 
 
 	this->m_TempPlayer = (CPlayer*)m_pOF->CreateObject("CPlayer");
@@ -201,7 +183,7 @@ void CSinglePlayerState::Enter(void)
 
 
 
-	this->m_TempPlatform2 = (CBlock*)m_pOF->CreateObject("CBlock");
+	/*this->m_TempPlatform2 = (CBlock*)m_pOF->CreateObject("CBlock");
 	this->m_TempPlatform2->SetPosX((float)330);
 	this->m_TempPlatform2->SetPosY((float)100);
 	vStartingPos.fX = this->m_TempPlatform2->GetPosX();
@@ -209,7 +191,7 @@ void CSinglePlayerState::Enter(void)
 	this->m_TempPlatform2->SetWidth(256);
 	this->m_TempPlatform2->SetHeight(32);
 	this->m_TempPlatform2->SetBlock(BLOCK_SOLID);
-	this->m_TempPlatform2->SetType(OBJ_BLOCK);
+	this->m_TempPlatform2->SetType(OBJ_BLOCK);*/
 
 
 
@@ -262,7 +244,7 @@ void CSinglePlayerState::Update(float fElapsedTime)
 {
 	if(this->m_bMusic)
 	{
-		this->m_pWM->Play(this->m_nBGMusic, DSBPLAY_LOOPING);
+		//this->m_pWM->Play(this->m_nBGMusic, DSBPLAY_LOOPING);
 		this->m_bMusic = 0;
 	}
 
@@ -283,6 +265,24 @@ void CSinglePlayerState::Update(float fElapsedTime)
 	Enemy_2->Update(fElapsedTime);
 	Enemy_3->Update(fElapsedTime);
 
+	if(this->m_pDI->MouseGetPosX() < 0)
+	{
+		this->m_pDI->MouseSetPosX(0);
+	}
+	if(this->m_pDI->MouseGetPosX() > CGame::GetInstance()->GetScreenWidth())
+	{
+		this->m_pDI->MouseSetPosX(CGame::GetInstance()->GetScreenWidth()-32);
+	}
+	if(this->m_pDI->MouseGetPosY() < 0)
+	{
+		this->m_pDI->MouseSetPosY(0);
+	}
+	if(this->m_pDI->MouseGetPosY() > CGame::GetInstance()->GetScreenHeight())
+	{
+		this->m_pDI->MouseSetPosY(CGame::GetInstance()->GetScreenHeight() - 32);
+	}
+
+
 }
 
 void CSinglePlayerState::Render(void)
@@ -292,6 +292,7 @@ void CSinglePlayerState::Render(void)
 		(int)((this->m_tBGOffset.fY - CCamera::GetInstance()->GetOffsetY()) * CCamera::GetInstance()->GetScale()), 
 		1.0f*CCamera::GetInstance()->GetScale(),
 		1.0f*CCamera::GetInstance()->GetScale());
+	
 
 	m_nAnimation.Render(400, 450);
 	//////////////////////////////
@@ -387,35 +388,10 @@ void CSinglePlayerState::Exit(void)
 	}
 
 	
-	if(this->m_nFireID > -1)
+	if(this->m_nWeaponID > -1)
 	{
-		this->m_pTM->UnloadTexture(this->m_nFireID);
-		this->m_nFireID = -1;
-	}
-	if(this->m_nIceID > -1)
-	{
-		this->m_pTM->UnloadTexture(this->m_nIceID);
-		this->m_nFireID = -1;
-	}
-	if(this->m_nGrenadeID > -1)
-	{
-		this->m_pTM->UnloadTexture(this->m_nGrenadeID);
-		this->m_nFireID = -1;
-	}
-	if(this->m_nShockID > -1)
-	{
-		this->m_pTM->UnloadTexture(this->m_nShockID);
-		this->m_nFireID = -1;
-	}
-	if(this->m_nPlasmaID > -1)
-	{
-		this->m_pTM->UnloadTexture(this->m_nPlasmaID);
-		this->m_nFireID = -1;
-	}
-	if(this->m_nRocketID > -1)
-	{
-		this->m_pTM->UnloadTexture(this->m_nRocketID);
-		this->m_nFireID = -1;
+		this->m_pTM->UnloadTexture(this->m_nWeaponID);
+		this->m_nWeaponID = -1;
 	}
 	
 	

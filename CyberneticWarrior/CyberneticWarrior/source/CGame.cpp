@@ -26,6 +26,7 @@
 #include "CAtractModeState.h"
 #include "CLoadingState.h"
 
+#include "CMapLoad.h"
 #include "CGameProfiler.h"
 #include "CEventSystem.h"
 #include "CObjectFactory.h"
@@ -488,6 +489,150 @@ void CGame::MessageProc(CBaseMessage*	pMsg)
 		{
 			CDestroyFlameMessage* pDR = (CDestroyFlameMessage*)pMsg;
 			CObjectManager::GetInstance()->RemoveObject(pDR->GetFlamePointer());
+
+			pDR = NULL;
+		}
+		break;
+	case MSG_CREATE_PLASMA:
+		{
+			CCreatePlasmaMessage* pCR = (CCreatePlasmaMessage*)pMsg;
+			CPlasma* pPlasma;
+
+			float fFlameVelocity = 300;
+
+			pPlasma = (CPlasma*)CObjectFactory<std::string, CBase>::GetInstance()->CreateObject("CPlasma");
+			pPlasma->SetWidth(200);
+			pPlasma->SetHeight(90);
+			pPlasma->SetPosX(pCR->GetPlayerPointer()->GetPosX());// + (float)pCR->GetPlayerPointer()->GetWidth());
+			pPlasma->SetPosY(pCR->GetPlayerPointer()->GetPosY());
+
+			tVector2D vMousePos;
+			vMousePos.fX = (float)CSGD_DirectInput::GetInstance()->MouseGetPosX() + CCamera::GetInstance()->GetOffsetX();
+			vMousePos.fY = (float)CSGD_DirectInput::GetInstance()->MouseGetPosY() + CCamera::GetInstance()->GetOffsetY();
+
+			tVector2D vPlayerPos;
+			vPlayerPos.fX = pCR->GetPlayerPointer()->GetPosX() + (float)pCR->GetPlayerPointer()->GetWidth();
+			vPlayerPos.fY = pCR->GetPlayerPointer()->GetPosY();
+
+			tVector2D vShot;
+
+			vShot = vMousePos - vPlayerPos;
+
+			vShot = Vector2DNormalize(vShot);
+
+
+			pPlasma->SetBaseVelX(vShot.fX * fFlameVelocity);
+			pPlasma->SetBaseVelY(vShot.fY * fFlameVelocity);
+
+			CObjectManager::GetInstance()->AddObject(pPlasma);
+
+			pPlasma->Release();
+
+		}
+		break;
+	case MSG_DESTROY_PLASMA:
+		{
+			CDestroyPlasmaMessage* pDR = (CDestroyPlasmaMessage*)pMsg;
+			CObjectManager::GetInstance()->RemoveObject(pDR->GetPlasmaPointer());
+
+			pDR = NULL;
+		}
+		break;
+	case MSG_CREATE_GRENADE:
+		{
+			CCreateGrenadeMessage* pCR = (CCreateGrenadeMessage*)pMsg;
+			CGrenade* pGrenade;
+
+			float fFlameVelocity = 300;
+
+			pGrenade = (CGrenade*)CObjectFactory<std::string, CBase>::GetInstance()->CreateObject("CGrenade");
+			pGrenade->SetWidth(30);
+			pGrenade->SetHeight(30);
+			pGrenade->SetPosX(pCR->GetPlayerPointer()->GetPosX());// + (float)pCR->GetPlayerPointer()->GetWidth());
+			pGrenade->SetPosY(pCR->GetPlayerPointer()->GetPosY());
+
+			if((CSGD_DirectInput::GetInstance()->MouseGetPosY() + CCamera::GetInstance()->GetOffsetY())>pCR->GetPlayerPointer()->GetPosY())
+			{
+				pGrenade->SetYVelocity(350.0f);
+			}
+			else
+			{
+				pGrenade->SetYVelocity(-350.0f);
+			}
+
+			tVector2D vMousePos;
+			vMousePos.fX = (float)CSGD_DirectInput::GetInstance()->MouseGetPosX() + CCamera::GetInstance()->GetOffsetX();
+			vMousePos.fY = (float)CSGD_DirectInput::GetInstance()->MouseGetPosY() + CCamera::GetInstance()->GetOffsetY();
+
+			tVector2D vPlayerPos;
+			vPlayerPos.fX = pCR->GetPlayerPointer()->GetPosX() + (float)pCR->GetPlayerPointer()->GetWidth();
+			vPlayerPos.fY = pCR->GetPlayerPointer()->GetPosY();
+
+			tVector2D vShot;
+
+			vShot = vMousePos - vPlayerPos;
+
+			vShot = Vector2DNormalize(vShot);
+
+
+			pGrenade->SetBaseVelX(vShot.fX * fFlameVelocity);
+			pGrenade->SetBaseVelY(vShot.fY * fFlameVelocity);
+
+			CObjectManager::GetInstance()->AddObject(pGrenade);
+
+			pGrenade->Release();
+
+		}
+		break;
+	case MSG_DESTROY_GRENADE:
+		{
+			CDestroyGrenadeMessage* pDR = (CDestroyGrenadeMessage*)pMsg;
+			CObjectManager::GetInstance()->RemoveObject(pDR->GetGrenadePointer());
+
+			pDR = NULL;
+		}
+		break;
+	case MSG_CREATE_SHOCK:
+		{
+			CCreateShockMessage* pCR = (CCreateShockMessage*)pMsg;
+			CShock* pShock;
+
+			float fFlameVelocity = 300;
+
+			pShock = (CShock*)CObjectFactory<std::string, CBase>::GetInstance()->CreateObject("CShock");
+			pShock->SetWidth(40);
+			pShock->SetHeight(90);
+			pShock->SetPosX(pCR->GetPlayerPointer()->GetPosX());// + (float)pCR->GetPlayerPointer()->GetWidth());
+			pShock->SetPosY(pCR->GetPlayerPointer()->GetPosY());
+
+			tVector2D vMousePos;
+			vMousePos.fX = (float)CSGD_DirectInput::GetInstance()->MouseGetPosX() + CCamera::GetInstance()->GetOffsetX();
+			vMousePos.fY = (float)CSGD_DirectInput::GetInstance()->MouseGetPosY() + CCamera::GetInstance()->GetOffsetY();
+
+			tVector2D vPlayerPos;
+			vPlayerPos.fX = pCR->GetPlayerPointer()->GetPosX() + (float)pCR->GetPlayerPointer()->GetWidth();
+			vPlayerPos.fY = pCR->GetPlayerPointer()->GetPosY();
+
+			tVector2D vShot;
+
+			vShot = vMousePos - vPlayerPos;
+
+			vShot = Vector2DNormalize(vShot);
+
+
+			pShock->SetBaseVelX(vShot.fX * fFlameVelocity);
+			pShock->SetBaseVelY(vShot.fY * fFlameVelocity);
+
+			CObjectManager::GetInstance()->AddObject(pShock);
+
+			pShock->Release();
+
+		}
+		break;
+	case MSG_DESTROY_SHOCK:
+		{
+			CDestroyShockMessage* pDR = (CDestroyShockMessage*)pMsg;
+			CObjectManager::GetInstance()->RemoveObject(pDR->GetShockPointer());
 
 			pDR = NULL;
 		}

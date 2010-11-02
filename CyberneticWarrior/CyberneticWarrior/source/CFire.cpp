@@ -8,7 +8,7 @@
 CFire::CFire(void)
 {
 	this->SetType(OBJ_FIRE);
-	this->SetImageID(CSinglePlayerState::GetInstance()->GetFireID());
+	this->SetImageID(CSinglePlayerState::GetInstance()->GetWeaponID());
 	this->SetRotation(0.0f);
 }
 

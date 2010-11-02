@@ -8,7 +8,7 @@
 CFlame::CFlame(void)
 {
 	this->SetType(OBJ_FLAME);
-	this->SetImageID(CSinglePlayerState::GetInstance()->GetFlameID());
+	this->SetImageID(CSinglePlayerState::GetInstance()->GetWeaponID());
 	this->SetRotation(0.0f);
 	this->m_fLifeTime = 0.1f;
 }
