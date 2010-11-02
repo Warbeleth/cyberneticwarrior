@@ -397,7 +397,7 @@ void CGame::MessageProc(CBaseMessage*	pMsg)
 		{
 			CDestroyHookMessage* pDH = (CDestroyHookMessage*)pMsg;
 
-   			pDH->GetPlayerPointer()->SetHookPointer(NULL);
+   			//pDH->GetPlayerPointer()->SetHookPointer(NULL);
 			CSGD_TextureManager::GetInstance()->UnloadTexture(pDH->GetHookPointer()->GetImageID());
 			CObjectManager::GetInstance()->RemoveObject(pDH->GetHookPointer());
 

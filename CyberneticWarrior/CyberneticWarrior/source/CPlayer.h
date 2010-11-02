@@ -65,6 +65,8 @@ private:
 	bool m_bForward;
 	bool m_bFixSwing;
 
+	bool m_bShutDown;
+
 	CGrapplingHook*		m_pHook;
 
 
@@ -124,6 +126,7 @@ public:
 	void SetRotationPosX(float fX);
 	void SetRotationPosY(float fY);
 	void SetPlayerNumber( int nPlayer );
+	inline void SetShutDown(bool bShutDown) { this->m_bShutDown = bShutDown;}
 
 	//float	GetArmRotation(void)	{return this->m_fHandRotation;}
 

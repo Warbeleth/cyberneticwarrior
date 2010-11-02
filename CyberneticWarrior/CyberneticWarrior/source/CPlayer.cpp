@@ -51,7 +51,7 @@ CPlayer::CPlayer(void)
 	m_nScore = 0;
 
 	// Animation
-	SetAnimations( new CAnimations() );
+	SetAnimations(new CAnimations());
 	GetAnimations()->LoadBinary("resource/binary/PlayerAnimations.bae");
 	GetAnimations()->SetCurrentAnimation(1);
 
@@ -66,6 +66,7 @@ CPlayer::CPlayer(void)
 	m_nHandID = CSGD_TextureManager::GetInstance()->LoadTexture( "resource/graphics/Weapons.png" );
 
 
+	this->m_bShutDown = false;
 
 	this->m_bFixSwing = true;
 
@@ -78,6 +79,7 @@ CPlayer::CPlayer(void)
 
 CPlayer::~CPlayer(void)
 {
+	this->m_bShutDown = false;
 	CSGD_TextureManager::GetInstance()->UnloadTexture(this->GetImageID());
 	delete m_pHud;
 	delete GetAnimations();
@@ -90,6 +92,12 @@ float	CPlayer::GetRotationRate(void)	{ return m_fRotationRate; }
 
 void CPlayer::Update(float fElapsedTime)
 {
+	if(this->m_pHook && this->m_bShutDown)
+	{
+		CGame::GetInstance()->GetMessageSystemPointer()->SendMsg(new CDestroyHookMessage(this->m_pHook, this));
+		this->m_bShutDown = false;
+	}
+
 	if(this->m_pHook)
 	{
 		if(!this->m_pHook->GetIfHooked() || this->GetOnGround())
@@ -550,10 +558,15 @@ void CPlayer::Render(void)
 		int((CSGD_DirectInput::GetInstance()->MouseGetPosY()+8) * CCamera::GetInstance()->GetScale()), 
 		255, 0, 0 );
 
-	GetAnimations()->Render( (int)GetPosX()+GetAnimations()->GetFrameWidth()/2, (int)GetPosY()+GetAnimations()->GetFrameHeight());
+	if(this->m_bForward)
+	{
+		GetAnimations()->Render( (int)GetPosX()+GetAnimations()->GetFrameWidth()/2, (int)GetPosY()+GetAnimations()->GetFrameHeight());
+	}
+	else
+	{
+	}
+	//RECT rRender = { 340, 164, 550, 234 };
 
-	RECT rRender = { 340, 164, 550, 234 };
-/*
 	RECT rRender;
 	rRender.top = 256;
 	rRender.left = 130;
@@ -564,7 +577,7 @@ void CPlayer::Render(void)
 	CSGD_TextureManager::GetInstance()->Draw(m_nHandID, 
 		(int)(((GetPosX() + (GetWidth()/2)) - OffsetX) * CCamera::GetInstance()->GetScale()-10), 
 		(int)(((GetPosY() - (GetHeight()/2)) - OffsetY) * CCamera::GetInstance()->GetScale()+25), 
-		0.6f * CCamera::GetInstance()->GetScale(), 0.6f * CCamera::GetInstance()->GetScale(), 
+		1.0f * CCamera::GetInstance()->GetScale(), 1.0f * CCamera::GetInstance()->GetScale(), 
 		&rRender, 64, 128, m_fHandRotation, -1 );
 	}
 	else
@@ -572,10 +585,10 @@ void CPlayer::Render(void)
 		CSGD_TextureManager::GetInstance()->Draw(m_nHandID, 
 		(int)(((GetPosX() + (GetWidth()/2)) - OffsetX) * CCamera::GetInstance()->GetScale())+GetWidth()/2, 
 		(int)(((GetPosY() - (GetHeight()/2)) - OffsetY) * CCamera::GetInstance()->GetScale()+25), 
-		-0.6f * CCamera::GetInstance()->GetScale(), 0.6f * CCamera::GetInstance()->GetScale(), 
+		-1.0f * CCamera::GetInstance()->GetScale(), 1.0f * CCamera::GetInstance()->GetScale(), 
 		&rRender, 64, 128, m_fHandRotation, -1 );
 	}
-*/
+
 	this->m_pHud->Render();
 }
 
