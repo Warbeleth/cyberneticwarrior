@@ -1,4 +1,4 @@
-//////////////////////////////////////////////////////////////////////////////////////////////////////
+\//////////////////////////////////////////////////////////////////////////////////////////////////////
 // File: “CAnimationLoad.cpp”
 //
 // Author: Anthony Muccio(AM)
@@ -42,11 +42,11 @@ CFrame::CFrame( void )
 //////////////////////////////////////////////////////////////////////////////////////////////////////
 // Function: “RectRender”
 //////////////////////////////////////////////////////////////////////////////////////////////////////	
-void CFrame::RectRender( int nX, int nY )
+void CFrame::RectRender( int nX, int nY, float fScale )
 { 
 	//DirectX singletons
 	CSGD_Direct3D* pD3D = CSGD_Direct3D::GetInstance();
-
+		
 	// Draw GetFrame()
 	RECT rFrame = m_rFrame;
 	rFrame.right -= rFrame.left;
@@ -58,7 +58,7 @@ void CFrame::RectRender( int nX, int nY )
 	pD3D->DrawLine(rFrame.right + nX, rFrame.top + nY, rFrame.right + nX, rFrame.bottom + nY, 255, 0, 0);
 	pD3D->DrawLine(rFrame.right + nX, rFrame.bottom + nY, rFrame.left + nX, rFrame.bottom + nY, 255, 0, 0);
 	pD3D->DrawLine(rFrame.left + nX, rFrame.bottom + nY, rFrame.left + nX, rFrame.top + nY, 255, 0, 0);
-
+	
 	// Draw Anchor
 	CPoint pAnchor;
 	pAnchor.m_nX = m_ptAnchor.m_nX - m_rFrame.left;
@@ -67,34 +67,77 @@ void CFrame::RectRender( int nX, int nY )
 	pD3D->DrawLine(pAnchor.m_nX + nX - 2, pAnchor.m_nY + nY - 2, pAnchor.m_nX + nX + 2, pAnchor.m_nY + nY + 2, 255, 0, 255);
 	pD3D->DrawLine(pAnchor.m_nX + nX + 2, pAnchor.m_nY + nY - 2, pAnchor.m_nX + nX - 2, pAnchor.m_nY + nY + 2, 255, 0, 255);
 
-	// Draw Hit Rects
-	for (int i = 0; i < m_nTotalHitRects; ++i)
+	if(fScale == 1)
 	{
-		RECT rHitFrame = m_vHitRects[i];
-		rHitFrame.left -= m_rFrame.left;
-		rHitFrame.right -= m_rFrame.left;
-		rHitFrame.top -= m_rFrame.top;
-		rHitFrame.bottom -= m_rFrame.top;
+		// Draw Hit Rects
+		for (int i = 0; i < m_nTotalHitRects; ++i)
+		{
+			RECT rHitFrame = m_vHitRects[i];
+			rHitFrame.left -= m_rFrame.left;
+			rHitFrame.right -= m_rFrame.left;
+			rHitFrame.top -= m_rFrame.top;
+			rHitFrame.bottom -= m_rFrame.top;
 
-		pD3D->DrawLine(rHitFrame.left + nX, rHitFrame.top + nY, rHitFrame.right + nX, rHitFrame.top + nY, 0, 255, 0);
-		pD3D->DrawLine(rHitFrame.right + nX, rHitFrame.top + nY, rHitFrame.right + nX, rHitFrame.bottom + nY, 0, 255, 0);
-		pD3D->DrawLine(rHitFrame.right + nX, rHitFrame.bottom + nY, rHitFrame.left + nX, rHitFrame.bottom + nY, 0, 255, 0);
-		pD3D->DrawLine(rHitFrame.left + nX, rHitFrame.bottom + nY, rHitFrame.left + nX, rHitFrame.top + nY, 0, 255, 0);
+			pD3D->DrawLine(rHitFrame.left + nX, rHitFrame.top + nY, rHitFrame.right + nX, rHitFrame.top + nY, 0, 255, 0);
+			pD3D->DrawLine(rHitFrame.right + nX, rHitFrame.top + nY, rHitFrame.right + nX, rHitFrame.bottom + nY, 0, 255, 0);
+			pD3D->DrawLine(rHitFrame.right + nX, rHitFrame.bottom + nY, rHitFrame.left + nX, rHitFrame.bottom + nY, 0, 255, 0);
+			pD3D->DrawLine(rHitFrame.left + nX, rHitFrame.bottom + nY, rHitFrame.left + nX, rHitFrame.top + nY, 0, 255, 0);
+		}
+
+		// Draw Collision Rects
+		for (int i = 0; i < m_nTotalCollisionRects; ++i)
+		{
+			RECT rHitFrame = m_vCollisionRects[i];
+			rHitFrame.left -= m_rFrame.left;
+			rHitFrame.right -= m_rFrame.left;
+			rHitFrame.top -= m_rFrame.top;
+			rHitFrame.bottom -= m_rFrame.top;
+
+			pD3D->DrawLine(rHitFrame.left + nX, rHitFrame.top + nY, rHitFrame.right + nX, rHitFrame.top + nY, 0, 0, 255);
+			pD3D->DrawLine(rHitFrame.right + nX, rHitFrame.top + nY, rHitFrame.right + nX, rHitFrame.bottom + nY, 0, 0, 255);
+			pD3D->DrawLine(rHitFrame.right + nX, rHitFrame.bottom + nY, rHitFrame.left + nX, rHitFrame.bottom + nY, 0, 0, 255);
+			pD3D->DrawLine(rHitFrame.left + nX, rHitFrame.bottom + nY, rHitFrame.left + nX, rHitFrame.top + nY, 0, 0, 255);
+		}
 	}
-
-	// Draw Collision Rects
-	for (int i = 0; i < m_nTotalCollisionRects; ++i)
+	else if( fScale == -1 )
 	{
-		RECT rHitFrame = m_vCollisionRects[i];
-		rHitFrame.left -= m_rFrame.left;
-		rHitFrame.right -= m_rFrame.left;
-		rHitFrame.top -= m_rFrame.top;
-		rHitFrame.bottom -= m_rFrame.top;
+		pD3D->DrawLine(pAnchor.m_nX + nX - 2, pAnchor.m_nY + nY - 2, pAnchor.m_nX + nX + 2, pAnchor.m_nY + nY + 2, 255, 0, 255);
+		pD3D->DrawLine(pAnchor.m_nX + nX + 2, pAnchor.m_nY + nY - 2, pAnchor.m_nX + nX - 2, pAnchor.m_nY + nY + 2, 255, 0, 255);
 
-		pD3D->DrawLine(rHitFrame.left + nX, rHitFrame.top + nY, rHitFrame.right + nX, rHitFrame.top + nY, 0, 0, 255);
-		pD3D->DrawLine(rHitFrame.right + nX, rHitFrame.top + nY, rHitFrame.right + nX, rHitFrame.bottom + nY, 0, 0, 255);
-		pD3D->DrawLine(rHitFrame.right + nX, rHitFrame.bottom + nY, rHitFrame.left + nX, rHitFrame.bottom + nY, 0, 0, 255);
-		pD3D->DrawLine(rHitFrame.left + nX, rHitFrame.bottom + nY, rHitFrame.left + nX, rHitFrame.top + nY, 0, 0, 255);
+		// Draw Hit Rects
+		for (int i = 0; i < m_nTotalHitRects; ++i)
+		{
+			int nOffset;
+			RECT rHitFrame = m_vHitRects[i];
+			nOffset = m_rFrame.right - rHitFrame.right;
+			rHitFrame.left -= m_rFrame.left + nOffset;
+			rHitFrame.right -= m_rFrame.left;
+			rHitFrame.top -= m_rFrame.top;
+			rHitFrame.bottom -= m_rFrame.top;
+
+			pD3D->DrawLine(rHitFrame.left + nX, rHitFrame.top + nY, rHitFrame.right + nX, rHitFrame.top + nY, 0, 255, 0);
+			pD3D->DrawLine(rHitFrame.right + nX, rHitFrame.top + nY, rHitFrame.right + nX, rHitFrame.bottom + nY, 0, 255, 0);
+			pD3D->DrawLine(rHitFrame.right + nX, rHitFrame.bottom + nY, rHitFrame.left + nX, rHitFrame.bottom + nY, 0, 255, 0);
+			pD3D->DrawLine(rHitFrame.left + nX, rHitFrame.bottom + nY, rHitFrame.left + nX, rHitFrame.top + nY, 0, 255, 0);
+		}
+
+		// Draw Collision Rects
+		for (int i = 0; i < m_nTotalCollisionRects; ++i)
+		{
+			int nOffset;
+			RECT rHitFrame = m_vCollisionRects[i];
+			nOffset = m_rFrame.right - rHitFrame.right;
+			rHitFrame.right -= rHitFrame.left;
+			rHitFrame.right += nOffset;
+			rHitFrame.left = nOffset;
+			rHitFrame.top -= m_rFrame.top;
+			rHitFrame.bottom -= m_rFrame.top;
+
+			pD3D->DrawLine(rHitFrame.left + nX, rHitFrame.top + nY, rHitFrame.right + nX, rHitFrame.top + nY, 0, 0, 255);
+			pD3D->DrawLine(rHitFrame.right + nX, rHitFrame.top + nY, rHitFrame.right + nX, rHitFrame.bottom + nY, 0, 0, 255);
+			pD3D->DrawLine(rHitFrame.right + nX, rHitFrame.bottom + nY, rHitFrame.left + nX, rHitFrame.bottom + nY, 0, 0, 255);
+			pD3D->DrawLine(rHitFrame.left + nX, rHitFrame.bottom + nY, rHitFrame.left + nX, rHitFrame.top + nY, 0, 0, 255);
+		}
 	}
 }
 
@@ -172,7 +215,7 @@ void CAnimations::Update( float fElapsedTime )
 //////////////////////////////////////////////////////////////////////////////////////////////////////
 // Function: “Render”
 //////////////////////////////////////////////////////////////////////////////////////////////////////	
-void CAnimations::Render( int nPosX, int nPosY )
+void CAnimations::Render( int nPosX, int nPosY, float fScale )
 {
 	int nXOffset = - m_nOffset.m_nX - CCamera::GetInstance()->GetOffsetX();
 	int nYOffset = - m_nOffset.m_nY - CCamera::GetInstance()->GetOffsetY();
@@ -180,11 +223,14 @@ void CAnimations::Render( int nPosX, int nPosY )
 	CSGD_TextureManager::GetInstance()->Draw(m_nId, 
 		int(CCamera::GetInstance()->GetScale() * (nPosX + nXOffset)), 
 		int(CCamera::GetInstance()->GetScale() * (nPosY + nYOffset)), 
-		CCamera::GetInstance()->GetScale(), 
+		CCamera::GetInstance()->GetScale() * fScale, 
 		CCamera::GetInstance()->GetScale(), 
 		&m_vAnimations[ m_nCurrentAnimation ].m_vFrames[ m_vAnimations[m_nCurrentAnimation].m_nCurrentFrame ].GetFrame() );
 
-	m_vAnimations[ m_nCurrentAnimation ].m_vFrames[ m_vAnimations[m_nCurrentAnimation].m_nCurrentFrame ].RectRender( nPosX-CCamera::GetInstance()->GetOffsetX()-GetFrameWidth()/2, nPosY-CCamera::GetInstance()->GetOffsetY()-GetFrameHeight());
+	if(fScale == 1)
+		m_vAnimations[ m_nCurrentAnimation ].m_vFrames[ m_vAnimations[m_nCurrentAnimation].m_nCurrentFrame ].RectRender( nPosX-CCamera::GetInstance()->GetOffsetX()-GetFrameWidth()/2, nPosY-CCamera::GetInstance()->GetOffsetY()-GetFrameHeight(), fScale );
+	else if(fScale == -1 )
+		m_vAnimations[ m_nCurrentAnimation ].m_vFrames[ m_vAnimations[m_nCurrentAnimation].m_nCurrentFrame ].RectRender( nPosX-CCamera::GetInstance()->GetOffsetX()-3*GetFrameWidth()/2, nPosY-CCamera::GetInstance()->GetOffsetY()-GetFrameHeight(), fScale );
 }
 
 //////////////////////////////////////////////////////////////////////////////////////////////////////

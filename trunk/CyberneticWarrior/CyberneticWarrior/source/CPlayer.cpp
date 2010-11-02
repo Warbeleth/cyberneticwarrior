@@ -569,13 +569,10 @@ void CPlayer::Render(void)
 		255, 0, 0 );
 
 	if(this->m_bForward)
-	{
 		GetAnimations()->Render( (int)GetPosX()+GetAnimations()->GetFrameWidth()/2, (int)GetPosY()+GetAnimations()->GetFrameHeight());
-	}
 	else
-	{
-		GetAnimations()->Render( (int)GetPosX()+GetAnimations()->GetFrameWidth()/2, (int)GetPosY()+GetAnimations()->GetFrameHeight());
-	}
+		GetAnimations()->Render( (int)GetPosX()+3*GetAnimations()->GetFrameWidth()/2, (int)GetPosY()+GetAnimations()->GetFrameHeight(), -1.0f );
+
 	//RECT rRender = { 340, 164, 550, 234 };
 
 	RECT rRender;
