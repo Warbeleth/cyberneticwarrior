@@ -404,23 +404,27 @@ void CPlayer::Input(float fElapsedTime)
 
 	if(CSGD_DirectInput::GetInstance()->KeyReleased(DIK_D))
 	{
+		this->m_vSpeed.fX = 0.0f;
+		this->SetBaseVelX(0.0f);
+
 		if(this->m_pHook)
 		{
 			if(this->m_pHook->GetIfHooked() && !this->GetOnGround())
 			{
 				this->m_bFixSwing = true;
-				this->SetBaseVelX(0.0f);
 			}
 		}
 	}
 	if(CSGD_DirectInput::GetInstance()->KeyReleased(DIK_A))
 	{
+		this->SetBaseVelX(0.0f);
+		this->m_vSpeed.fX = 0.0f;
+
 		if(this->m_pHook)
 		{
 			if(this->m_pHook->GetIfHooked() && !this->GetOnGround())
 			{
 				this->m_bFixSwing = true;
-				this->SetBaseVelX(0.0f);
 			}
 		}
 	}
