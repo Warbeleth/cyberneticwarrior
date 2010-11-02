@@ -535,12 +535,6 @@ void CPlayer::Input(float fElapsedTime)
 
 void CPlayer::Render(void)
 {		
-	RECT rPlayerRect = GetAnimations()->GetFrame( (int)(GetPosX()-CCamera::GetInstance()->GetOffsetX()), (int)(GetPosY()-CCamera::GetInstance()->GetOffsetY()) );
-	CSGD_Direct3D::GetInstance()->DrawLine(rPlayerRect.left, rPlayerRect.top, rPlayerRect.right, rPlayerRect.top, 255, 0, 0 );
-	CSGD_Direct3D::GetInstance()->DrawLine(rPlayerRect.right, rPlayerRect.top, rPlayerRect.right, rPlayerRect.bottom, 255, 0, 0 );
-	CSGD_Direct3D::GetInstance()->DrawLine(rPlayerRect.right, rPlayerRect.bottom, rPlayerRect.left, rPlayerRect.bottom, 255, 0, 0 );
-	CSGD_Direct3D::GetInstance()->DrawLine(rPlayerRect.left, rPlayerRect.bottom, rPlayerRect.left, rPlayerRect.top, 255, 0, 0 );
-	
 	int OffsetX = CCamera::GetInstance()->GetOffsetX();
 	int OffsetY = CCamera::GetInstance()->GetOffsetY();
 
@@ -593,6 +587,19 @@ RECT CPlayer::GetRect(void) const
 
 bool CPlayer::CheckCollision(CBase* pBase)
 {	
+	static RECT rPrevRect;
+	static CPoint Offset;
+	
+	RECT rPlayerFrame = GetAnimations()->GetFrame();
+	if(rPrevRect.bottom != rPlayerFrame.bottom)
+	{
+		Offset.m_nY = rPlayerFrame.bottom - rPrevRect.bottom;
+		SetPosY(GetPosY()-Offset.m_nY);
+		rPrevRect = rPlayerFrame;
+		m_bOnPlatform = false;
+		m_bOnGround = false;
+	}
+
 	if(pBase->GetType() == OBJ_BLOCK)
 	{
 		CBlock* BLOCK = (CBlock*)pBase;
@@ -608,7 +615,8 @@ bool CPlayer::CheckCollision(CBase* pBase)
 
 		if(GetAnimations())
 		{
-			RECT rPlayerRect = GetAnimations()->GetFrame( (int)(GetPosX()), (int)(GetPosY()) );
+			RECT rPlayerRect = GetAnimations()->GetCollisionFrame( (int)(GetPosX()), (int)(GetPosY()) );			
+
 			myX = (float)rPlayerRect.left;
 			myY = (float)rPlayerRect.top;
 			myRight = (float)rPlayerRect.right;
@@ -622,7 +630,6 @@ bool CPlayer::CheckCollision(CBase* pBase)
 			myBottom = myY + GetHeight();
 		}
 
-		if(BLOCK->GetBlock() == BLOCK_SOLID)
 		if(BLOCK->GetBlock() == BLOCK_SOLID || BLOCK->GetBlock() == BLOCK_MOVING)
 		{
 			if(myBottom >= hisY  
@@ -634,7 +641,7 @@ bool CPlayer::CheckCollision(CBase* pBase)
 			{
 				this->m_bOnGround = 1;
 				this->m_bOnPlatform = 1;
-				this->SetPosY(hisY - this->GetHeight());
+				this->SetPosY(hisY - (myBottom - myY));
 				CMapLoad::GetInstance()->m_bCollisionCheck = true;
 				return true;
 			}
@@ -656,7 +663,7 @@ bool CPlayer::CheckCollision(CBase* pBase)
 			{
 				this->m_bOnGround = 1;
 				this->m_bOnPlatform = 1;
-				this->SetPosY(hisY - this->GetHeight());
+				this->SetPosY(hisY - (myBottom - myY));
 				CMapLoad::GetInstance()->m_bCollisionCheck = true;
 				return true;
 			}
@@ -678,7 +685,7 @@ bool CPlayer::CheckCollision(CBase* pBase)
 			{
 				this->m_bOnGround = 1;
 				this->m_bOnPlatform = 1;
-				this->SetPosY(hisBottom - this->GetHeight());
+				this->SetPosY(hisBottom - (myBottom - myY));
 				this->DecrementHealth(20);
 				CMapLoad::GetInstance()->m_bCollisionCheck = true;
 				return true;
@@ -702,7 +709,7 @@ bool CPlayer::CheckCollision(CBase* pBase)
 				this->m_bOnGround = 1;
 				this->m_bOnPlatform = 1;
 				BLOCK->SetStable(false);
-				this->SetPosY(hisY - this->GetHeight());
+				this->SetPosY(hisY - (myBottom - myY));
 				CMapLoad::GetInstance()->m_bCollisionCheck = true;
 				return true;
 			}
