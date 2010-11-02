@@ -65,9 +65,15 @@ CPlayer::CPlayer(void)
 	m_bHomingOn = false;
 	m_nHandID = CSGD_TextureManager::GetInstance()->LoadTexture( "resource/graphics/Weapons.png" );
 
+
+
+	this->m_bFixSwing = true;
+
+
 	// HUD
 	this->m_pHud = new CHud();
 	this->m_pHud->SetPlayerPointer(this);
+
 }
 
 CPlayer::~CPlayer(void)
@@ -107,6 +113,7 @@ void CPlayer::Update(float fElapsedTime)
 	{
 		this->m_bForward = 0;
 	}
+
 	//this->m_fWaitTime +=  fElapsedTime;
 
 	//this->m_vJoyVecPos.fX = this->GetPosX();
@@ -119,50 +126,34 @@ void CPlayer::Update(float fElapsedTime)
 
 	if(this->m_pHook)
 	{
-		/*if(this->GetBaseVelX() > 0.0f)
-		{*/
-		//if(this->m_pHook->GetIfHooked() 
-		//&& this->m_pHook->GetPosX() < this->GetPosX() 
-		//&& this->m_pHook->GetRotation() < SGD_PI*2 && this->m_pHook->GetRotation() > (3 *SGD_PI)/2)
-		//{
-		//this->m_pHook->SetRotation(this->m_pHook->GetRotation() + this->m_pHook->GetRotationRate() * fElapsedTime);
-		//if(!this->m_bOnGround)
-		//{
-		//this->SetRotation(this->m_pHook->GetRotation());
-		//}
-
-		//}
-		///*}
-		//else if(this->GetBaseVelX() < 0.0f)
-		//{*/
-		//if(this->m_pHook->GetIfHooked() 
-		//&& this->m_pHook->GetPosX() > this->GetPosX() 
-		//&& this->m_pHook->GetRotation() > SGD_PI&& this->m_pHook->GetRotation() < (3 *SGD_PI)/2)
-		//{
-		//this->m_pHook->SetRotation(this->m_pHook->GetRotation() - this->m_pHook->GetRotationRate() * fElapsedTime);
-		//if(!this->m_bOnGround)
-		//{
-		//this->SetRotation(this->m_pHook->GetRotation());
-		//}
-		//}
-
-		//if(this->GetRotation() > 3.15)// && this->GetRotation() > 0)
-		//{
-		//	this->SetRotation(this->GetRotation()-1.0f);
-		//}
-		/*if(this->GetRotation() < 0 && this->GetRotation() > SGD_PI*2)
-		{
-			this->SetRotation(SGD_PI);
-		}*/
-		//}
-		//if(this->GetRotation() > 0.0f)
-		//{
-		//	this->SetRotation(/*this->GetRotation() + SGD_PI * fElapsedTime);
-		//}*/
 
 		tVector2D vHook;
 		if(this->m_pHook->GetIfHooked() && !this->GetOnGround())// && this->GetRotation() <  3.14f/2&& this->GetRotation() > -3.14f*2)
 		{
+
+			if(this->GetPosX() < this->m_pHook->GetPosX() && this->m_bFixSwing)
+			{
+				this->SetRotation(this->GetRotation() - 0.01f*fElapsedTime);
+			}
+			if(this->GetPosX() > this->m_pHook->GetPosX() && this->m_bFixSwing)
+			{
+				this->SetRotation(this->GetRotation() + 0.01f*fElapsedTime);
+			}
+			if(this->GetPosY() < this->m_pHook->GetPosY() && this->GetPosX() < this->m_pHook->GetPosX()-20.0f)
+			{
+				this->SetRotation(this->GetRotation() - 0.1f*fElapsedTime);
+				//this->SetPosY(this->m_pHook->GetPosY() + 1.0f);
+			}
+			if(this->GetPosY() < this->m_pHook->GetPosY() && this->GetPosX() > this->m_pHook->GetPosX()+20.0f)
+			{
+				this->SetRotation(this->GetRotation() + 0.1f*fElapsedTime);
+				//this->SetPosY(this->m_pHook->GetPosY() + 1.0f);
+			}
+			/*else if( this->m_bFixSwing)
+			{
+				this->SetRotation(0.0f);
+			}*/
+
 			this->m_vVectorVelocity.fX = this->GetPosX();
 			this->m_vVectorVelocity.fY = this->GetPosY();
 			vHook.fX = this->m_pHook->GetPosX() + this->m_pHook->GetWidth()/2;
@@ -238,25 +229,7 @@ void CPlayer::Update(float fElapsedTime)
 			this->SetBaseVelY(this->m_vSpeed.fY);
 		}
 	}
-	////////////////////////////////////////
 
-	////////////////////////////////////////
-	// Platform Checking
-	////////////////////////////////////////
-	/*if((this->GetPosY() + this->GetHeight()) > CSinglePlayerState::GetInstance()->GetPlatform()->m_tTempPlatformPoint.fY  
-	&& (this->GetPosY() + this->GetHeight()) < (CSinglePlayerState::GetInstance()->GetPlatform()->m_tTempPlatformPoint.fY + CSinglePlayerState::GetInstance()->GetPlatform()->m_tTempPlatformSize.fY)
-	&& (this->GetPosX() + this->GetWidth() - 5) > CSinglePlayerState::GetInstance()->GetPlatform()->m_tTempPlatformPoint.fX 
-	&& (this->GetPosX()+20) < (CSinglePlayerState::GetInstance()->GetPlatform()->m_tTempPlatformPoint.fX + CSinglePlayerState::GetInstance()->GetPlatform()->m_tTempPlatformSize.fX)
-	&& !this->m_bOnGround
-	&& this->m_vSpeed.fY > 0.0f)
-	{
-	this->m_bOnGround = 1;
-	this->SetPosY((float)CSinglePlayerState::GetInstance()->GetPlatform()->m_tTempPlatformPoint.fY - this->GetHeight());
-	}
-	else
-	{
-	this->m_bOnGround = 0;
-	}*/
 
 	if(this->GetPosY() > 600 - this->GetHeight())
 	{
@@ -358,15 +331,17 @@ void CPlayer::Input(float fElapsedTime)
 
 		if(this->m_pHook)
 		{
-			if(this->m_pHook->GetIfHooked() && !this->GetOnGround())
+			if(this->m_pHook->GetIfHooked() && !this->GetOnGround() && this->GetPosY() > this->m_pHook->GetPosY())
 			{
 				/*if(this->GetRotation() <= 3.14f/2)
 				{*/
 				this->m_pHook->SetRotation(this->m_pHook->GetRotation() + this->m_pHook->GetRotationRate() * fElapsedTime);
 				if(!this->m_bOnGround)
 				{
+					this->m_bFixSwing = false;
 					this->SetRotation(this->m_pHook->GetRotation());
 				}
+				
 				/*}
 				else
 				{
@@ -390,15 +365,18 @@ void CPlayer::Input(float fElapsedTime)
 
 		if(this->m_pHook)
 		{
-			if(this->m_pHook->GetIfHooked() && !this->GetOnGround())
+			if(this->m_pHook->GetIfHooked() && !this->GetOnGround() && this->GetPosY() > this->m_pHook->GetPosY())
 			{
 				/*if(this->GetRotation() >= -3.14f*2)
 				{*/
 				this->m_pHook->SetRotation(this->m_pHook->GetRotation() - this->m_pHook->GetRotationRate() * fElapsedTime);
 				if(!this->m_bOnGround)
 				{
+					this->m_bFixSwing = false;
+
 					this->SetRotation(this->m_pHook->GetRotation());
-				}	
+				}
+			
 				/*}
 				else
 				{
@@ -411,12 +389,39 @@ void CPlayer::Input(float fElapsedTime)
 		GetAnimations()->SetCurrentAnimation(0);
 	}
 
+
+	if(CSGD_DirectInput::GetInstance()->KeyReleased(DIK_D))
+	{
+		if(this->m_pHook)
+		{
+			if(this->m_pHook->GetIfHooked() && !this->GetOnGround())
+			{
+				this->m_bFixSwing = true;
+			}
+		}
+	}
+	if(CSGD_DirectInput::GetInstance()->KeyReleased(DIK_A))
+	{
+		if(this->m_pHook)
+		{
+			if(this->m_pHook->GetIfHooked() && !this->GetOnGround())
+			{
+				this->m_bFixSwing = true;
+			}
+		}
+	}
+
+
+
+
+
 	if((CSGD_DirectInput::GetInstance()->MouseButtonPressed(MOUSE_RIGHT) || CSGD_DirectInput::GetInstance()->JoystickButtonPressed(4)))
 	{
 		this->SetMouseDown(1);
 		if(CSinglePlayerState::GetInstance()->GetProfileValues()->m_bHaveHook)
 		{
 			CGame::GetInstance()->GetMessageSystemPointer()->SendMsg(new CCreateHookMessage(this));
+			this->m_bFixSwing = true;
 		}
 	}
 
