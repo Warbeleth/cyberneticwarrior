@@ -100,34 +100,46 @@ void CPlayer::Update(float fElapsedTime)
 
 	if(this->m_pHook)
 	{
-		/*if(this->GetBaseVelX() > 0.0f && this->GetOnGround())
-		{
-		if(this->m_pHook->GetIfHooked() 
-		&& this->m_pHook->GetPosX() < this->GetPosX() 
-		&& this->m_pHook->GetRotation() > -1.80f)
-		{
-		this->m_pHook->SetRotation(this->m_pHook->GetRotation() - this->m_pHook->GetRotationRate() * fElapsedTime);
-		if(!this->m_bOnGround)
-		{
-		this->SetRotation(this->m_pHook->GetRotation());
-		}
+		/*if(this->GetBaseVelX() > 0.0f)
+		{*/
+		//if(this->m_pHook->GetIfHooked() 
+		//&& this->m_pHook->GetPosX() < this->GetPosX() 
+		//&& this->m_pHook->GetRotation() < SGD_PI*2 && this->m_pHook->GetRotation() > (3 *SGD_PI)/2)
+		//{
+		//this->m_pHook->SetRotation(this->m_pHook->GetRotation() + this->m_pHook->GetRotationRate() * fElapsedTime);
+		//if(!this->m_bOnGround)
+		//{
+		//this->SetRotation(this->m_pHook->GetRotation());
+		//}
 
-		}
-		}
-		else if(this->GetBaseVelX() < 0.0f && this->GetOnGround())
+		//}
+		///*}
+		//else if(this->GetBaseVelX() < 0.0f)
+		//{*/
+		//if(this->m_pHook->GetIfHooked() 
+		//&& this->m_pHook->GetPosX() > this->GetPosX() 
+		//&& this->m_pHook->GetRotation() > SGD_PI&& this->m_pHook->GetRotation() < (3 *SGD_PI)/2)
+		//{
+		//this->m_pHook->SetRotation(this->m_pHook->GetRotation() - this->m_pHook->GetRotationRate() * fElapsedTime);
+		//if(!this->m_bOnGround)
+		//{
+		//this->SetRotation(this->m_pHook->GetRotation());
+		//}
+		//}
+
+		//if(this->GetRotation() > 3.15)// && this->GetRotation() > 0)
+		//{
+		//	this->SetRotation(this->GetRotation()-1.0f);
+		//}
+		/*if(this->GetRotation() < 0 && this->GetRotation() > SGD_PI*2)
 		{
-		if(this->m_pHook->GetIfHooked() 
-		&& this->m_pHook->GetPosX() > this->GetPosX() 
-		&& this->m_pHook->GetRotation() < 0.45f)
-		{
-		this->m_pHook->SetRotation(this->m_pHook->GetRotation() + this->m_pHook->GetRotationRate() * fElapsedTime);
-		if(!this->m_bOnGround)
-		{
-		this->SetRotation(this->m_pHook->GetRotation());
-		}
-		}
+			this->SetRotation(SGD_PI);
 		}*/
-
+		//}
+		//if(this->GetRotation() > 0.0f)
+		//{
+		//	this->SetRotation(/*this->GetRotation() + SGD_PI * fElapsedTime);
+		//}*/
 
 		tVector2D vHook;
 		if(this->m_pHook->GetIfHooked() && !this->GetOnGround())// && this->GetRotation() <  3.14f/2&& this->GetRotation() > -3.14f*2)
@@ -484,25 +496,25 @@ void CPlayer::Render(void)
 	&rDrawRect, this->m_vRotationCenter.fX, this->m_vRotationCenter.fX, this->m_fRotation);*/
 
 	RECT rRender;
-	rRender.top = 164;
-	rRender.left = 340;
-	rRender.bottom = 234;
-	rRender.right = 550;
+	rRender.top = 256;
+	rRender.left = 130;
+	rRender.bottom = 450;
+	rRender.right = 220;
 	if(this->m_bForward)
 	{
 	CSGD_TextureManager::GetInstance()->Draw(m_nHandID, 
-		(int)(((GetPosX() + (GetWidth()/2)) - OffsetX) * CCamera::GetInstance()->GetScale()+5), 
-		(int)(((GetPosY() - (GetHeight()/4)) - OffsetY) * CCamera::GetInstance()->GetScale()+35), 
+		(int)(((GetPosX() + (GetWidth()/2)) - OffsetX) * CCamera::GetInstance()->GetScale()-10), 
+		(int)(((GetPosY() - (GetHeight()/2)) - OffsetY) * CCamera::GetInstance()->GetScale()+25), 
 		0.6f * CCamera::GetInstance()->GetScale(), 0.6f * CCamera::GetInstance()->GetScale(), 
-		&rRender, 16, 64, m_fHandRotation, -1 );
+		&rRender, 64, 128, m_fHandRotation, -1 );
 	}
 	else
 	{
 		CSGD_TextureManager::GetInstance()->Draw(m_nHandID, 
-		(int)(((GetPosX() + (GetWidth()/2)) - OffsetX) * CCamera::GetInstance()->GetScale()-5)+GetWidth()/2, 
-		(int)(((GetPosY() - (GetHeight()/4)) - OffsetY) * CCamera::GetInstance()->GetScale()+35), 
+		(int)(((GetPosX() + (GetWidth()/2)) - OffsetX) * CCamera::GetInstance()->GetScale())+GetWidth()/2, 
+		(int)(((GetPosY() - (GetHeight()/2)) - OffsetY) * CCamera::GetInstance()->GetScale()+25), 
 		-0.6f * CCamera::GetInstance()->GetScale(), 0.6f * CCamera::GetInstance()->GetScale(), 
-		&rRender, 16, 64, m_fHandRotation, -1 );
+		&rRender, 64, 128, m_fHandRotation, -1 );
 	}
 
 	this->m_pHud->Render();

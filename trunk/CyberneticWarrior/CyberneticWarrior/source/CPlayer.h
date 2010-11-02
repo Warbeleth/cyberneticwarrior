@@ -49,6 +49,7 @@ private:
 	float m_fWaitTime;
 	float m_fHandRotation;
 	float m_fShotTime;
+	float m_fThrowTime;
 
 	float m_fTerminalVelocity;
 	float m_fGravity;
@@ -61,12 +62,10 @@ private:
 	bool m_bForward;
 
 	CGrapplingHook*		m_pHook;
-	/////////////////////////////////
-	// Temp
-	/////////////////////////////////
+
+
 	tVector2D m_vJoyVecPos;
 	bool m_bMouseDown;
-	/////////////////////////////////
 
 	friend class CHud;
 
