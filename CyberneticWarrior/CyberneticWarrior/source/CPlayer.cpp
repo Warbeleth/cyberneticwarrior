@@ -300,6 +300,38 @@ void CPlayer::Update(float fElapsedTime)
 
 void CPlayer::Input(float fElapsedTime)
 {
+
+
+	if(CSGD_DirectInput::GetInstance()->KeyPressed(DIK_1))
+	{
+		this->m_nSelectedWeapon = this->HAND_GUN;
+	}
+	if(CSGD_DirectInput::GetInstance()->KeyPressed(DIK_2))
+	{
+		this->m_nSelectedWeapon = this->ROCKET_LAUNCHER;
+	}
+	if(CSGD_DirectInput::GetInstance()->KeyPressed(DIK_3))
+	{
+		this->m_nSelectedWeapon = this->FLAME_THROWER;
+	}
+	if(CSGD_DirectInput::GetInstance()->KeyPressed(DIK_4))
+	{
+		this->m_nSelectedWeapon = this->PLASMA_RIFLE;
+	}
+	if(CSGD_DirectInput::GetInstance()->KeyPressed(DIK_5))
+	{
+		this->m_nSelectedWeapon = this->STICKY_GRENADE;
+	}
+	if(CSGD_DirectInput::GetInstance()->KeyPressed(DIK_6))
+	{
+		this->m_nSelectedWeapon = this->SONIC_RIFLE;
+	}
+
+
+
+
+
+
 	GetAnimations()->SetCurrentAnimation(1);
 
 	///////////////////////////////
@@ -400,8 +432,33 @@ void CPlayer::Input(float fElapsedTime)
 
 	if((CSGD_DirectInput::GetInstance()->MouseButtonPressed(MOUSE_LEFT) || CSGD_DirectInput::GetInstance()->JoystickButtonPressed(7)))
 	{
-		CGame::GetInstance()->GetMessageSystemPointer()->SendMsg(new CCreateGrenadeMessage(this));
+		switch(this->m_nSelectedWeapon)
+		{
+		case this->HAND_GUN:
+			CGame::GetInstance()->GetMessageSystemPointer()->SendMsg(new CCreateBulletMessage(this));
+			break;
+		case this->ROCKET_LAUNCHER:
+			CGame::GetInstance()->GetMessageSystemPointer()->SendMsg(new CCreateRocketMessage(this));
+			break;
+		case this->PLASMA_RIFLE:
+			CGame::GetInstance()->GetMessageSystemPointer()->SendMsg(new CCreatePlasmaMessage(this));
+			break;
+		case this->STICKY_GRENADE:
+			CGame::GetInstance()->GetMessageSystemPointer()->SendMsg(new CCreateGrenadeMessage(this));
+			break;
+		case this->SONIC_RIFLE:
+			CGame::GetInstance()->GetMessageSystemPointer()->SendMsg(new CCreateShockMessage(this));
+			break;
+		};
 	}
+	if((CSGD_DirectInput::GetInstance()->MouseButtonDown(MOUSE_LEFT) || CSGD_DirectInput::GetInstance()->JoystickButtonDown(7)))
+	{
+		if(this->m_nSelectedWeapon == this->FLAME_THROWER)
+		{
+			CGame::GetInstance()->GetMessageSystemPointer()->SendMsg(new CCreateFlameMessage(this));
+		}
+	}
+
 
 	if(CSGD_DirectInput::GetInstance()->KeyPressed(DIK_LSHIFT))
 	{

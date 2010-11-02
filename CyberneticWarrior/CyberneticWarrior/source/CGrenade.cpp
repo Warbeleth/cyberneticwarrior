@@ -39,6 +39,19 @@ void CGrenade::Update(float fElapsedTime)
 		this->m_vVelocity.fY += 300*fElapsedTime;
 		this->SetBaseVelY(this->m_vVelocity.fY);
 	}
+
+	static tVector2D vScreenDimensions;
+	vScreenDimensions.fX = (float)CGame::GetInstance()->GetScreenWidth();
+	vScreenDimensions.fY = (float)CGame::GetInstance()->GetScreenHeight();
+	if(((this->GetPosX() + this->GetWidth()/2.0f) <= -20 
+		|| ((this->GetPosX() - this->GetWidth()/2.0f) >= (CCamera::GetInstance()->GetOffsetX() + vScreenDimensions.fX + 20))
+		|| (this->GetPosY() + (this->GetHeight()/2.0f)) <= -20)
+		|| (this->GetPosY() - (this->GetHeight()/2.0f) >= (vScreenDimensions.fY+20)))
+	{
+		// destroy
+		CSinglePlayerState::GetInstance()->GetPlayerPointer()->SetHookPointer(NULL);
+		CGame::GetInstance()->GetMessageSystemPointer()->SendMsg(new CDestroyGrenadeMessage(this, CSinglePlayerState::GetInstance()->GetPlayerPointer()));
+	}
 	
 }
 
@@ -95,6 +108,13 @@ bool CGrenade::CheckCollision(CBase *pBase)
 				CGame::GetInstance()->GetMessageSystemPointer()->SendMsg( new CDestroyGrenadeMessage( this, CSinglePlayerState::GetInstance()->GetPlayerPointer()) );
 				this->m_nBounceCount = 0;
 			}
+		}
+
+		if(pBase->GetType() == OBJ_ENEMY)
+		{
+			this->SetBaseVelX(0.0f);
+			this->SetBaseVelY(0.0f);
+			this->m_vVelocity.fY = 0.0f;
 		}
 
 		return 1;

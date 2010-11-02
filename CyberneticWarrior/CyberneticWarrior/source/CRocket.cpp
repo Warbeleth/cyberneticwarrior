@@ -82,6 +82,20 @@ void CRocket::Update( float fElapsedTime)
 		}
 	}
 
+
+	static tVector2D vScreenDimensions;
+	vScreenDimensions.fX = (float)CGame::GetInstance()->GetScreenWidth();
+	vScreenDimensions.fY = (float)CGame::GetInstance()->GetScreenHeight();
+	if(((this->GetPosX() + this->GetWidth()/2.0f) <= -20 
+		|| ((this->GetPosX() - this->GetWidth()/2.0f) >= (CCamera::GetInstance()->GetOffsetX() + vScreenDimensions.fX + 20))
+		|| (this->GetPosY() + (this->GetHeight()/2.0f)) <= -20)
+		|| (this->GetPosY() - (this->GetHeight()/2.0f) >= (vScreenDimensions.fY+20)))
+	{
+		// destroy
+		CSinglePlayerState::GetInstance()->GetPlayerPointer()->SetHookPointer(NULL);
+		CGame::GetInstance()->GetMessageSystemPointer()->SendMsg(new CDestroyRocketMessage(this, CSinglePlayerState::GetInstance()->GetPlayerPointer()));
+	}
+
 	CBase::Update( fElapsedTime );
 }
 

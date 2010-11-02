@@ -13,6 +13,9 @@ class CPlayer : public CBase, public IListener
 {
 private:
 
+	enum WeaponSelection{HAND_GUN = 6, ROCKET_LAUNCHER = 8, FLAME_THROWER = 10, 
+		PLASMA_RIFLE = 12, SONIC_RIFLE = 14, STICKY_GRENADE = 16};
+
 	tVector2D	m_vRotationCenter;
 	tVector2D	m_vSpeed;
 	tVector2D	m_vVectorVelocity;

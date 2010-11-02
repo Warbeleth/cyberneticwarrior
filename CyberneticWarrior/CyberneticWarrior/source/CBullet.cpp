@@ -19,15 +19,29 @@ CBullet::~CBullet(void)
 void CBullet::Update(float fElapsedTime)
 {
 	CBase::Update(fElapsedTime);
+
+
+	static tVector2D vScreenDimensions;
+	vScreenDimensions.fX = (float)CGame::GetInstance()->GetScreenWidth();
+	vScreenDimensions.fY = (float)CGame::GetInstance()->GetScreenHeight();
+	if(((this->GetPosX() + this->GetWidth()/2.0f) <= -20 
+		|| ((this->GetPosX() - this->GetWidth()/2.0f) >= (CCamera::GetInstance()->GetOffsetX() + vScreenDimensions.fX + 20))
+		|| (this->GetPosY() + (this->GetHeight()/2.0f)) <= -20)
+		|| (this->GetPosY() - (this->GetHeight()/2.0f) >= (vScreenDimensions.fY+20)))
+	{
+		// destroy
+		CSinglePlayerState::GetInstance()->GetPlayerPointer()->SetHookPointer(NULL);
+		CGame::GetInstance()->GetMessageSystemPointer()->SendMsg(new CDestroyBulletMessage(this, CSinglePlayerState::GetInstance()->GetPlayerPointer()));
+	}
 }
 
 void CBullet::Render(void)
 {
 	RECT rRender;
-	rRender.top = 235;
-	rRender.left = 970;
-	rRender.right = 990;
-	rRender.bottom = 250;
+	rRender.top = 239;
+	rRender.left = 976;
+	rRender.right = 986;
+	rRender.bottom = 246;
 	CSGD_TextureManager::GetInstance()->Draw( GetImageID(), 
 		(int)(((GetPosX() + (GetWidth()/2.0f) ) - CCamera::GetInstance()->GetOffsetX()) * CCamera::GetInstance()->GetScale()), 
 		(int)(((GetPosY() - (GetHeight()/2.0f)) - CCamera::GetInstance()->GetOffsetY()) * CCamera::GetInstance()->GetScale()), 
