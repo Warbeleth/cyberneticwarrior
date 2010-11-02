@@ -11,8 +11,11 @@ private:
 	int	m_nBlockType;
 	float m_fPosX;
 	float m_fPosY;
+	float m_fTimeWaited;
+	float m_fSpeed;
 	int m_nWidth;
 	int m_nHeight;
+	bool m_bStable;
 
 public:
 
@@ -35,6 +38,7 @@ public:
 	void SetWidth(int nWidth) { m_nWidth = nWidth; }
 	void SetHeight(int nHeight) { m_nHeight = nHeight; }
 	void SetBlock(int nType) { m_nBlockType = nType; }
+	void SetStable(bool Value) { m_bStable = Value; }
 
 
 	bool CheckCollision(CBase* pBase);

@@ -536,7 +536,7 @@ bool CPlayer::CheckCollision(CBase* pBase)
 		float hisRight = hisX + BLOCK->GetWidth();
 		float hisBottom = hisY + BLOCK->GetHeight();
 
-		if(BLOCK->GetBlock() == BLOCK_SOLID)
+		if(BLOCK->GetBlock() == BLOCK_SOLID || BLOCK->GetBlock() == BLOCK_MOVING)
 		{
 			if(myBottom >= hisY  
 				&& (myBottom) < (hisBottom)
@@ -593,6 +593,29 @@ bool CPlayer::CheckCollision(CBase* pBase)
 				this->m_bOnPlatform = 1;
 				this->SetPosY(hisBottom - this->GetHeight());
 				this->DecrementHealth(20);
+				CMapLoad::GetInstance()->m_bCollisionCheck = true;
+				return true;
+			}
+			else if(this->m_bOnPlatform && CMapLoad::GetInstance()->m_bCollisionCheck == false)
+			{
+				this->m_bOnGround = 0;
+				this->m_bOnPlatform = 0;
+				return false;
+			}
+		}
+		else if(BLOCK->GetBlock() == BLOCK_UNSTABLE)
+		{
+			if(myBottom >= hisY  
+				&& (myBottom) < (hisBottom)
+				&& (myRight) > hisX
+				&& (myX) < (hisRight)
+				&& !this->m_bOnGround
+				&& this->m_vSpeed.fY >= 0.0f)
+			{
+				this->m_bOnGround = 1;
+				this->m_bOnPlatform = 1;
+				BLOCK->SetStable(false);
+				this->SetPosY(hisY - this->GetHeight());
 				CMapLoad::GetInstance()->m_bCollisionCheck = true;
 				return true;
 			}
