@@ -361,9 +361,9 @@ void CPlayer::Input(float fElapsedTime)
 		//CGame::GetInstance()->GetMessageSystemPointer()->SendMsg(new CDestroyHookMessage(this));
 	}
 
-	if((CSGD_DirectInput::GetInstance()->MouseButtonDown(MOUSE_LEFT) || CSGD_DirectInput::GetInstance()->JoystickButtonPressed(7)))
+	if((CSGD_DirectInput::GetInstance()->MouseButtonPressed(MOUSE_LEFT) || CSGD_DirectInput::GetInstance()->JoystickButtonPressed(7)))
 	{
-		CGame::GetInstance()->GetMessageSystemPointer()->SendMsg(new CCreateFlameMessage(this));
+		CGame::GetInstance()->GetMessageSystemPointer()->SendMsg(new CCreateGrenadeMessage(this));
 	}
 
 	if(CSGD_DirectInput::GetInstance()->KeyPressed(DIK_LSHIFT))

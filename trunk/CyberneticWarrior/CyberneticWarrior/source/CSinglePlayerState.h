@@ -66,13 +66,7 @@ private:
 	int			m_nCrossHairID;
 	int			m_nBGMusic;
 
-	int			m_nRocketID;
-	int			m_nFlameID;
-	int			m_nPlasmaID;
-	int			m_nShockID;
-	int			m_nGrenadeID;
-	int			m_nIceID;
-	int			m_nFireID;
+	int			m_nWeaponID;
 	
 
 	CObjectFactory<string, CBase>*			m_pOF;
@@ -100,13 +94,7 @@ public:
 
 	tProfile*	GetProfileValues(void);
 
-	inline int GetRocketID( void ) { return this->m_nRocketID; }
-	inline int GetFlameID( void ) { return this->m_nFlameID; }
-	inline int GetPlasmaID( void ) { return this->m_nPlasmaID; }
-	inline int GetShockID( void ) { return this->m_nShockID; }
-	inline int GetGrenadeID( void ) { return this->m_nGrenadeID; }
-	inline int GetIceID( void ) { return this->m_nIceID; }
-	inline int GetFireID( void ) { return this->m_nFireID; }
+	inline int GetWeaponID( void ) { return this->m_nWeaponID; }
 	
 	
 	

@@ -8,7 +8,7 @@
 CPlasma::CPlasma(void)
 {
 	this->SetType(OBJ_PLASMA);
-	this->SetImageID(CSinglePlayerState::GetInstance()->GetPlasmaID());
+	this->SetImageID(CSinglePlayerState::GetInstance()->GetWeaponID());
 	this->SetRotation(0.0f);
 }
 

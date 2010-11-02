@@ -12,7 +12,7 @@ CRocket::CRocket( void )
 	m_fDeathTimer	= 0.0f;
 	m_nRocketState	= ROCKET_DIRECTIONAL;
 	SetType( OBJ_ROCKET );
-	SetImageID(CSinglePlayerState::GetInstance()->GetRocketID());
+	SetImageID(CSinglePlayerState::GetInstance()->GetWeaponID());
 
 	this->SetRotation(0.0f);
 

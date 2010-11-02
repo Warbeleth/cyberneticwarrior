@@ -4,12 +4,16 @@
 #include "CGame.h"
 #include "CSinglePlayerState.h"
 #include "CPlayer.h"
+#include "CBlock.h"
 
 CGrenade::CGrenade(void)
 {
 	this->SetType(OBJ_GRENADE);
-	this->SetImageID(CSinglePlayerState::GetInstance()->GetGrenadeID());
+	this->SetImageID(CSinglePlayerState::GetInstance()->GetWeaponID());
 	this->SetRotation(0.0f);
+	this->m_nBounceCount = 0;
+	this->m_fBoomTime = 5.0f;
+	this->m_vVelocity.fY = 500.0f;
 }
 
 CGrenade::~CGrenade(void)
@@ -19,6 +23,23 @@ CGrenade::~CGrenade(void)
 void CGrenade::Update(float fElapsedTime)
 {
 	CBase::Update(fElapsedTime);
+
+	static float fAge = 0.0f;
+	fAge += fElapsedTime;
+
+
+	if(fAge > this->m_fBoomTime)
+	{
+		CGame::GetInstance()->GetMessageSystemPointer()->SendMsg( new CDestroyGrenadeMessage( this, CSinglePlayerState::GetInstance()->GetPlayerPointer()) );
+		fAge = 0.0f;
+	}
+	
+	if(this->m_vVelocity.fY != 0.0f)
+	{
+		this->m_vVelocity.fY += 300*fElapsedTime;
+		this->SetBaseVelY(this->m_vVelocity.fY);
+	}
+	
 }
 
 void CGrenade::Render(void)
@@ -53,10 +74,27 @@ bool CGrenade::CheckCollision(CBase *pBase)
 	RECT rIntersect;
 	if( IntersectRect(&rIntersect, &GetRect(), &pBase->GetRect()) )
 	{
-		if( pBase->GetType() != OBJ_PLAYER )
+		if( pBase->GetType() == OBJ_BLOCK )
 		{
+			CBlock* BLOCK = (CBlock*)pBase;
+			this->m_nBounceCount++;
+			if(this->GetPosY() < BLOCK->GetPosY())
+			{
+				this->SetPosY(this->GetPosY()-2.0f);
+			}
+			if(this->GetPosY() > BLOCK->GetPosY())
+			{
+				this->SetPosY(this->GetPosY()+2.0f);
+			}
+
+			this->m_vVelocity.fY = -this->m_vVelocity.fY;
+
 			// Destroy the bullet
-			CGame::GetInstance()->GetMessageSystemPointer()->SendMsg( new CDestroyGrenadeMessage( this, CSinglePlayerState::GetInstance()->GetPlayerPointer()) );
+			if(this->m_nBounceCount > 2)
+			{
+				//CGame::GetInstance()->GetMessageSystemPointer()->SendMsg( new CDestroyGrenadeMessage( this, CSinglePlayerState::GetInstance()->GetPlayerPointer()) );
+				this->m_nBounceCount = 0;
+			}
 		}
 
 		return 1;

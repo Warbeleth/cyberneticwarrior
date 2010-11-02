@@ -8,7 +8,7 @@
 CBullet::CBullet(void)
 {
 	this->SetType(OBJ_BULLET);
-//	this->SetImageID(CSinglePlayerState::GetInstance()->GetBulletID());
+	this->SetImageID(CSinglePlayerState::GetInstance()->GetWeaponID());
 	this->SetRotation(0.0f);
 }
 
