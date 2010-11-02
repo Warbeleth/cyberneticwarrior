@@ -90,6 +90,18 @@ void CBaseEnemy::Render(void)
 	{
 		CSGD_TextureManager::GetInstance()->Draw(m_nImageID, (int)((GetPosX() - OffsetX) * CCamera::GetInstance()->GetScale()), (int)((GetPosY() - OffsetY) * CCamera::GetInstance()->GetScale()));
 	}
+	else
+	{
+		int left = (int)GetPosX() - OffsetX;
+		int top = (int)GetPosY() - OffsetY;
+		int right = left + GetWidth();
+		int bottom = top + GetHeight();
+
+		CSGD_Direct3D::GetInstance()->DrawLine(left, top, right, top, 255, 0, 0);
+		CSGD_Direct3D::GetInstance()->DrawLine(left, bottom, right, bottom, 255, 0, 0);
+		CSGD_Direct3D::GetInstance()->DrawLine(left, top, left, bottom, 255, 0, 0);
+		CSGD_Direct3D::GetInstance()->DrawLine(right, top, right, bottom, 255, 0, 0);
+	}
 }
 
 //void CBaseEnemy::AddRef(void)

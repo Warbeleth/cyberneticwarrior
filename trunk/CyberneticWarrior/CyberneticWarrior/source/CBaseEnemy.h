@@ -12,6 +12,7 @@
 class CSGD_Direct3D;
 //Imports for update checking
 #include "CPlayer.h"
+#include "SGD Wrappers\CSGD_Direct3D.h"
 //class CPlayer;
 class CSinglePlayerState;
 //Remaining includes
