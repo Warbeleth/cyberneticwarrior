@@ -63,6 +63,7 @@ private:
 	bool m_bHomingOn;
 
 	bool m_bForward;
+	bool m_bFixSwing;
 
 	CGrapplingHook*		m_pHook;
 
