@@ -102,12 +102,16 @@ void CPlayer::Update(float fElapsedTime)
 	{
 		if(!this->m_pHook->GetIfHooked() || this->GetOnGround())
 		{
-			CBase::Update(fElapsedTime);
+		CBase::Update(fElapsedTime);
+		//	this->SetPosX(this->GetPosX() + this->GetBaseVelX());
+		//	this->SetPosY(this->GetPosY() + this->GetBaseVelY());
 		}
 	}
 	else
 	{
 		CBase::Update(fElapsedTime);
+		//this->SetPosX(this->GetPosX() + this->GetBaseVelX());
+		//this->SetPosY(this->GetPosY() + this->GetBaseVelY());
 	}
 
 	this->Input(fElapsedTime);
@@ -327,14 +331,14 @@ void CPlayer::Input(float fElapsedTime)
 		this->SetBaseVelY(this->m_vSpeed.fY);
 	}
 
-	static int nMoveSpeed = 100;
+	static int nMoveSpeed = 10;
 	if((CSGD_DirectInput::GetInstance()->KeyDown(DIK_A) 
 		|| CSGD_DirectInput::GetInstance()->JoystickDPadDown(DIR_LEFT)
 		|| CSGD_DirectInput::GetInstance()->JoystickGetLStickDirDown(DIR_LEFT)))
 	{
 		if(this->m_vSpeed.fX > -200.0f)
 		{
-			this->m_vSpeed.fX -= nMoveSpeed * fElapsedTime;
+			this->m_vSpeed.fX -= nMoveSpeed;
 		}
 
 		if(this->m_pHook)
@@ -368,7 +372,7 @@ void CPlayer::Input(float fElapsedTime)
 	{
 		if(this->m_vSpeed.fX < 200.0f)
 		{
-			this->m_vSpeed.fX += nMoveSpeed * fElapsedTime;
+			this->m_vSpeed.fX += nMoveSpeed;
 		}
 
 		if(this->m_pHook)
@@ -405,6 +409,7 @@ void CPlayer::Input(float fElapsedTime)
 			if(this->m_pHook->GetIfHooked() && !this->GetOnGround())
 			{
 				this->m_bFixSwing = true;
+				this->SetBaseVelX(0.0f);
 			}
 		}
 	}
@@ -415,6 +420,7 @@ void CPlayer::Input(float fElapsedTime)
 			if(this->m_pHook->GetIfHooked() && !this->GetOnGround())
 			{
 				this->m_bFixSwing = true;
+				this->SetBaseVelX(0.0f);
 			}
 		}
 	}
@@ -564,6 +570,7 @@ void CPlayer::Render(void)
 	}
 	else
 	{
+		GetAnimations()->Render( (int)GetPosX()+GetAnimations()->GetFrameWidth()/2, (int)GetPosY()+GetAnimations()->GetFrameHeight());
 	}
 	//RECT rRender = { 340, 164, 550, 234 };
 
@@ -577,7 +584,7 @@ void CPlayer::Render(void)
 	CSGD_TextureManager::GetInstance()->Draw(m_nHandID, 
 		(int)(((GetPosX() + (GetWidth()/2)) - OffsetX) * CCamera::GetInstance()->GetScale()-10), 
 		(int)(((GetPosY() - (GetHeight()/2)) - OffsetY) * CCamera::GetInstance()->GetScale()+25), 
-		1.0f * CCamera::GetInstance()->GetScale(), 1.0f * CCamera::GetInstance()->GetScale(), 
+		0.7f * CCamera::GetInstance()->GetScale(), 0.7f * CCamera::GetInstance()->GetScale(), 
 		&rRender, 64, 128, m_fHandRotation, -1 );
 	}
 	else
@@ -585,7 +592,7 @@ void CPlayer::Render(void)
 		CSGD_TextureManager::GetInstance()->Draw(m_nHandID, 
 		(int)(((GetPosX() + (GetWidth()/2)) - OffsetX) * CCamera::GetInstance()->GetScale())+GetWidth()/2, 
 		(int)(((GetPosY() - (GetHeight()/2)) - OffsetY) * CCamera::GetInstance()->GetScale()+25), 
-		-1.0f * CCamera::GetInstance()->GetScale(), 1.0f * CCamera::GetInstance()->GetScale(), 
+		-0.7f * CCamera::GetInstance()->GetScale(), 0.7f * CCamera::GetInstance()->GetScale(), 
 		&rRender, 64, 128, m_fHandRotation, -1 );
 	}
 
