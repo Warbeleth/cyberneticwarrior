@@ -9,8 +9,8 @@
 #include "PrecompiledHeader.h"
 
 // My Includes
-#include <fstream>
 #include "CAnimationLoad.h"
+#include "CBase.h"
 
 //////////////////////////////////////////////////////////////////////////////////////////////////////
 // Function: “CPoint”
@@ -42,21 +42,20 @@ CFrame::CFrame(  )
 //////////////////////////////////////////////////////////////////////////////////////////////////////
 // Function: “RectRender”
 //////////////////////////////////////////////////////////////////////////////////////////////////////	
-/*
-void CFrame::RectRender()
+void CFrame::RectRender( int nX, int nY )
 { 
 	//DirectX singletons
 	CSGD_Direct3D* pD3D = CSGD_Direct3D::GetInstance();
 
 	// Draw GetFrame()
-	pD3D->DrawLine(m_rFrame.left, m_rFrame.top, m_rFrame.right, m_rFrame.top, 255, 0, 0);
-	pD3D->DrawLine(m_rFrame.right, m_rFrame.top, m_rFrame.right, m_rFrame.bottom, 255, 0, 0);
-	pD3D->DrawLine(m_rFrame.right, m_rFrame.bottom, m_rFrame.left, m_rFrame.bottom, 255, 0, 0);
-	pD3D->DrawLine(m_rFrame.left, m_rFrame.bottom, m_rFrame.left, m_rFrame.top, 255, 0, 0);
+	pD3D->DrawLine(m_rFrame.left + nX, m_rFrame.top + nY, m_rFrame.right + nX, m_rFrame.top + nY, 255, 0, 0);
+	pD3D->DrawLine(m_rFrame.right + nX, m_rFrame.top + nY, m_rFrame.right + nX, m_rFrame.bottom + nY, 255, 0, 0);
+	pD3D->DrawLine(m_rFrame.right + nX, m_rFrame.bottom + nY, m_rFrame.left + nX, m_rFrame.bottom + nY, 255, 0, 0);
+	pD3D->DrawLine(m_rFrame.left + nX, m_rFrame.bottom + nY, m_rFrame.left + nX, m_rFrame.top + nY, 255, 0, 0);
 
 	// Draw Anchor
-	pD3D->DrawLine(m_ptAnchor.X - 2, m_ptAnchor.Y - 2, m_ptAnchor.X + 2, m_ptAnchor.Y + 2, 255, 0, 255);
-	pD3D->DrawLine(m_ptAnchor.X + 2, m_ptAnchor.Y - 2, m_ptAnchor.X - 2, m_ptAnchor.Y + 2, 255, 0, 255);
+	pD3D->DrawLine(m_ptAnchor.m_nX - 2, m_ptAnchor.m_nY - 2, m_ptAnchor.m_nX + 2, m_ptAnchor.m_nY + 2, 255, 0, 255);
+	pD3D->DrawLine(m_ptAnchor.m_nX + 2, m_ptAnchor.m_nY - 2, m_ptAnchor.m_nX - 2, m_ptAnchor.m_nY + 2, 255, 0, 255);
 
 	// Draw Hit Rects
 	for (int i = 0; i < m_nTotalHitRects; ++i)
@@ -76,7 +75,6 @@ void CFrame::RectRender()
 		pD3D->DrawLine(m_vCollisionRects[i].left, m_vCollisionRects[i].bottom, m_vCollisionRects[i].left, m_vCollisionRects[i].top, 0, 0, 255);
 	}
 }
-*/
 
 //////////////////////////////////////////////////////////////////////////////////////////////////////
 // Function: “CAnimation”
@@ -154,12 +152,17 @@ void CAnimations::Update( float fElapsedTime )
 //////////////////////////////////////////////////////////////////////////////////////////////////////	
 void CAnimations::Render( int nPosX, int nPosY )
 {
+	int nXOffset = - m_nOffset.m_nX - CCamera::GetInstance()->GetOffsetX();
+	int nYOffset = - m_nOffset.m_nY - CCamera::GetInstance()->GetOffsetY();
+	
 	CSGD_TextureManager::GetInstance()->Draw(m_nId, 
-		int(CCamera::GetInstance()->GetScale() * (nPosX - m_nOffset.m_nX - CCamera::GetInstance()->GetOffsetX())), 
-		int(CCamera::GetInstance()->GetScale() * (nPosY - m_nOffset.m_nY - CCamera::GetInstance()->GetOffsetY())), 
-		CCamera::GetInstance()->GetScale() * 1, 
-		CCamera::GetInstance()->GetScale() * 1, 
+		int(CCamera::GetInstance()->GetScale() * (nPosX + nXOffset)), 
+		int(CCamera::GetInstance()->GetScale() * (nPosY + nYOffset)), 
+		CCamera::GetInstance()->GetScale(), 
+		CCamera::GetInstance()->GetScale(), 
 		&m_vAnimations[ m_nCurrentAnimation ].m_vFrames[ m_vAnimations[m_nCurrentAnimation].m_nCurrentFrame ].GetFrame() );
+
+	m_vAnimations[ m_nCurrentAnimation ].m_vFrames[ m_vAnimations[ m_nCurrentAnimation ].m_nCurrentFrame ].RectRender( nPosX - nXOffset, nPosY - nYOffset);
 }
 
 //////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -282,4 +285,83 @@ bool CAnimations::LoadBinary( char* szFilename )
 		return true;
 	}
 	return false;
+}
+
+bool CFrame::CheckCollision( CBase* pBase )
+{
+	if(pBase->GetAnimations())
+	{
+		RECT rCollision;
+		vector<RECT> vBaseCollisionRects = (*pBase->GetAnimations()->GetCollisionRects());
+				
+		for( int i = 0; i < m_nTotalCollisionRects; ++i )
+		{
+			for( unsigned int x = 0; x < pBase->GetAnimations()->GetCollisionRects()->size(); ++x )
+			{
+				if(IntersectRect(&rCollision, &m_vCollisionRects[i], &vBaseCollisionRects[i] ))
+					return true;
+			}
+		}
+	}
+	else
+	{		
+		RECT rCollision;
+		for( int i = 0; i < m_nTotalCollisionRects; ++i )
+		{
+			if(IntersectRect(&rCollision, &m_vCollisionRects[i], &pBase->GetRect()))
+				return true;
+		}
+	}
+
+	return false;
+}
+
+bool CAnimations::CheckCollision( CBase* pBase )
+{
+	return (m_vAnimations[m_nCurrentAnimation].m_vFrames[m_vAnimations[m_nCurrentAnimation].m_nCurrentFrame].CheckCollision( pBase ));
+}
+
+bool CFrame::CheckHit( CBase* pBase )
+{
+	RECT rHit;
+	for( int i = 0; i < m_nTotalHitRects; ++i )
+	{
+		if(IntersectRect(&rHit, &m_vHitRects[i], &pBase->GetRect()))
+			return true;
+	}
+
+	return false;
+}
+
+bool CAnimations::CheckHit( CBase* pBase )
+{
+	return (m_vAnimations[m_nCurrentAnimation].m_vFrames[m_vAnimations[m_nCurrentAnimation].m_nCurrentFrame].CheckHit( pBase ));
+}
+	
+RECT CAnimations::GetFrame( int nPosX, int nPosY ) 
+{ 
+	RECT rFrame = m_vAnimations[m_nCurrentAnimation].m_vFrames[m_vAnimations[m_nCurrentAnimation].m_nCurrentFrame].GetFrame();
+	rFrame.right -= rFrame.left;
+	rFrame.left = 0;
+	rFrame.bottom -= rFrame.top;
+	rFrame.top = 0;
+
+	rFrame.top += nPosY;
+	rFrame.bottom += nPosY;
+	rFrame.left += nPosX;
+	rFrame.right += nPosX;
+
+	return rFrame;
+}
+
+int CAnimations::GetFrameWidth( void )
+{
+	RECT rFrame = m_vAnimations[m_nCurrentAnimation].m_vFrames[m_vAnimations[m_nCurrentAnimation].m_nCurrentFrame].GetFrame();
+	return (rFrame.right - rFrame.left);
+}
+
+int CAnimations::GetFrameHeight( void )
+{	
+	RECT rFrame = m_vAnimations[m_nCurrentAnimation].m_vFrames[m_vAnimations[m_nCurrentAnimation].m_nCurrentFrame].GetFrame();
+	return (rFrame.bottom - rFrame.top);
 }

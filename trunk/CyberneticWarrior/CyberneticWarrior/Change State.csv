@@ -1,0 +1,726 @@
+
+
+Function Name: Change State
+Amount of Calls: 4
+Performace Times: 
+	Call #1: 204 milli Seconds
+	Call #2: 150 milli Seconds
+	Call #3: 523 milli Seconds
+	Call #4: 272 milli Seconds
+
+Average: 287 milli Seconds
+TimeStamp: Thu Oct 28 09:24:19 2010
+
+Function Name: Change State
+Amount of Calls: 4
+Performace Times: 
+	Call #1: 229 milli Seconds
+	Call #2: 217 milli Seconds
+	Call #3: 746 milli Seconds
+	Call #4: 266 milli Seconds
+
+Average: 364 milli Seconds
+TimeStamp: Thu Oct 28 09:24:19 2010
+
+Function Name: Change State
+Amount of Calls: 4
+Performace Times: 
+	Call #1: 244 milli Seconds
+	Call #2: 167 milli Seconds
+	Call #3: 880 milli Seconds
+	Call #4: 228 milli Seconds
+
+Average: 379 milli Seconds
+TimeStamp: Thu Oct 28 09:24:19 2010
+
+Function Name: Change State
+Amount of Calls: 3
+Performace Times: 
+	Call #1: 633 milli Seconds
+	Call #2: 1518 milli Seconds
+	Call #3: 501 milli Seconds
+
+Average: 884 milli Seconds
+TimeStamp: Thu Oct 28 11:45:25 2010
+
+Function Name: Change State
+Amount of Calls: 3
+Performace Times: 
+	Call #1: 643 milli Seconds
+	Call #2: 1621 milli Seconds
+	Call #3: 491 milli Seconds
+
+Average: 918 milli Seconds
+TimeStamp: Thu Oct 28 11:45:25 2010
+
+Function Name: Change State
+Amount of Calls: 3
+Performace Times: 
+	Call #1: 498 milli Seconds
+	Call #2: 1649 milli Seconds
+	Call #3: 514 milli Seconds
+
+Average: 887 milli Seconds
+TimeStamp: Thu Oct 28 11:45:25 2010
+
+Function Name: Change State
+Amount of Calls: 5
+Performace Times: 
+	Call #1: 512 milli Seconds
+	Call #2: 1427 milli Seconds
+	Call #3: 482 milli Seconds
+	Call #4: 1343 milli Seconds
+	Call #5: 482 milli Seconds
+
+Average: 849 milli Seconds
+TimeStamp: Thu Oct 28 11:45:25 2010
+
+Function Name: Change State
+Amount of Calls: 3
+Performace Times: 
+	Call #1: 492 milli Seconds
+	Call #2: 1476 milli Seconds
+	Call #3: 503 milli Seconds
+
+Average: 823 milli Seconds
+TimeStamp: Thu Oct 28 11:45:25 2010
+
+Function Name: Change State
+Amount of Calls: 1
+Performace Times: 
+	Call #1: 497 milli Seconds
+
+Average: 497 milli Seconds
+TimeStamp: Thu Oct 28 11:45:25 2010
+
+Function Name: Change State
+Amount of Calls: 3
+Performace Times: 
+	Call #1: 150 milli Seconds
+	Call #2: 711 milli Seconds
+	Call #3: 150 milli Seconds
+
+Average: 337 milli Seconds
+TimeStamp: Thu Oct 28 11:45:25 2010
+
+Function Name: Change State
+Amount of Calls: 3
+Performace Times: 
+	Call #1: 149 milli Seconds
+	Call #2: 504 milli Seconds
+	Call #3: 149 milli Seconds
+
+Average: 267 milli Seconds
+TimeStamp: Thu Oct 28 11:45:25 2010
+
+Function Name: Change State
+Amount of Calls: 3
+Performace Times: 
+	Call #1: 155.792 milli Seconds
+	Call #2: 108.819 milli Seconds
+	Call #3: 152.905 milli Seconds
+
+Average: 139.172 milli Seconds
+TimeStamp: Mon Nov  1 01:42:21 2010
+
+Function Name: Change State
+Amount of Calls: 3
+Performace Times: 
+	Call #1: 159.181 milli Seconds
+	Call #2: 112.969 milli Seconds
+	Call #3: 150.712 milli Seconds
+
+Average: 140.954 milli Seconds
+TimeStamp: Mon Nov  1 01:42:21 2010
+
+Function Name: Change State
+Amount of Calls: 1
+Performace Times: 
+	Call #1: 160.064 milli Seconds
+
+Average: 160.064 milli Seconds
+TimeStamp: Mon Nov  1 01:42:21 2010
+
+Function Name: Change State
+Amount of Calls: 3
+Performace Times: 
+	Call #1: 151.779 milli Seconds
+	Call #2: 113.231 milli Seconds
+	Call #3: 152.521 milli Seconds
+
+Average: 139.177 milli Seconds
+TimeStamp: Mon Nov  1 01:42:21 2010
+
+Function Name: Change State
+Amount of Calls: 3
+Performace Times: 
+	Call #1: 151.675 milli Seconds
+	Call #2: 116.367 milli Seconds
+	Call #3: 149.666 milli Seconds
+
+Average: 139.236 milli Seconds
+TimeStamp: Mon Nov  1 01:42:21 2010
+
+Function Name: Change State
+Amount of Calls: 3
+Performace Times: 
+	Call #1: 151.929 milli Seconds
+	Call #2: 114.78 milli Seconds
+	Call #3: 149.825 milli Seconds
+
+Average: 138.844 milli Seconds
+TimeStamp: Mon Nov  1 01:42:21 2010
+
+Function Name: Change State
+Amount of Calls: 3
+Performace Times: 
+	Call #1: 153.064 milli Seconds
+	Call #2: 115.692 milli Seconds
+	Call #3: 153.209 milli Seconds
+
+Average: 140.655 milli Seconds
+TimeStamp: Mon Nov  1 01:42:21 2010
+
+Function Name: Change State
+Amount of Calls: 3
+Performace Times: 
+	Call #1: 150.41 milli Seconds
+	Call #2: 112.045 milli Seconds
+	Call #3: 150.384 milli Seconds
+
+Average: 137.613 milli Seconds
+TimeStamp: Mon Nov  1 01:42:21 2010
+
+Function Name: Change State
+Amount of Calls: 3
+Performace Times: 
+	Call #1: 153.715 milli Seconds
+	Call #2: 111.893 milli Seconds
+	Call #3: 150.425 milli Seconds
+
+Average: 138.677 milli Seconds
+TimeStamp: Mon Nov  1 01:42:21 2010
+
+Function Name: Change State
+Amount of Calls: 3
+Performace Times: 
+	Call #1: 149.262 milli Seconds
+	Call #2: 113.436 milli Seconds
+	Call #3: 153.453 milli Seconds
+
+Average: 138.717 milli Seconds
+TimeStamp: Mon Nov  1 01:42:21 2010
+
+Function Name: Change State
+Amount of Calls: 3
+Performace Times: 
+	Call #1: 150.059 milli Seconds
+	Call #2: 111.805 milli Seconds
+	Call #3: 150.544 milli Seconds
+
+Average: 137.469 milli Seconds
+TimeStamp: Mon Nov  1 01:42:21 2010
+
+Function Name: Change State
+Amount of Calls: 5
+Performace Times: 
+	Call #1: 147.145 milli Seconds
+	Call #2: 111.619 milli Seconds
+	Call #3: 150.067 milli Seconds
+	Call #4: 107.462 milli Seconds
+	Call #5: 150.44 milli Seconds
+
+Average: 133.347 milli Seconds
+TimeStamp: Mon Nov  1 01:42:21 2010
+
+Function Name: Change State
+Amount of Calls: 3
+Performace Times: 
+	Call #1: 151.177 milli Seconds
+	Call #2: 114.315 milli Seconds
+	Call #3: 149.408 milli Seconds
+
+Average: 138.3 milli Seconds
+TimeStamp: Mon Nov  1 01:42:21 2010
+
+Function Name: Change State
+Amount of Calls: 3
+Performace Times: 
+	Call #1: 150.199 milli Seconds
+	Call #2: 114.281 milli Seconds
+	Call #3: 151.54 milli Seconds
+
+Average: 138.673 milli Seconds
+TimeStamp: Mon Nov  1 01:42:21 2010
+
+Function Name: Change State
+Amount of Calls: 5
+Performace Times: 
+	Call #1: 151.948 milli Seconds
+	Call #2: 112.824 milli Seconds
+	Call #3: 149.201 milli Seconds
+	Call #4: 105.766 milli Seconds
+	Call #5: 150.176 milli Seconds
+
+Average: 133.983 milli Seconds
+TimeStamp: Mon Nov  1 01:42:21 2010
+
+Function Name: Change State
+Amount of Calls: 3
+Performace Times: 
+	Call #1: 156.507 milli Seconds
+	Call #2: 115.628 milli Seconds
+	Call #3: 149.582 milli Seconds
+
+Average: 140.572 milli Seconds
+TimeStamp: Mon Nov  1 01:42:21 2010
+
+Function Name: Change State
+Amount of Calls: 3
+Performace Times: 
+	Call #1: 163.186 milli Seconds
+	Call #2: 114.737 milli Seconds
+	Call #3: 151.387 milli Seconds
+
+Average: 143.103 milli Seconds
+TimeStamp: Mon Nov  1 01:42:21 2010
+
+Function Name: Change State
+Amount of Calls: 3
+Performace Times: 
+	Call #1: 154.883 milli Seconds
+	Call #2: 117.33 milli Seconds
+	Call #3: 149.801 milli Seconds
+
+Average: 140.671 milli Seconds
+TimeStamp: Mon Nov  1 01:42:21 2010
+
+Function Name: Change State
+Amount of Calls: 5
+Performace Times: 
+	Call #1: 159.894 milli Seconds
+	Call #2: 112.966 milli Seconds
+	Call #3: 151.675 milli Seconds
+	Call #4: 120.529 milli Seconds
+	Call #5: 149.865 milli Seconds
+
+Average: 138.986 milli Seconds
+TimeStamp: Mon Nov  1 01:42:21 2010
+
+Function Name: Change State
+Amount of Calls: 1
+Performace Times: 
+	Call #1: 167.596 milli Seconds
+
+Average: 167.596 milli Seconds
+TimeStamp: Mon Nov  1 01:42:21 2010
+
+Function Name: Change State
+Amount of Calls: 3
+Performace Times: 
+	Call #1: 153.678 milli Seconds
+	Call #2: 113.244 milli Seconds
+	Call #3: 148.639 milli Seconds
+
+Average: 138.52 milli Seconds
+TimeStamp: Mon Nov  1 01:42:21 2010
+
+Function Name: Change State
+Amount of Calls: 5
+Performace Times: 
+	Call #1: 202.198 milli Seconds
+	Call #2: 132.685 milli Seconds
+	Call #3: 150.26 milli Seconds
+	Call #4: 107.987 milli Seconds
+	Call #5: 152.156 milli Seconds
+
+Average: 149.057 milli Seconds
+TimeStamp: Mon Nov  1 01:42:21 2010
+
+Function Name: Change State
+Amount of Calls: 3
+Performace Times: 
+	Call #1: 154.272 milli Seconds
+	Call #2: 114.154 milli Seconds
+	Call #3: 153.892 milli Seconds
+
+Average: 140.773 milli Seconds
+TimeStamp: Mon Nov  1 01:42:21 2010
+
+Function Name: Change State
+Amount of Calls: 3
+Performace Times: 
+	Call #1: 154.379 milli Seconds
+	Call #2: 113.837 milli Seconds
+	Call #3: 156.943 milli Seconds
+
+Average: 141.72 milli Seconds
+TimeStamp: Mon Nov  1 01:42:21 2010
+
+Function Name: Change State
+Amount of Calls: 3
+Performace Times: 
+	Call #1: 155.73 milli Seconds
+	Call #2: 109.913 milli Seconds
+	Call #3: 155.519 milli Seconds
+
+Average: 140.387 milli Seconds
+TimeStamp: Mon Nov  1 01:42:21 2010
+
+Function Name: Change State
+Amount of Calls: 3
+Performace Times: 
+	Call #1: 154.147 milli Seconds
+	Call #2: 113.839 milli Seconds
+	Call #3: 150.072 milli Seconds
+
+Average: 139.353 milli Seconds
+TimeStamp: Mon Nov  1 01:42:21 2010
+
+Function Name: Change State
+Amount of Calls: 3
+Performace Times: 
+	Call #1: 153.402 milli Seconds
+	Call #2: 132.526 milli Seconds
+	Call #3: 161.446 milli Seconds
+
+Average: 149.124 milli Seconds
+TimeStamp: Mon Nov  1 01:42:21 2010
+
+Function Name: Change State
+Amount of Calls: 3
+Performace Times: 
+	Call #1: 154.229 milli Seconds
+	Call #2: 123.043 milli Seconds
+	Call #3: 159.889 milli Seconds
+
+Average: 145.72 milli Seconds
+TimeStamp: Mon Nov  1 01:42:21 2010
+
+Function Name: Change State
+Amount of Calls: 3
+Performace Times: 
+	Call #1: 156.09 milli Seconds
+	Call #2: 110.648 milli Seconds
+	Call #3: 159.665 milli Seconds
+
+Average: 142.134 milli Seconds
+TimeStamp: Mon Nov  1 01:42:21 2010
+
+Function Name: Change State
+Amount of Calls: 3
+Performace Times: 
+	Call #1: 157.097 milli Seconds
+	Call #2: 114.362 milli Seconds
+	Call #3: 149.822 milli Seconds
+
+Average: 140.427 milli Seconds
+TimeStamp: Mon Nov  1 01:42:21 2010
+
+Function Name: Change State
+Amount of Calls: 3
+Performace Times: 
+	Call #1: 166.972 milli Seconds
+	Call #2: 114.272 milli Seconds
+	Call #3: 150.139 milli Seconds
+
+Average: 143.794 milli Seconds
+TimeStamp: Mon Nov  1 01:42:21 2010
+
+Function Name: Change State
+Amount of Calls: 3
+Performace Times: 
+	Call #1: 155.487 milli Seconds
+	Call #2: 113.299 milli Seconds
+	Call #3: 156.429 milli Seconds
+
+Average: 141.738 milli Seconds
+TimeStamp: Mon Nov  1 01:42:21 2010
+
+Function Name: Change State
+Amount of Calls: 3
+Performace Times: 
+	Call #1: 158.865 milli Seconds
+	Call #2: 116.663 milli Seconds
+	Call #3: 166.689 milli Seconds
+
+Average: 147.406 milli Seconds
+TimeStamp: Mon Nov  1 01:42:21 2010
+
+Function Name: Change State
+Amount of Calls: 3
+Performace Times: 
+	Call #1: 160.085 milli Seconds
+	Call #2: 118.219 milli Seconds
+	Call #3: 149.928 milli Seconds
+
+Average: 142.744 milli Seconds
+TimeStamp: Mon Nov  1 01:42:21 2010
+
+Function Name: Change State
+Amount of Calls: 3
+Performace Times: 
+	Call #1: 153.248 milli Seconds
+	Call #2: 117.253 milli Seconds
+	Call #3: 156.424 milli Seconds
+
+Average: 142.308 milli Seconds
+TimeStamp: Mon Nov  1 01:42:21 2010
+
+Function Name: Change State
+Amount of Calls: 3
+Performace Times: 
+	Call #1: 156.012 milli Seconds
+	Call #2: 122.004 milli Seconds
+	Call #3: 155.287 milli Seconds
+
+Average: 144.434 milli Seconds
+TimeStamp: Mon Nov  1 01:42:21 2010
+
+Function Name: Change State
+Amount of Calls: 3
+Performace Times: 
+	Call #1: 159.521 milli Seconds
+	Call #2: 118.097 milli Seconds
+	Call #3: 154.047 milli Seconds
+
+Average: 143.888 milli Seconds
+TimeStamp: Mon Nov  1 01:42:21 2010
+
+Function Name: Change State
+Amount of Calls: 3
+Performace Times: 
+	Call #1: 155.127 milli Seconds
+	Call #2: 113.391 milli Seconds
+	Call #3: 154.02 milli Seconds
+
+Average: 140.846 milli Seconds
+TimeStamp: Mon Nov  1 01:42:21 2010
+
+Function Name: Change State
+Amount of Calls: 3
+Performace Times: 
+	Call #1: 154.337 milli Seconds
+	Call #2: 113.8 milli Seconds
+	Call #3: 154.223 milli Seconds
+
+Average: 140.786 milli Seconds
+TimeStamp: Mon Nov  1 01:42:21 2010
+
+Function Name: Change State
+Amount of Calls: 3
+Performace Times: 
+	Call #1: 152.69 milli Seconds
+	Call #2: 115.72 milli Seconds
+	Call #3: 153.658 milli Seconds
+
+Average: 140.69 milli Seconds
+TimeStamp: Mon Nov  1 01:42:21 2010
+
+Function Name: Change State
+Amount of Calls: 3
+Performace Times: 
+	Call #1: 154.562 milli Seconds
+	Call #2: 111.231 milli Seconds
+	Call #3: 152.686 milli Seconds
+
+Average: 139.493 milli Seconds
+TimeStamp: Mon Nov  1 01:42:21 2010
+
+Function Name: Change State
+Amount of Calls: 3
+Performace Times: 
+	Call #1: 155.911 milli Seconds
+	Call #2: 118.615 milli Seconds
+	Call #3: 154.514 milli Seconds
+
+Average: 143.013 milli Seconds
+TimeStamp: Mon Nov  1 01:42:21 2010
+
+Function Name: Change State
+Amount of Calls: 3
+Performace Times: 
+	Call #1: 151.78 milli Seconds
+	Call #2: 120.058 milli Seconds
+	Call #3: 155.651 milli Seconds
+
+Average: 142.496 milli Seconds
+TimeStamp: Mon Nov  1 01:42:21 2010
+
+Function Name: Change State
+Amount of Calls: 5
+Performace Times: 
+	Call #1: 153.409 milli Seconds
+	Call #2: 118.998 milli Seconds
+	Call #3: 154.508 milli Seconds
+	Call #4: 112.692 milli Seconds
+	Call #5: 154.489 milli Seconds
+
+Average: 138.819 milli Seconds
+TimeStamp: Mon Nov  1 01:42:21 2010
+
+Function Name: Change State
+Amount of Calls: 3
+Performace Times: 
+	Call #1: 157.914 milli Seconds
+	Call #2: 121.139 milli Seconds
+	Call #3: 157.602 milli Seconds
+
+Average: 145.552 milli Seconds
+TimeStamp: Mon Nov  1 01:42:21 2010
+
+Function Name: Change State
+Amount of Calls: 3
+Performace Times: 
+	Call #1: 153.421 milli Seconds
+	Call #2: 116.746 milli Seconds
+	Call #3: 156.682 milli Seconds
+
+Average: 142.283 milli Seconds
+TimeStamp: Mon Nov  1 01:42:21 2010
+
+Function Name: Change State
+Amount of Calls: 3
+Performace Times: 
+	Call #1: 152.923 milli Seconds
+	Call #2: 118.242 milli Seconds
+	Call #3: 156.407 milli Seconds
+
+Average: 142.524 milli Seconds
+TimeStamp: Mon Nov  1 01:42:21 2010
+
+Function Name: Change State
+Amount of Calls: 3
+Performace Times: 
+	Call #1: 152.732 milli Seconds
+	Call #2: 119.377 milli Seconds
+	Call #3: 160.444 milli Seconds
+
+Average: 144.184 milli Seconds
+TimeStamp: Mon Nov  1 01:42:21 2010
+
+Function Name: Change State
+Amount of Calls: 3
+Performace Times: 
+	Call #1: 154.183 milli Seconds
+	Call #2: 118.947 milli Seconds
+	Call #3: 155.085 milli Seconds
+
+Average: 142.738 milli Seconds
+TimeStamp: Mon Nov  1 01:42:21 2010
+
+Function Name: Change State
+Amount of Calls: 3
+Performace Times: 
+	Call #1: 153.404 milli Seconds
+	Call #2: 121.189 milli Seconds
+	Call #3: 150.65 milli Seconds
+
+Average: 141.748 milli Seconds
+TimeStamp: Mon Nov  1 01:42:21 2010
+
+Function Name: Change State
+Amount of Calls: 3
+Performace Times: 
+	Call #1: 147.87 milli Seconds
+	Call #2: 115.38 milli Seconds
+	Call #3: 153.9 milli Seconds
+
+Average: 139.05 milli Seconds
+TimeStamp: Mon Nov  1 01:42:21 2010
+
+Function Name: Change State
+Amount of Calls: 3
+Performace Times: 
+	Call #1: 147.737 milli Seconds
+	Call #2: 114.374 milli Seconds
+	Call #3: 154.602 milli Seconds
+
+Average: 138.904 milli Seconds
+TimeStamp: Mon Nov  1 01:42:21 2010
+
+Function Name: Change State
+Amount of Calls: 3
+Performace Times: 
+	Call #1: 155.664 milli Seconds
+	Call #2: 111.642 milli Seconds
+	Call #3: 152.956 milli Seconds
+
+Average: 140.087 milli Seconds
+TimeStamp: Mon Nov  1 01:42:21 2010
+
+Function Name: Change State
+Amount of Calls: 3
+Performace Times: 
+	Call #1: 153.01 milli Seconds
+	Call #2: 111.959 milli Seconds
+	Call #3: 146.205 milli Seconds
+
+Average: 137.058 milli Seconds
+TimeStamp: Mon Nov  1 01:42:21 2010
+
+Function Name: Change State
+Amount of Calls: 3
+Performace Times: 
+	Call #1: 152.806 milli Seconds
+	Call #2: 113.921 milli Seconds
+	Call #3: 154.814 milli Seconds
+
+Average: 140.514 milli Seconds
+TimeStamp: Mon Nov  1 01:42:21 2010
+
+Function Name: Change State
+Amount of Calls: 3
+Performace Times: 
+	Call #1: 155.606 milli Seconds
+	Call #2: 114.087 milli Seconds
+	Call #3: 154.346 milli Seconds
+
+Average: 141.346 milli Seconds
+TimeStamp: Mon Nov  1 01:42:21 2010
+
+Function Name: Change State
+Amount of Calls: 5
+Performace Times: 
+	Call #1: 152.171 milli Seconds
+	Call #2: 120.58 milli Seconds
+	Call #3: 155.41 milli Seconds
+	Call #4: 109.119 milli Seconds
+	Call #5: 158.229 milli Seconds
+
+Average: 139.102 milli Seconds
+TimeStamp: Mon Nov  1 01:42:21 2010
+
+Function Name: Change State
+Amount of Calls: 5
+Performace Times: 
+	Call #1: 155.531 milli Seconds
+	Call #2: 115.775 milli Seconds
+	Call #3: 153.211 milli Seconds
+	Call #4: 107.986 milli Seconds
+	Call #5: 154.271 milli Seconds
+
+Average: 137.355 milli Seconds
+TimeStamp: Mon Nov  1 01:42:21 2010
+
+Function Name: Change State
+Amount of Calls: 5
+Performace Times: 
+	Call #1: 150.856 milli Seconds
+	Call #2: 117.587 milli Seconds
+	Call #3: 155.695 milli Seconds
+	Call #4: 107.216 milli Seconds
+	Call #5: 154.722 milli Seconds
+
+Average: 137.215 milli Seconds
+TimeStamp: Mon Nov  1 01:42:21 2010
+
+Function Name: Change State
+Amount of Calls: 3
+Performace Times: 
+	Call #1: 157.384 milli Seconds
+	Call #2: 114.151 milli Seconds
+	Call #3: 155.06 milli Seconds
+
+Average: 142.198 milli Seconds
+TimeStamp: Mon Nov  1 01:42:21 2010

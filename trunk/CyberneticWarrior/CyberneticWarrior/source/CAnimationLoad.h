@@ -18,6 +18,7 @@
 using std::vector;
 #include <string>
 using std::string;
+class CBase;
 
 //////////////////////////////////////////////////////////////////////////////////////////////////////
 //						******************* CLASS - CPoint *******************
@@ -76,6 +77,10 @@ public:
 	//			rRect - The rect to add.
 	//////////////////////////////////////////////////////////////////////////////////////////////////////
 	void AddHitRect( RECT rRect ) { m_vHitRects.push_back( rRect ); }
+
+
+	bool CheckHit( CBase* pBase );
+	bool CheckCollision( CBase* pBase );
 		
 	//////////////////////////////////////////////////////////////////////////////////////////////////////
 	// Function: “RectRender”
@@ -84,7 +89,7 @@ public:
 	//			render this particular frame in the animation, but in this case it wont be an image, it 
 	//			will be a Rectangle. This will also display this frame's hit / collision rectangles.
 	//////////////////////////////////////////////////////////////////////////////////////////////////////
-	//void RectRender();
+	void RectRender( int nX, int nY );
 
 	///////////////////////////////////////////////////////////////////////////////////////////////////////
 	// Function: Accessors 
@@ -93,6 +98,7 @@ public:
 	///////////////////////////////////////////////////////////////////////////////////////////////////////
 	CPoint GetAnchor( void ) { return m_ptAnchor; }
 	RECT GetFrame( void ) { return m_rFrame; }
+	vector<RECT>* GetCollisionRects( void ) { return &m_vCollisionRects; }
 
 	///////////////////////////////////////////////////////////////////////////////////////////////////////
 	// Function: Modifiers 
@@ -193,5 +199,16 @@ public:
 	//			Return - True if it succeeds, False if it fails to open the file
 	//////////////////////////////////////////////////////////////////////////////////////////////////////
 	bool LoadBinary( char* szFilename );
+
+	bool CheckCollision( CBase* pBase );
+
+	bool CheckHit( CBase* pBase );
+
+	void SetCurrentAnimation( int nCurrentAnimation ) { m_nCurrentAnimation = nCurrentAnimation; }
+
+	vector<RECT>* GetCollisionRects( void ) { return m_vAnimations[m_nCurrentAnimation].m_vFrames[m_vAnimations[m_nCurrentAnimation].m_nCurrentFrame].GetCollisionRects(); }
+	RECT GetFrame( int nPosX, int nPosY );
+	int GetFrameWidth( void ); 
+	int GetFrameHeight( void ) ;
 };
 #endif

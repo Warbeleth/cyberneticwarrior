@@ -944,6 +944,10 @@
 					RelativePath=".\resource\binary\akainu.bae"
 					>
 				</File>
+				<File
+					RelativePath=".\resource\binary\PlayerAnimations.bae"
+					>
+				</File>
 			</Filter>
 		</Filter>
 		<Filter
