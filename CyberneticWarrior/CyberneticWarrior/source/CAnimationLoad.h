@@ -89,7 +89,7 @@ public:
 	//			render this particular frame in the animation, but in this case it wont be an image, it 
 	//			will be a Rectangle. This will also display this frame's hit / collision rectangles.
 	//////////////////////////////////////////////////////////////////////////////////////////////////////
-	void RectRender( int nX, int nY );
+	void RectRender( int nX, int nY, float fScale = 1 );
 
 	///////////////////////////////////////////////////////////////////////////////////////////////////////
 	// Function: Accessors 
@@ -190,7 +190,7 @@ public:
 	// Purpose: This will render the current animation to the screen based on the current frame and
 	//			animation values inside the CAnimations object.
 	//////////////////////////////////////////////////////////////////////////////////////////////////////
-	void Render( int nPosX, int nPosY );
+	void Render( int nPosX, int nPosY, float fScale = 1  );
 
 	//////////////////////////////////////////////////////////////////////////////////////////////////////
 	// Function: “LoadBinary”
