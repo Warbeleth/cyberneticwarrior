@@ -90,9 +90,9 @@ bool CGrenade::CheckCollision(CBase *pBase)
 			this->m_vVelocity.fY = -this->m_vVelocity.fY;
 
 			// Destroy the bullet
-			if(this->m_nBounceCount > 2)
+			if(this->m_nBounceCount > 4)
 			{
-				//CGame::GetInstance()->GetMessageSystemPointer()->SendMsg( new CDestroyGrenadeMessage( this, CSinglePlayerState::GetInstance()->GetPlayerPointer()) );
+				CGame::GetInstance()->GetMessageSystemPointer()->SendMsg( new CDestroyGrenadeMessage( this, CSinglePlayerState::GetInstance()->GetPlayerPointer()) );
 				this->m_nBounceCount = 0;
 			}
 		}

@@ -580,6 +580,7 @@ void CGame::MessageProc(CBaseMessage*	pMsg)
 
 			CObjectManager::GetInstance()->AddObject(pGrenade);
 
+
 			pGrenade->Release();
 
 		}

@@ -31,9 +31,22 @@ void CGrapplingHook::Update(float fElapsedTime)
 		this->SetPosX(this->GetPosX() + this->GetBaseVelX() * fElapsedTime);
 		this->SetPosY(this->GetPosY() + this->GetBaseVelY() * fElapsedTime);
 
-		//CSinglePlayerState::GetInstance()->GetPlayerPointer()->SetRotation(-this->GetRotation());
-		
+		//tVector2D vHook, vPlayer;
+		//vHook.fX = this->GetPosX();
+		//vHook.fY = this->GetPosY();
 
+		//vPlayer.fX = CSinglePlayerState::GetInstance()->GetPlayerPointer()->GetPosX();
+		//vPlayer.fY = CSinglePlayerState::GetInstance()->GetPlayerPointer()->GetPosY();
+
+		//static bool one = 1;
+
+		//if(one)
+		//{
+		//CSinglePlayerState::GetInstance()->GetPlayerPointer()->SetRotation(AngleBetweenVectors(vHook, vPlayer));
+		//float test = AngleBetweenVectors(vHook, vPlayer);
+		//one = 0;
+		//}
+		//CSinglePlayerState::GetInstance()->GetPlayerPointer()->SetRotation(-this->GetRotation());
 		//bOnGround = CSinglePlayerState::GetInstance()->GetPlayerPointer()->GetOnGround();
 
 	}
