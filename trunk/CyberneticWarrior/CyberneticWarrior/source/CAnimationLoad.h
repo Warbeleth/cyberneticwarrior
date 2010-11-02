@@ -207,7 +207,8 @@ public:
 	void SetCurrentAnimation( int nCurrentAnimation ) { m_nCurrentAnimation = nCurrentAnimation; }
 
 	vector<RECT>* GetCollisionRects( void ) { return m_vAnimations[m_nCurrentAnimation].m_vFrames[m_vAnimations[m_nCurrentAnimation].m_nCurrentFrame].GetCollisionRects(); }
-	RECT GetFrame( int nPosX, int nPosY );
+	RECT GetCollisionFrame( int nPosX, int nPosY );
+	RECT GetFrame( void );
 	int GetFrameWidth( void ); 
 	int GetFrameHeight( void ) ;
 };
