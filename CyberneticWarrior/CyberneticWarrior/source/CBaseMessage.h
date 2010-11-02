@@ -12,6 +12,7 @@ class CShock;
 class CGrenade;
 class CIce;
 class CFire;
+class CBlock;
 
 typedef  int MSGID;
 
@@ -26,6 +27,7 @@ enum eMsgTypes	{ MSG_NULL = 0,
 					MSG_CREATE_SHOCK, MSG_DESTROY_SHOCK,
 					MSG_CREATE_FIRE, MSG_DESTROY_FIRE,
 					MSG_CREATE_ICE, MSG_DESTROY_ICE,
+					MSG_DESTROY_BLOCK,
 					/*MSG_CREATE_PICKUP,*/ MSG_MAX };
 
 class CBaseMessage
@@ -267,6 +269,18 @@ public:
 	~CDestroyFireMessage(void);
 	CBaseEnemy*		GetOwnerPointer(void);
 	CFire*			GetFirePointer(void);
+};
+
+
+class CDestroyBlockMessage : public CBaseMessage
+{
+private:
+	CBlock* m_pBlock;
+public:
+	CDestroyBlockMessage(CBlock* pBlock);
+	~CDestroyBlockMessage(void);
+
+	CBlock*	GetBlockPointer(void) { return m_pBlock; }
 };
 
 /*	---Message Class Example---

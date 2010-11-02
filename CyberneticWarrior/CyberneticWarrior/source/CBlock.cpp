@@ -1,5 +1,6 @@
 #include "PrecompiledHeader.h"
 
+#include "CGame.h"
 #include "CBlock.h"
 #include "CPlayer.h"
 #include "CObjectManager.h"
@@ -40,7 +41,8 @@ void CBlock::Update(float fElapsedTime)
 
 		if(GetPosY() > CCamera::GetInstance()->GetOffsetY()+2000)
 		{
-			CObjectManager::GetInstance()->RemoveObject(this);
+			CGame::GetInstance()->GetMessageSystemPointer()->SendMsg(new CDestroyBlockMessage(this));
+			//CObjectManager::GetInstance()->RemoveObject(this);
 		}
 	}
 }

@@ -8,6 +8,7 @@
 #include "CGrenade.h"
 #include "CFire.h"
 #include "CIce.h"
+#include "CBlock.h"
 
 ///////////////////////////////////////////////////////////////////////////////
 //	class "CBaseMessage"
@@ -447,6 +448,16 @@ CFire* CDestroyFireMessage::GetFirePointer(void)
 {
 	return this->m_pFire;
 }
+
+CDestroyBlockMessage::CDestroyBlockMessage(CBlock* pBlock) : CBaseMessage(MSG_DESTROY_BLOCK)
+{
+	this->m_pBlock = pBlock;
+}
+
+CDestroyBlockMessage::~CDestroyBlockMessage(void)
+{
+}
+
 /* ---Message Class Example---
 CCreateEnemyMessage::CCreateEnemyMessage(CEnemy* pEnemy) : CBaseMessage(MSG_CREATE_ENEMY)
 {
