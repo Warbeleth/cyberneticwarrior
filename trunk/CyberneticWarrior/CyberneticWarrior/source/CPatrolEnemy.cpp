@@ -13,6 +13,7 @@
 
 CPatrolEnemy::CPatrolEnemy(void)
 {
+	this->SetType(OBJ_ENEMY);
 }
 
 CPatrolEnemy::CPatrolEnemy(int nState, float fCurrentPatrolDistance, float fMaxPatrolDistance, int nType, int nImageID, 
@@ -25,6 +26,7 @@ CPatrolEnemy::CPatrolEnemy(int nState, float fCurrentPatrolDistance, float fMaxP
 	m_nState = nState;
 	m_fCurrentPatrolDistance = fCurrentPatrolDistance;
 	m_fMaxPatrolDistance = fMaxPatrolDistance;
+	this->SetType(OBJ_ENEMY);
 }
 
 CPatrolEnemy::~CPatrolEnemy(void)

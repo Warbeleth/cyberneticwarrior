@@ -127,7 +127,7 @@ void CCreateBulletMessage::SetPlayerPointer( CPlayer* pPlayer )
 ///////////////////////////////////////////////////////////////////////////////
 //	class "CDestroyBulletMessage"
 ///////////////////////////////////////////////////////////////////////////////
-CDestroyBulletMessage::CDestroyBulletMessage(CBullet* pBullet, CPlayer* pPlayer) : CBaseMessage(MSG_DESTROY_ROCKET)
+CDestroyBulletMessage::CDestroyBulletMessage(CBullet* pBullet, CPlayer* pPlayer) : CBaseMessage(MSG_DESTROY_BULLET)
 {
 	this->m_pBullet = pBullet;
 	this->m_pPlayer = pPlayer;
