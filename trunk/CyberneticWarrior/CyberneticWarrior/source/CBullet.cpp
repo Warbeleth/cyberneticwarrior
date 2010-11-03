@@ -30,7 +30,6 @@ void CBullet::Update(float fElapsedTime)
 		|| (this->GetPosY() - (this->GetHeight()/2.0f) >= (vScreenDimensions.fY+20)))
 	{
 		// destroy
-		CSinglePlayerState::GetInstance()->GetPlayerPointer()->SetHookPointer(NULL);
 		CGame::GetInstance()->GetMessageSystemPointer()->SendMsg(new CDestroyBulletMessage(this, CSinglePlayerState::GetInstance()->GetPlayerPointer()));
 	}
 }
