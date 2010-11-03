@@ -417,6 +417,7 @@ void CGame::MessageProc(CBaseMessage*	pMsg)
 			pBullet->SetPosX(pCR->GetPlayerPointer()->GetPosX() + (float)pCR->GetPlayerPointer()->GetWidth());
 			pBullet->SetPosY(pCR->GetPlayerPointer()->GetPosY());
 
+
 			tVector2D vMousePos;
 			vMousePos.fX = (float)CSGD_DirectInput::GetInstance()->MouseGetPosX() + CCamera::GetInstance()->GetOffsetX();
 			vMousePos.fY = (float)CSGD_DirectInput::GetInstance()->MouseGetPosY() + CCamera::GetInstance()->GetOffsetY();
@@ -424,6 +425,13 @@ void CGame::MessageProc(CBaseMessage*	pMsg)
 			tVector2D vPlayerPos;
 			vPlayerPos.fX = pCR->GetPlayerPointer()->GetPosX() + (float)pCR->GetPlayerPointer()->GetWidth();
 			vPlayerPos.fY = pCR->GetPlayerPointer()->GetPosY();
+
+
+			
+			pBullet->SetRotation( SGD_PI + (SGD_PI - AngleBetweenVectors(vPlayerPos, vMousePos)));
+
+
+
 
 			tVector2D vShot;
 
@@ -470,6 +478,10 @@ void CGame::MessageProc(CBaseMessage*	pMsg)
 			vPlayerPos.fX = pCR->GetPlayerPointer()->GetPosX() + (float)pCR->GetPlayerPointer()->GetWidth();
 			vPlayerPos.fY = pCR->GetPlayerPointer()->GetPosY();
 
+
+			pRocket->SetRotation( SGD_PI + (SGD_PI - AngleBetweenVectors(vPlayerPos, vMousePos)));
+
+
 			tVector2D vShot;
 
 			vShot = vMousePos - vPlayerPos;
@@ -515,9 +527,22 @@ void CGame::MessageProc(CBaseMessage*	pMsg)
 			vPlayerPos.fX = pCR->GetPlayerPointer()->GetPosX() + (float)pCR->GetPlayerPointer()->GetWidth();
 			vPlayerPos.fY = pCR->GetPlayerPointer()->GetPosY();
 
+			
+			/*tVector2D vFlameRot;
+			vFlameRot.fX = 0.0f;
+			vFlameRot.fY = -1.0f;
+			tVector2D vMouseRot;
+			vMouseRot.fX = (float)CSGD_DirectInput::GetInstance()->MouseGetPosX()-pCR->GetPlayerPointer()->GetPosX() + CCamera::GetInstance()->GetOffsetX();
+			vMouseRot.fY = (float)CSGD_DirectInput::GetInstance()->MouseGetPosY()-pCR->GetPlayerPointer()->GetPosY() + CCamera::GetInstance()->GetOffsetY();
+
+			pFlame->SetRotation( SGD_PI + (SGD_PI - AngleBetweenVectors(vFlameRot, vMousePos)));
+*/
+
 			tVector2D vShot;
 
 			vShot = vMousePos - vPlayerPos;
+
+			//Vector2DRotate(vShot, pFlame->GetRotation());
 
 			vShot = Vector2DNormalize(vShot);
 
