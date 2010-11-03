@@ -345,21 +345,12 @@ void CPlayer::Input(float fElapsedTime)
 		{
 			if(this->m_pHook->GetIfHooked() && !this->GetOnGround() && this->GetPosY() > this->m_pHook->GetPosY())
 			{
-				/*if(this->GetRotation() <= 3.14f/2)
-				{*/
 				this->m_pHook->SetRotation(this->m_pHook->GetRotation() + this->m_pHook->GetRotationRate() * fElapsedTime);
 				if(!this->m_bOnGround)
 				{
 					this->m_bFixSwing = false;
 					this->SetRotation(this->m_pHook->GetRotation());
 				}
-				
-				/*}
-				else
-				{
-				this->m_pHook->SetRotation(.9f);
-				}*/
-
 			}
 		}
 
@@ -379,8 +370,6 @@ void CPlayer::Input(float fElapsedTime)
 		{
 			if(this->m_pHook->GetIfHooked() && !this->GetOnGround() && this->GetPosY() > this->m_pHook->GetPosY())
 			{
-				/*if(this->GetRotation() >= -3.14f*2)
-				{*/
 				this->m_pHook->SetRotation(this->m_pHook->GetRotation() - this->m_pHook->GetRotationRate() * fElapsedTime);
 				if(!this->m_bOnGround)
 				{
@@ -388,13 +377,6 @@ void CPlayer::Input(float fElapsedTime)
 
 					this->SetRotation(this->m_pHook->GetRotation());
 				}
-			
-				/*}
-				else
-				{
-				this->m_pHook->SetRotation(.45f);
-				}*/
-
 			}
 		}
 

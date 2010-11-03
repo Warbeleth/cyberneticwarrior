@@ -13,6 +13,7 @@
 
 CIdleEnemy::CIdleEnemy(void)
 {
+	this->SetType(OBJ_ENEMY);
 }
 
 CIdleEnemy::CIdleEnemy(int nState, int nType, int nImageID, int nMaxHP, int nCurrentHP, 
@@ -22,6 +23,7 @@ CIdleEnemy::CIdleEnemy(int nState, int nType, int nImageID, int nMaxHP, int nCur
 																		PosX, PosY, Width, Height)
 
 {
+	this->SetType(OBJ_ENEMY);
 	m_nState = nState;
 }
 

@@ -6,6 +6,7 @@
 
 CFLCLMech::CFLCLMech()
 {
+	this->SetType(OBJ_ENEMY);
 }
 CFLCLMech::CFLCLMech(int nImageID, float PosX, float PosY,int Width, int Height, int nState, float fCurrentPatrolDistance, 
 				int nMaxHP, int nCurrentHP, int nSightRange, int nAttackRange, int nType, float fRateOfFire, 
@@ -14,6 +15,7 @@ CFLCLMech::CFLCLMech(int nImageID, float PosX, float PosY,int Width, int Height,
 				 nAttackRange, fRateOfFire, fSpeed, PosX, PosY, Width, Height)
 {
 	m_nCID = CCodeProfiler::GetInstance()->CreateFunction("FLCL Mech");
+	this->SetType(OBJ_ENEMY);
 	m_bRevive = bRevive;
 	m_bReviving = false;
 	m_fReviveTime = fReviveTime;

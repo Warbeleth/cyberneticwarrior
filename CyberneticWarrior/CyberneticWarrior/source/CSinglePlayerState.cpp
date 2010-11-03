@@ -159,30 +159,6 @@ void CSinglePlayerState::Enter(void)
 
 	tVector2D vStartingPos;
 
-	/*this->m_TempPlatform1 = (CBlock*)m_pOF->CreateObject("CBlock");
-	this->m_TempPlatform1->SetImageID(this->m_pTM->LoadTexture("resource/graphics/tile.png"));
-	this->m_TempPlatform1->SetPosX((float)0);
-	this->m_TempPlatform1->SetPosY((float)370);
-	vStartingPos.fX = this->m_TempPlatform1->GetPosX();
-	vStartingPos.fY = this->m_TempPlatform1->GetPosY();
-	this->m_TempPlatform1->SetWorldPos(vStartingPos);
-	this->m_TempPlatform1->SetWidth(256);
-	this->m_TempPlatform1->SetHeight(32);
-	this->m_TempPlatform1->SetBlockType(BLOCK_SOLID);
-	this->m_TempPlatform1->SetType(OBJ_BLOCK);*/
-
-
-
-
-	/*this->m_TempPlatform2 = (CBlock*)m_pOF->CreateObject("CBlock");
-	this->m_TempPlatform2->SetPosX((float)330);
-	this->m_TempPlatform2->SetPosY((float)100);
-	vStartingPos.fX = this->m_TempPlatform2->GetPosX();
-	vStartingPos.fY = this->m_TempPlatform2->GetPosY();
-	this->m_TempPlatform2->SetWidth(256);
-	this->m_TempPlatform2->SetHeight(32);
-	this->m_TempPlatform2->SetBlock(BLOCK_SOLID);
-	this->m_TempPlatform2->SetType(OBJ_BLOCK);*/
 
 
 
@@ -203,17 +179,12 @@ void CSinglePlayerState::Enter(void)
 		this->m_pOM->AddObject(this->m_PickUp);		
 		this->m_PickUp->Release();
 	}
-	/*this->m_pOM->AddObject(m_TempPlatform1);
-	this->m_TempPlatform1->Release();*/
 
 	
 
 	this->m_pOM->AddObject(this->m_TempPlayer);
 	this->m_TempPlayer->Release();
-	/*
 
-	this->m_pOM->AddObject(this->m_TempPlatform2);
-	this->m_TempPlatform2->Release();*/
 
 
 	CLoadingState::GetInstance()->SetReady(1);

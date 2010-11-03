@@ -22,7 +22,6 @@ CGrenade::~CGrenade(void)
 
 void CGrenade::Update(float fElapsedTime)
 {
-	CBase::Update(fElapsedTime);
 
 	static float fAge = 0.0f;
 	fAge += fElapsedTime;
@@ -49,10 +48,11 @@ void CGrenade::Update(float fElapsedTime)
 		|| (this->GetPosY() - (this->GetHeight()/2.0f) >= (vScreenDimensions.fY+20)))
 	{
 		// destroy
-		CSinglePlayerState::GetInstance()->GetPlayerPointer()->SetHookPointer(NULL);
 		CGame::GetInstance()->GetMessageSystemPointer()->SendMsg(new CDestroyGrenadeMessage(this, CSinglePlayerState::GetInstance()->GetPlayerPointer()));
 	}
 	
+	CBase::Update(fElapsedTime);
+
 }
 
 void CGrenade::Render(void)
@@ -93,24 +93,23 @@ bool CGrenade::CheckCollision(CBase *pBase)
 			this->m_nBounceCount++;
 			if(this->GetPosY() < BLOCK->GetPosY())
 			{
-				this->SetPosY(this->GetPosY()-2.0f);
+				this->SetPosY(BLOCK->GetPosY()-this->GetHeight()-0.1f);
 			}
 			if(this->GetPosY() > BLOCK->GetPosY())
 			{
-				this->SetPosY(this->GetPosY()+2.0f);
+				this->SetPosY(this->GetPosY()+this->GetHeight()+0.1f);
 			}
 
 			this->m_vVelocity.fY = -this->m_vVelocity.fY;
 
 			// Destroy the bullet
-			if(this->m_nBounceCount > 10)
+			if(this->m_nBounceCount > 2)
 			{
 				CGame::GetInstance()->GetMessageSystemPointer()->SendMsg( new CDestroyGrenadeMessage( this, CSinglePlayerState::GetInstance()->GetPlayerPointer()) );
 				this->m_nBounceCount = 0;
 			}
 		}
-
-		if(pBase->GetType() == OBJ_ENEMY)
+		else if(pBase->GetType() != OBJ_PLAYER && pBase->GetType() != OBJ_GRENADE)
 		{
 			this->SetBaseVelX(0.0f);
 			this->SetBaseVelY(0.0f);
