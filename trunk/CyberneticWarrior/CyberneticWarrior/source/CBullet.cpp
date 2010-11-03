@@ -37,10 +37,10 @@ void CBullet::Update(float fElapsedTime)
 void CBullet::Render(void)
 {
 	RECT rRender;
-	rRender.top = 239;
-	rRender.left = 976;
-	rRender.right = 986;
-	rRender.bottom = 246;
+	rRender.top = 190;
+	rRender.left = 810;
+	rRender.right = 820;
+	rRender.bottom = 208;
 	CSGD_TextureManager::GetInstance()->Draw( GetImageID(), 
 		(int)(((GetPosX() + (GetWidth()/2.0f) ) - CCamera::GetInstance()->GetOffsetX()) * CCamera::GetInstance()->GetScale()), 
 		(int)(((GetPosY() - (GetHeight()/2.0f)) - CCamera::GetInstance()->GetOffsetY()) * CCamera::GetInstance()->GetScale()), 
