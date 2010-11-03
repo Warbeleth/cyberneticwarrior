@@ -24,7 +24,7 @@ public:
 				int nCurrentHP = 350,
 				int nSightRange = 100, 
 				int nAttackRange = 75, 
-				int nType = Ground_FLCL,
+				int nGlobalType = Ground_FLCL,
 				float fRateOfFire = 1.0f, 
 				float fSpeed = 48.0f,
 				float fReviveTime = 10.0f, 

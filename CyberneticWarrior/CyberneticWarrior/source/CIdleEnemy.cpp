@@ -15,9 +15,9 @@ CIdleEnemy::CIdleEnemy(void)
 {
 }
 
-CIdleEnemy::CIdleEnemy(int nState, int nType, int nImageID, int nMaxHP, int nCurrentHP, 
+CIdleEnemy::CIdleEnemy(int nState, int nGlobalType, int nImageID, int nMaxHP, int nCurrentHP, 
 		   int nSightRange, int nAttackRange, float fRateOfFire, 
-		   float fSpeed, float PosX, float PosY, int Width, int Height) : CBaseEnemy(nType, nImageID, nMaxHP, nCurrentHP, 
+		   float fSpeed, float PosX, float PosY, int Width, int Height) : CBaseEnemy(nGlobalType, nImageID, nMaxHP, nCurrentHP, 
 																		nSightRange, nAttackRange, fRateOfFire, fSpeed,
 																		PosX, PosY, Width, Height)
 

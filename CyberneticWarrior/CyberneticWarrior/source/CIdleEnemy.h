@@ -20,7 +20,7 @@ class CIdleEnemy : public CBaseEnemy
 
 public:
 	CIdleEnemy(void);
-	CIdleEnemy(int nState, int nType, int nImageID, int nMaxHP, int nCurrentHP, 
+	CIdleEnemy(int nState, int nGlobalType, int nImageID, int nMaxHP, int nCurrentHP, 
 			   int nSightRange, int nAttackRange, float fRateOfFire, 
 			   float fSpeed, float PosX, float PosY, int Width, int Height);
 

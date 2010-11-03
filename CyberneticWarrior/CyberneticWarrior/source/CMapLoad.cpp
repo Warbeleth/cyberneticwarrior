@@ -96,7 +96,7 @@ bool CMapLoad::LoadMap(const char* szFilename)
 
 			m_lMap[Index] = NewNode;
 
-			//Use "If type..." to decide what to spawn
+			//Use "If nGlobalType..." to decide what to spawn
 			CFLCLMech* CEnemy = new CFLCLMech(-1, (float)NewNode.m_eEnemy.m_nPosX, (float)NewNode.m_eEnemy.m_nPosY);
 
 			m_pOM->AddObject(CEnemy);
