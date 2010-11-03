@@ -319,6 +319,56 @@ void CPlayer::Input(float fElapsedTime)
 
 	GetAnimations()->SetCurrentAnimation(1);
 
+
+
+
+	if(CSGD_DirectInput::GetInstance()->KeyDown(DIK_W) )
+	{
+		if(this->m_pHook)
+		{
+			if(this->GetPosY() > this->m_pHook->GetPosY() + 30 && this->m_pHook->GetIfHooked() && !this->GetOnGround())
+			{
+				if(this->GetPosX() < this->m_pHook->GetPosX())
+				{
+					this->m_bFixSwing = false;
+					this->SetPosX(this->GetPosX() + 1.0f);
+					this->SetPosY(this->GetPosY() - 1.0f);
+				}
+				if(this->GetPosX() > this->m_pHook->GetPosX() && this->m_pHook->GetIfHooked() && !this->GetOnGround())
+				{
+					this->m_bFixSwing = false;
+					this->SetPosX(this->GetPosX() - 1.0f);
+					this->SetPosY(this->GetPosY() - 1.0f);
+				}
+			}
+		}
+	}
+
+
+	if(CSGD_DirectInput::GetInstance()->KeyDown(DIK_S) )
+	{
+		if(this->m_pHook)
+		{
+			if(this->GetPosY() > this->m_pHook->GetPosY() + 30 && this->m_pHook->GetIfHooked() && !this->GetOnGround())
+			{
+				if(this->GetPosX() < this->m_pHook->GetPosX())
+				{
+					this->m_bFixSwing = false;
+					this->SetPosX(this->GetPosX() - 1.0f);
+					this->SetPosY(this->GetPosY() + 1.0f);
+				}
+				if(this->GetPosX() > this->m_pHook->GetPosX() && this->m_pHook->GetIfHooked() && !this->GetOnGround())
+				{
+					this->m_bFixSwing = false;
+					this->SetPosX(this->GetPosX() + 1.0f);
+					this->SetPosY(this->GetPosY() + 1.0f);
+				}
+			}
+		}
+	}
+
+
+
 	///////////////////////////////
 	// Input Checking
 	///////////////////////////////
@@ -383,7 +433,6 @@ void CPlayer::Input(float fElapsedTime)
 		GetAnimations()->SetCurrentAnimation(0);
 	}
 
-
 	if(CSGD_DirectInput::GetInstance()->KeyReleased(DIK_D))
 	{
 		this->m_vSpeed.fX = 0.0f;
@@ -410,6 +459,10 @@ void CPlayer::Input(float fElapsedTime)
 			}
 		}
 	}
+
+
+	
+	
 
 
 
