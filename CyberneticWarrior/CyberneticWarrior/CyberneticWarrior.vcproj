@@ -380,6 +380,10 @@
 							/>
 						</FileConfiguration>
 					</File>
+					<File
+						RelativePath=".\source\CSpawner.cpp"
+						>
+					</File>
 				</Filter>
 			</Filter>
 			<Filter
@@ -763,6 +767,10 @@
 					</File>
 					<File
 						RelativePath=".\source\CPickUp.h"
+						>
+					</File>
+					<File
+						RelativePath=".\source\CSpawner.h"
 						>
 					</File>
 				</Filter>

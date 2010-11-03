@@ -6,7 +6,6 @@
 
 CFLCLMech::CFLCLMech()
 {
-	this->SetType(OBJ_ENEMY);
 }
 CFLCLMech::CFLCLMech(int nImageID, float PosX, float PosY,int Width, int Height, int nState, float fCurrentPatrolDistance, 
 				int nMaxHP, int nCurrentHP, int nSightRange, int nAttackRange, int nType, float fRateOfFire, 
@@ -14,8 +13,7 @@ CFLCLMech::CFLCLMech(int nImageID, float PosX, float PosY,int Width, int Height,
 				 float(nSightRange + 100) /*max patrol distance*/, nType, nImageID, nMaxHP, nCurrentHP, nSightRange, 
 				 nAttackRange, fRateOfFire, fSpeed, PosX, PosY, Width, Height)
 {
-	m_nCID = CCodeProfiler::GetInstance()->CreateFunction("FLCL Mech");
-	this->SetType(OBJ_ENEMY);
+	//m_nCID = CCodeProfiler::GetInstance()->CreateFunction("FLCL Mech");
 	m_bRevive = bRevive;
 	m_bReviving = false;
 	m_fReviveTime = fReviveTime;
@@ -29,7 +27,7 @@ CFLCLMech::~CFLCLMech()
 void CFLCLMech::Update(float fElapsedTime)
 {
 	//Code Profiler -START
-	CCodeProfiler::GetInstance()->FunctionStart(this->m_nCID);
+	//CCodeProfiler::GetInstance()->FunctionStart(this->m_nCID);
 
 	CPatrolEnemy::Update(fElapsedTime);
 
@@ -56,7 +54,7 @@ void CFLCLMech::Update(float fElapsedTime)
 	}
 
 	//Code Profiler -END
-	CCodeProfiler::GetInstance()->FuntionEnd(this->m_nCID);
+	//CCodeProfiler::GetInstance()->FuntionEnd(this->m_nCID);
 }
 
 void CFLCLMech::Render()

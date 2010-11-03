@@ -782,6 +782,22 @@ void CGame::MessageProc(CBaseMessage*	pMsg)
 			pDestroyBlock = NULL;
 		}
 		break;
+	case MSG_CREATE_ENEMY:
+		{
+			CCreateEnemyMessage* pEnemy = (CCreateEnemyMessage*)pMsg;
+
+			//Use "If type..." to decide what to spawn
+			//if(pEnemy->GetEnemyType())
+			{
+				CFLCLMech* CEnemy = new CFLCLMech(-1, (float)pEnemy->GetPosX(), (float)pEnemy->GetPosY());
+
+
+				CObjectManager::GetInstance()->AddObject(CEnemy);
+				CEnemy->Release();
+			}
+			pEnemy = NULL;
+		}
+		break;
 	};
 
 }
