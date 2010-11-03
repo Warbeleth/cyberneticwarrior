@@ -27,6 +27,7 @@ bool CMapLoad::LoadMap(const char* szFilename)
 
 		m_pOF->RegisterClassType<CBase>("CBase");
 		m_pOF->RegisterClassType<CBlock>("CBlock");
+		m_pOF->RegisterClassType<CSpawner>("CSpawner");
 
 		Import.read((char*)&m_gTileMap.m_nColumns, sizeof(int));
 		Import.read((char*)&m_gTileMap.m_nRows, sizeof(int));
@@ -94,6 +95,12 @@ bool CMapLoad::LoadMap(const char* szFilename)
 			Import.read((char*)&NewNode.m_eEnemy.m_nPosY, sizeof(int));
 
 			m_lMap[Index] = NewNode;
+
+			//Use "If type..." to decide what to spawn
+			CFLCLMech* CEnemy = new CFLCLMech(-1, (float)NewNode.m_eEnemy.m_nPosX, (float)NewNode.m_eEnemy.m_nPosY);
+
+			m_pOM->AddObject(CEnemy);
+			CEnemy->Release();
 		}
 
 		//Read in spawner count
@@ -115,6 +122,14 @@ bool CMapLoad::LoadMap(const char* szFilename)
 			Import.read((char*)&NewNode.m_sSpawner.m_nPosY, sizeof(int));
 
 			m_lMap[Index] = NewNode;
+
+			CSpawner* Spawner = (CSpawner*)m_pOF->CreateObject("CSpawner");
+			Spawner->SetPosX((float)NewNode.m_sSpawner.m_nPosX);
+			Spawner->SetPosY((float)NewNode.m_sSpawner.m_nPosY);
+			Spawner->SetSpawner(NewNode.m_sSpawner.m_nType);
+
+			m_pOM->AddObject(Spawner);
+			Spawner->Release();
 		}
 
 		//Read in collision count

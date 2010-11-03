@@ -13,7 +13,6 @@
 CBaseEnemy::CBaseEnemy()
 {
 	m_nGlobalType = OBJ_ENEMY;
-	this->SetType(OBJ_ENEMY);
 	m_nType = -1;
 	m_nImageID = -1;
 	m_nMaxHP = 100;

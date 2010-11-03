@@ -8,7 +8,7 @@ class CFLCLMech : public CPatrolEnemy
 	bool m_bReviving;
 	float m_fReviveTime;
 	float m_fTimeReviving;
-	int m_nCID;
+	//int m_nCID;
 
 
 public:

@@ -15,8 +15,17 @@
 #include "SGD Wrappers\CSGD_Direct3D.h"
 #include "CObjectFactory.h"
 #include "CObjectManager.h"
+#include "CSpawner.h"
 #include "CBlock.h"
 #include "CBase.h"
+
+//Enemies
+#include "CBaseEnemy.h"
+//Base types
+#include "CIdleEnemy.h"
+#include "CPatrolEnemy.h"
+//Special
+#include "CFLCLMech.h"
 
 namespace SGP_Map_Editor
 {

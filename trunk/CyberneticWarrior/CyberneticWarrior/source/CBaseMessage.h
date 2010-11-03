@@ -27,6 +27,7 @@ enum eMsgTypes	{ MSG_NULL = 0,
 					MSG_CREATE_SHOCK, MSG_DESTROY_SHOCK,
 					MSG_CREATE_FIRE, MSG_DESTROY_FIRE,
 					MSG_CREATE_ICE, MSG_DESTROY_ICE,
+					MSG_CREATE_ENEMY, MSG_DESTROY_ENEMY,
 					MSG_DESTROY_BLOCK,
 					/*MSG_CREATE_PICKUP,*/ MSG_MAX };
 
@@ -281,6 +282,21 @@ public:
 	~CDestroyBlockMessage(void);
 
 	CBlock*	GetBlockPointer(void) { return m_pBlock; }
+};
+
+class CCreateEnemyMessage : public CBaseMessage
+{
+private:
+	int m_nEnemyType;
+	int m_nPosX;
+	int m_nPosY;
+public:
+	CCreateEnemyMessage(int nEnemyType, int nPosX, int nPosY);
+	~CCreateEnemyMessage(void);
+
+	int GetEnemyType(void) { return m_nEnemyType; }
+	int GetPosX(void) { return m_nPosX; }
+	int GetPosY(void) { return m_nPosY; }
 };
 
 /*	---Message Class Example---
