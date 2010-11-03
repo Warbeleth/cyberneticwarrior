@@ -66,7 +66,7 @@ public:
 	//
 	//	Purpose : Setup the enemy with the following values
 	////////////////////////////////////////////////////////////////////////////////////
-	CBaseEnemy(int nType, int nImageID, int nMaxHP, int nCurrentHP, 
+	CBaseEnemy(int nGlobalType, int nImageID, int nMaxHP, int nCurrentHP, 
 			   int nSightRange, int nAttackRange, float fRateOfFire, 
 			   float fSpeed, float PosX, float PosY, int Width, int Height);
 
@@ -83,6 +83,7 @@ public:
 	// Purpose : Returns the specified type.
 	//////////////////////////////////////////////////////////////////////////////////////////////////////
 	int GetType() { return m_nType; };
+	int GetEnemyType() { return m_nGlobalType; };
 	int GetImageID() { return m_nImageID; };
 	int GetMaxHP() { return m_nMaxHP; };
 	int GetCurrentHP() { return m_nCurrentHP; };
@@ -104,6 +105,7 @@ public:
 	// Purpose: Modifies the specified type. 
 	///////////////////////////////////////////////////////////////////////////////////////////////////////
 	void SetType(int Value) { m_nType = Value; };
+	void GetEnemyType(int Value) { m_nGlobalType = Value; };
 	void SetImageID(int Value) { m_nImageID = Value; };
 	void SetMaxHP(int Value) { m_nMaxHP = Value; };
 	void SetCurrentHP(int Value) { m_nCurrentHP = Value; };

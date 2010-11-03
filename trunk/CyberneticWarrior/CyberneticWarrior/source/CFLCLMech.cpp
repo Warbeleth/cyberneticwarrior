@@ -8,9 +8,9 @@ CFLCLMech::CFLCLMech()
 {
 }
 CFLCLMech::CFLCLMech(int nImageID, float PosX, float PosY,int Width, int Height, int nState, float fCurrentPatrolDistance, 
-				int nMaxHP, int nCurrentHP, int nSightRange, int nAttackRange, int nType, float fRateOfFire, 
+				int nMaxHP, int nCurrentHP, int nSightRange, int nAttackRange, int nGlobalType, float fRateOfFire, 
 				float fSpeed, float fReviveTime, float fTimeReviving, bool bRevive) : CPatrolEnemy(nState, fCurrentPatrolDistance, 
-				 float(nSightRange + 100) /*max patrol distance*/, nType, nImageID, nMaxHP, nCurrentHP, nSightRange, 
+				 float(nSightRange + 100) /*max patrol distance*/, nGlobalType, nImageID, nMaxHP, nCurrentHP, nSightRange, 
 				 nAttackRange, fRateOfFire, fSpeed, PosX, PosY, Width, Height)
 {
 	//m_nCID = CCodeProfiler::GetInstance()->CreateFunction("FLCL Mech");
