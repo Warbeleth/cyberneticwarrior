@@ -458,6 +458,15 @@ CDestroyBlockMessage::~CDestroyBlockMessage(void)
 {
 }
 
+CDestroyEnemyMessage::CDestroyEnemyMessage(CBaseEnemy* pEnemy) : CBaseMessage(MSG_DESTROY_ENEMY)
+{
+	this->m_pEnemy = pEnemy;
+}
+
+CDestroyEnemyMessage::~CDestroyEnemyMessage(void)
+{
+}
+
 CCreateEnemyMessage::CCreateEnemyMessage(int nEnemyType, int nPosX, int nPosY) : CBaseMessage(MSG_CREATE_ENEMY)
 {
 	m_nEnemyType = nEnemyType;

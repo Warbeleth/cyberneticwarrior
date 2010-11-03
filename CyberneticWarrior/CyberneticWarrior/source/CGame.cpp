@@ -33,7 +33,6 @@
 #include "CObjectManager.h"
 
 #include "CBase.h"
-#include "CBaseEnemy.h"
 #include "CPlayer.h"
 #include "CGrapplingHook.h"
 #include "CBullet.h"
@@ -44,6 +43,12 @@
 #include "CGrenade.h"
 #include "CFire.h"
 #include "CIce.h"
+
+//Enemy includes
+#include "CBaseEnemy.h"
+#include "CIdleEnemy.h"
+#include "CPatrolEnemy.h"
+#include "CFLCLMech.h"
 
 
 
@@ -821,6 +826,61 @@ void CGame::MessageProc(CBaseMessage*	pMsg)
 				CEnemy->Release();
 			}
 			pEnemy = NULL;
+		}
+		break;
+	case MSG_DESTROY_ENEMY:
+		{
+			CDestroyEnemyMessage* pDestroyEnemy = (CDestroyEnemyMessage*)pMsg;
+
+			int EnemyType = pDestroyEnemy->GetEnemyPointer()->GetEnemyType();
+
+			switch (EnemyType)
+					{
+					case Turret_Gun:
+						
+						break;
+					case Turret_Frost:
+						
+						break;
+					case Turret_Fire:
+						
+						break;
+					case Turret_Multi:
+						
+						break;
+					case Drone_Attack:
+						
+						break;
+					case Drone_Seeker:
+						
+						break;
+					case Drone_Heavy:
+						
+						break;
+					case Ground_Mech:
+						
+						break;
+					case Ground_Siege:
+						
+						break;
+					case Ground_FLCL:
+						{
+							CFLCLMech* Temp = (CFLCLMech*)pDestroyEnemy->GetEnemyPointer();
+							CObjectManager::GetInstance()->RemoveObject(Temp);
+							Temp = NULL;
+						}
+						break;
+					case Boss_Apple:
+						
+						break;
+					case Boss_Pimp:
+						
+						break;
+					case Boss_Pirate:
+						
+						break;
+					}
+			pDestroyEnemy = NULL;
 		}
 		break;
 	};

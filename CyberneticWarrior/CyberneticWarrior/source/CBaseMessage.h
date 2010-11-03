@@ -284,6 +284,17 @@ public:
 	CBlock*	GetBlockPointer(void) { return m_pBlock; }
 };
 
+class CDestroyEnemyMessage : public CBaseMessage
+{
+private:
+	CBaseEnemy* m_pEnemy;
+public:
+	CDestroyEnemyMessage(CBaseEnemy* pEnemy);
+	~CDestroyEnemyMessage(void);
+
+	CBaseEnemy*	GetEnemyPointer(void) { return m_pEnemy; }
+};
+
 class CCreateEnemyMessage : public CBaseMessage
 {
 private:

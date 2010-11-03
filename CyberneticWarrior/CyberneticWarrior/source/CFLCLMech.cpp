@@ -4,6 +4,9 @@
 #include "CCamera.h"
 #include "CCodeProfiler.h"
 
+
+#include "CGame.h"
+
 CFLCLMech::CFLCLMech()
 {
 }
@@ -50,6 +53,10 @@ void CFLCLMech::Update(float fElapsedTime)
 				SetCurrentHP(GetMaxHP());
 				ChangeAIState(pActive);
 			}
+		}
+		else
+		{
+			CGame::GetInstance()->GetMessageSystemPointer()->SendMsg(new CDestroyEnemyMessage((CBaseEnemy*)this));
 		}
 	}
 
