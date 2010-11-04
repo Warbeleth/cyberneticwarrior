@@ -186,13 +186,13 @@ void CSinglePlayerState::Enter(void)
 	
 
 	this->m_pOM->AddObject(this->m_TempPlayer);
-	/*this->m_pOM->AddObject(this->Enemy_1);
+	this->m_pOM->AddObject(this->Enemy_1);
 	this->m_pOM->AddObject(this->Enemy_2);
 	this->m_pOM->AddObject(this->Enemy_3);
 	
 	this->Enemy_1->Release();
 	this->Enemy_2->Release();
-	this->Enemy_3->Release();*/
+	this->Enemy_3->Release();
 
 	this->m_TempPlayer->Release();
 
@@ -241,9 +241,6 @@ void CSinglePlayerState::Update(float fElapsedTime)
 	this->m_pOM->UpdateObjects(fElapsedTime);
 
 
-	Enemy_1->Update(fElapsedTime);
-	Enemy_2->Update(fElapsedTime);
-	Enemy_3->Update(fElapsedTime);
 
 	if(this->m_pDI->MouseGetPosX() < 0)
 	{
@@ -289,9 +286,6 @@ void CSinglePlayerState::Render(void)
 
 	m_pD3D->GetSprite()->Flush();
 
-	Enemy_1->Render();
-	Enemy_2->Render();
-	Enemy_3->Render();
 
 	m_pOM->RenderObjects();
 
@@ -323,26 +317,26 @@ void CSinglePlayerState::Exit(void)
 {
 	this->m_bMusic = 1;
 
-	if(Enemy_1)
-	{
-		delete Enemy_1;
-	}
-	if(Enemy_1)
-	{
-		delete Enemy_2;
-	}
-	if(Enemy_1)
-	{
-		delete Enemy_3;	
-	}
+	
 	this->m_Profile.m_bHaveHook = 0;	
 
+
+
+
 	CObjectManager::GetInstance()->RemoveObject(this->m_PickUp);	
-	this->m_pOF->UnregisterClassType ("CPickUp");	
-	this->m_pOF->UnregisterClassType("CBlock");	
-	this->m_pOF->UnregisterClassType("CHook");	
-	this->m_pOF->UnregisterClassType("CPlayer");	
+	this->m_pOF->UnregisterClassType ("CIce");	
+	this->m_pOF->UnregisterClassType("CFire");	
+	this->m_pOF->UnregisterClassType("CGrenade");	
+	this->m_pOF->UnregisterClassType("CShock");	
+	this->m_pOF->UnregisterClassType("CPlasma");
+	this->m_pOF->UnregisterClassType("CFlame");
+	this->m_pOF->UnregisterClassType("CRocket");
+	this->m_pOF->UnregisterClassType("CBullet");
+	this->m_pOF->UnregisterClassType("CHook");
+	this->m_pOF->UnregisterClassType("CPickUp");
+	this->m_pOF->UnregisterClassType("CBlock");
 	this->m_pOF->UnregisterClassType("CBase");
+	this->m_pOF->UnregisterClassType("CPlayer");
 
 	if(this->m_pOF)
 	{

@@ -117,9 +117,7 @@ CPlayer::~CPlayer(void)
 
 void CPlayer::Update(float fElapsedTime)
 {
-	// Check for players Input 
-	// Notes: (May need to be moved around function call for proper checks)
-	this->Input(fElapsedTime);
+	
 
 
 	// Check to see if game was paused if so destroy dynamic Items (example: Grappling hook)
@@ -338,6 +336,10 @@ void CPlayer::Update(float fElapsedTime)
 	}
 	//////////////////////////////////////////////////////////////////////////////
 
+	// Check for players Input 
+	// Notes: (May need to be moved around function call for proper checks)
+	this->Input(fElapsedTime);
+
 	
 	//////////////////////////////////////////////////////////////////////////////
 	// Players hand rotation thingy majigies
@@ -379,6 +381,7 @@ void CPlayer::Update(float fElapsedTime)
 
 	this->m_pHud->Update( fElapsedTime );
 	////////////////////////////////////////
+
 
 
 	//////////////////////////////////////////////////////////////////////////////
