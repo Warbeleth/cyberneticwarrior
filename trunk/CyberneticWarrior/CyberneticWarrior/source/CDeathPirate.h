@@ -18,7 +18,7 @@ public:
 				int nCurrentHP = 80,
 				int nSightRange = 700, 
 				int nAttackRange = 700, 
-				int nGlobalType = Ground_Siege,
+				int nGlobalType = Boss_Pirate,
 				float fRateOfFire = 5.0f, 
 				float fSpeed = 0.0f
 				);
