@@ -5,6 +5,7 @@
 
 CSpawner::CSpawner(int nSpawnerType, float fPosX, float fPosY, int nWidth, int nHeight)
 {
+	SetType(OBJ_SPAWNER);
 	m_nSpawnerType = nSpawnerType;
 	m_nWidth = nWidth;
 	m_nHeight = nHeight;
