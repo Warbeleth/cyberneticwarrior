@@ -65,8 +65,8 @@ private:
 	int			m_nCrossHairID;
 	int			m_nBGMusic;
 
+	int			m_nSelectedWeaponID;
 	int			m_nWeaponID;
-	
 
 	CObjectFactory<string, CBase>*			m_pOF;
 	CObjectManager*							m_pOM;
@@ -99,11 +99,11 @@ public:
 	
 	void		SetProfileValues(bool bValue);
 
+	inline int		GetWeaponSelectionID(void) {return this->m_nSelectedWeaponID;}
 	inline bool		GetNewGame(void) { return this->m_bNewGame;}
 	inline void		SetNewGame(bool bNewGame) {this->m_bNewGame = bNewGame;}
 	inline bool		GetInputType(void) { return this->m_bInput;}
 	inline void		SetInputType(bool bInput) {this->m_bInput = bInput;}
-
 
 	bool	Input(void);
 	void	Enter(void);

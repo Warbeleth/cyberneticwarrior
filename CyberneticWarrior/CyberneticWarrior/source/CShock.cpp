@@ -47,6 +47,8 @@ void CShock::Render(void)
 		1.0f * CCamera::GetInstance()->GetScale(), 
 		&rRender, (GetWidth()/2.0f), (GetHeight()/2.0f),
 		this->GetRotation() );
+
+
 }
 
 RECT CShock::GetRect(void) const

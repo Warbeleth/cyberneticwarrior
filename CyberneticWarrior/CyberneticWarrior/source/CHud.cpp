@@ -1,6 +1,7 @@
 #include "PrecompiledHeader.h"
 #include "CHud.h"
 #include "CPlayer.h"
+#include "CSinglePlayerState.h"
 
 CHud::CHud( void )
 {
@@ -16,8 +17,7 @@ CHud::CHud( void )
 	m_nCharacterPortraitId = -1;
 	m_nCharacterPortraitId = m_pTM->LoadTexture("resource/graphics/Players.png");
 	m_nWeaponEquipmentId = -1;
-	m_nWeaponEquipmentId = m_pTM->LoadTexture("resource/graphics/EquipmentWeaponIcons.png");
-
+	m_nWeaponEquipmentId = CSinglePlayerState::GetInstance()->GetWeaponSelectionID();
 	// Hud Image RECTS
 	// health
 	m_rImageRects[0].left = 0;

@@ -68,6 +68,14 @@ private:
 	float m_fTerminalVelocity;
 	float m_fGravity;
 
+	//////////////////////////
+	// used for Sonic Rifle
+	//////////////////////////
+	int m_nCharge;
+	float m_fChargeRate;
+	//////////////////////////
+
+
 	bool m_bOnGround;
 	bool m_bOnPlatform;
 	bool m_bOnMovingPlatform;
@@ -75,13 +83,13 @@ private:
 	bool m_bHomingOn;
 
 	bool m_bForward;
+
 	bool m_bFixSwing;
 
 	bool m_bShutDown;
 
 	CGrapplingHook*		m_pHook;
-
-
+	
 	tVector2D m_vJoyVecPos;
 	bool m_bMouseDown;
 
