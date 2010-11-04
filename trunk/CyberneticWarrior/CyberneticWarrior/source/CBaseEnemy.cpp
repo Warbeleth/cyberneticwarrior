@@ -113,7 +113,7 @@ RECT CBaseEnemy::GetRect()
 
 void CBaseEnemy::Update(float fElapsedTime)
 { 
-	SetCurrentHP(GetCurrentHP() - int((80 * fElapsedTime)));
+	SetCurrentHP(GetCurrentHP() - int((75 * fElapsedTime)));
 
 	//Get target position
 	if(m_bSinglePlayer)
@@ -145,7 +145,13 @@ void CBaseEnemy::Render(void)
 	{
 		if(m_nImageID != -1)
 		{
-			CSGD_TextureManager::GetInstance()->Draw(m_nImageID, (int)((GetPosX() - OffsetX) * CCamera::GetInstance()->GetScale()), (int)((GetPosY() - OffsetY) * CCamera::GetInstance()->GetScale()));
+			RECT rDrawRect;
+			rDrawRect.left = 0;
+			rDrawRect.top = 0;
+			rDrawRect.right = GetWidth();
+			rDrawRect.bottom = GetHeight();
+
+			CSGD_TextureManager::GetInstance()->Draw(m_nImageID, (int)((GetPosX() - OffsetX) * CCamera::GetInstance()->GetScale()), (int)((GetPosY() - OffsetY) * CCamera::GetInstance()->GetScale()), CCamera::GetInstance()->GetScale(), CCamera::GetInstance()->GetScale(), &rDrawRect);
 		}
 		else
 		{

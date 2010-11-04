@@ -12,7 +12,7 @@ public:
 				float PosX = 0, 
 				float PosY = 0, 
 				int Width = 384, 
-				int Height = 192, 
+				int Height = 320, 
 				int nState = Idle, 
 				int nMaxHP = 80, 
 				int nCurrentHP = 80,
