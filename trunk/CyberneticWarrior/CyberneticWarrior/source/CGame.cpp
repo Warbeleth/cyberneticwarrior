@@ -408,8 +408,8 @@ void CGame::MessageProc(CBaseMessage*	pMsg)
 			static tVector2D vMousePos;
 			if(CSinglePlayerState::GetInstance()->GetInputType())
 			{
-				vMousePos.fX = vPlayerPos.fX + (float)pGH->GetPlayerPointer()->GetJoyPos()->fX;
-				vMousePos.fY = vPlayerPos.fY +(float)pGH->GetPlayerPointer()->GetJoyPos()->fY;
+				vMousePos.fX = vPlayerPos.fX + (float)pGH->GetPlayerPointer()->GetJoyPos()->fX + CCamera::GetInstance()->GetOffsetX();
+				vMousePos.fY = vPlayerPos.fY +(float)pGH->GetPlayerPointer()->GetJoyPos()->fY + CCamera::GetInstance()->GetOffsetY();
 			}
 			else if(!CSinglePlayerState::GetInstance()->GetInputType())
 			{

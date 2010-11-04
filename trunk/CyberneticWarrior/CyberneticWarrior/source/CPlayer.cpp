@@ -317,7 +317,8 @@ void CPlayer::Update(float fElapsedTime)
 			//////////////////////////////////////////////////////////////////////////////
 			if(!this->m_pHook->GetIfHooked())
 			{
-				this->m_vSpeed.fY = this->m_vSpeed.fY +( this->m_fGravity * fElapsedTime);
+				if(this->m_vSpeed.fY <550.0f)
+					this->m_vSpeed.fY = this->m_vSpeed.fY +( this->m_fGravity * fElapsedTime);
 				this->SetBaseVelY(this->m_vSpeed.fY);
 			}
 			//////////////////////////////////////////////////////////////////////////////
@@ -327,7 +328,8 @@ void CPlayer::Update(float fElapsedTime)
 			//////////////////////////////////////////////////////////////////////////////
 			// Other wise jump anyways?
 			//////////////////////////////////////////////////////////////////////////////
-			this->m_vSpeed.fY = this->m_vSpeed.fY +( this->m_fGravity * fElapsedTime);
+			if(this->m_vSpeed.fY <550.0f)
+				this->m_vSpeed.fY = this->m_vSpeed.fY +( this->m_fGravity * fElapsedTime);
 			this->SetBaseVelY(this->m_vSpeed.fY);
 			//////////////////////////////////////////////////////////////////////////////
 		}
@@ -339,11 +341,11 @@ void CPlayer::Update(float fElapsedTime)
 	// If player is lower that screen height clamp with to above ground
 	// Notes: WILL HAVE TO BE REMOVED!@!#)!@
 	//////////////////////////////////////////////////////////////////////////////
-	if(this->GetPosY() > 600 - this->GetHeight())
-	{
-		this->m_bOnGround = 1;
-		this->SetPosY(600 - (float)this->GetHeight());
-	}
+	//if(this->GetPosY() > 600 - this->GetHeight())
+	//{
+	//	this->m_bOnGround = 1;
+	//	this->SetPosY(600 - (float)this->GetHeight());
+	//}
 	//////////////////////////////////////////////////////////////////////////////
 
 	
@@ -621,7 +623,7 @@ void CPlayer::Input(float fElapsedTime)
 		|| CSGD_DirectInput::GetInstance()->JoystickDPadDown(DIR_LEFT)
 		|| CSGD_DirectInput::GetInstance()->JoystickGetLStickDirDown(DIR_LEFT)))
 	{
-		if(this->m_vSpeed.fX > -200.0f)
+		if(this->m_vSpeed.fX > -300.0f)
 		{
 			this->m_vSpeed.fX -= nMoveSpeed;
 		}
@@ -653,7 +655,7 @@ void CPlayer::Input(float fElapsedTime)
 		|| CSGD_DirectInput::GetInstance()->JoystickDPadDown(DIR_RIGHT)
 		|| CSGD_DirectInput::GetInstance()->JoystickGetLStickDirDown(DIR_RIGHT)))
 	{
-		if(this->m_vSpeed.fX < 200.0f)
+		if(this->m_vSpeed.fX < 300.0f)
 		{
 			this->m_vSpeed.fX += nMoveSpeed;
 		}
@@ -692,7 +694,7 @@ void CPlayer::Input(float fElapsedTime)
 		|| CSGD_DirectInput::GetInstance()->JoystickDPadPressed(DIR_LEFT)
 		|| CSGD_DirectInput::GetInstance()->JoystickGetLStickDirPressed(DIR_LEFT)))
 	{
-		if(this->m_nSelectedBootSlot == this->ROCKET_BOOTS && this->m_bDash && this->m_fRemainingEnergy > 30.0f)
+		if(this->m_nSelectedBootSlot == this->ROCKET_BOOTS && this->m_bDash && this->m_fRemainingEnergy > 20.0f)
 		{
 			this->m_vSpeed.fX = -700.0f;
 			this->m_bDash = false;
