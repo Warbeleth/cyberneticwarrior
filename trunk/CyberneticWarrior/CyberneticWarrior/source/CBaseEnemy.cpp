@@ -35,7 +35,7 @@ CBaseEnemy::CBaseEnemy(int nGlobalType, int nImageID, int nMaxHP, int nCurrentHP
 {
 	SetType(OBJ_ENEMY);
 	m_nGlobalType = nGlobalType;
-	m_nImageID = nImageID;
+	//m_nImageID = nImageID;
 	m_nMaxHP = nMaxHP;
 	m_nCurrentHP = nCurrentHP;
 	m_nSightRange = nSightRange;
@@ -49,6 +49,48 @@ CBaseEnemy::CBaseEnemy(int nGlobalType, int nImageID, int nMaxHP, int nCurrentHP
 	m_vTargetPosition.fX = 0;
 	m_vTargetPosition.fY = 0;
 	SetAnimations(NULL);
+	switch(nGlobalType)
+	{
+	case Turret_Gun:
+		m_nImageID = CMapLoad::GetInstance()->m_sEnemyImage.TurretGun; 
+		break;
+	case Turret_Frost:
+		m_nImageID = CMapLoad::GetInstance()->m_sEnemyImage.TurretFrost; 
+		break;
+	case Turret_Fire:
+		m_nImageID = CMapLoad::GetInstance()->m_sEnemyImage.TurretFire; 
+		break;
+	case Turret_Multi:
+		m_nImageID = CMapLoad::GetInstance()->m_sEnemyImage.TurretMulti; 
+		break;
+	case Drone_Attack:
+		m_nImageID = CMapLoad::GetInstance()->m_sEnemyImage.DroneAttack; 
+		break;
+	case Drone_Seeker:
+		m_nImageID = CMapLoad::GetInstance()->m_sEnemyImage.DroneSeeker; 
+		break;
+	case Drone_Heavy:
+		m_nImageID = CMapLoad::GetInstance()->m_sEnemyImage.DroneHeavy; 
+		break;
+	case Ground_Mech:
+		m_nImageID = CMapLoad::GetInstance()->m_sEnemyImage.GroundMech; 
+		break;
+	case Ground_Siege:
+		m_nImageID = CMapLoad::GetInstance()->m_sEnemyImage.GroundSiege; 
+		break;
+	case Ground_FLCL:
+		m_nImageID = CMapLoad::GetInstance()->m_sEnemyImage.GroundFLCL; 
+		break;
+	case Boss_Apple:
+		m_nImageID = CMapLoad::GetInstance()->m_sEnemyImage.BossApple; 
+		break;
+	case Boss_Pimp:
+		m_nImageID = CMapLoad::GetInstance()->m_sEnemyImage.BossPimp; 
+		break;
+	case Boss_Pirate:
+		m_nImageID = CMapLoad::GetInstance()->m_sEnemyImage.BossPirate; 
+		break;
+	}
 	m_bSinglePlayer = true; //Will be a CGame::GetInstance() call to check for game state when creating enemies
 }
 
@@ -71,6 +113,8 @@ RECT CBaseEnemy::GetRect()
 
 void CBaseEnemy::Update(float fElapsedTime)
 { 
+	SetCurrentHP(GetCurrentHP() - int((80 * fElapsedTime)));
+
 	//Get target position
 	if(m_bSinglePlayer)
 	{

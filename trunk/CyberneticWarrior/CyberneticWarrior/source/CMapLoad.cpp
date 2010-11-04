@@ -10,6 +10,23 @@
 
 bool CMapLoad::LoadMap(const char* szFilename)
 {
+	//ENEMY IMAGE LOADS
+	{
+		m_sEnemyImage.TurretGun = CSGD_TextureManager::GetInstance()->LoadTexture("resource/graphics/regularturret.png");
+		m_sEnemyImage.TurretFrost = CSGD_TextureManager::GetInstance()->LoadTexture("resource/graphics/iceturret.png");
+		m_sEnemyImage.TurretFire = CSGD_TextureManager::GetInstance()->LoadTexture("resource/graphics/fireturret.png");
+		m_sEnemyImage.TurretMulti = CSGD_TextureManager::GetInstance()->LoadTexture("resource/graphics/multiturret.png");
+		m_sEnemyImage.DroneAttack = CSGD_TextureManager::GetInstance()->LoadTexture("resource/graphics/regularattackdrone.png");
+		m_sEnemyImage.DroneSeeker = CSGD_TextureManager::GetInstance()->LoadTexture("resource/graphics/seekerdrone.png");
+		m_sEnemyImage.DroneHeavy = CSGD_TextureManager::GetInstance()->LoadTexture("resource/graphics/attackdrone.png");
+		m_sEnemyImage.GroundMech = CSGD_TextureManager::GetInstance()->LoadTexture("resource/graphics/regulargroundmech.png");
+		m_sEnemyImage.GroundSiege = CSGD_TextureManager::GetInstance()->LoadTexture("resource/graphics/siegemech.png");
+		m_sEnemyImage.GroundFLCL = CSGD_TextureManager::GetInstance()->LoadTexture("resource/graphics/specialgroundmech.png");
+		m_sEnemyImage.BossApple = CSGD_TextureManager::GetInstance()->LoadTexture("resource/graphics/bossone.png");
+		m_sEnemyImage.BossPimp = CSGD_TextureManager::GetInstance()->LoadTexture("resource/graphics/bosstwo.png");
+		m_sEnemyImage.BossPirate = CSGD_TextureManager::GetInstance()->LoadTexture("resource/graphics/deathpirate.png");
+	}
+
 	string m_szWorkingDirectoryGRAPHICS = "resource/graphics/";
 	string m_szWorkingDirectoryMAPS = "resource/maps/";
 

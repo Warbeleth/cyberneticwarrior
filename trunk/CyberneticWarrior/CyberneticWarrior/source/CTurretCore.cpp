@@ -8,8 +8,8 @@
 CTurretCore::CTurretCore()
 {
 }
-CTurretCore::CTurretCore(int nImageID, float PosX, float PosY,int Width, int Height, int nState,
-				int nMaxHP, int nCurrentHP, int nSightRange, int nAttackRange, int nGlobalType, float fRateOfFire, 
+CTurretCore::CTurretCore(int nImageID, float PosX, float PosY, int nGlobalType, int Width, int Height, int nState,
+				int nMaxHP, int nCurrentHP, int nSightRange, int nAttackRange, float fRateOfFire, 
 				float fSpeed) : CIdleEnemy(nState, nGlobalType, nImageID, nMaxHP, nCurrentHP, nSightRange, 
 				nAttackRange, fRateOfFire, fSpeed, PosX, PosY, Width, Height)
 {

@@ -36,8 +36,6 @@ void CFLCLMech::Update(float fElapsedTime)
 
 	CPatrolEnemy::Update(fElapsedTime);
 
-	SetCurrentHP(GetCurrentHP() - int((55 * fElapsedTime)));
-
 	if(ReturnAIState() == pDead)
 	{
 		if(GetRevive())
