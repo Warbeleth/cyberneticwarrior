@@ -22,7 +22,8 @@ CPlayer::CPlayer(void)
 	this->m_bJumped = false;
 	this->m_bHovering =false;
 	this->m_bBoosting = false;
-	this->m_bDash = false;
+	this->m_bFDash = false;
+	this->m_bBDash = false;
 
 	// Facing Forward
 	this->m_bForward = true;
@@ -48,12 +49,15 @@ CPlayer::CPlayer(void)
 	this->m_fWaitTime = 0.0f;
 	this->m_fGravity = 900.0f;
 
+	this->m_fDash = 1200.f;
+
+
 	// Moving Platform Position Updates
 	this->m_fMovingPlatformPosX = 0.0f;
 
 	// sonic rifle stuff
 	this->m_nCharge = 0;
-	this->m_fChargeRate = 0.01f;
+	this->m_fChargeRate = 0.009f;
 
 
 	// Health
@@ -109,6 +113,8 @@ CPlayer::~CPlayer(void)
 	// sonic rifle stuff
 	this->m_nCharge = 0;
 	this->m_fChargeRate = 0.01f;
+	this->m_bFDash = false;
+	this->m_bBDash = false;
 
 	delete m_pHud;
 	delete GetAnimations();
@@ -165,11 +171,14 @@ void CPlayer::Update(float fElapsedTime)
 	}
 
 
-	if(this->m_vSpeed.fX == 700.0f || this->m_vSpeed.fX == -700.0f)
-	{
+	if(this->m_vSpeed.fX == this->m_fDash ||this->m_vSpeed.fX == -this->m_fDash) 
 		this->m_fBoostTime += fElapsedTime;
+	
+	if(this->m_bBDash || this->m_bFDash)
+	{
+		this->m_fWaitTime += fElapsedTime;
 	}
-
+	
 	// used for gamepad controls
 	// Notes: May be used later, probably not(Do not remove yet)
 
@@ -681,24 +690,27 @@ void CPlayer::Input(float fElapsedTime)
 	}
 	//////////////////////////////////////////////////////////////////////////////
 	//if(CSGD_DirectInput::GetInstance()->KeyReleased(CGame::GetInstance()->GetPlayerOneControls(2)))
-	//if(fElapsedTime > 0.05f)
-	//{
-	//	this->m_bDash = false;
-	//	//this->m_vSpeed.fX = 0.0f;
-	//}
-
+	if((this->m_fBoostTime > 0.05f && (this->m_bFDash||this->m_bBDash))|| this->m_fWaitTime > 0.5f) 
+	{
+		this->m_bFDash = false;
+		this->m_bBDash = false;
+		this->m_fBoostTime = 0.0f;
+		this->m_fWaitTime = 0.0f;
+		//this->m_vSpeed.fX = 0.0f;
+	}
+	
 	if((CSGD_DirectInput::GetInstance()->KeyPressed(DIK_A) 
 		|| CSGD_DirectInput::GetInstance()->JoystickDPadPressed(DIR_LEFT)
 		|| CSGD_DirectInput::GetInstance()->JoystickGetLStickDirPressed(DIR_LEFT)))
 	{
-		if(this->m_nSelectedBootSlot == this->ROCKET_BOOTS && this->m_bDash && this->m_fRemainingEnergy > 20.0f)
+		if(this->m_nSelectedBootSlot == this->ROCKET_BOOTS && this->m_bBDash && this->m_fRemainingEnergy > 20.0f)
 		{
-			this->m_vSpeed.fX = -700.0f;
-			this->m_bDash = false;
+			this->m_vSpeed.fX = -this->m_fDash;
+			this->m_bBDash = false;
 		}
-		if(this->m_nSelectedBootSlot == this->ROCKET_BOOTS && !this->m_bDash)
+		if(this->m_nSelectedBootSlot == this->ROCKET_BOOTS && !this->m_bBDash)
 		{
-			this->m_bDash = true;
+			this->m_bBDash = true;
 		}
 		/*else
 		{
@@ -710,14 +722,14 @@ void CPlayer::Input(float fElapsedTime)
 		|| CSGD_DirectInput::GetInstance()->JoystickDPadPressed(DIR_RIGHT)
 		|| CSGD_DirectInput::GetInstance()->JoystickGetLStickDirPressed(DIR_RIGHT)))
 	{
-		if(this->m_nSelectedBootSlot == this->ROCKET_BOOTS && this->m_bDash && this->m_fRemainingEnergy > 20.0f)
+		if(this->m_nSelectedBootSlot == this->ROCKET_BOOTS && this->m_bFDash && this->m_fRemainingEnergy > 20.0f)
 		{
-			this->m_vSpeed.fX = 700.0f;
-			this->m_bDash = false;
+			this->m_vSpeed.fX = this->m_fDash;
+			this->m_bFDash = false;
 		}
-		if(this->m_nSelectedBootSlot == this->ROCKET_BOOTS && !this->m_bDash)
+		if(this->m_nSelectedBootSlot == this->ROCKET_BOOTS && !this->m_bFDash)
 		{
-			this->m_bDash = true;
+			this->m_bFDash = true;
 		}
 		/*else
 		{
@@ -1046,7 +1058,6 @@ bool CPlayer::CheckCollision(CBase* pBase)
 			myY = GetPosY();
 			myRight = myX + GetWidth();
 			myBottom = myY + GetHeight();
-			
 		}
 
 		if(BLOCK->GetBlock() == BLOCK_SOLID || BLOCK->GetBlock() == BLOCK_MOVING)
