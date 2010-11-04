@@ -116,8 +116,8 @@ bool CGrenade::CheckCollision(CBase *pBase)
 			CBaseEnemy* pEnemy = (CBaseEnemy*)pBase; 
 			float p = pEnemy->GetTargetPosition().fX;
 			float o = pEnemy->GetTargetPosition().fY;
-			this->SetPosX(pEnemy->GetTargetPosition().fX);
-			this->SetPosY(pEnemy->GetTargetPosition().fY);
+			this->SetPosX(pEnemy->GetPosX());
+			this->SetPosY(pEnemy->GetPosY());
 			this->SetBaseVelX(0.0f);
 			this->SetBaseVelY(0.0f);
 			this->m_vVelocity.fY = 0.0f;
