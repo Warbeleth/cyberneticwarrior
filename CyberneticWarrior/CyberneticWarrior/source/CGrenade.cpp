@@ -5,6 +5,7 @@
 #include "CSinglePlayerState.h"
 #include "CPlayer.h"
 #include "CBlock.h"
+#include "CBaseEnemy.h"
 
 CGrenade::CGrenade(void)
 {
@@ -112,6 +113,11 @@ bool CGrenade::CheckCollision(CBase *pBase)
 		}
 		else if(pBase->GetType() == OBJ_ENEMY)
 		{
+			CBaseEnemy* pEnemy = (CBaseEnemy*)pBase; 
+			float p = pEnemy->GetTargetPosition().fX;
+			float o = pEnemy->GetTargetPosition().fY;
+			this->SetPosX(pEnemy->GetTargetPosition().fX);
+			this->SetPosY(pEnemy->GetTargetPosition().fY);
 			this->SetBaseVelX(0.0f);
 			this->SetBaseVelY(0.0f);
 			this->m_vVelocity.fY = 0.0f;

@@ -21,6 +21,7 @@ CPlayer::CPlayer(void)
 	this->m_bOnMovingPlatform = false;
 	this->m_bJumped = false;
 	this->m_bHovering =false;
+	this->m_bBoosting = false;
 
 	// Facing Forward
 	this->m_bForward = true;
@@ -148,7 +149,7 @@ void CPlayer::Update(float fElapsedTime)
 		float difference = (this->m_pMovingBlock->GetPosX() - this->m_fMovingPlatformPosX);
 		float playerX = this->GetPosX();
 		float newPX = this->GetPosX() + ((this->m_pMovingBlock->GetPosX() - this->m_fMovingPlatformPosX));
-		this->SetPosX(this->GetPosX() + ((this->m_pMovingBlock->GetPosX() - this->m_fMovingPlatformPosX)));
+		this->SetPosX(this->GetPosX() + ((this->m_pMovingBlock->GetPosX() - this->m_fMovingPlatformPosX)*0.57f));
 	}
 
 
@@ -281,6 +282,9 @@ void CPlayer::Update(float fElapsedTime)
 	}
 
 
+	// Check for players Input 
+	// Notes: (May need to be moved around function call for proper checks)
+	this->Input(fElapsedTime);
 
 
 	//////////////////////////////////////////////////////////////////////////////
@@ -336,10 +340,7 @@ void CPlayer::Update(float fElapsedTime)
 	}
 	//////////////////////////////////////////////////////////////////////////////
 
-	// Check for players Input 
-	// Notes: (May need to be moved around function call for proper checks)
-	this->Input(fElapsedTime);
-
+	
 	
 	//////////////////////////////////////////////////////////////////////////////
 	// Players hand rotation thingy majigies
@@ -506,7 +507,36 @@ void CPlayer::Input(float fElapsedTime)
 		}
 		
 		
-		if(!this->m_bJumped && this->m_bOnGround)
+		this->m_bJumped = true;
+		
+		
+
+	}
+	//////////////////////////////////////////////////////////////////////////////
+	if((CSGD_DirectInput::GetInstance()->KeyDown(DIK_SPACE)
+		|| CSGD_DirectInput::GetInstance()->JoystickButtonDown(1)))
+	{
+		if(this->m_nSelectedBootSlot == this->HOVER_BOOTS&& this->m_bHovering && this->m_vSpeed.fY > 0.0f && !this->m_bOnGround)
+		{
+            this->m_fGravity = 100.0f;
+			this->m_bJumped = false;
+		}
+		
+		if(this->m_nSelectedBootSlot == this->ROCKET_BOOTS)
+		{
+			this->m_bBoosting = true;
+			this->m_bOnGround = false;
+			this->m_bOnMovingPlatform = false;
+			this->m_pMovingBlock = NULL;
+			
+			this->m_fGravity = 0.0f;
+			fJumpSpeed = -100.0f;
+			this->m_vSpeed.fY = fJumpSpeed;
+			this->SetBaseVelY(this->m_vSpeed.fY);
+			
+		}
+
+		if(/*!this->m_bJumped && */this->m_bOnGround && !this->m_bHovering && !this->m_bBoosting)
 		{
 			this->m_fGravity = 900.0f;
 			this->m_pMovingBlock = NULL;
@@ -518,29 +548,17 @@ void CPlayer::Input(float fElapsedTime)
 
 		}
 		
-
-	}
-	//////////////////////////////////////////////////////////////////////////////
-	if((CSGD_DirectInput::GetInstance()->KeyDown(DIK_SPACE)
-		|| CSGD_DirectInput::GetInstance()->JoystickButtonDown(1)) && !this->m_bOnGround)
-	{
-		if(this->m_nSelectedBootSlot == this->HOVER_BOOTS&& this->m_bHovering && this->m_vSpeed.fY > 0.0f)
-		{
-   			this->m_fGravity = 100.0f;
-			this->m_bJumped = false;
-		}
 		
-		if(this->m_nSelectedBootSlot == this->ROCKET_BOOTS && this->m_bJumped)
-		{
-		}
 	}
 	//////////////////////////////////////////////////////////////////////////////
 	if((CSGD_DirectInput::GetInstance()->KeyReleased(DIK_SPACE)
 		|| CSGD_DirectInput::GetInstance()->JoystickButtonReleased(1)))
 	{
-		if(this->m_nSelectedBootSlot == this->HOVER_BOOTS&& this->m_bHovering)
+		if((this->m_nSelectedBootSlot == this->HOVER_BOOTS&& this->m_bHovering) || (this->m_nSelectedBootSlot == this->ROCKET_BOOTS && this->m_bBoosting))
 		{
+			fJumpSpeed = -550.0f;
 			this->m_bHovering = false;
+			this->m_bBoosting = false;
 			this->m_fGravity = 900.0f;
 		}
 	}
@@ -944,6 +962,7 @@ bool CPlayer::CheckCollision(CBase* pBase)
 				&& this->m_vSpeed.fY >= 0.0f)
 			{
 				this->m_bOnGround = 1;
+				this->m_bJumped = false;
 				this->m_bOnPlatform = 1;
 				this->SetPosY(hisY - (myBottom - myY));
 				if( BLOCK->GetBlock() == BLOCK_MOVING)
@@ -977,6 +996,7 @@ bool CPlayer::CheckCollision(CBase* pBase)
 				&& this->m_vSpeed.fY >= 0.0f)
 			{
 				this->m_bOnGround = 1;
+				this->m_bJumped = false;
 				this->m_bOnPlatform = 1;
 				this->SetPosY(hisY - (myBottom - myY));
 				CMapLoad::GetInstance()->m_bCollisionCheck = true;
@@ -999,6 +1019,7 @@ bool CPlayer::CheckCollision(CBase* pBase)
 				&& this->m_vSpeed.fY >= 0.0f)
 			{
 				this->m_bOnGround = 1;
+				this->m_bJumped = false;
 				this->m_bOnPlatform = 1;
 				this->SetPosY(hisBottom - (myBottom - myY));
 				this->DecrementHealth(20);
@@ -1022,6 +1043,7 @@ bool CPlayer::CheckCollision(CBase* pBase)
 				&& this->m_vSpeed.fY >= 0.0f)
 			{
 				this->m_bOnGround = 1;
+				this->m_bJumped = false;
 				this->m_bOnPlatform = 1;
 				BLOCK->SetStable(false);
 				this->SetPosY(hisY - (myBottom - myY));
