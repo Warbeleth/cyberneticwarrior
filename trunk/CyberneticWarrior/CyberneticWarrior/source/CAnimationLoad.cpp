@@ -42,7 +42,7 @@ CFrame::CFrame( void )
 //////////////////////////////////////////////////////////////////////////////////////////////////////
 // Function: “RectRender”
 //////////////////////////////////////////////////////////////////////////////////////////////////////	
-void CFrame::RectRender( int nX, int nY, float fScale )
+void CFrame::RectRender( int nX, int nY, float fScaleX )
 { 
 	//DirectX singletons
 	CSGD_Direct3D* pD3D = CSGD_Direct3D::GetInstance();
@@ -67,7 +67,7 @@ void CFrame::RectRender( int nX, int nY, float fScale )
 	pD3D->DrawLine(pAnchor.m_nX + nX - 2, pAnchor.m_nY + nY - 2, pAnchor.m_nX + nX + 2, pAnchor.m_nY + nY + 2, 255, 0, 255);
 	pD3D->DrawLine(pAnchor.m_nX + nX + 2, pAnchor.m_nY + nY - 2, pAnchor.m_nX + nX - 2, pAnchor.m_nY + nY + 2, 255, 0, 255);
 
-	if(fScale == 1)
+	if(fScaleX == 1)
 	{
 		// Draw Hit Rects
 		for (int i = 0; i < m_nTotalHitRects; ++i)
@@ -99,7 +99,7 @@ void CFrame::RectRender( int nX, int nY, float fScale )
 			pD3D->DrawLine(rHitFrame.left + nX, rHitFrame.bottom + nY, rHitFrame.left + nX, rHitFrame.top + nY, 0, 0, 255);
 		}
 	}
-	else if( fScale == -1 )
+	else if( fScaleX == -1 )
 	{
 		pD3D->DrawLine(pAnchor.m_nX + nX - 2, pAnchor.m_nY + nY - 2, pAnchor.m_nX + nX + 2, pAnchor.m_nY + nY + 2, 255, 0, 255);
 		pD3D->DrawLine(pAnchor.m_nX + nX + 2, pAnchor.m_nY + nY - 2, pAnchor.m_nX + nX - 2, pAnchor.m_nY + nY + 2, 255, 0, 255);
@@ -176,11 +176,6 @@ CAnimations::CAnimations()
 //////////////////////////////////////////////////////////////////////////////////////////////////////
 CAnimations::~CAnimations( )
 {
-
-	//if(m_nId != -1)
-	//	CSGD_TextureManager::GetInstance()->UnloadTexture(m_nId);
-
-
 }
 
 CAnimations& CAnimations::operator=( const CAnimations& Animation )
@@ -248,7 +243,7 @@ void CAnimations::Update( float fElapsedTime )
 //////////////////////////////////////////////////////////////////////////////////////////////////////
 // Function: “Render”
 //////////////////////////////////////////////////////////////////////////////////////////////////////	
-void CAnimations::Render( int nPosX, int nPosY, float fScale )
+void CAnimations::Render( int nPosX, int nPosY, float fScaleX  )
 {
 	int nXOffset = - m_nOffset.m_nX - CCamera::GetInstance()->GetOffsetX();
 	int nYOffset = - m_nOffset.m_nY - CCamera::GetInstance()->GetOffsetY();
@@ -256,14 +251,14 @@ void CAnimations::Render( int nPosX, int nPosY, float fScale )
 	CSGD_TextureManager::GetInstance()->Draw(m_nId, 
 		int(CCamera::GetInstance()->GetScale() * (nPosX + nXOffset)), 
 		int(CCamera::GetInstance()->GetScale() * (nPosY + nYOffset)), 
-		CCamera::GetInstance()->GetScale() * fScale, 
+		CCamera::GetInstance()->GetScale() * fScaleX, 
 		CCamera::GetInstance()->GetScale(), 
 		&m_vAnimations[ m_nCurrentAnimation ].m_vFrames[ m_vAnimations[m_nCurrentAnimation].m_nCurrentFrame ].GetFrame() );
 
-	if(fScale == 1)
-		m_vAnimations[ m_nCurrentAnimation ].m_vFrames[ m_vAnimations[m_nCurrentAnimation].m_nCurrentFrame ].RectRender( nPosX-CCamera::GetInstance()->GetOffsetX()-GetFrameWidth()/2, nPosY-CCamera::GetInstance()->GetOffsetY()-GetFrameHeight(), fScale );
-	else if(fScale == -1 )
-		m_vAnimations[ m_nCurrentAnimation ].m_vFrames[ m_vAnimations[m_nCurrentAnimation].m_nCurrentFrame ].RectRender( nPosX-CCamera::GetInstance()->GetOffsetX()-3*GetFrameWidth()/2, nPosY-CCamera::GetInstance()->GetOffsetY()-GetFrameHeight(), fScale );
+	if(fScaleX == 1)
+		m_vAnimations[ m_nCurrentAnimation ].m_vFrames[ m_vAnimations[m_nCurrentAnimation].m_nCurrentFrame ].RectRender( nPosX-CCamera::GetInstance()->GetOffsetX()-GetFrameWidth()/2, nPosY-CCamera::GetInstance()->GetOffsetY()-GetFrameHeight(), fScaleX );
+	else if(fScaleX == -1 )
+		m_vAnimations[ m_nCurrentAnimation ].m_vFrames[ m_vAnimations[m_nCurrentAnimation].m_nCurrentFrame ].RectRender( nPosX-CCamera::GetInstance()->GetOffsetX()-3*GetFrameWidth()/2, nPosY-CCamera::GetInstance()->GetOffsetY()-GetFrameHeight(), fScaleX );
 }
 
 //////////////////////////////////////////////////////////////////////////////////////////////////////

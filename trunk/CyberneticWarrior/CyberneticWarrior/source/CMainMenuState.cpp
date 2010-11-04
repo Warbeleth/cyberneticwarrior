@@ -78,7 +78,7 @@ void	CMainMenuState::Enter(void)
 	this->m_nCursorID			= this->m_pTM->LoadTexture("resource/graphics/MainMenuCursor.png");
 	this->m_nBGMusic			= this->m_pWM->LoadWave("resource/sounds/SO3_Victory_Bell.wav");
 
-	this->m_MenuFont.InitFont("resource/fonts/example.png", "resource/fonts/Example.fnt");
+	this->m_MenuFont.InitFont("resource/fonts/Example.png", "resource/fonts/Example.fnt");
 	
 	//this->m_pWM->Play(this->m_nBGMusic, DSBPLAY_LOOPING);
 
