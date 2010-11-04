@@ -68,6 +68,8 @@ private:
 	float m_fThrowTime;
 	float m_fMovingPlatformPosX;
 
+	float m_fBoostTime;
+
 	float m_fTerminalVelocity;
 	float m_fGravity;
 

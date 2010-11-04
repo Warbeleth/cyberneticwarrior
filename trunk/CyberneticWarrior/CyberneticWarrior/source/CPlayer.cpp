@@ -57,15 +57,18 @@ CPlayer::CPlayer(void)
 
 
 	// Health
-	m_fRemainingHealth = 100.0f;
-	m_fTotalHealth = 100.0f;
+	this->m_fRemainingHealth = 100.0f;
+	this->m_fTotalHealth = 100.0f;
 
 	// Energy
-	m_fRemainingEnergy = 100.0f;
-	m_fTotalEnergy = 100.0f;
+	this->m_fRemainingEnergy = 100.0f;
+	this->m_fTotalEnergy = 100.0f;
 
 	// Score
-	m_nScore = 0;
+	this->m_nScore = 0;
+
+	// boost
+	this->m_fBoostTime = 0.0f;
 
 	// Animation
 	SetAnimations(new CAnimations());
@@ -147,7 +150,7 @@ void CPlayer::Update(float fElapsedTime)
 		float difference = (this->m_pMovingBlock->GetPosX() - this->m_fMovingPlatformPosX);
 		float playerX = this->GetPosX();
 		float newPX = this->GetPosX() + ((this->m_pMovingBlock->GetPosX() - this->m_fMovingPlatformPosX));
-		this->SetPosX(this->GetPosX() + ((this->m_pMovingBlock->GetPosX() - this->m_fMovingPlatformPosX)/**1.325f*/));
+		this->SetPosX(this->GetPosX() + ((this->m_pMovingBlock->GetPosX() - this->m_fMovingPlatformPosX)));
 	}
 
 
@@ -162,6 +165,10 @@ void CPlayer::Update(float fElapsedTime)
 	}
 
 
+	if(this->m_vSpeed.fX == 700.0f || this->m_vSpeed.fX == -700.0f)
+	{
+		this->m_fBoostTime += fElapsedTime;
+	}
 
 	// used for gamepad controls
 	// Notes: May be used later, probably not(Do not remove yet)
@@ -571,6 +578,16 @@ void CPlayer::Input(float fElapsedTime)
 	// Check Input for player movement (Grappling hook included)
 	//////////////////////////////////////////////////////////////////////////////
 	static int nMoveSpeed = 10;
+
+	
+ 	if(this->m_fBoostTime > 0.1f)
+	{
+   		this->m_vSpeed.fX = 0.0f;
+		this->m_fBoostTime = 0.0f;
+		this->DecrementEnergy(30.0f);
+		//this->m_bDash = false;
+	}
+		
 	if((CSGD_DirectInput::GetInstance()->KeyDown(DIK_A) 
 		|| CSGD_DirectInput::GetInstance()->JoystickDPadDown(DIR_LEFT)
 		|| CSGD_DirectInput::GetInstance()->JoystickGetLStickDirDown(DIR_LEFT)))
@@ -579,6 +596,7 @@ void CPlayer::Input(float fElapsedTime)
 		{
 			this->m_vSpeed.fX -= nMoveSpeed;
 		}
+
 		this->m_pMovingBlock = NULL;
 		this->m_bOnMovingPlatform = false;
 
@@ -644,7 +662,7 @@ void CPlayer::Input(float fElapsedTime)
 		|| CSGD_DirectInput::GetInstance()->JoystickDPadPressed(DIR_LEFT)
 		|| CSGD_DirectInput::GetInstance()->JoystickGetLStickDirPressed(DIR_LEFT)))
 	{
-		if(this->m_nSelectedBootSlot == this->ROCKET_BOOTS && this->m_bDash)
+		if(this->m_nSelectedBootSlot == this->ROCKET_BOOTS && this->m_bDash && this->m_fRemainingEnergy > 30.0f)
 		{
 			this->m_vSpeed.fX = -700.0f;
 			this->m_bDash = false;
@@ -663,7 +681,7 @@ void CPlayer::Input(float fElapsedTime)
 		|| CSGD_DirectInput::GetInstance()->JoystickDPadPressed(DIR_RIGHT)
 		|| CSGD_DirectInput::GetInstance()->JoystickGetLStickDirPressed(DIR_RIGHT)))
 	{
-		if(this->m_nSelectedBootSlot == this->ROCKET_BOOTS && this->m_bDash)
+		if(this->m_nSelectedBootSlot == this->ROCKET_BOOTS && this->m_bDash && this->m_fRemainingEnergy > 30.0f)
 		{
 			this->m_vSpeed.fX = 700.0f;
 			this->m_bDash = false;
