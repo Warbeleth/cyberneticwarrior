@@ -48,9 +48,22 @@
 #include "CBaseEnemy.h"
 #include "CIdleEnemy.h"
 #include "CPatrolEnemy.h"
+
+//Ground
 #include "CFLCLMech.h"
 #include "CMech.h"
+#include "CSiegeWalker.h"
+//Turrets
 #include "CTurretCore.h"
+//Air
+#include "CAttackDrone.h"
+#include "CHeavyAttackDrone.h"
+#include "CSeekerDrone.h"
+//Bosses
+#include "CAppleMech.h"
+#include "CDeathPirate.h"
+#include "CPimpStriker.h"
+
 
 
 
@@ -867,13 +880,25 @@ void CGame::MessageProc(CBaseMessage*	pMsg)
 						}						
 						break;
 					case Drone_Attack:
-						
+						{
+							CAttackDrone* Temp = (CAttackDrone*)pDestroyEnemy->GetEnemyPointer();
+							CObjectManager::GetInstance()->RemoveObject(Temp);
+							Temp = NULL;
+						}						
 						break;
 					case Drone_Seeker:
-						
+						{
+							CSeekerDrone* Temp = (CSeekerDrone*)pDestroyEnemy->GetEnemyPointer();
+							CObjectManager::GetInstance()->RemoveObject(Temp);
+							Temp = NULL;
+						}								
 						break;
 					case Drone_Heavy:
-						
+						{
+							CHeavyAttackDrone* Temp = (CHeavyAttackDrone*)pDestroyEnemy->GetEnemyPointer();
+							CObjectManager::GetInstance()->RemoveObject(Temp);
+							Temp = NULL;
+						}								
 						break;
 					case Ground_Mech:
 						{
@@ -883,7 +908,11 @@ void CGame::MessageProc(CBaseMessage*	pMsg)
 						}
 						break;
 					case Ground_Siege:
-						
+						{
+							CSiegeWalker* Temp = (CSiegeWalker*)pDestroyEnemy->GetEnemyPointer();
+							CObjectManager::GetInstance()->RemoveObject(Temp);
+							Temp = NULL;
+						}						
 						break;
 					case Ground_FLCL:
 						{
@@ -893,13 +922,25 @@ void CGame::MessageProc(CBaseMessage*	pMsg)
 						}
 						break;
 					case Boss_Apple:
-						
+						{
+							CAppleMech* Temp = (CAppleMech*)pDestroyEnemy->GetEnemyPointer();
+							CObjectManager::GetInstance()->RemoveObject(Temp);
+							Temp = NULL;
+						}						
 						break;
 					case Boss_Pimp:
-						
+						{
+							CPimpStriker* Temp = (CPimpStriker*)pDestroyEnemy->GetEnemyPointer();
+							CObjectManager::GetInstance()->RemoveObject(Temp);
+							Temp = NULL;
+						}							
 						break;
 					case Boss_Pirate:
-						
+						{
+							CDeathPirate* Temp = (CDeathPirate*)pDestroyEnemy->GetEnemyPointer();
+							CObjectManager::GetInstance()->RemoveObject(Temp);
+							Temp = NULL;
+						}						
 						break;
 					}
 			pDestroyEnemy = NULL;
