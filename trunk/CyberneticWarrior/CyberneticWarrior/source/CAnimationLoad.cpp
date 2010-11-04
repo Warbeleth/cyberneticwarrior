@@ -176,6 +176,11 @@ CAnimations::CAnimations()
 //////////////////////////////////////////////////////////////////////////////////////////////////////
 CAnimations::~CAnimations( )
 {
+
+	//if(m_nId != -1)
+	//	CSGD_TextureManager::GetInstance()->UnloadTexture(m_nId);
+
+
 }
 
 CAnimations& CAnimations::operator=( const CAnimations& Animation )

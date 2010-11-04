@@ -30,7 +30,7 @@ class CMapLoad;
 class CBaseEnemy : /*public IBaseInterface, */public CBase
 {
 	int m_nGlobalType;
-	int m_nType;
+	//int m_nType;
 	int m_nImageID;
 	int m_nMaxHP;
 	int m_nCurrentHP;
@@ -82,7 +82,7 @@ public:
 	// 
 	// Purpose : Returns the specified type.
 	//////////////////////////////////////////////////////////////////////////////////////////////////////
-	int GetType() { return m_nType; };
+	//int GetType() { return m_nType; };
 	int GetEnemyType() { return m_nGlobalType; };
 	int GetImageID() { return m_nImageID; };
 	int GetMaxHP() { return m_nMaxHP; };
@@ -104,7 +104,7 @@ public:
 	// 
 	// Purpose: Modifies the specified type. 
 	///////////////////////////////////////////////////////////////////////////////////////////////////////
-	void SetType(int Value) { m_nType = Value; };
+	//void SetType(int Value) { m_nType = Value; };
 	void GetEnemyType(int Value) { m_nGlobalType = Value; };
 	void SetImageID(int Value) { m_nImageID = Value; };
 	void SetMaxHP(int Value) { m_nMaxHP = Value; };
