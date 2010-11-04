@@ -934,21 +934,21 @@ void CGame::MessageProc(CBaseMessage*	pMsg)
 				break;
 			case Boss_Apple:
 				{
-					CAppleMech* CEnemy = new CAppleMech(-1, (float)pEnemy->GetPosX(), (float)pEnemy->GetPosY(), Turret_Multi);
+					CAppleMech* CEnemy = new CAppleMech(-1, (float)pEnemy->GetPosX(), (float)pEnemy->GetPosY());
 					CObjectManager::GetInstance()->AddObject(CEnemy);
 					CEnemy->Release();
 				}  
 				break;
 			case Boss_Pimp:
 				{
-					CPimpStriker* CEnemy = new CPimpStriker(-1, (float)pEnemy->GetPosX(), (float)pEnemy->GetPosY(), Turret_Multi);
+					CPimpStriker* CEnemy = new CPimpStriker(-1, (float)pEnemy->GetPosX(), (float)pEnemy->GetPosY());
 					CObjectManager::GetInstance()->AddObject(CEnemy);
 					CEnemy->Release();
 				}   
 				break;
 			case Boss_Pirate:
 				{
-					CDeathPirate* CEnemy = new CDeathPirate(-1, (float)pEnemy->GetPosX(), (float)pEnemy->GetPosY(), Turret_Multi);
+					CDeathPirate* CEnemy = new CDeathPirate(-1, (float)pEnemy->GetPosX(), (float)pEnemy->GetPosY());
 					CObjectManager::GetInstance()->AddObject(CEnemy);
 					CEnemy->Release();
 				}   
