@@ -73,7 +73,7 @@ CPlayer::CPlayer(void)
 	// Currently Selected
 	m_nSelectedWeapon = this->HAND_GUN;
 	m_nSelectedHeadSlot = 3;
-	m_nSelectedBootSlot = this->HOVER_BOOTS;
+	m_nSelectedBootSlot = this->BOOTS;
 
 	// Hand
 	m_fHandRotation = 4.2f;
@@ -392,7 +392,7 @@ void CPlayer::Input(float fElapsedTime)
 {
 
 	//////////////////////////////////////////////////////////////////////////////
-	// Check to see what weapon player equips
+	// Check to see what weapon/equipment player changes too
 	//////////////////////////////////////////////////////////////////////////////
 	if(CSGD_DirectInput::GetInstance()->KeyPressed(DIK_1))
 	{
@@ -417,6 +417,14 @@ void CPlayer::Input(float fElapsedTime)
 	if(CSGD_DirectInput::GetInstance()->KeyPressed(DIK_6))
 	{
 		this->m_nSelectedWeapon = this->SONIC_RIFLE;
+	}
+	if(CSGD_DirectInput::GetInstance()->KeyPressed(DIK_TAB))
+	{
+		this->m_nSelectedBootSlot--;
+		if(this->m_nSelectedBootSlot > this->ROCKET_BOOTS)
+		{
+			this->m_nSelectedBootSlot = this->BOOTS;
+		}
 	}
 	//if(CSGD_DirectInput::GetInstance()->MouseWheelMovement() >
 	//////////////////////////////////////////////////////////////////////////////
@@ -515,7 +523,7 @@ void CPlayer::Input(float fElapsedTime)
 	{
 		if(this->m_nSelectedBootSlot == this->HOVER_BOOTS&& this->m_bHovering && this->m_vSpeed.fY > 0.0f)
 		{
-   			this->m_fGravity = 150.0f;
+   			this->m_fGravity = 100.0f;
 			this->m_bJumped = false;
 		}
 		
