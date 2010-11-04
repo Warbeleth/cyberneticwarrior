@@ -109,6 +109,7 @@ void CSinglePlayerState::Enter(void)
 	// File Include Needs conversion - Corey
 	//CStackStateMachine::GetInstance()->Push_Back(CLoadingState::GetInstance());
 	this->m_TempMap = CMapLoad::GetInstance();
+	m_TempMap->LoadMap("CW-Map_01.CWM");
 
 	m_TempMap->LoadAnimations();
 
@@ -196,7 +197,6 @@ void CSinglePlayerState::Enter(void)
 
 	this->m_TempPlayer->Release();
 
-	m_TempMap->LoadMap("CW-Map_01.CWM");
 
 
 	CLoadingState::GetInstance()->SetReady(1);
@@ -237,8 +237,8 @@ void CSinglePlayerState::Update(float fElapsedTime)
 		this->m_nMusicVolume = COptionsMenuState::GetInstance()->GetMusicVolume();
 		this->m_pWM->SetVolume(m_nBGMusic, this->m_nMusicVolume);
 	}
-	this->m_pOM->CheckCollisions();
 	this->m_pOM->UpdateObjects(fElapsedTime);
+	this->m_pOM->CheckCollisions();
 
 
 

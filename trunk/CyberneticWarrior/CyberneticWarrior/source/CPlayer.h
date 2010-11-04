@@ -79,6 +79,7 @@ private:
 	//////////////////////////
 
 	bool m_bHovering;
+	bool m_bBoosting;
 	bool m_bJumped;
 
 
