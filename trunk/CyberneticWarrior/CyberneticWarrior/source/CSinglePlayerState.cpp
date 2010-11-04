@@ -109,7 +109,6 @@ void CSinglePlayerState::Enter(void)
 	// File Include Needs conversion - Corey
 	//CStackStateMachine::GetInstance()->Push_Back(CLoadingState::GetInstance());
 	this->m_TempMap = CMapLoad::GetInstance();
-	m_TempMap->LoadMap("CW-Map_01.CWM");
 
 	m_TempMap->LoadAnimations();
 
@@ -194,6 +193,7 @@ void CSinglePlayerState::Enter(void)
 	this->Enemy_1->Release();
 	this->Enemy_2->Release();
 	this->Enemy_3->Release();
+	m_TempMap->LoadMap("CW-Map_01.CWM");
 
 	this->m_TempPlayer->Release();
 
@@ -213,8 +213,8 @@ bool CSinglePlayerState::Input(void)
 		//CStackStateMachine::GetInstance()->Pop_back();
 	}
 
-	if(this->m_pDI->KeyPressed(DIK_SPACE))
-		m_TempPlayer->DecrementEnergy(40);
+	//if(this->m_pDI->KeyPressed(DIK_SPACE))
+	//	m_TempPlayer->DecrementEnergy(20);
 
 	if(this->m_pDI->MouseButtonPressed(MOUSE_RIGHT))
 		m_TempPlayer->DecrementHealth(20);

@@ -57,12 +57,12 @@ CPlayer::CPlayer(void)
 
 
 	// Health
-	m_nRemainingHealth = 100;
-	m_nTotalHealth = 100;
+	m_fRemainingHealth = 100.0f;
+	m_fTotalHealth = 100.0f;
 
 	// Energy
-	m_nRemainingEnergy = 0;
-	m_nTotalEnergy = 100;
+	m_fRemainingEnergy = 100.0f;
+	m_fTotalEnergy = 100.0f;
 
 	// Score
 	m_nScore = 0;
@@ -119,9 +119,6 @@ CPlayer::~CPlayer(void)
 
 void CPlayer::Update(float fElapsedTime)
 {
-	
-
-
 	// Check to see if game was paused if so destroy dynamic Items (example: Grappling hook)
 	if(this->m_pHook && this->m_bShutDown)
 	{
@@ -150,7 +147,7 @@ void CPlayer::Update(float fElapsedTime)
 		float difference = (this->m_pMovingBlock->GetPosX() - this->m_fMovingPlatformPosX);
 		float playerX = this->GetPosX();
 		float newPX = this->GetPosX() + ((this->m_pMovingBlock->GetPosX() - this->m_fMovingPlatformPosX));
-		this->SetPosX(this->GetPosX() + ((this->m_pMovingBlock->GetPosX() - this->m_fMovingPlatformPosX)*0.57f));
+		this->SetPosX(this->GetPosX() + ((this->m_pMovingBlock->GetPosX() - this->m_fMovingPlatformPosX)*1.325f));
 	}
 
 
@@ -522,7 +519,7 @@ void CPlayer::Input(float fElapsedTime)
 			this->m_bJumped = false;
 		}
 		
-		if(this->m_nSelectedBootSlot == this->ROCKET_BOOTS && this->m_bBoosting)
+		if(this->m_nSelectedBootSlot == this->ROCKET_BOOTS && this->m_bBoosting && this->m_fRemainingEnergy != 0.0f)
 		{
 			//this->m_bBoosting = true;
 			this->m_bOnGround = false;
@@ -533,9 +530,17 @@ void CPlayer::Input(float fElapsedTime)
 			fJumpSpeed = -100.0f;
 			this->m_vSpeed.fY = fJumpSpeed;
 			this->SetBaseVelY(this->m_vSpeed.fY);
+			this->DecrementEnergy(0.7f);
+		}
+		else if(this->m_nSelectedBootSlot == this->ROCKET_BOOTS && this->m_bBoosting && this->m_fRemainingEnergy == 0.0f)
+		{
+			fJumpSpeed = -550.0f;
+			this->m_bHovering = false;
+			this->m_bBoosting = false;
+			this->m_fGravity = 900.0f;
 		}
 
-		if(/*!this->m_bJumped && */this->m_bOnGround && !this->m_bHovering && !this->m_bBoosting)
+		if(/*!this->m_bJumped && */this->m_bOnGround && !this->m_bHovering && !this->m_bBoosting && this->m_fRemainingEnergy > 1.0f)
 		{
 			this->m_fGravity = 900.0f;
 			this->m_pMovingBlock = NULL;
@@ -545,6 +550,8 @@ void CPlayer::Input(float fElapsedTime)
 			this->SetBaseVelY(this->m_vSpeed.fY);
 			this->m_bJumped = true;
 
+			if(this->m_fRemainingEnergy > -29.0f)
+				this->DecrementEnergy(10.0f);
 		}
 		
 		
@@ -640,16 +647,16 @@ void CPlayer::Input(float fElapsedTime)
 		if(this->m_nSelectedBootSlot == this->ROCKET_BOOTS && this->m_bDash)
 		{
 			this->m_vSpeed.fX = -700.0f;
-			this->m_bDash = true;
-		}
-		if(this->m_nSelectedBootSlot == this->ROCKET_BOOTS && this->m_bDash)
-		{
-			this->m_bDash = true;
-		}
-		else
-		{
 			this->m_bDash = false;
 		}
+		if(this->m_nSelectedBootSlot == this->ROCKET_BOOTS && !this->m_bDash)
+		{
+			this->m_bDash = true;
+		}
+		/*else
+		{
+			this->m_bDash = false;
+		}*/
 	}
 	//////////////////////////////////////////////////////////////////////////////
 	if((CSGD_DirectInput::GetInstance()->KeyPressed(DIK_D) 
@@ -661,14 +668,14 @@ void CPlayer::Input(float fElapsedTime)
 			this->m_vSpeed.fX = 700.0f;
 			this->m_bDash = false;
 		}
-		if(this->m_nSelectedBootSlot == this->ROCKET_BOOTS && this->m_bDash)
+		if(this->m_nSelectedBootSlot == this->ROCKET_BOOTS && !this->m_bDash)
 		{
 			this->m_bDash = true;
 		}
-		else
+		/*else
 		{
 			this->m_bDash = false;
-		}
+		}*/
 	}
 	//////////////////////////////////////////////////////////////////////////////
 	if(CSGD_DirectInput::GetInstance()->KeyReleased(DIK_D))
@@ -1026,10 +1033,7 @@ bool CPlayer::CheckCollision(CBase* pBase)
 				this->m_bOnGround = 0;
 				this->m_bOnPlatform = 0;
 				this->m_bOnMovingPlatform = false;
-				if(this->m_nSelectedBootSlot == this->ROCKET_BOOTS)
-				{
-					//this->m_bBoosting = true;
-				}
+			
 				return false;
 			}
 		}
@@ -1053,10 +1057,7 @@ bool CPlayer::CheckCollision(CBase* pBase)
 			{
 				this->m_bOnGround = 0;
 				this->m_bOnPlatform = 0;
-				if(this->m_nSelectedBootSlot == this->ROCKET_BOOTS)
-				{
-					//this->m_bBoosting = true;
-				}
+				
 				return false;
 			}
 		}
@@ -1081,10 +1082,7 @@ bool CPlayer::CheckCollision(CBase* pBase)
 			{
 				this->m_bOnGround = 0;
 				this->m_bOnPlatform = 0;
-				if(this->m_nSelectedBootSlot == this->ROCKET_BOOTS)
-				{
-					//this->m_bBoosting = true;
-				}
+				
 				return false;
 			}
 		}
@@ -1109,10 +1107,7 @@ bool CPlayer::CheckCollision(CBase* pBase)
 			{
 				this->m_bOnGround = 0;
 				this->m_bOnPlatform = 0;
-				if(this->m_nSelectedBootSlot == this->ROCKET_BOOTS)
-				{
-					//this->m_bBoosting = true;
-				}
+				
 				return false;
 			}
 		}

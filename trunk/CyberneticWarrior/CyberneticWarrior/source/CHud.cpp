@@ -66,7 +66,7 @@ RECT CHud::GetRect( int nType, int nEquipment )
 	case TYPE_HEALTH:
 		{	
 			float fPercentage;
-			fPercentage = m_pPlayer->m_nRemainingHealth/ m_pPlayer->m_nTotalHealth;
+			fPercentage = m_pPlayer->m_fRemainingHealth/ m_pPlayer->m_fTotalHealth;
 			
 			rRectangle.right = (LONG)(fPercentage * rRectangle.right); 
 			break;
@@ -74,7 +74,7 @@ RECT CHud::GetRect( int nType, int nEquipment )
 	case TYPE_ENERGY:
 		{
 			float fPercentage;
-			fPercentage = m_pPlayer->m_nRemainingEnergy / m_pPlayer->m_nTotalEnergy;
+			fPercentage = m_pPlayer->m_fRemainingEnergy / m_pPlayer->m_fTotalEnergy;
 			
 			rRectangle.right = (LONG)(fPercentage * rRectangle.right); 
 			break;
@@ -110,10 +110,10 @@ void CHud::Update( float fElapsedTime )
 {
 	m_fElapsedTime += fElapsedTime;
 
-	if( m_fElapsedTime >= ENERGY_DELAY && m_pPlayer->m_nRemainingEnergy != m_pPlayer->m_nTotalEnergy )
+	if( m_fElapsedTime >= ENERGY_DELAY && m_pPlayer->m_fRemainingEnergy != m_pPlayer->m_fTotalEnergy && m_pPlayer->m_bOnGround )
 	{
 		m_fElapsedTime = 0.0f;
-		m_pPlayer->IncrementEnergy( (float)( 1 ) );
+		m_pPlayer->IncrementEnergy( 1.0f );
 	}
 }
 
