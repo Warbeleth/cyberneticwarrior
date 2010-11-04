@@ -1,34 +1,35 @@
-#ifndef APPLEMECH_H_
-#define APPLEMECH_H_
-#include "CIdleEnemy.h"
+#ifndef ATTACKDRONE_H_
+#define ATTACKDRONE_H_
+#include "CPatrolEnemy.h"
 
-class CAppleMech : public CIdleEnemy
+class CAttackDrone : public CPatrolEnemy
 {
 
-
 public:
-	CAppleMech();
-	CAppleMech(int nImageID,
+	CAttackDrone();
+	CAttackDrone(	int nImageID,
 				float PosX = 0, 
 				float PosY = 0, 
-				int Width = 384, 
-				int Height = 192, 
-				int nState = Idle, 
-				int nMaxHP = 80, 
-				int nCurrentHP = 80,
-				int nSightRange = 700, 
-				int nAttackRange = 700, 
-				int nGlobalType = Boss_Apple,
-				float fRateOfFire = 5.0f, 
-				float fSpeed = 0.0f
+				int Width = 80, 
+				int Height = 80, 
+				int nState = Patrol, 
+				float fCurrentPatrolDistance = 0, 
+				int nMaxHP = 100, 
+				int nCurrentHP = 100,
+				int nSightRange = 600, 
+				int nAttackRange = 500, 
+				int nGlobalType = Drone_Attack,
+				float fRateOfFire = 1.0f, 
+				float fSpeed = 48.0f
 				);
 
-	~CAppleMech();
+	~CAttackDrone();
 
 	//////////////////////////////////////////////////////////////////////////////////////////////////////
 	// Function: Accessors
 	// 
 	// Purpose : Returns the specified type.
+	//////////////////////////////////////////////////////////////////////////////////////////////////////
 
 	///////////////////////////////////////////////////////////////////////////////////////////////////////
 	// Function: Modifiers 

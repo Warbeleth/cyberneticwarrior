@@ -228,6 +228,10 @@
 						>
 					</File>
 					<File
+						RelativePath=".\source\CAttackDrone.cpp"
+						>
+					</File>
+					<File
 						RelativePath=".\source\CBaseEnemy.cpp"
 						>
 						<FileConfiguration
@@ -256,6 +260,10 @@
 								PrecompiledHeaderThrough="PrecompiledHeader.h"
 							/>
 						</FileConfiguration>
+					</File>
+					<File
+						RelativePath=".\source\CHeavyAttackDrone.cpp"
+						>
 					</File>
 					<File
 						RelativePath=".\source\CHud.cpp"
@@ -307,6 +315,10 @@
 								PrecompiledHeaderThrough="PrecompiledHeader.h"
 							/>
 						</FileConfiguration>
+					</File>
+					<File
+						RelativePath=".\source\CSeekerDrone.cpp"
+						>
 					</File>
 					<File
 						RelativePath=".\source\CSiegeWalker.cpp"
@@ -722,6 +734,10 @@
 						>
 					</File>
 					<File
+						RelativePath=".\source\CAttackDrone.h"
+						>
+					</File>
+					<File
 						RelativePath=".\source\CBaseEnemy.h"
 						>
 					</File>
@@ -731,6 +747,10 @@
 					</File>
 					<File
 						RelativePath=".\source\CFLCLMech.h"
+						>
+					</File>
+					<File
+						RelativePath=".\source\CHeavyAttackDrone.h"
 						>
 					</File>
 					<File
@@ -755,6 +775,10 @@
 					</File>
 					<File
 						RelativePath=".\source\CPlayer.h"
+						>
+					</File>
+					<File
+						RelativePath=".\source\CSeekerDrone.h"
 						>
 					</File>
 					<File
