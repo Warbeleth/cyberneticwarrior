@@ -135,7 +135,9 @@ namespace Animation
 
         public void Render()
         {
-
+            int nOffsetX = 0 + SplitContainer2.Panel1.AutoScrollPosition.X;
+            int nOffsetY = 0 + SplitContainer2.Panel1.AutoScrollPosition.Y;
+            
             if (bPreview)
             {
                 _previewWindow.Render();
@@ -148,17 +150,17 @@ namespace Animation
 
             
             if( spritesheet != -1 )
-               TM.Draw(spritesheet, 0, 0, 1, 1, Rectangle.Empty, 0, 0, 0, 0 );
+               TM.Draw(spritesheet, 0 + nOffsetX, 0 + nOffsetY, 1, 1, Rectangle.Empty, 0, 0, 0, 0 );
             
             D3D.Sprite.Flush(); // DRAW ALL SPRITES NOW!!!
-           
-            D3D.DrawLine(startpoint.X, startpoint.Y, endpoint.X, startpoint.Y, 0, 0, 0);
-            D3D.DrawLine(endpoint.X, startpoint.Y, endpoint.X, endpoint.Y, 0, 0, 0);
-            D3D.DrawLine(endpoint.X, endpoint.Y, startpoint.X, endpoint.Y, 0, 0, 0);
-            D3D.DrawLine(startpoint.X, endpoint.Y, startpoint.X, startpoint.Y, 0, 0, 0);
+
+            D3D.DrawLine(startpoint.X + nOffsetX, startpoint.Y + nOffsetY, endpoint.X + nOffsetX, startpoint.Y + nOffsetY, 0, 0, 0);
+            D3D.DrawLine(endpoint.X + nOffsetX, startpoint.Y + nOffsetY, endpoint.X + nOffsetX, endpoint.Y + nOffsetY, 0, 0, 0);
+            D3D.DrawLine(endpoint.X + nOffsetX, endpoint.Y + nOffsetY, startpoint.X + nOffsetX, endpoint.Y + nOffsetY, 0, 0, 0);
+            D3D.DrawLine(startpoint.X + nOffsetX, endpoint.Y + nOffsetY, startpoint.X + nOffsetX, startpoint.Y + nOffsetY, 0, 0, 0);
 
             if (AnimationsListBox.SelectedIndex >= 0 && FramesListBox.SelectedIndex >= 0 && FramesListBox.SelectedIndex <= AnimationsEditor.GetAnimations[AnimationsListBox.SelectedIndex].GetTotalFrames - 1)
-                    AnimationsEditor.GetAnimations[AnimationsListBox.SelectedIndex].GetFrames[FramesListBox.SelectedIndex].RectRender();
+                    AnimationsEditor.GetAnimations[AnimationsListBox.SelectedIndex].GetFrames[FramesListBox.SelectedIndex].RectRender( nOffsetX, nOffsetY);
    
             D3D.SpriteEnd();
             D3D.DeviceEnd();
@@ -178,30 +180,35 @@ namespace Animation
 
         private void SplitContainer2_Panel1_MouseDown(object sender, MouseEventArgs e)
         {
-            startpoint = e.Location;
-            endpoint = e.Location;
+            int nOffsetX = e.Location.X - SplitContainer2.Panel1.AutoScrollPosition.X;
+            int nOffsetY = e.Location.Y - SplitContainer2.Panel1.AutoScrollPosition.Y;
+            startpoint = new Point(nOffsetX, nOffsetY);
+            endpoint = new Point(nOffsetX, nOffsetY);
         }
 
         private void SplitContainer2_Panel1_MouseMove(object sender, MouseEventArgs e)
         {
+            int nOffsetX = e.Location.X - SplitContainer2.Panel1.AutoScrollPosition.X;
+            int nOffsetY = e.Location.Y - SplitContainer2.Panel1.AutoScrollPosition.Y;
+
             if (e.Button == MouseButtons.Left)
             {
-                if (e.Location.X < startpoint.X)
+                if (nOffsetX < startpoint.X)
                 {
-                    startpoint.X = e.Location.X;
+                    startpoint.X = nOffsetX;
                 }
-                else if (e.Location.X > startpoint.X)
+                else if (nOffsetX > startpoint.X)
                 {
-                    endpoint.X = e.Location.X;
+                    endpoint.X = nOffsetX;
                 }
 
-                if (e.Location.Y < startpoint.Y)
+                if (nOffsetY < startpoint.Y)
                 {
-                    startpoint.Y = e.Location.Y;
+                    startpoint.Y = nOffsetY;
                 }
-                else if (e.Location.Y > startpoint.Y)
+                else if (nOffsetY > startpoint.Y)
                 {
-                    endpoint.Y = e.Location.Y;
+                    endpoint.Y = nOffsetY;
                 }
             }
         }

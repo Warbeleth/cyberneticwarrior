@@ -146,35 +146,35 @@ namespace Animation
         {
         }
 
-        public void RectRender()
+        public void RectRender(int nOffsetX, int nOffsetY)
         { 
             //DirectX singletons
             ManagedDirect3D pD3D = ManagedDirect3D.Instance;
 
             // Draw Frame
-            pD3D.DrawLine(Frame.left, Frame.top, Frame.right, Frame.top, 255, 0, 0);
-            pD3D.DrawLine(Frame.right, Frame.top, Frame.right, Frame.bottom, 255, 0, 0);
-            pD3D.DrawLine(Frame.right, Frame.bottom, Frame.left, Frame.bottom, 255, 0, 0);
-            pD3D.DrawLine(Frame.left, Frame.bottom, Frame.left, Frame.top, 255, 0, 0);
+            pD3D.DrawLine(Frame.left + nOffsetX, Frame.top + nOffsetY, Frame.right + nOffsetX, Frame.top + nOffsetY, 255, 0, 0);
+            pD3D.DrawLine(Frame.right + nOffsetX, Frame.top + nOffsetY, Frame.right + nOffsetX, Frame.bottom + nOffsetY, 255, 0, 0);
+            pD3D.DrawLine(Frame.right + nOffsetX, Frame.bottom + nOffsetY, Frame.left + nOffsetX, Frame.bottom + nOffsetY, 255, 0, 0);
+            pD3D.DrawLine(Frame.left + nOffsetX, Frame.bottom + nOffsetY, Frame.left + nOffsetX, Frame.top + nOffsetY, 255, 0, 0);
 
-            pD3D.DrawLine(Anchor.X - 2, Anchor.Y - 2, Anchor.X + 2, Anchor.Y + 2, 255, 0, 255);
-            pD3D.DrawLine(Anchor.X + 2, Anchor.Y - 2, Anchor.X - 2, Anchor.Y + 2, 255, 0, 255);
+            pD3D.DrawLine(Anchor.X + nOffsetX - 2, Anchor.Y + nOffsetY - 2, Anchor.X + nOffsetX + 2, Anchor.Y + nOffsetY + 2, 255, 0, 255);
+            pD3D.DrawLine(Anchor.X + nOffsetX + 2, Anchor.Y + nOffsetY - 2, Anchor.X + nOffsetX - 2, Anchor.Y + nOffsetY + 2, 255, 0, 255);
             // Draw Hit Rects
             for (int i = 0; i < GetTotalHitRECTS; ++i)
             {
-                pD3D.DrawLine(m_lstHitRects[i].left, m_lstHitRects[i].top, m_lstHitRects[i].right, m_lstHitRects[i].top, 0, 255, 0);
-                pD3D.DrawLine(m_lstHitRects[i].right, m_lstHitRects[i].top, m_lstHitRects[i].right, m_lstHitRects[i].bottom, 0, 255, 0);
-                pD3D.DrawLine(m_lstHitRects[i].right, m_lstHitRects[i].bottom, m_lstHitRects[i].left, m_lstHitRects[i].bottom, 0, 255, 0);
-                pD3D.DrawLine(m_lstHitRects[i].left, m_lstHitRects[i].bottom, m_lstHitRects[i].left, m_lstHitRects[i].top, 0, 255, 0);
+                pD3D.DrawLine(m_lstHitRects[i].left + nOffsetX, m_lstHitRects[i].top + nOffsetY, m_lstHitRects[i].right + nOffsetX, m_lstHitRects[i].top + nOffsetY, 0, 255, 0);
+                pD3D.DrawLine(m_lstHitRects[i].right + nOffsetX, m_lstHitRects[i].top + nOffsetY, m_lstHitRects[i].right + nOffsetX, m_lstHitRects[i].bottom + nOffsetY, 0, 255, 0);
+                pD3D.DrawLine(m_lstHitRects[i].right + nOffsetX, m_lstHitRects[i].bottom + nOffsetY, m_lstHitRects[i].left + nOffsetX, m_lstHitRects[i].bottom + nOffsetY, 0, 255, 0);
+                pD3D.DrawLine(m_lstHitRects[i].left + nOffsetX, m_lstHitRects[i].bottom + nOffsetY, m_lstHitRects[i].left + nOffsetX, m_lstHitRects[i].top + nOffsetY, 0, 255, 0);
             }
 
             // Draw Collision Rects
             for (int i = 0; i < GetTotalCollisionRECTS; ++i)
             {
-                pD3D.DrawLine(m_lstCollisionRects[i].left, m_lstCollisionRects[i].top, m_lstCollisionRects[i].right, m_lstCollisionRects[i].top, 0, 0, 255);
-                pD3D.DrawLine(m_lstCollisionRects[i].right, m_lstCollisionRects[i].top, m_lstCollisionRects[i].right, m_lstCollisionRects[i].bottom, 0, 0, 255);
-                pD3D.DrawLine(m_lstCollisionRects[i].right, m_lstCollisionRects[i].bottom, m_lstCollisionRects[i].left, m_lstCollisionRects[i].bottom, 0, 0, 255);
-                pD3D.DrawLine(m_lstCollisionRects[i].left, m_lstCollisionRects[i].bottom, m_lstCollisionRects[i].left, m_lstCollisionRects[i].top, 0, 0, 255);
+                pD3D.DrawLine(m_lstCollisionRects[i].left + nOffsetX, m_lstCollisionRects[i].top + nOffsetY, m_lstCollisionRects[i].right + nOffsetX, m_lstCollisionRects[i].top + nOffsetY, 0, 0, 255);
+                pD3D.DrawLine(m_lstCollisionRects[i].right + nOffsetX, m_lstCollisionRects[i].top + nOffsetY, m_lstCollisionRects[i].right + nOffsetX, m_lstCollisionRects[i].bottom + nOffsetY, 0, 0, 255);
+                pD3D.DrawLine(m_lstCollisionRects[i].right + nOffsetX, m_lstCollisionRects[i].bottom + nOffsetY, m_lstCollisionRects[i].left + nOffsetX, m_lstCollisionRects[i].bottom + nOffsetY, 0, 0, 255);
+                pD3D.DrawLine(m_lstCollisionRects[i].left + nOffsetX, m_lstCollisionRects[i].bottom + nOffsetY, m_lstCollisionRects[i].left + nOffsetX, m_lstCollisionRects[i].top + nOffsetY, 0, 0, 255);
             }
         }
 
