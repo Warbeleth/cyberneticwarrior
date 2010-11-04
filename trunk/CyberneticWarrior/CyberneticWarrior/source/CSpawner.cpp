@@ -22,7 +22,7 @@ void CSpawner::Update(float fElapsedTime)
 {
 	m_fTimeWaited += fElapsedTime;
 
-	if(m_fTimeWaited >= 5.0f)
+	if(m_fTimeWaited >= INT_MAX)
 	{
 		m_fTimeWaited = 0.0f;
 		CGame::GetInstance()->GetMessageSystemPointer()->SendMsg(new CCreateEnemyMessage(0, (int)GetPosX(), (int)GetPosY()));
