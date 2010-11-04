@@ -1,3 +1,12 @@
+//////////////////////////////////////////////////////////////////////////////////////////////////////
+//
+//	File : CPlayer.h
+//
+//	Author : Patrick Alvarez, Anthony Muccio, Corey Ringer
+//
+//	Purpose : Games Main Character and his Functionality
+//
+//////////////////////////////////////////////////////////////////////////////////////////////////////
 #ifndef	PLAYER_H_
 #define PLAYER_H_
 
@@ -53,12 +62,15 @@ private:
 	float m_fHandRotation;
 	float m_fShotTime;
 	float m_fThrowTime;
+	float m_fMovingPlatformPosX;
+	float m_fCMovingPlatformPosX;
 
 	float m_fTerminalVelocity;
 	float m_fGravity;
 
 	bool m_bOnGround;
 	bool m_bOnPlatform;
+	bool m_bOnMovingPlatform;
 
 	bool m_bHomingOn;
 
@@ -77,42 +89,78 @@ private:
 
 public:
 
+	////////////////////////////////////////////////////////////////////////////////////
+	//	Function : CPlayer (Constructor)
+	//
+	//	Purpose : To initialize all of CPlayer's many data class members.
+	////////////////////////////////////////////////////////////////////////////////////
 	CPlayer(void);
+
+	////////////////////////////////////////////////////////////////////////////////////
+	//	Function : ~CPlayer (Deconstructor)
+	//
+	//	Purpose : To destroy all of CPlayer's many data class members.
+	////////////////////////////////////////////////////////////////////////////////////
 	~CPlayer(void);
 
-	tVector2D GetSpeed(void);
-	tVector2D* GetJoyPos(void);
-
-	float	GetVectorMagnitude(void);
-	float	GetRotationRate(void);
-
-	void Update(float fElapsedTime);
-	void Render(void);
-
-	RECT GetRect(void) const;
-
+	
+	////////////////////////////////////////////////////////////////////////////////////
+	//	Function : Check Collision
+	//
+	//	Purpose : To Check players character collisions among any other game object
+	////////////////////////////////////////////////////////////////////////////////////
 	bool CheckCollision(CBase* pBase);
 
+	////////////////////////////////////////////////////////////////////////////////////
+	//	Function : Update
+	//
+	//	Purpose : To update all of the players character functionality
+	////////////////////////////////////////////////////////////////////////////////////
+	void Update(float fElapsedTime);
+
+	////////////////////////////////////////////////////////////////////////////////////
+	//	Function : Render
+	//
+	//	Purpose : To Render players character to game camera and screen
+	////////////////////////////////////////////////////////////////////////////////////
+	void Render(void);
+
+	////////////////////////////////////////////////////////////////////////////////////
+	//	Function : Handle Event
+	//
+	//	Purpose : To Handle any players character events
+	////////////////////////////////////////////////////////////////////////////////////
 	void HandleEvent(CEvent* pEvent);
 
+	////////////////////////////////////////////////////////////////////////////////////
+	//	Function : Input
+	//
+	//	Purpose : To Check the player to character input
+	////////////////////////////////////////////////////////////////////////////////////
 	void Input(float fElapsedTime);
 
 
-	bool GetMouseDown(void);
-	void SetMouseDown(bool bMouseDown);
+	////////////////////////////////////////////////////////////////////////////////////
+	//	Function : Accessors
+	//
+	//	Purpose : Access a value of a variable
+	///////////////////////////////////////////////////////////////////////////////////
+	RECT GetRect(void) const;
 
-	bool GetOnGround(void);
-
+	tVector2D GetSpeed(void);
+	tVector2D GetRotationPos(void);
+	tVector2D* GetJoyPos(void);
 
 	CGrapplingHook*	GetHookPointer(void);
-	void	SetHookPointer(CGrapplingHook*	pHook);
-	
 
-	bool	GetHoming( void )	{ return m_bHomingOn; }
-
-
-	tVector2D	GetRotationPos(void);
+	float	GetVectorMagnitude(void);
 	float	GetRotation(void);
+	float	GetRotationRate(void);
+
+	bool GetMouseDown(void);
+	bool GetOnGround(void);
+	inline bool GetHoming( void )	{ return m_bHomingOn; }
+
 	
 	////////////////////////////////////////////////////////////////////////////////////
 	//	Function : Mutators
@@ -126,7 +174,12 @@ public:
 	void SetRotationPosX(float fX);
 	void SetRotationPosY(float fY);
 	void SetPlayerNumber( int nPlayer );
+
 	inline void SetShutDown(bool bShutDown) { this->m_bShutDown = bShutDown;}
+
+	void	SetHookPointer(CGrapplingHook*	pHook);
+	
+	void SetMouseDown(bool bMouseDown);
 
 	//float	GetArmRotation(void)	{return this->m_fHandRotation;}
 

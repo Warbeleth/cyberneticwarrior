@@ -18,6 +18,7 @@ CPlayer::CPlayer(void)
 	// Jumping
 	this->m_bOnGround = false;
 	this->m_bOnPlatform = false;
+	this->m_bOnMovingPlatform = false;
 
 	// Facing Forward
 	this->m_bForward = true;
@@ -38,6 +39,11 @@ CPlayer::CPlayer(void)
 	this->m_vJoyVecPos.fY	   = 0.0f;
 	this->m_fJoyRot = 0.0f;
 	this->m_fWaitTime = 0.0f;
+
+	// Moving Platform Position Updates
+	this->m_fMovingPlatformPosX = 0.0f;
+	this->m_fCMovingPlatformPosX = 0.0f;
+
 
 	// Health
 	m_nRemainingHealth = 100;
@@ -66,8 +72,10 @@ CPlayer::CPlayer(void)
 	m_nHandID = CSGD_TextureManager::GetInstance()->LoadTexture( "resource/graphics/Weapons.png" );
 
 
+	// Shut down players dynamic items check
 	this->m_bShutDown = false;
 
+	// Check if update should adjust players swinging
 	this->m_bFixSwing = true;
 
 
@@ -80,43 +88,54 @@ CPlayer::CPlayer(void)
 CPlayer::~CPlayer(void)
 {
 	this->m_bShutDown = false;
+	this->m_bOnMovingPlatform = false;
+	
 	CSGD_TextureManager::GetInstance()->UnloadTexture(this->GetImageID());
+	
 	delete m_pHud;
 	delete GetAnimations();
+	this->m_pHud = NULL;
 	SetAnimations( NULL );
 }
 
-tVector2D CPlayer::GetSpeed(void)	{ return m_vSpeed; }
-
-float	CPlayer::GetRotationRate(void)	{ return m_fRotationRate; }
 
 void CPlayer::Update(float fElapsedTime)
 {
+	// Check for players Input 
+	// Notes: (May need to be moved around function call for proper checks)
+	this->Input(fElapsedTime);
+
+
+	// Check to see if game was paused if so destroy dynamic Items (example: Grappling hook)
 	if(this->m_pHook && this->m_bShutDown)
 	{
 		CGame::GetInstance()->GetMessageSystemPointer()->SendMsg(new CDestroyHookMessage(this->m_pHook, this));
 		this->m_bShutDown = false;
 	}
 
+	// If player is swinging do not update based on CBase otherwise Carry on
 	if(this->m_pHook)
 	{
 		if(!this->m_pHook->GetIfHooked() || this->GetOnGround())
 		{
-		CBase::Update(fElapsedTime);
-		//	this->SetPosX(this->GetPosX() + this->GetBaseVelX());
-		//	this->SetPosY(this->GetPosY() + this->GetBaseVelY());
+			CBase::Update(fElapsedTime);
 		}
 	}
 	else
 	{
 		CBase::Update(fElapsedTime);
-		//this->SetPosX(this->GetPosX() + this->GetBaseVelX());
-		//this->SetPosY(this->GetPosY() + this->GetBaseVelY());
 	}
 
-	this->Input(fElapsedTime);
+
+	// If the player is on a moving platform update position 
+	// according to the platforms movement
+	if(this->m_bOnMovingPlatform)
+	{
+		this->SetPosX(this->GetPosX() + (this->m_fCMovingPlatformPosX - this->m_fMovingPlatformPosX));
+	}
 
 
+	// Check to see which direction player is currently facing
 	if(CSGD_DirectInput::GetInstance()->MouseGetPosX() + CCamera::GetInstance()->GetOffsetX() > this->GetPosX())
 	{
 		this->m_bForward = 1;
@@ -125,6 +144,11 @@ void CPlayer::Update(float fElapsedTime)
 	{
 		this->m_bForward = 0;
 	}
+
+
+
+	// used for gamepad controls
+	// Notes: May be used later, probably not(Do not remove yet)
 
 	//this->m_fWaitTime +=  fElapsedTime;
 
@@ -136,13 +160,18 @@ void CPlayer::Update(float fElapsedTime)
 
 
 
+	// Grappling hook
+	// Notes: will probably get its own separate function
 	if(this->m_pHook)
 	{
-
 		tVector2D vHook;
+
+		// If player is swinging
 		if(this->m_pHook->GetIfHooked() && !this->GetOnGround())// && this->GetRotation() <  3.14f/2&& this->GetRotation() > -3.14f*2)
 		{
-
+			//////////////////////////////////////////////////////////////////////////////
+			// Adjust hook to player doesnt pass boundaries and he doesnt just stay still in the air
+			//////////////////////////////////////////////////////////////////////////////
 			if(this->GetPosX() < this->m_pHook->GetPosX() && this->m_bFixSwing)
 			{
 				this->SetRotation(this->GetRotation() - 0.01f*fElapsedTime);
@@ -151,12 +180,12 @@ void CPlayer::Update(float fElapsedTime)
 			{
 				this->SetRotation(this->GetRotation() + 0.01f*fElapsedTime);
 			}
-			if(this->GetPosY() < this->m_pHook->GetPosY() && this->GetPosX() < this->m_pHook->GetPosX()-20.0f)
+			if(this->GetPosY() < this->m_pHook->GetPosY() + 10.0f && this->GetPosX() < this->m_pHook->GetPosX()-20.0f)
 			{
 				this->SetRotation(this->GetRotation() - 0.1f*fElapsedTime);
 				//this->SetPosY(this->m_pHook->GetPosY() + 1.0f);
 			}
-			if(this->GetPosY() < this->m_pHook->GetPosY() && this->GetPosX() > this->m_pHook->GetPosX()+20.0f)
+			if(this->GetPosY() < this->m_pHook->GetPosY() + 10.0f && this->GetPosX() > this->m_pHook->GetPosX()+20.0f)
 			{
 				this->SetRotation(this->GetRotation() + 0.1f*fElapsedTime);
 				//this->SetPosY(this->m_pHook->GetPosY() + 1.0f);
@@ -165,7 +194,12 @@ void CPlayer::Update(float fElapsedTime)
 			{
 				this->SetRotation(0.0f);
 			}*/
+			//////////////////////////////////////////////////////////////////////////////
 
+
+			//////////////////////////////////////////////////////////////////////////////
+			// Create vectors necessary for swinging
+			//////////////////////////////////////////////////////////////////////////////
 			this->m_vVectorVelocity.fX = this->GetPosX();
 			this->m_vVectorVelocity.fY = this->GetPosY();
 			vHook.fX = this->m_pHook->GetPosX() + this->m_pHook->GetWidth()/2;
@@ -174,9 +208,13 @@ void CPlayer::Update(float fElapsedTime)
 			//this->m_vVectorVelocity = Vector2DNormalize(this->m_vVectorVelocity);
 
 			this->m_vVectorVelocity = this->m_vVectorVelocity - vHook;
+			//////////////////////////////////////////////////////////////////////////////
 			
 
 
+			//////////////////////////////////////////////////////////////////////////////
+			// Rotate hooks vector by either player input or players update
+			//////////////////////////////////////////////////////////////////////////////
 			//D3DXToDegree(
 			//this->SetRotation(/*this->GetRotation() + */AngleBetweenVectors(vHook, this->m_vVectorVelocity));
 			//this->SetRotation(SGD_PI +(SGD_PI - this->GetRotation()));
@@ -184,89 +222,130 @@ void CPlayer::Update(float fElapsedTime)
 			this->m_vVectorVelocity = Vector2DRotate(this->m_vVectorVelocity, this->GetRotation());
 			//this->SetBaseVelX(0.0f);
 			//this->SetBaseVelY(0.0f);
+			//////////////////////////////////////////////////////////////////////////////
 
+
+			//////////////////////////////////////////////////////////////////////////////
+			// Set players final velocity for when he lets go of hook
+			//////////////////////////////////////////////////////////////////////////////
 			this->m_vSpeed.fY = -this->m_vVectorVelocity.fY;
+			//////////////////////////////////////////////////////////////////////////////
 			
+			//////////////////////////////////////////////////////////////////////////////
+			// Update player to new position caused by swinging
+			//////////////////////////////////////////////////////////////////////////////
 			this->SetPosX(this->m_vVectorVelocity.fX + vHook.fX);
 			this->SetPosY(this->m_vVectorVelocity.fY + vHook.fY);
+			//////////////////////////////////////////////////////////////////////////////
+
 		}
 		else
 		{
 			//this->m_vVectorVelocity.fX = 0.0f;
 
 			//this->m_vVectorVelocity.fY = 0.0f;
+			//////////////////////////////////////////////////////////////////////////////
+			// If player isnt swinging just update him like a real boy
+			//////////////////////////////////////////////////////////////////////////////
 			this->SetBaseVelX(this->m_vSpeed.fX);
+			//////////////////////////////////////////////////////////////////////////////
 		}
 
 
 	}
 	else
 	{
+		//////////////////////////////////////////////////////////////////////////////
+		// If no Hook even exists reset players rotation and update regularly
+		//////////////////////////////////////////////////////////////////////////////
 		this->SetRotation(0.0f);
-		//////////////////////////////////////////
-		// Update Movement Velocity on the X-Axis.
-		//////////////////////////////////////////
 		this->SetBaseVelX(this->m_vSpeed.fX);
-		////////////////////////////////////////
+		//////////////////////////////////////////////////////////////////////////////
 	}
 
 
 
 
-	////////////////////////////////////////
-	// Check to see if we should Update
-	// Movement Velocity on the Y-Axis
-	// on whether or not the player is
-	// on top of a ground object.
-	////////////////////////////////////////
+	//////////////////////////////////////////////////////////////////////////////
+	// check to see if player is on the Air, Jumping, or on a ground type object
+	//////////////////////////////////////////////////////////////////////////////
 	if(this->m_bOnGround)
 	{
+		//////////////////////////////////////////////////////////////////////////////
+		// If player is on ground do this	
+		//////////////////////////////////////////////////////////////////////////////
 		this->m_vSpeed.fY = 0.0f;
 		this->SetBaseVelY(this->m_vSpeed.fY);
+		//////////////////////////////////////////////////////////////////////////////
 	}
 	else
 	{
-		if(this->m_pHook)
+		//////////////////////////////////////////////////////////////////////////////
+		// If hook exists and player is on a ground object
+		//////////////////////////////////////////////////////////////////////////////
+		if(this->m_pHook && this->m_bOnGround)
 		{
+			//////////////////////////////////////////////////////////////////////////////
+			// if hook is not hooked on to solid object jump?
+			//////////////////////////////////////////////////////////////////////////////
 			if(!this->m_pHook->GetIfHooked())
 			{
 				this->m_vSpeed.fY = this->m_vSpeed.fY +( 900.0f * fElapsedTime);
 				this->SetBaseVelY(this->m_vSpeed.fY);
 			}
-
+			//////////////////////////////////////////////////////////////////////////////
 		}
 		else
 		{
+			//////////////////////////////////////////////////////////////////////////////
+			// Other wise jump anyways?
+			//////////////////////////////////////////////////////////////////////////////
 			this->m_vSpeed.fY = this->m_vSpeed.fY +( 900.0f * fElapsedTime);
 			this->SetBaseVelY(this->m_vSpeed.fY);
+			//////////////////////////////////////////////////////////////////////////////
 		}
 	}
 
 
+	//////////////////////////////////////////////////////////////////////////////
+	// If player is lower that screen height clamp with to above ground
+	// Notes: WILL HAVE TO BE REMOVED!@!#)!@
+	//////////////////////////////////////////////////////////////////////////////
 	if(this->GetPosY() > 600 - this->GetHeight())
 	{
 		this->m_bOnGround = 1;
 		this->SetPosY(600 - (float)this->GetHeight());
 	}
-	////////////////////////////////////////
+	//////////////////////////////////////////////////////////////////////////////
 
+	
+	//////////////////////////////////////////////////////////////////////////////
+	// Players hand rotation thingy majigies
+	//////////////////////////////////////////////////////////////////////////////
+
+	// Create Hand Vector
 	tVector2D vecHandRotation;
 	vecHandRotation.fX = 0.0f;
 	vecHandRotation.fY = -1.0f;
 
 	//vecHandRotation = Vector2DRotate( vecHandRotation,)
-
+	// Create Mouse Vector
 	tVector2D vecMouseVector;
 	vecMouseVector.fX = CSGD_DirectInput::GetInstance()->MouseGetPosX() - GetPosX() + CCamera::GetInstance()->GetOffsetX();
 	vecMouseVector.fY = CSGD_DirectInput::GetInstance()->MouseGetPosY() - GetPosY() + CCamera::GetInstance()->GetOffsetY();
 
+	// Find Initial rotation
 	m_fHandRotation = AngleBetweenVectors( vecHandRotation, vecMouseVector );
 
+	// Calculate final rotation for players hand
 	if( CSGD_DirectInput::GetInstance()->MouseGetPosX() < GetPosX()  - CCamera::GetInstance()->GetOffsetX() )
 		m_fHandRotation = SGD_PI + (SGD_PI - m_fHandRotation);
+	//////////////////////////////////////////////////////////////////////////////
 
 	////////////////////////////////////////
 	// Camera boundary checking
+	// NOTES: WIll have to be altered for 
+	//		  Release and new levels
 	////////////////////////////////////////
 	CCamera::GetInstance()->SetCameraOffsetX(int(this->GetPosX()-400));
 
@@ -280,7 +359,13 @@ void CPlayer::Update(float fElapsedTime)
 
 	this->m_pHud->Update( fElapsedTime );
 	////////////////////////////////////////
+
+
+	//////////////////////////////////////////////////////////////////////////////
+	// Update Players Animations
+	//////////////////////////////////////////////////////////////////////////////
 	GetAnimations()->Update( fElapsedTime );
+	//////////////////////////////////////////////////////////////////////////////
 }
 
 void CPlayer::Input(float fElapsedTime)
@@ -331,14 +416,14 @@ void CPlayer::Input(float fElapsedTime)
 				if(this->GetPosX() < this->m_pHook->GetPosX())
 				{
 					this->m_bFixSwing = false;
-					this->SetPosX(this->GetPosX() + 1.0f);
-					this->SetPosY(this->GetPosY() - 1.0f);
+					this->SetPosX(this->GetPosX() + 1.5f);
+					this->SetPosY(this->GetPosY() - 1.5f);
 				}
 				if(this->GetPosX() > this->m_pHook->GetPosX() && this->m_pHook->GetIfHooked() && !this->GetOnGround())
 				{
 					this->m_bFixSwing = false;
-					this->SetPosX(this->GetPosX() - 1.0f);
-					this->SetPosY(this->GetPosY() - 1.0f);
+					this->SetPosX(this->GetPosX() - 1.5f);
+					this->SetPosY(this->GetPosY() - 1.5f);
 				}
 			}
 		}
@@ -354,14 +439,14 @@ void CPlayer::Input(float fElapsedTime)
 				if(this->GetPosX() < this->m_pHook->GetPosX())
 				{
 					this->m_bFixSwing = false;
-					this->SetPosX(this->GetPosX() - 1.0f);
-					this->SetPosY(this->GetPosY() + 1.0f);
+					this->SetPosX(this->GetPosX() - 1.5f);
+					this->SetPosY(this->GetPosY() + 1.5f);
 				}
 				if(this->GetPosX() > this->m_pHook->GetPosX() && this->m_pHook->GetIfHooked() && !this->GetOnGround())
 				{
 					this->m_bFixSwing = false;
-					this->SetPosX(this->GetPosX() + 1.0f);
-					this->SetPosY(this->GetPosY() + 1.0f);
+					this->SetPosX(this->GetPosX() + 1.5f);
+					this->SetPosY(this->GetPosY() + 1.5f);
 				}
 			}
 		}
@@ -377,6 +462,7 @@ void CPlayer::Input(float fElapsedTime)
 		|| CSGD_DirectInput::GetInstance()->JoystickButtonPressed(1)) && this->m_bOnGround)
 	{
 		this->m_bOnGround = false;
+		this->m_bOnMovingPlatform = false;
 		this->m_vSpeed.fY = fJumpSpeed;
 		this->SetBaseVelY(this->m_vSpeed.fY);
 	}
@@ -390,6 +476,7 @@ void CPlayer::Input(float fElapsedTime)
 		{
 			this->m_vSpeed.fX -= nMoveSpeed;
 		}
+		this->m_bOnMovingPlatform = false;
 
 		if(this->m_pHook)
 		{
@@ -401,6 +488,10 @@ void CPlayer::Input(float fElapsedTime)
 					this->m_bFixSwing = false;
 					this->SetRotation(this->m_pHook->GetRotation());
 				}
+			}
+			else if( this->m_pHook->GetIfHooked() && !this->GetOnGround() && this->GetPosY() < this->m_pHook->GetPosY())
+			{
+				this->SetPosY(this->GetPosY() +1);
 			}
 		}
 
@@ -415,6 +506,8 @@ void CPlayer::Input(float fElapsedTime)
 		{
 			this->m_vSpeed.fX += nMoveSpeed;
 		}
+		this->m_bOnMovingPlatform = false;
+
 
 		if(this->m_pHook)
 		{
@@ -427,6 +520,10 @@ void CPlayer::Input(float fElapsedTime)
 
 					this->SetRotation(this->m_pHook->GetRotation());
 				}
+			}
+			else if( this->m_pHook->GetIfHooked() && !this->GetOnGround() && this->GetPosY() < this->m_pHook->GetPosY())
+			{
+				this->SetPosY(this->GetPosY() +1);
 			}
 		}
 
@@ -703,6 +800,15 @@ bool CPlayer::CheckCollision(CBase* pBase)
 				this->m_bOnGround = 1;
 				this->m_bOnPlatform = 1;
 				this->SetPosY(hisY - (myBottom - myY));
+				if( BLOCK->GetBlock() == BLOCK_MOVING)
+				{
+					if(!this->m_bOnMovingPlatform)
+					{
+						this->m_fMovingPlatformPosX = hisX;
+						this->m_bOnMovingPlatform = true;
+					}
+					this->m_fCMovingPlatformPosX = hisX;
+				}
 				CMapLoad::GetInstance()->m_bCollisionCheck = true;
 				return true;
 			}
@@ -710,6 +816,7 @@ bool CPlayer::CheckCollision(CBase* pBase)
 			{
 				this->m_bOnGround = 0;
 				this->m_bOnPlatform = 0;
+				this->m_bOnMovingPlatform = false;
 				return false;
 			}
 		}
@@ -869,3 +976,7 @@ void CPlayer::SetPlayerNumber( int nPlayer )
 { 
 	m_pHud->SetPlayerNumber(nPlayer); 
 }
+
+tVector2D CPlayer::GetSpeed(void)	{ return m_vSpeed; }
+
+float	CPlayer::GetRotationRate(void)	{ return m_fRotationRate; }

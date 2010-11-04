@@ -38,26 +38,26 @@ void CFlame::Render(void)
 	rRender.bottom = 545;
 	rRender.right = 765;
 	CSGD_TextureManager::GetInstance()->Draw( GetImageID(), 
-		(int)(((GetPosX()/* + (GetWidth()/2.0f) */) - CCamera::GetInstance()->GetOffsetX()) * CCamera::GetInstance()->GetScale()), 
-		(int)(((GetPosY()/* - (GetHeight()/2.0f)*/) - CCamera::GetInstance()->GetOffsetY()) * CCamera::GetInstance()->GetScale()), 
+		(int)(((GetPosX() + (GetWidth()/2.0f) ) - CCamera::GetInstance()->GetOffsetX()) * CCamera::GetInstance()->GetScale()), 
+		(int)(((GetPosY() - (GetHeight()/2.0f)) - CCamera::GetInstance()->GetOffsetY()) * CCamera::GetInstance()->GetScale()), 
 		1.0f * CCamera::GetInstance()->GetScale(), 
 		1.0f * CCamera::GetInstance()->GetScale(), 
 		&rRender, 45.0f, 10.0f, this->GetRotation() );
 
 
-	RECT rLALA;
-	rLALA.top = GetPosY();
-	rLALA.left = GetPosX();
+	/*RECT rLALA;
+	rLALA.top = (LONG)GetPosY()- CCamera::GetInstance()->GetOffsetY();
+	rLALA.left = (LONG)GetPosX()- CCamera::GetInstance()->GetOffsetX();
 	rLALA.bottom = rLALA.top + GetHeight();
 	rLALA.right = rLALA.left + GetWidth();
 	CSGD_Direct3D::GetInstance()->GetSprite()->Flush();
-	CSGD_Direct3D::GetInstance()->DrawRect(rLALA,255,255,255);
+	CSGD_Direct3D::GetInstance()->DrawRect(rLALA,255,255,255);*/
 }
 
 RECT CFlame::GetRect(void) const
 {
 	RECT rCollision;
-	rCollision.top = (LONG)( GetPosY());
+	rCollision.top = (LONG)( GetPosY() );
 	rCollision.left = (LONG)( GetPosX() );
 	rCollision.bottom = (LONG)( rCollision.top + GetHeight() );
 	rCollision.right = rCollision.left + GetWidth();
