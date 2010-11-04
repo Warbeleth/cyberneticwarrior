@@ -25,6 +25,7 @@ private:
 
 	enum WeaponSelection{HAND_GUN = 6, ROCKET_LAUNCHER = 8, FLAME_THROWER = 10, 
 		PLASMA_RIFLE = 12, SONIC_RIFLE = 14, STICKY_GRENADE = 16};
+	enum BootSelection{BOOTS = 0, HOVER_BOOTS, ROCKET_BOOTS};
 
 	tVector2D	m_vRotationCenter;
 	tVector2D	m_vSpeed;
@@ -76,6 +77,9 @@ private:
 	int m_nCharge;
 	float m_fChargeRate;
 	//////////////////////////
+
+	bool m_bHovering;
+	bool m_bJumped;
 
 
 	bool m_bOnGround;
