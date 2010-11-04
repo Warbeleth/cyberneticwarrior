@@ -42,6 +42,7 @@ CSinglePlayerState::CSinglePlayerState(void)
 	this->m_nCrossHairID			= -1;
 	this->m_nBGMusic				= -1;
 
+	this->m_nSelectedWeaponID		= -1;
 	this->m_nWeaponID				= -1;
 
 
@@ -75,6 +76,7 @@ CSinglePlayerState::~CSinglePlayerState(void)
 	this->m_nCrossHairID			= -1;
 	this->m_nBGMusic				= -1;
 
+	this->m_nSelectedWeaponID		= -1;
 	this->m_nWeaponID					= -1;
 
 	this->m_TempPlayer = NULL;
@@ -108,7 +110,6 @@ void CSinglePlayerState::Enter(void)
 	//CStackStateMachine::GetInstance()->Push_Back(CLoadingState::GetInstance());
 	this->m_TempMap = CMapLoad::GetInstance();
 
-	m_TempMap->LoadMap("CW-Map_01.CWM");
 
 	this->m_pD3D	=		CSGD_Direct3D::GetInstance();
 	this->m_pDI		= 		CSGD_DirectInput::GetInstance();
@@ -136,6 +137,7 @@ void CSinglePlayerState::Enter(void)
 	this->m_nBackgroundImageID = this->m_pTM->LoadTexture("resource/graphics/bgGame.png");
 	this->m_nCrossHairID = this->m_pTM->LoadTexture("resource/graphics/CrossHairs.png");
 	this->m_nBGMusic = this->m_pWM->LoadWave("resource/sounds/Jak2_Haven_City.wav");
+	this->m_nSelectedWeaponID		= m_pTM->LoadTexture("resource/graphics/EquipmentWeaponIcons.png");
 	this->m_nWeaponID = m_pTM->LoadTexture("resource/graphics/Weapons.png");
 
 	this->m_TempPlayer = (CPlayer*)m_pOF->CreateObject("CPlayer");
@@ -185,6 +187,7 @@ void CSinglePlayerState::Enter(void)
 	this->m_pOM->AddObject(this->m_TempPlayer);
 	this->m_TempPlayer->Release();
 
+	m_TempMap->LoadMap("CW-Map_01.CWM");
 
 
 	CLoadingState::GetInstance()->SetReady(1);
@@ -225,8 +228,8 @@ void CSinglePlayerState::Update(float fElapsedTime)
 		this->m_nMusicVolume = COptionsMenuState::GetInstance()->GetMusicVolume();
 		this->m_pWM->SetVolume(m_nBGMusic, this->m_nMusicVolume);
 	}
-	this->m_pOM->UpdateObjects(fElapsedTime);
 	this->m_pOM->CheckCollisions();
+	this->m_pOM->UpdateObjects(fElapsedTime);
 
 
 	Enemy_1->Update(fElapsedTime);
@@ -358,6 +361,12 @@ void CSinglePlayerState::Exit(void)
 	{
 		this->m_pTM->UnloadTexture(this->m_nWeaponID);
 		this->m_nWeaponID = -1;
+	}
+
+	if(this->m_nSelectedWeaponID > -1)
+	{
+		this->m_pTM->UnloadTexture(this->m_nSelectedWeaponID);
+		this->m_nSelectedWeaponID = -1;
 	}
 
 	if(this->m_nBGMusic > -1)

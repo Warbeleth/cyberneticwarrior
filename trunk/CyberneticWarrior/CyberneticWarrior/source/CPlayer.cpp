@@ -44,6 +44,10 @@ CPlayer::CPlayer(void)
 	this->m_fMovingPlatformPosX = 0.0f;
 	this->m_fCMovingPlatformPosX = 0.0f;
 
+	// sonic rifle stuff
+	this->m_nCharge = 0;
+	this->m_fChargeRate = 0.01f;
+
 
 	// Health
 	m_nRemainingHealth = 100;
@@ -92,6 +96,10 @@ CPlayer::~CPlayer(void)
 	
 	CSGD_TextureManager::GetInstance()->UnloadTexture(this->GetImageID());
 	
+	// sonic rifle stuff
+	this->m_nCharge = 0;
+	this->m_fChargeRate = 0.01f;
+
 	delete m_pHud;
 	delete GetAnimations();
 	this->m_pHud = NULL;
@@ -371,7 +379,9 @@ void CPlayer::Update(float fElapsedTime)
 void CPlayer::Input(float fElapsedTime)
 {
 
-
+	//////////////////////////////////////////////////////////////////////////////
+	// Check to see what weapon player equips
+	//////////////////////////////////////////////////////////////////////////////
 	if(CSGD_DirectInput::GetInstance()->KeyPressed(DIK_1))
 	{
 		this->m_nSelectedWeapon = this->HAND_GUN;
@@ -396,17 +406,24 @@ void CPlayer::Input(float fElapsedTime)
 	{
 		this->m_nSelectedWeapon = this->SONIC_RIFLE;
 	}
+	//if(CSGD_DirectInput::GetInstance()->MouseWheelMovement() >
+	//////////////////////////////////////////////////////////////////////////////
 
 
 
 
 
-
+	//////////////////////////////////////////////////////////////////////////////
+	// Reset animations to initial
+	//////////////////////////////////////////////////////////////////////////////
 	GetAnimations()->SetCurrentAnimation(1);
+	//////////////////////////////////////////////////////////////////////////////
 
 
 
-
+	//////////////////////////////////////////////////////////////////////////////
+	// Check input for grappling hook grapple towards or away from hook
+	//////////////////////////////////////////////////////////////////////////////
 	if(CSGD_DirectInput::GetInstance()->KeyDown(DIK_W) )
 	{
 		if(this->m_pHook)
@@ -428,8 +445,7 @@ void CPlayer::Input(float fElapsedTime)
 			}
 		}
 	}
-
-
+	//////////////////////////////////////////////////////////////////////////////
 	if(CSGD_DirectInput::GetInstance()->KeyDown(DIK_S) )
 	{
 		if(this->m_pHook)
@@ -451,12 +467,12 @@ void CPlayer::Input(float fElapsedTime)
 			}
 		}
 	}
+	//////////////////////////////////////////////////////////////////////////////
 
 
-
-	///////////////////////////////
-	// Input Checking
-	///////////////////////////////
+	//////////////////////////////////////////////////////////////////////////////
+	// Check Input for Jumping
+	//////////////////////////////////////////////////////////////////////////////
 	static float fJumpSpeed = -550.0f;
 	if((CSGD_DirectInput::GetInstance()->KeyDown(DIK_SPACE)
 		|| CSGD_DirectInput::GetInstance()->JoystickButtonPressed(1)) && this->m_bOnGround)
@@ -466,7 +482,11 @@ void CPlayer::Input(float fElapsedTime)
 		this->m_vSpeed.fY = fJumpSpeed;
 		this->SetBaseVelY(this->m_vSpeed.fY);
 	}
+	//////////////////////////////////////////////////////////////////////////////
 
+	//////////////////////////////////////////////////////////////////////////////
+	// Check Input for player movement (Grappling hook included)
+	//////////////////////////////////////////////////////////////////////////////
 	static int nMoveSpeed = 10;
 	if((CSGD_DirectInput::GetInstance()->KeyDown(DIK_A) 
 		|| CSGD_DirectInput::GetInstance()->JoystickDPadDown(DIR_LEFT)
@@ -497,7 +517,7 @@ void CPlayer::Input(float fElapsedTime)
 
 		GetAnimations()->SetCurrentAnimation(0);
 	}
-
+	//////////////////////////////////////////////////////////////////////////////
 	if((CSGD_DirectInput::GetInstance()->KeyDown(DIK_D) 
 		|| CSGD_DirectInput::GetInstance()->JoystickDPadDown(DIR_RIGHT)
 		|| CSGD_DirectInput::GetInstance()->JoystickGetLStickDirDown(DIR_RIGHT)))
@@ -529,7 +549,7 @@ void CPlayer::Input(float fElapsedTime)
 
 		GetAnimations()->SetCurrentAnimation(0);
 	}
-
+	//////////////////////////////////////////////////////////////////////////////
 	if(CSGD_DirectInput::GetInstance()->KeyReleased(DIK_D))
 	{
 		this->m_vSpeed.fX = 0.0f;
@@ -543,6 +563,7 @@ void CPlayer::Input(float fElapsedTime)
 			}
 		}
 	}
+	//////////////////////////////////////////////////////////////////////////////
 	if(CSGD_DirectInput::GetInstance()->KeyReleased(DIK_A))
 	{
 		this->SetBaseVelX(0.0f);
@@ -556,6 +577,7 @@ void CPlayer::Input(float fElapsedTime)
 			}
 		}
 	}
+	//////////////////////////////////////////////////////////////////////////////
 
 
 	
@@ -564,7 +586,9 @@ void CPlayer::Input(float fElapsedTime)
 
 
 
-
+	//////////////////////////////////////////////////////////////////////////////
+	// Check for secondary fire
+	//////////////////////////////////////////////////////////////////////////////
 	if((CSGD_DirectInput::GetInstance()->MouseButtonPressed(MOUSE_RIGHT) || CSGD_DirectInput::GetInstance()->JoystickButtonPressed(4)))
 	{
 		this->SetMouseDown(1);
@@ -574,7 +598,7 @@ void CPlayer::Input(float fElapsedTime)
 			this->m_bFixSwing = true;
 		}
 	}
-
+	//////////////////////////////////////////////////////////////////////////////
 	if((CSGD_DirectInput::GetInstance()->MouseButtonReleased(MOUSE_RIGHT) || CSGD_DirectInput::GetInstance()->JoystickButtonReleased(4)))
 	{
 		this->SetMouseDown(0);
@@ -584,7 +608,11 @@ void CPlayer::Input(float fElapsedTime)
 		}
 		//CGame::GetInstance()->GetMessageSystemPointer()->SendMsg(new CDestroyHookMessage(this));
 	}
+	//////////////////////////////////////////////////////////////////////////////
 
+	//////////////////////////////////////////////////////////////////////////////
+	// Check for primary fire
+	//////////////////////////////////////////////////////////////////////////////
 	if((CSGD_DirectInput::GetInstance()->MouseButtonPressed(MOUSE_LEFT) || CSGD_DirectInput::GetInstance()->JoystickButtonPressed(7)))
 	{
 		switch(this->m_nSelectedWeapon)
@@ -601,24 +629,42 @@ void CPlayer::Input(float fElapsedTime)
 		case this->STICKY_GRENADE:
 			CGame::GetInstance()->GetMessageSystemPointer()->SendMsg(new CCreateGrenadeMessage(this));
 			break;
-		case this->SONIC_RIFLE:
-			CGame::GetInstance()->GetMessageSystemPointer()->SendMsg(new CCreateShockMessage(this));
-			break;
+		
 		};
 	}
+	//////////////////////////////////////////////////////////////////////////////
 	if((CSGD_DirectInput::GetInstance()->MouseButtonDown(MOUSE_LEFT) || CSGD_DirectInput::GetInstance()->JoystickButtonDown(7)))
 	{
 		if(this->m_nSelectedWeapon == this->FLAME_THROWER)
 		{
 			CGame::GetInstance()->GetMessageSystemPointer()->SendMsg(new CCreateFlameMessage(this));
 		}
+		if(this->m_nSelectedWeapon == this->SONIC_RIFLE)
+		{
+			if(fElapsedTime > 0.01f && this->m_nCharge <= 100)
+			{
+				this->m_nCharge++;
+			}
+		}
 	}
+	//////////////////////////////////////////////////////////////////////////////
+	if((CSGD_DirectInput::GetInstance()->MouseButtonReleased(MOUSE_LEFT) || CSGD_DirectInput::GetInstance()->JoystickButtonReleased(7)))
+	{
+		this->m_nCharge = 0;
+		if(this->m_nSelectedWeapon == this->SONIC_RIFLE)
+			CGame::GetInstance()->GetMessageSystemPointer()->SendMsg(new CCreateShockMessage(this));
+	}
+	//////////////////////////////////////////////////////////////////////////////
 
 
+	//////////////////////////////////////////////////////////////////////////////
+	// Check to see if homing is turned on
+	//////////////////////////////////////////////////////////////////////////////
 	if(CSGD_DirectInput::GetInstance()->KeyPressed(DIK_LSHIFT))
 	{
 		m_bHomingOn = !m_bHomingOn;
 	}
+	//////////////////////////////////////////////////////////////////////////////
 
 	//if(CSGD_DirectInput::GetInstance()->JoystickGetRStickXAmount() < 0.0f && this->m_fWaitTime > 0.1f)
 	//{
@@ -631,7 +677,9 @@ void CPlayer::Input(float fElapsedTime)
 	//	this->m_fJoyRot -= SGD_PI;// * fElapsedTime;
 	//}
 
-
+	//////////////////////////////////////////////////////////////////////////////
+	// Check for Gamepad input
+	//////////////////////////////////////////////////////////////////////////////
 	if(CSinglePlayerState::GetInstance()->GetInputType())
 	{
 		if(CSGD_DirectInput::GetInstance()->JoystickGetRStickDirDown(DIR_DOWN) && CSGD_DirectInput::GetInstance()->JoystickGetRStickDirDown(DIR_RIGHT))
@@ -682,31 +730,45 @@ void CPlayer::Input(float fElapsedTime)
 			this->m_vJoyVecPos.fY = 1.0f;
 		}
 	}
+	//////////////////////////////////////////////////////////////////////////////
 
 
-	///////////////////////////////
 }
-
 
 void CPlayer::Render(void)
 {		
+	//////////////////////////////////////////////////////////////////////////////
+	// Access Camera Offset
+	//////////////////////////////////////////////////////////////////////////////
 	int OffsetX = CCamera::GetInstance()->GetOffsetX();
 	int OffsetY = CCamera::GetInstance()->GetOffsetY();
+	//////////////////////////////////////////////////////////////////////////////
 
+	//////////////////////////////////////////////////////////////////////////////
+	// Render homing light if on
+	//////////////////////////////////////////////////////////////////////////////
 	if(m_bHomingOn)
 		CSGD_Direct3D::GetInstance()->DrawLine( (int)(((GetPosX() + (GetWidth()/2)) - OffsetX) * CCamera::GetInstance()->GetScale()),
 		(int)(((GetPosY() + (GetHeight()/4)) - OffsetY) * CCamera::GetInstance()->GetScale()), 
 		int((CSGD_DirectInput::GetInstance()->MouseGetPosX()+8) * CCamera::GetInstance()->GetScale()), 
 		int((CSGD_DirectInput::GetInstance()->MouseGetPosY()+8) * CCamera::GetInstance()->GetScale()), 
 		255, 0, 0 );
+	//////////////////////////////////////////////////////////////////////////////
 
+	//////////////////////////////////////////////////////////////////////////////
+	// Check to see which direction player should face and render
+	//////////////////////////////////////////////////////////////////////////////
 	if(this->m_bForward)
 		GetAnimations()->Render( (int)GetPosX()+GetAnimations()->GetFrameWidth()/2, (int)GetPosY()+GetAnimations()->GetFrameHeight());
 	else
 		GetAnimations()->Render( (int)GetPosX()+3*GetAnimations()->GetFrameWidth()/2, (int)GetPosY()+GetAnimations()->GetFrameHeight(), -1.0f );
+	//////////////////////////////////////////////////////////////////////////////
 
 	//RECT rRender = { 340, 164, 550, 234 };
 
+	//////////////////////////////////////////////////////////////////////////////
+	// Draw players Hand/weapons
+	//////////////////////////////////////////////////////////////////////////////
 	RECT rRender;
 	rRender.top = 256;
 	rRender.left = 130;
@@ -728,8 +790,28 @@ void CPlayer::Render(void)
 		-0.7f * CCamera::GetInstance()->GetScale(), 0.7f * CCamera::GetInstance()->GetScale(), 
 		&rRender, 64, 128, m_fHandRotation, -1 );
 	}
+	//////////////////////////////////////////////////////////////////////////////
 
+	//////////////////////////////////////////////////////////////////////////////
+	// Draw Gameplay HUD
+	//////////////////////////////////////////////////////////////////////////////
 	this->m_pHud->Render();
+	//////////////////////////////////////////////////////////////////////////////
+
+	//////////////////////////////////////////////////////////////////////////////
+	// Render charge bar for sonic rifle
+	//////////////////////////////////////////////////////////////////////////////
+	if(this->m_nSelectedWeapon == this->SONIC_RIFLE)
+	{
+		RECT rCharge;
+		rCharge.left = (LONG)(64 *(this->SONIC_RIFLE+1));
+		rCharge.top  = (LONG)0;
+		rCharge.right = rCharge.left + 64;
+		rCharge.bottom = rCharge.top +(LONG)(64 *(this->m_fChargeRate*this->m_nCharge));
+		CSGD_TextureManager::GetInstance()->Draw(CSinglePlayerState::GetInstance()->GetWeaponSelectionID(), 0, (int)(600-(64 *(this->m_fChargeRate*this->m_nCharge))),
+			1.0f,1.0f,&rCharge);
+	}
+	//////////////////////////////////////////////////////////////////////////////
 }
 
 RECT CPlayer::GetRect(void) const
