@@ -22,6 +22,7 @@ CPlayer::CPlayer(void)
 	this->m_bJumped = false;
 	this->m_bHovering =false;
 	this->m_bBoosting = false;
+	this->m_bDash = false;
 
 	// Facing Forward
 	this->m_bForward = true;
@@ -326,6 +327,7 @@ void CPlayer::Update(float fElapsedTime)
 			this->SetBaseVelY(this->m_vSpeed.fY);
 			//////////////////////////////////////////////////////////////////////////////
 		}
+		
 	}
 
 
@@ -501,16 +503,14 @@ void CPlayer::Input(float fElapsedTime)
 	if((CSGD_DirectInput::GetInstance()->KeyPressed(DIK_SPACE)
 		|| CSGD_DirectInput::GetInstance()->JoystickButtonPressed(1)))
 	{
-		if(this->m_nSelectedBootSlot == this->HOVER_BOOTS && this->m_bJumped)
+		if((this->m_nSelectedBootSlot == this->HOVER_BOOTS || this->m_nSelectedBootSlot == this->ROCKET_BOOTS) && this->m_bJumped)
 		{
-			this->m_bHovering = true;
+  			this->m_bHovering = true;
+			this->m_bBoosting = true;
 		}
 		
 		
 		this->m_bJumped = true;
-		
-		
-
 	}
 	//////////////////////////////////////////////////////////////////////////////
 	if((CSGD_DirectInput::GetInstance()->KeyDown(DIK_SPACE)
@@ -522,9 +522,9 @@ void CPlayer::Input(float fElapsedTime)
 			this->m_bJumped = false;
 		}
 		
-		if(this->m_nSelectedBootSlot == this->ROCKET_BOOTS)
+		if(this->m_nSelectedBootSlot == this->ROCKET_BOOTS && this->m_bBoosting)
 		{
-			this->m_bBoosting = true;
+			//this->m_bBoosting = true;
 			this->m_bOnGround = false;
 			this->m_bOnMovingPlatform = false;
 			this->m_pMovingBlock = NULL;
@@ -533,7 +533,6 @@ void CPlayer::Input(float fElapsedTime)
 			fJumpSpeed = -100.0f;
 			this->m_vSpeed.fY = fJumpSpeed;
 			this->SetBaseVelY(this->m_vSpeed.fY);
-			
 		}
 
 		if(/*!this->m_bJumped && */this->m_bOnGround && !this->m_bHovering && !this->m_bBoosting)
@@ -554,13 +553,10 @@ void CPlayer::Input(float fElapsedTime)
 	if((CSGD_DirectInput::GetInstance()->KeyReleased(DIK_SPACE)
 		|| CSGD_DirectInput::GetInstance()->JoystickButtonReleased(1)))
 	{
-		if((this->m_nSelectedBootSlot == this->HOVER_BOOTS&& this->m_bHovering) || (this->m_nSelectedBootSlot == this->ROCKET_BOOTS && this->m_bBoosting))
-		{
 			fJumpSpeed = -550.0f;
 			this->m_bHovering = false;
 			this->m_bBoosting = false;
 			this->m_fGravity = 900.0f;
-		}
 	}
 	//////////////////////////////////////////////////////////////////////////////
 
@@ -631,6 +627,50 @@ void CPlayer::Input(float fElapsedTime)
 		GetAnimations()->SetCurrentAnimation(0);
 	}
 	//////////////////////////////////////////////////////////////////////////////
+	//if(fElapsedTime > 0.05f)
+	//{
+	//	this->m_bDash = false;
+	//	//this->m_vSpeed.fX = 0.0f;
+	//}
+
+	if((CSGD_DirectInput::GetInstance()->KeyPressed(DIK_A) 
+		|| CSGD_DirectInput::GetInstance()->JoystickDPadPressed(DIR_LEFT)
+		|| CSGD_DirectInput::GetInstance()->JoystickGetLStickDirPressed(DIR_LEFT)))
+	{
+		if(this->m_nSelectedBootSlot == this->ROCKET_BOOTS && this->m_bDash)
+		{
+			this->m_vSpeed.fX = -700.0f;
+			this->m_bDash = true;
+		}
+		if(this->m_nSelectedBootSlot == this->ROCKET_BOOTS && this->m_bDash)
+		{
+			this->m_bDash = true;
+		}
+		else
+		{
+			this->m_bDash = false;
+		}
+	}
+	//////////////////////////////////////////////////////////////////////////////
+	if((CSGD_DirectInput::GetInstance()->KeyPressed(DIK_D) 
+		|| CSGD_DirectInput::GetInstance()->JoystickDPadPressed(DIR_RIGHT)
+		|| CSGD_DirectInput::GetInstance()->JoystickGetLStickDirPressed(DIR_RIGHT)))
+	{
+		if(this->m_nSelectedBootSlot == this->ROCKET_BOOTS && this->m_bDash)
+		{
+			this->m_vSpeed.fX = 700.0f;
+			this->m_bDash = false;
+		}
+		if(this->m_nSelectedBootSlot == this->ROCKET_BOOTS && this->m_bDash)
+		{
+			this->m_bDash = true;
+		}
+		else
+		{
+			this->m_bDash = false;
+		}
+	}
+	//////////////////////////////////////////////////////////////////////////////
 	if(CSGD_DirectInput::GetInstance()->KeyReleased(DIK_D))
 	{
 		this->m_vSpeed.fX = 0.0f;
@@ -640,6 +680,7 @@ void CPlayer::Input(float fElapsedTime)
 		{
 			if(this->m_pHook->GetIfHooked() && !this->GetOnGround())
 			{
+				this->m_vSpeed.fX = 0.0f;
 				this->m_bFixSwing = true;
 			}
 		}
@@ -654,6 +695,7 @@ void CPlayer::Input(float fElapsedTime)
 		{
 			if(this->m_pHook->GetIfHooked() && !this->GetOnGround())
 			{
+				this->m_vSpeed.fX = 0.0f;
 				this->m_bFixSwing = true;
 			}
 		}
@@ -949,6 +991,7 @@ bool CPlayer::CheckCollision(CBase* pBase)
 			myY = GetPosY();
 			myRight = myX + GetWidth();
 			myBottom = myY + GetHeight();
+			
 		}
 
 		if(BLOCK->GetBlock() == BLOCK_SOLID || BLOCK->GetBlock() == BLOCK_MOVING)
@@ -983,6 +1026,10 @@ bool CPlayer::CheckCollision(CBase* pBase)
 				this->m_bOnGround = 0;
 				this->m_bOnPlatform = 0;
 				this->m_bOnMovingPlatform = false;
+				if(this->m_nSelectedBootSlot == this->ROCKET_BOOTS)
+				{
+					//this->m_bBoosting = true;
+				}
 				return false;
 			}
 		}
@@ -1006,6 +1053,10 @@ bool CPlayer::CheckCollision(CBase* pBase)
 			{
 				this->m_bOnGround = 0;
 				this->m_bOnPlatform = 0;
+				if(this->m_nSelectedBootSlot == this->ROCKET_BOOTS)
+				{
+					//this->m_bBoosting = true;
+				}
 				return false;
 			}
 		}
@@ -1030,6 +1081,10 @@ bool CPlayer::CheckCollision(CBase* pBase)
 			{
 				this->m_bOnGround = 0;
 				this->m_bOnPlatform = 0;
+				if(this->m_nSelectedBootSlot == this->ROCKET_BOOTS)
+				{
+					//this->m_bBoosting = true;
+				}
 				return false;
 			}
 		}
@@ -1054,6 +1109,10 @@ bool CPlayer::CheckCollision(CBase* pBase)
 			{
 				this->m_bOnGround = 0;
 				this->m_bOnPlatform = 0;
+				if(this->m_nSelectedBootSlot == this->ROCKET_BOOTS)
+				{
+					//this->m_bBoosting = true;
+				}
 				return false;
 			}
 		}
