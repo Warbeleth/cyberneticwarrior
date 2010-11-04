@@ -534,7 +534,7 @@ void CPlayer::Input(float fElapsedTime)
 	//////////////////////////////////////////////////////////////////////////////
 	static float fJumpSpeed = -550.0f;
 
-	if((CSGD_DirectInput::GetInstance()->KeyDown(CGame::GetInstance()->GetPlayerOneControls(0))
+	if((CSGD_DirectInput::GetInstance()->KeyPressed(CGame::GetInstance()->GetPlayerOneControls(0))
 		|| CSGD_DirectInput::GetInstance()->JoystickButtonPressed(1)))
 	{
 		if((this->m_nSelectedBootSlot == this->HOVER_BOOTS || this->m_nSelectedBootSlot == this->ROCKET_BOOTS) && this->m_bJumped)
@@ -567,7 +567,7 @@ void CPlayer::Input(float fElapsedTime)
 			fJumpSpeed = -100.0f;
 			this->m_vSpeed.fY = fJumpSpeed;
 			this->SetBaseVelY(this->m_vSpeed.fY);
-			this->DecrementEnergy(0.7f);
+			this->DecrementEnergy(0.17f);
 		}
 		else if(this->m_nSelectedBootSlot == this->ROCKET_BOOTS && this->m_bBoosting && this->m_fRemainingEnergy == 0.0f)
 		{
@@ -588,7 +588,7 @@ void CPlayer::Input(float fElapsedTime)
 			this->m_bJumped = true;
 
 			if(this->m_fRemainingEnergy > -29.0f)
-				this->DecrementEnergy(10.0f);
+				this->DecrementEnergy(5.0f);
 		}
 		
 		
@@ -608,15 +608,12 @@ void CPlayer::Input(float fElapsedTime)
 	// Check Input for player movement (Grappling hook included)
 	//////////////////////////////////////////////////////////////////////////////
 	static int nMoveSpeed = 10;
-	if((CSGD_DirectInput::GetInstance()->KeyDown(CGame::GetInstance()->GetPlayerOneControls(1))))
+	if(this->m_fBoostTime > 0.1f && this->m_nSelectedBootSlot == this->ROCKET_BOOTS)
 	{
- 		if(this->m_fBoostTime > 0.1f)
-		{
-   			this->m_vSpeed.fX = 0.0f;
-			this->m_fBoostTime = 0.0f;
-			this->DecrementEnergy(30.0f);
-			//this->m_bDash = false;
-		}
+   		this->m_vSpeed.fX = 0.0f;
+		this->m_fBoostTime = 0.0f;
+		this->DecrementEnergy(30.0f);
+		//this->m_bDash = false;
 	}
 		
 	if((CSGD_DirectInput::GetInstance()->KeyDown(DIK_A) 
@@ -683,7 +680,7 @@ void CPlayer::Input(float fElapsedTime)
 		GetAnimations()->SetCurrentAnimation(0);
 	}
 	//////////////////////////////////////////////////////////////////////////////
-	if(CSGD_DirectInput::GetInstance()->KeyReleased(CGame::GetInstance()->GetPlayerOneControls(2)))
+	//if(CSGD_DirectInput::GetInstance()->KeyReleased(CGame::GetInstance()->GetPlayerOneControls(2)))
 	//if(fElapsedTime > 0.05f)
 	//{
 	//	this->m_bDash = false;
@@ -713,7 +710,7 @@ void CPlayer::Input(float fElapsedTime)
 		|| CSGD_DirectInput::GetInstance()->JoystickDPadPressed(DIR_RIGHT)
 		|| CSGD_DirectInput::GetInstance()->JoystickGetLStickDirPressed(DIR_RIGHT)))
 	{
-		if(this->m_nSelectedBootSlot == this->ROCKET_BOOTS && this->m_bDash && this->m_fRemainingEnergy > 30.0f)
+		if(this->m_nSelectedBootSlot == this->ROCKET_BOOTS && this->m_bDash && this->m_fRemainingEnergy > 20.0f)
 		{
 			this->m_vSpeed.fX = 700.0f;
 			this->m_bDash = false;
