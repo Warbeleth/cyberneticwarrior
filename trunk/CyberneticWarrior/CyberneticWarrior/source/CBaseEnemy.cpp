@@ -48,7 +48,7 @@ CBaseEnemy::CBaseEnemy(int nGlobalType, int nImageID, int nMaxHP, int nCurrentHP
 	m_fSpeed = fSpeed;
 	m_vTargetPosition.fX = 0;
 	m_vTargetPosition.fY = 0;
-	SetAnimations(CMapLoad::GetInstance()->CreateAnimation(Ground_Mech));
+	SetAnimations(NULL);
 	m_bSinglePlayer = true; //Will be a CGame::GetInstance() call to check for game state when creating enemies
 }
 
@@ -70,7 +70,7 @@ RECT CBaseEnemy::GetRect()
 }
 
 void CBaseEnemy::Update(float fElapsedTime)
-{
+{ 
 	//Get target position
 	if(m_bSinglePlayer)
 	{
@@ -78,6 +78,9 @@ void CBaseEnemy::Update(float fElapsedTime)
 		m_vTargetPosition.fX = tmp->GetPosX();
 		m_vTargetPosition.fY = tmp->GetPosY();
 	}
+
+	if(GetAnimations())
+		GetAnimations()->Update( fElapsedTime );
 	//else
 	//{
 	//	//Check which of the two enemies is closer in multiplayer
@@ -88,22 +91,30 @@ void CBaseEnemy::Render(void)
 {
 	int OffsetX = CCamera::GetInstance()->GetOffsetX();
 	int OffsetY = CCamera::GetInstance()->GetOffsetY();
-
-	if(m_nImageID != -1)
+	
+	if(GetAnimations() != NULL)
 	{
-		CSGD_TextureManager::GetInstance()->Draw(m_nImageID, (int)((GetPosX() - OffsetX) * CCamera::GetInstance()->GetScale()), (int)((GetPosY() - OffsetY) * CCamera::GetInstance()->GetScale()));
+
+		GetAnimations()->Render( GetPosX()+GetAnimations()->GetFrameWidth()/2, GetPosY()+GetAnimations()->GetFrameHeight() );
 	}
 	else
 	{
-		int left = (int)GetPosX() - OffsetX;
-		int top = (int)GetPosY() - OffsetY;
-		int right = left + GetWidth();
-		int bottom = top + GetHeight();
+		if(m_nImageID != -1)
+		{
+			CSGD_TextureManager::GetInstance()->Draw(m_nImageID, (int)((GetPosX() - OffsetX) * CCamera::GetInstance()->GetScale()), (int)((GetPosY() - OffsetY) * CCamera::GetInstance()->GetScale()));
+		}
+		else
+		{
+			int left = (int)GetPosX() - OffsetX;
+			int top = (int)GetPosY() - OffsetY;
+			int right = left + GetWidth();
+			int bottom = top + GetHeight();
 
-		CSGD_Direct3D::GetInstance()->DrawLine(left, top, right, top, 255, 0, 0);
-		CSGD_Direct3D::GetInstance()->DrawLine(left, bottom, right, bottom, 255, 0, 0);
-		CSGD_Direct3D::GetInstance()->DrawLine(left, top, left, bottom, 255, 0, 0);
-		CSGD_Direct3D::GetInstance()->DrawLine(right, top, right, bottom, 255, 0, 0);
+			CSGD_Direct3D::GetInstance()->DrawLine(left, top, right, top, 255, 0, 0);
+			CSGD_Direct3D::GetInstance()->DrawLine(left, bottom, right, bottom, 255, 0, 0);
+			CSGD_Direct3D::GetInstance()->DrawLine(left, top, left, bottom, 255, 0, 0);
+			CSGD_Direct3D::GetInstance()->DrawLine(right, top, right, bottom, 255, 0, 0);
+		}
 	}
 }
 
@@ -122,13 +133,19 @@ void CBaseEnemy::Render(void)
 
 bool CBaseEnemy::CheckCollision(CBase* pBase)
 {
-	RECT rIntersect;
-
-	if(IntersectRect(&rIntersect, &GetRect(), &(pBase->GetRect())))
-	{ 
-		if(pBase->GetType() != OBJ_ENEMY)
-			return true;
+	if(pBase->GetType() != OBJ_ENEMY)
+	{
+		if(GetAnimations())
+		{
+			if(GetAnimations()->CheckCollision( pBase, GetPosX(), GetPosY()))
+				return true;
+		}
+		else
+		{
+			RECT rIntersect;
+			if(IntersectRect(&rIntersect, &GetRect(), &(pBase->GetRect())))
+					return true;
+		}
 	}
-
 	return false;
 }

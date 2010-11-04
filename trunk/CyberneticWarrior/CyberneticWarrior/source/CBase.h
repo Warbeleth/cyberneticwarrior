@@ -244,7 +244,7 @@ public:
 	void SetOnGround(bool bOnGround);
 	/////////////////////////////////////
 
-	CAnimations* GetAnimations( void ) { return m_pAnimations; }
+	CAnimations* GetAnimations( void ) const { return m_pAnimations; }
 	void SetAnimations( CAnimations* pAnimation ) { m_pAnimations = pAnimation; }
 };
 #endif

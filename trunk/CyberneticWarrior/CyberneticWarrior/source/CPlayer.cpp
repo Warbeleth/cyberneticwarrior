@@ -404,6 +404,31 @@ void CPlayer::Input(float fElapsedTime)
 	//////////////////////////////////////////////////////////////////////////////
 	// Check to see what weapon/equipment player changes too
 	//////////////////////////////////////////////////////////////////////////////
+	if(CSGD_DirectInput::GetInstance()->KeyPressed(CGame::GetInstance()->GetPlayerOneControls(6)))
+	{
+		switch(m_nSelectedWeapon)
+		{
+		case HAND_GUN:
+			m_nSelectedWeapon = ROCKET_LAUNCHER;
+			break;
+		case ROCKET_LAUNCHER:
+			m_nSelectedWeapon = FLAME_THROWER;
+			break;
+		case FLAME_THROWER:
+			m_nSelectedWeapon = PLASMA_RIFLE;
+			break;
+		case PLASMA_RIFLE:
+			m_nSelectedWeapon = STICKY_GRENADE;
+			break;
+		case STICKY_GRENADE:
+			m_nSelectedWeapon = SONIC_RIFLE;
+			break;
+		case SONIC_RIFLE:
+			m_nSelectedWeapon = HAND_GUN;
+			break;
+		};
+	}
+	/*
 	if(CSGD_DirectInput::GetInstance()->KeyPressed(DIK_1))
 	{
 		this->m_nSelectedWeapon = this->HAND_GUN;
@@ -428,6 +453,8 @@ void CPlayer::Input(float fElapsedTime)
 	{
 		this->m_nSelectedWeapon = this->SONIC_RIFLE;
 	}
+	*/
+
 	if(CSGD_DirectInput::GetInstance()->KeyPressed(DIK_TAB))
 	{
 		this->m_nSelectedBootSlot--;
@@ -454,7 +481,7 @@ void CPlayer::Input(float fElapsedTime)
 	//////////////////////////////////////////////////////////////////////////////
 	// Check input for grappling hook grapple towards or away from hook
 	//////////////////////////////////////////////////////////////////////////////
-	if(CSGD_DirectInput::GetInstance()->KeyDown(DIK_W) )
+	if(CSGD_DirectInput::GetInstance()->KeyDown(CGame::GetInstance()->GetPlayerOneControls(9)))
 	{
 		if(this->m_pHook)
 		{
@@ -476,7 +503,7 @@ void CPlayer::Input(float fElapsedTime)
 		}
 	}
 	//////////////////////////////////////////////////////////////////////////////
-	if(CSGD_DirectInput::GetInstance()->KeyDown(DIK_S) )
+	if(CSGD_DirectInput::GetInstance()->KeyDown(CGame::GetInstance()->GetPlayerOneControls(10)))
 	{
 		if(this->m_pHook)
 		{
@@ -504,7 +531,8 @@ void CPlayer::Input(float fElapsedTime)
 	// Check Input for Jumping
 	//////////////////////////////////////////////////////////////////////////////
 	static float fJumpSpeed = -550.0f;
-	if((CSGD_DirectInput::GetInstance()->KeyPressed(DIK_SPACE)
+
+	if((CSGD_DirectInput::GetInstance()->KeyDown(CGame::GetInstance()->GetPlayerOneControls(0))
 		|| CSGD_DirectInput::GetInstance()->JoystickButtonPressed(1)))
 	{
 		if((this->m_nSelectedBootSlot == this->HOVER_BOOTS || this->m_nSelectedBootSlot == this->ROCKET_BOOTS) && this->m_bJumped)
@@ -578,14 +606,15 @@ void CPlayer::Input(float fElapsedTime)
 	// Check Input for player movement (Grappling hook included)
 	//////////////////////////////////////////////////////////////////////////////
 	static int nMoveSpeed = 10;
-
-	
- 	if(this->m_fBoostTime > 0.1f)
+	if((CSGD_DirectInput::GetInstance()->KeyDown(CGame::GetInstance()->GetPlayerOneControls(1))))
 	{
-   		this->m_vSpeed.fX = 0.0f;
-		this->m_fBoostTime = 0.0f;
-		this->DecrementEnergy(30.0f);
-		//this->m_bDash = false;
+ 		if(this->m_fBoostTime > 0.1f)
+		{
+   			this->m_vSpeed.fX = 0.0f;
+			this->m_fBoostTime = 0.0f;
+			this->DecrementEnergy(30.0f);
+			//this->m_bDash = false;
+		}
 	}
 		
 	if((CSGD_DirectInput::GetInstance()->KeyDown(DIK_A) 
@@ -620,7 +649,7 @@ void CPlayer::Input(float fElapsedTime)
 		GetAnimations()->SetCurrentAnimation(0);
 	}
 	//////////////////////////////////////////////////////////////////////////////
-	if((CSGD_DirectInput::GetInstance()->KeyDown(DIK_D) 
+	if((CSGD_DirectInput::GetInstance()->KeyDown(CGame::GetInstance()->GetPlayerOneControls(2)) 
 		|| CSGD_DirectInput::GetInstance()->JoystickDPadDown(DIR_RIGHT)
 		|| CSGD_DirectInput::GetInstance()->JoystickGetLStickDirDown(DIR_RIGHT)))
 	{
@@ -652,6 +681,7 @@ void CPlayer::Input(float fElapsedTime)
 		GetAnimations()->SetCurrentAnimation(0);
 	}
 	//////////////////////////////////////////////////////////////////////////////
+	if(CSGD_DirectInput::GetInstance()->KeyReleased(CGame::GetInstance()->GetPlayerOneControls(2)))
 	//if(fElapsedTime > 0.05f)
 	//{
 	//	this->m_bDash = false;
@@ -711,7 +741,7 @@ void CPlayer::Input(float fElapsedTime)
 		}
 	}
 	//////////////////////////////////////////////////////////////////////////////
-	if(CSGD_DirectInput::GetInstance()->KeyReleased(DIK_A))
+	if(CSGD_DirectInput::GetInstance()->KeyReleased(CGame::GetInstance()->GetPlayerOneControls(1)))
 	{
 		this->SetBaseVelX(0.0f);
 		this->m_vSpeed.fX = 0.0f;
@@ -737,7 +767,7 @@ void CPlayer::Input(float fElapsedTime)
 	//////////////////////////////////////////////////////////////////////////////
 	// Check for secondary fire
 	//////////////////////////////////////////////////////////////////////////////
-	if((CSGD_DirectInput::GetInstance()->MouseButtonPressed(MOUSE_RIGHT) || CSGD_DirectInput::GetInstance()->JoystickButtonPressed(4)))
+	if((CSGD_DirectInput::GetInstance()->MouseButtonPressed(CGame::GetInstance()->GetPlayerOneControls(4)) || CSGD_DirectInput::GetInstance()->JoystickButtonPressed(4)))
 	{
 		this->SetMouseDown(1);
 		if(CSinglePlayerState::GetInstance()->GetProfileValues()->m_bHaveHook)
@@ -747,7 +777,7 @@ void CPlayer::Input(float fElapsedTime)
 		}
 	}
 	//////////////////////////////////////////////////////////////////////////////
-	if((CSGD_DirectInput::GetInstance()->MouseButtonReleased(MOUSE_RIGHT) || CSGD_DirectInput::GetInstance()->JoystickButtonReleased(4)))
+	if((CSGD_DirectInput::GetInstance()->MouseButtonReleased(CGame::GetInstance()->GetPlayerOneControls(4)) || CSGD_DirectInput::GetInstance()->JoystickButtonReleased(4)))
 	{
 		this->SetMouseDown(0);
 		if(this->m_pHook)
@@ -761,7 +791,7 @@ void CPlayer::Input(float fElapsedTime)
 	//////////////////////////////////////////////////////////////////////////////
 	// Check for primary fire
 	//////////////////////////////////////////////////////////////////////////////
-	if((CSGD_DirectInput::GetInstance()->MouseButtonPressed(MOUSE_LEFT) || CSGD_DirectInput::GetInstance()->JoystickButtonPressed(7)))
+	if((CSGD_DirectInput::GetInstance()->MouseButtonPressed(CGame::GetInstance()->GetPlayerOneControls(3)) || CSGD_DirectInput::GetInstance()->JoystickButtonPressed(7)))
 	{
 		switch(this->m_nSelectedWeapon)
 		{
@@ -781,7 +811,7 @@ void CPlayer::Input(float fElapsedTime)
 		};
 	}
 	//////////////////////////////////////////////////////////////////////////////
-	if((CSGD_DirectInput::GetInstance()->MouseButtonDown(MOUSE_LEFT) || CSGD_DirectInput::GetInstance()->JoystickButtonDown(7)))
+	if((CSGD_DirectInput::GetInstance()->MouseButtonDown(CGame::GetInstance()->GetPlayerOneControls(3)) || CSGD_DirectInput::GetInstance()->JoystickButtonDown(7)))
 	{
 		if(this->m_nSelectedWeapon == this->FLAME_THROWER)
 		{
@@ -796,7 +826,7 @@ void CPlayer::Input(float fElapsedTime)
 		}
 	}
 	//////////////////////////////////////////////////////////////////////////////
-	if((CSGD_DirectInput::GetInstance()->MouseButtonReleased(MOUSE_LEFT) || CSGD_DirectInput::GetInstance()->JoystickButtonReleased(7)))
+	if((CSGD_DirectInput::GetInstance()->MouseButtonReleased(CGame::GetInstance()->GetPlayerOneControls(3)) || CSGD_DirectInput::GetInstance()->JoystickButtonReleased(7)))
 	{
 		this->m_nCharge = 0;
 		if(this->m_nSelectedWeapon == this->SONIC_RIFLE)
@@ -808,7 +838,7 @@ void CPlayer::Input(float fElapsedTime)
 	//////////////////////////////////////////////////////////////////////////////
 	// Check to see if homing is turned on
 	//////////////////////////////////////////////////////////////////////////////
-	if(CSGD_DirectInput::GetInstance()->KeyPressed(DIK_LSHIFT))
+	if(CSGD_DirectInput::GetInstance()->KeyPressed(CGame::GetInstance()->GetPlayerOneControls(7)))
 	{
 		m_bHomingOn = !m_bHomingOn;
 	}
@@ -965,7 +995,7 @@ void CPlayer::Render(void)
 RECT CPlayer::GetRect(void) const
 {
 	RECT rCollision;
-	rCollision.top = (LONG)(this->GetPosY() );//- (GetHeight()>>1));
+	rCollision.top = (LONG)(this->GetPosY());//- (GetHeight()>>1));
 	rCollision.left = (LONG)(this->GetPosX() );//- (GetWidth()>>1));
 	rCollision.bottom = rCollision.top + this->GetHeight();
 	rCollision.right = rCollision.left + this->GetWidth();
@@ -984,6 +1014,7 @@ bool CPlayer::CheckCollision(CBase* pBase)
 		Offset.m_nY = rPlayerFrame.bottom - rPrevRect.bottom;
 		SetPosY(GetPosY()-Offset.m_nY);
 		rPrevRect = rPlayerFrame;
+
 		//m_bOnPlatform = false;
 		//m_bOnGround = false;
 	}
@@ -1130,8 +1161,6 @@ bool CPlayer::CheckCollision(CBase* pBase)
 				return false;
 			}
 		}
-		
-		
 	}
 
 	//if(GetAnimations()->CheckCollision( pBase ) )

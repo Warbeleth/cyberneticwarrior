@@ -57,9 +57,9 @@ CSinglePlayerState::CSinglePlayerState(void)
 	this->m_nMusicVolume = COptionsMenuState::GetInstance()->GetMusicVolume(); 
 	this->m_nSFXVolume = COptionsMenuState::GetInstance()->GetMusicVolume(); 
 
-	Enemy_1 = NULL;
-	Enemy_2 = NULL;
-	Enemy_3 = NULL;
+	//Enemy_1 = NULL;
+	//Enemy_2 = NULL;
+	//Enemy_3 = NULL;
 
 	this->SetNewGame(1);
 
@@ -111,8 +111,6 @@ void CSinglePlayerState::Enter(void)
 	this->m_TempMap = CMapLoad::GetInstance();
 	m_TempMap->LoadMap("CW-Map_01.CWM");
 
-	m_TempMap->LoadAnimations();
-
 	this->m_pD3D	=		CSGD_Direct3D::GetInstance();
 	this->m_pDI		= 		CSGD_DirectInput::GetInstance();
 	this->m_pTM		=		CSGD_TextureManager::GetInstance();
@@ -156,9 +154,9 @@ void CSinglePlayerState::Enter(void)
 
 	//if(!this->GetNewGame())	//{	//	//this->m_Profile.m_bHaveHook = 1;	//}
 	
-	this->Enemy_1 = new CIdleEnemy(Idle, Turret_Gun, -1, 100, 90, 50, 100, .5, 50, 100, 400, 32, 32);
-	this->Enemy_2 = new CPatrolEnemy(Patrol, 0, 250, Turret_Gun, -1, 100, 90, 50, 100, .5, 100, 300, 400, 32, 32);
-	this->Enemy_3 = new CFLCLMech(-1, 300, 400);
+	//this->Enemy_1 = new CIdleEnemy(Idle, Turret_Gun, -1, 100, 90, 50, 100, .5, 50, 100, 400, 32, 32);
+	//this->Enemy_2 = new CPatrolEnemy(Patrol, 0, 250, Turret_Gun, -1, 100, 90, 50, 100, .5, 100, 300, 400, 32, 32);
+	//this->Enemy_3 = new CFLCLMech(-1, 300, 400);
 
 
 	tVector2D vStartingPos;
@@ -187,17 +185,17 @@ void CSinglePlayerState::Enter(void)
 	
 
 	this->m_pOM->AddObject(this->m_TempPlayer);
-	this->m_pOM->AddObject(this->Enemy_1);
-	this->m_pOM->AddObject(this->Enemy_2);
-	this->m_pOM->AddObject(this->Enemy_3);
+	//this->m_pOM->AddObject(this->Enemy_1);
+	//this->m_pOM->AddObject(this->Enemy_2);
+	//this->m_pOM->AddObject(this->Enemy_3);
 	
-	this->Enemy_1->Release();
-	this->Enemy_2->Release();
-	this->Enemy_3->Release();
+	//this->Enemy_1->Release();
+	//this->Enemy_2->Release();
+	//this->Enemy_3->Release();
 
 	this->m_TempPlayer->Release();
 
-
+	m_TempMap->LoadAnimations();	m_TempMap->LoadMap("CW-Map_01.CWM");
 
 	CLoadingState::GetInstance()->SetReady(1);
 
@@ -241,7 +239,7 @@ void CSinglePlayerState::Update(float fElapsedTime)
 	this->m_pOM->CheckCollisions();
 
 
-
+	//Enemy_1->Update(fElapsedTime);	//Enemy_2->Update(fElapsedTime);	//Enemy_3->Update(fElapsedTime);
 	if(this->m_pDI->MouseGetPosX() < 0)
 	{
 		this->m_pDI->MouseSetPosX(0);
@@ -286,7 +284,7 @@ void CSinglePlayerState::Render(void)
 
 	m_pD3D->GetSprite()->Flush();
 
-
+	//Enemy_1->Render();	//Enemy_2->Render();	//Enemy_3->Render();
 	m_pOM->RenderObjects();
 
 
@@ -317,7 +315,7 @@ void CSinglePlayerState::Exit(void)
 {
 	this->m_bMusic = 1;
 
-	
+	//if(Enemy_1)	//{	//	delete Enemy_1;	//}	//if(Enemy_1)	//{	//	delete Enemy_2;	//}	//if(Enemy_1)	//{	//	delete Enemy_3;		//}	
 	this->m_Profile.m_bHaveHook = 0;	
 
 

@@ -45,6 +45,18 @@ private:
 
 	float	m_fScaleX, m_fScaleY;
 
+	unsigned char m_cPlayerOne[11];
+	// 0 = jump
+	// 1 = left
+	// 2 = right
+	// 3 = fire weapon
+	// 4 = secondary fire
+	// 5 = aim weapon
+	// 6 = swap weapon
+	// 7 = head slot ability
+	// 8 = boot slot ability
+	// 9 = climb rope
+	// 10 = repel rope
 
 	float	m_fElapsedTime;
 	float	m_fGameTime;
@@ -201,5 +213,8 @@ public:
 	//	Purpose : Accessor that returns the main games Screen Height
 	////////////////////////////////////////////////////////////////////////////////////
 	int GetScreenHeight(void) const;
+
+	int GetPlayerOneControls( int nControl ) { return m_cPlayerOne[nControl]; }
+	void SetPlayerOneControls( int nControl, char cValue ) { m_cPlayerOne[nControl] = cValue; }
 };
 #endif
