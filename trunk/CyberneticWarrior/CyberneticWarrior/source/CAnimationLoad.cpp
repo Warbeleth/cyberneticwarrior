@@ -180,6 +180,36 @@ CAnimations::~CAnimations( )
 		CSGD_TextureManager::GetInstance()->UnloadTexture(m_nId);
 }
 
+CAnimations& CAnimations::operator=( const CAnimations& Animation )
+{
+	if( this != &Animation )
+	{
+		// spritesheet filename
+		this->m_szFilename = Animation.m_szFilename;
+
+		// total animations
+		this->m_nTotalAnimations = Animation.m_nTotalAnimations;
+
+		// each animation
+		for ( int i = 0; i < m_nTotalAnimations; ++i)
+		{
+			// add the animation
+			this->m_vAnimations.push_back( Animation.m_vAnimations[i] );
+		}
+
+		if( m_nId != -1 )
+		{
+			CSGD_TextureManager::GetInstance()->UnloadTexture(m_nId);
+			m_nId = -1;
+		}
+
+		string RelativeFile = "resource/graphics/" + m_szFilename;
+		m_nId = CSGD_TextureManager::GetInstance()->LoadTexture(RelativeFile.c_str());
+	}
+
+	return *this;
+}
+
 //////////////////////////////////////////////////////////////////////////////////////////////////////
 // Function: “Update”
 //////////////////////////////////////////////////////////////////////////////////////////////////////

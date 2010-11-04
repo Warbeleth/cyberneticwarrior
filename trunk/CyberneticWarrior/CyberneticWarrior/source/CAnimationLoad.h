@@ -174,6 +174,8 @@ public:
 	//////////////////////////////////////////////////////////////////////////////////////////////////////
 	~CAnimations( );
 
+	CAnimations& operator=( const CAnimations& Animation );
+
 	//////////////////////////////////////////////////////////////////////////////////////////////////////
 	// Function: “Update”
 	//
@@ -204,7 +206,7 @@ public:
 
 	bool CheckHit( CBase* pBase );
 
-	void SetCurrentAnimation( int nCurrentAnimation ) { m_nCurrentAnimation = nCurrentAnimation; }
+	void SetCurrentAnimation( int nCurrentAnimation ) { m_nCurrentAnimation = nCurrentAnimation; m_bJustLoaded = true; }
 
 	vector<RECT>* GetCollisionRects( void ) { return m_vAnimations[m_nCurrentAnimation].m_vFrames[m_vAnimations[m_nCurrentAnimation].m_nCurrentFrame].GetCollisionRects(); }
 	RECT GetCollisionFrame( int nPosX, int nPosY );

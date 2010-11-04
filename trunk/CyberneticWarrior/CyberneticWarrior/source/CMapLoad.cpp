@@ -176,6 +176,28 @@ bool CMapLoad::LoadMapImage(const char* szFilename)
 	return true;
 }
 
+bool CMapLoad::LoadAnimations( void )
+{
+	m_Animations[Ground_Mech].LoadBinary("resource/binary/Ground_Mech.bae");
+	m_Animations[Ground_FLCL].LoadBinary("resource/binary/Ground_FLCL.bae");
+	return true;
+}
+	
+CAnimations* CMapLoad::CreateAnimation( int nAnimationNumber )
+{
+	CAnimations* Animation;
+	if(nAnimationNumber >= 0 && nAnimationNumber <= Enemies_Total )
+	{
+		Animation = new CAnimations( );
+		*Animation = m_Animations[nAnimationNumber];
+	
+	}
+	else
+		Animation = NULL;
+
+	return Animation;
+}
+
 void CMapLoad::Render()
 {
 	CSGD_TextureManager *TM = CSGD_TextureManager::GetInstance();
