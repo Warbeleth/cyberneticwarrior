@@ -109,6 +109,7 @@ void CSinglePlayerState::Enter(void)
 	// File Include Needs conversion - Corey
 	//CStackStateMachine::GetInstance()->Push_Back(CLoadingState::GetInstance());
 	this->m_TempMap = CMapLoad::GetInstance();
+	//m_TempMap->LoadMap("Level-2.CWM");
 	m_TempMap->LoadMap("CW-Map_01.CWM");
 
 	this->m_pD3D	=		CSGD_Direct3D::GetInstance();
@@ -142,8 +143,8 @@ void CSinglePlayerState::Enter(void)
 
 	this->m_TempPlayer = (CPlayer*)m_pOF->CreateObject("CPlayer");
 	this->m_TempPlayer->SetImageID(this->m_pTM->LoadTexture("resource/graphics/Running1.bmp"));
-	this->m_TempPlayer->SetPosX((float)0);
-	this->m_TempPlayer->SetPosY((float)200);
+	this->m_TempPlayer->SetPosX((float)200);
+	this->m_TempPlayer->SetPosY((float)0.0f);
 	this->m_TempPlayer->SetWidth(64);
 	this->m_TempPlayer->SetHeight(143);
 	this->m_TempPlayer->SetBaseVelX(0);
@@ -195,7 +196,7 @@ void CSinglePlayerState::Enter(void)
 
 	this->m_TempPlayer->Release();
 
-	m_TempMap->LoadAnimations();	m_TempMap->LoadMap("CW-Map_01.CWM");
+	//m_TempMap->LoadAnimations();	m_TempMap->LoadMap("CW-Map_01.CWM");
 
 	CLoadingState::GetInstance()->SetReady(1);
 
@@ -239,7 +240,9 @@ void CSinglePlayerState::Update(float fElapsedTime)
 	this->m_pOM->CheckCollisions();
 
 
-	//Enemy_1->Update(fElapsedTime);	//Enemy_2->Update(fElapsedTime);	//Enemy_3->Update(fElapsedTime);
+	//Enemy_1->Update(fElapsedTime);	
+	//Enemy_2->Update(fElapsedTime);	
+	//Enemy_3->Update(fElapsedTime);
 	if(this->m_pDI->MouseGetPosX() < 0)
 	{
 		this->m_pDI->MouseSetPosX(0);
@@ -284,7 +287,9 @@ void CSinglePlayerState::Render(void)
 
 	m_pD3D->GetSprite()->Flush();
 
-	//Enemy_1->Render();	//Enemy_2->Render();	//Enemy_3->Render();
+	//Enemy_1->Render();	
+	//Enemy_2->Render();	
+	//Enemy_3->Render();
 	m_pOM->RenderObjects();
 
 
@@ -315,7 +320,13 @@ void CSinglePlayerState::Exit(void)
 {
 	this->m_bMusic = 1;
 
-	//if(Enemy_1)	//{	//	delete Enemy_1;	//}	//if(Enemy_1)	//{	//	delete Enemy_2;	//}	//if(Enemy_1)	//{	//	delete Enemy_3;		//}	
+	//if(Enemy_1)	
+	//{	//	delete Enemy_1;	//}	
+	//if(Enemy_1)	
+	//{	//	delete Enemy_2;	//}
+	//if(Enemy_1)	//{
+	//	delete Enemy_3;		//}
+	
 	this->m_Profile.m_bHaveHook = 0;	
 
 
