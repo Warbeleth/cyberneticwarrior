@@ -959,8 +959,8 @@ bool CPlayer::CheckCollision(CBase* pBase)
 		Offset.m_nY = rPlayerFrame.bottom - rPrevRect.bottom;
 		SetPosY(GetPosY()-Offset.m_nY);
 		rPrevRect = rPlayerFrame;
-		m_bOnPlatform = false;
-		m_bOnGround = false;
+		//m_bOnPlatform = false;
+		//m_bOnGround = false;
 	}
 
 	if(pBase->GetType() == OBJ_BLOCK)
