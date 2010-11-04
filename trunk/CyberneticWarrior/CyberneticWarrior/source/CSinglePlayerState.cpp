@@ -186,6 +186,14 @@ void CSinglePlayerState::Enter(void)
 	
 
 	this->m_pOM->AddObject(this->m_TempPlayer);
+	/*this->m_pOM->AddObject(this->Enemy_1);
+	this->m_pOM->AddObject(this->Enemy_2);
+	this->m_pOM->AddObject(this->Enemy_3);
+	
+	this->Enemy_1->Release();
+	this->Enemy_2->Release();
+	this->Enemy_3->Release();*/
+
 	this->m_TempPlayer->Release();
 
 	m_TempMap->LoadMap("CW-Map_01.CWM");
