@@ -13,7 +13,7 @@
 
 CBaseEnemy::CBaseEnemy()
 {
-	m_nType = OBJ_ENEMY;
+	SetType(OBJ_ENEMY);
 	m_nGlobalType = -1;
 	m_nImageID = -1;
 	m_nMaxHP = 100;
@@ -33,7 +33,7 @@ CBaseEnemy::CBaseEnemy(int nGlobalType, int nImageID, int nMaxHP, int nCurrentHP
 			   int nSightRange, int nAttackRange, float fRateOfFire, 
 			   float fSpeed, float nPosX, float nPosY, int nWidth, int nHeight)
 {
-	m_nType = OBJ_ENEMY;
+	SetType(OBJ_ENEMY);
 	m_nGlobalType = nGlobalType;
 	m_nImageID = nImageID;
 	m_nMaxHP = nMaxHP;
