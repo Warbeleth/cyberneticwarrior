@@ -16,6 +16,7 @@
 class CEvent;
 class CGrapplingHook;
 class CHud;
+class CBlock;
 
 enum Input{KEYBOARD = 0, GAMEPAD};
 class CPlayer : public CBase, public IListener
@@ -28,6 +29,8 @@ private:
 	tVector2D	m_vRotationCenter;
 	tVector2D	m_vSpeed;
 	tVector2D	m_vVectorVelocity;
+
+	CBlock*			m_pMovingBlock;
 	
 	float m_fAcceleration;
 	float m_fRotationRate;
@@ -63,7 +66,6 @@ private:
 	float m_fShotTime;
 	float m_fThrowTime;
 	float m_fMovingPlatformPosX;
-	float m_fCMovingPlatformPosX;
 
 	float m_fTerminalVelocity;
 	float m_fGravity;
