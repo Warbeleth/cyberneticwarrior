@@ -48,6 +48,8 @@ private:
 	float m_fRemainingEnergy;
 	float m_fTotalEnergy;
 
+	float m_fDash;
+
 	// Score
 	int m_nScore;
 
@@ -83,7 +85,8 @@ private:
 	bool m_bHovering;
 	bool m_bBoosting;
 	bool m_bJumped;
-	bool m_bDash;
+	bool m_bFDash;
+	bool m_bBDash;
 
 	bool m_bOnGround;
 	bool m_bOnPlatform;
