@@ -110,6 +110,7 @@ void CSinglePlayerState::Enter(void)
 	//CStackStateMachine::GetInstance()->Push_Back(CLoadingState::GetInstance());
 	this->m_TempMap = CMapLoad::GetInstance();
 
+	m_TempMap->LoadAnimations();
 
 	this->m_pD3D	=		CSGD_Direct3D::GetInstance();
 	this->m_pDI		= 		CSGD_DirectInput::GetInstance();

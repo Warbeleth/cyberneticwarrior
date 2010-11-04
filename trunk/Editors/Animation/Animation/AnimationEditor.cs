@@ -622,7 +622,7 @@ namespace Animation
 
                 if (HitRectsListBox.SelectedIndex >= 0)
                 {
-                     AnimationsEditor.GetAnimations[AnimationsListBox.SelectedIndex].GetFrames[FramesListBox.SelectedIndex].GetCollisionRects[HitRectsListBox.SelectedIndex].left = (int)numUpDown_Left.Value;
+                     AnimationsEditor.GetAnimations[AnimationsListBox.SelectedIndex].GetFrames[FramesListBox.SelectedIndex].GetHitRects[HitRectsListBox.SelectedIndex].left = (int)numUpDown_Left.Value;
                     return;
                 }
 
@@ -646,7 +646,7 @@ namespace Animation
 
                 if (HitRectsListBox.SelectedIndex >= 0)
                 {
-                     AnimationsEditor.GetAnimations[AnimationsListBox.SelectedIndex].GetFrames[FramesListBox.SelectedIndex].GetCollisionRects[HitRectsListBox.SelectedIndex].right = (int)numUpDown_Right.Value;
+                     AnimationsEditor.GetAnimations[AnimationsListBox.SelectedIndex].GetFrames[FramesListBox.SelectedIndex].GetHitRects[HitRectsListBox.SelectedIndex].right = (int)numUpDown_Right.Value;
                     return;
                 }
 
@@ -670,7 +670,7 @@ namespace Animation
 
                 if (HitRectsListBox.SelectedIndex >= 0)
                 {
-                     AnimationsEditor.GetAnimations[AnimationsListBox.SelectedIndex].GetFrames[FramesListBox.SelectedIndex].GetCollisionRects[HitRectsListBox.SelectedIndex].top = (int)numUpDown_Top.Value;
+                     AnimationsEditor.GetAnimations[AnimationsListBox.SelectedIndex].GetFrames[FramesListBox.SelectedIndex].GetHitRects[HitRectsListBox.SelectedIndex].top = (int)numUpDown_Top.Value;
                     return;
                 }
 
@@ -694,7 +694,7 @@ namespace Animation
 
                 if (HitRectsListBox.SelectedIndex >= 0)
                 {
-                     AnimationsEditor.GetAnimations[AnimationsListBox.SelectedIndex].GetFrames[FramesListBox.SelectedIndex].GetCollisionRects[HitRectsListBox.SelectedIndex].bottom = (int)numUpDown_Bottom.Value;
+                     AnimationsEditor.GetAnimations[AnimationsListBox.SelectedIndex].GetFrames[FramesListBox.SelectedIndex].GetHitRects[HitRectsListBox.SelectedIndex].bottom = (int)numUpDown_Bottom.Value;
                     return;
                 }
 
