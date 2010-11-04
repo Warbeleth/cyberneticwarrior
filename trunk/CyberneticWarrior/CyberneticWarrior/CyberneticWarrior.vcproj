@@ -297,6 +297,10 @@
 						</FileConfiguration>
 					</File>
 					<File
+						RelativePath=".\source\CSiegeWalker.cpp"
+						>
+					</File>
+					<File
 						RelativePath=".\source\CTurretCore.cpp"
 						>
 					</File>
@@ -727,6 +731,10 @@
 					</File>
 					<File
 						RelativePath=".\source\CPlayer.h"
+						>
+					</File>
+					<File
+						RelativePath=".\source\CSiegeWalker.h"
 						>
 					</File>
 					<File
