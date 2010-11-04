@@ -49,6 +49,7 @@
 #include "CIdleEnemy.h"
 #include "CPatrolEnemy.h"
 #include "CFLCLMech.h"
+#include "CMech.h"
 #include "CTurretCore.h"
 
 
@@ -875,7 +876,11 @@ void CGame::MessageProc(CBaseMessage*	pMsg)
 						
 						break;
 					case Ground_Mech:
-						
+						{
+							CMech* Temp = (CMech*)pDestroyEnemy->GetEnemyPointer();
+							CObjectManager::GetInstance()->RemoveObject(Temp);
+							Temp = NULL;
+						}
 						break;
 					case Ground_Siege:
 						

@@ -267,6 +267,10 @@
 						</FileConfiguration>
 					</File>
 					<File
+						RelativePath=".\source\CMech.cpp"
+						>
+					</File>
+					<File
 						RelativePath=".\source\CPatrolEnemy.cpp"
 						>
 						<FileConfiguration
@@ -711,6 +715,10 @@
 					</File>
 					<File
 						RelativePath=".\source\CIdleEnemy.h"
+						>
+					</File>
+					<File
+						RelativePath=".\source\CMech.h"
 						>
 					</File>
 					<File
