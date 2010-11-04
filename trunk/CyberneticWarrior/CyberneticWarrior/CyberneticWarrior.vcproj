@@ -224,6 +224,10 @@
 					Name="Characters"
 					>
 					<File
+						RelativePath=".\source\CAppleMech.cpp"
+						>
+					</File>
+					<File
 						RelativePath=".\source\CBaseEnemy.cpp"
 						>
 						<FileConfiguration
@@ -235,6 +239,10 @@
 								PrecompiledHeaderThrough="PrecompiledHeader.h"
 							/>
 						</FileConfiguration>
+					</File>
+					<File
+						RelativePath=".\source\CDeathPirate.cpp"
+						>
 					</File>
 					<File
 						RelativePath=".\source\CFLCLMech.cpp"
@@ -282,6 +290,10 @@
 								PrecompiledHeaderThrough="PrecompiledHeader.h"
 							/>
 						</FileConfiguration>
+					</File>
+					<File
+						RelativePath=".\source\CPimpStriker.cpp"
+						>
 					</File>
 					<File
 						RelativePath=".\source\CPlayer.cpp"
@@ -706,7 +718,15 @@
 					Name="Characters"
 					>
 					<File
+						RelativePath=".\source\CAppleMech.h"
+						>
+					</File>
+					<File
 						RelativePath=".\source\CBaseEnemy.h"
+						>
+					</File>
+					<File
+						RelativePath=".\source\CDeathPirate.h"
 						>
 					</File>
 					<File
@@ -727,6 +747,10 @@
 					</File>
 					<File
 						RelativePath=".\source\CPatrolEnemy.h"
+						>
+					</File>
+					<File
+						RelativePath=".\source\CPimpStriker.h"
 						>
 					</File>
 					<File
