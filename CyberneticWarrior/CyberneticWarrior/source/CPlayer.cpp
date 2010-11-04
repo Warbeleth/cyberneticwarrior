@@ -29,6 +29,9 @@ CPlayer::CPlayer(void)
 	// Hook
 	this->SetHookPointer(NULL);
 
+	// Moving Platform
+	this->m_pMovingBlock = NULL;
+
 	// Rotation
 	this->m_fRotation = 0.0f;
 	this->m_vRotationCenter.fX = this->GetPosX()+this->GetWidth();
@@ -42,7 +45,6 @@ CPlayer::CPlayer(void)
 
 	// Moving Platform Position Updates
 	this->m_fMovingPlatformPosX = 0.0f;
-	this->m_fCMovingPlatformPosX = 0.0f;
 
 	// sonic rifle stuff
 	this->m_nCharge = 0;
@@ -103,6 +105,9 @@ CPlayer::~CPlayer(void)
 	delete m_pHud;
 	delete GetAnimations();
 	this->m_pHud = NULL;
+
+	this->m_pMovingBlock = NULL;
+
 	SetAnimations( NULL );
 }
 
@@ -137,9 +142,12 @@ void CPlayer::Update(float fElapsedTime)
 
 	// If the player is on a moving platform update position 
 	// according to the platforms movement
-	if(this->m_bOnMovingPlatform)
+	if(this->m_bOnMovingPlatform && this->m_pMovingBlock)
 	{
-		this->SetPosX(this->GetPosX() + (this->m_fCMovingPlatformPosX - this->m_fMovingPlatformPosX));
+		float difference = (this->m_pMovingBlock->GetPosX() - this->m_fMovingPlatformPosX);
+		float playerX = this->GetPosX();
+		float newPX = this->GetPosX() + ((this->m_pMovingBlock->GetPosX() - this->m_fMovingPlatformPosX));
+		this->SetPosX(this->GetPosX() + ((this->m_pMovingBlock->GetPosX() - this->m_fMovingPlatformPosX)));
 	}
 
 
@@ -477,6 +485,7 @@ void CPlayer::Input(float fElapsedTime)
 	if((CSGD_DirectInput::GetInstance()->KeyDown(DIK_SPACE)
 		|| CSGD_DirectInput::GetInstance()->JoystickButtonPressed(1)) && this->m_bOnGround)
 	{
+		this->m_pMovingBlock = NULL;
 		this->m_bOnGround = false;
 		this->m_bOnMovingPlatform = false;
 		this->m_vSpeed.fY = fJumpSpeed;
@@ -496,6 +505,7 @@ void CPlayer::Input(float fElapsedTime)
 		{
 			this->m_vSpeed.fX -= nMoveSpeed;
 		}
+		this->m_pMovingBlock = NULL;
 		this->m_bOnMovingPlatform = false;
 
 		if(this->m_pHook)
@@ -526,8 +536,8 @@ void CPlayer::Input(float fElapsedTime)
 		{
 			this->m_vSpeed.fX += nMoveSpeed;
 		}
+		this->m_pMovingBlock = NULL;
 		this->m_bOnMovingPlatform = false;
-
 
 		if(this->m_pHook)
 		{
@@ -776,19 +786,19 @@ void CPlayer::Render(void)
 	rRender.right = 220;
 	if(this->m_bForward)
 	{
-	CSGD_TextureManager::GetInstance()->Draw(m_nHandID, 
-		(int)(((GetPosX() + (GetWidth()/2)) - OffsetX) * CCamera::GetInstance()->GetScale()-10), 
-		(int)(((GetPosY() - (GetHeight()/2)) - OffsetY) * CCamera::GetInstance()->GetScale()+25), 
-		0.7f * CCamera::GetInstance()->GetScale(), 0.7f * CCamera::GetInstance()->GetScale(), 
-		&rRender, 64, 128, m_fHandRotation, -1 );
+		CSGD_TextureManager::GetInstance()->Draw(m_nHandID, 
+			(int)(((GetPosX() + (GetWidth()/2)) - OffsetX) * CCamera::GetInstance()->GetScale()-10), 
+			(int)(((GetPosY() - (GetHeight()/2)) - OffsetY) * CCamera::GetInstance()->GetScale()+25), 
+			0.7f * CCamera::GetInstance()->GetScale(), 0.7f * CCamera::GetInstance()->GetScale(), 
+			&rRender, 64, 128, m_fHandRotation, -1 );
 	}
 	else
 	{
 		CSGD_TextureManager::GetInstance()->Draw(m_nHandID, 
-		(int)(((GetPosX() + (GetWidth()/2)) - OffsetX) * CCamera::GetInstance()->GetScale())+GetWidth()/2, 
-		(int)(((GetPosY() - (GetHeight()/2)) - OffsetY) * CCamera::GetInstance()->GetScale()+25), 
-		-0.7f * CCamera::GetInstance()->GetScale(), 0.7f * CCamera::GetInstance()->GetScale(), 
-		&rRender, 64, 128, m_fHandRotation, -1 );
+			(int)(((GetPosX() + (GetWidth()/2)) - OffsetX) * CCamera::GetInstance()->GetScale())+GetWidth()/2, 
+			(int)(((GetPosY() - (GetHeight()/2)) - OffsetY) * CCamera::GetInstance()->GetScale()+25), 
+			-0.7f * CCamera::GetInstance()->GetScale(), 0.7f * CCamera::GetInstance()->GetScale(), 
+			&rRender, 64, 128, m_fHandRotation, -1 );
 	}
 	//////////////////////////////////////////////////////////////////////////////
 
@@ -872,6 +882,7 @@ bool CPlayer::CheckCollision(CBase* pBase)
 
 		if(BLOCK->GetBlock() == BLOCK_SOLID || BLOCK->GetBlock() == BLOCK_MOVING)
 		{
+
 			if(myBottom >= hisY  
 				&& (myBottom) < (hisBottom)
 				&& (myRight) > hisX
@@ -887,10 +898,11 @@ bool CPlayer::CheckCollision(CBase* pBase)
 					if(!this->m_bOnMovingPlatform)
 					{
 						this->m_fMovingPlatformPosX = hisX;
+						this->m_pMovingBlock = BLOCK;
 						this->m_bOnMovingPlatform = true;
 					}
-					this->m_fCMovingPlatformPosX = hisX;
 				}
+
 				CMapLoad::GetInstance()->m_bCollisionCheck = true;
 				return true;
 			}
