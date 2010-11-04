@@ -1,7 +1,7 @@
 //////////////////////////////////////////////////////////////////////////////////////////////////////
 // File: “CMapLoad.h”
 //
-// Author: Corey Ringer (CR)
+// Author: Corey Ringer (CR) / Animation Functionality - Anthony Muccio (AM)
 //
 // Purpose: This class serves as the in-game tile-set as well as an engine loader.
 //////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -18,6 +18,7 @@
 #include "CSpawner.h"
 #include "CBlock.h"
 #include "CBase.h"
+#include "CAnimationLoad.h"
 
 //Enemies
 #include "CBaseEnemy.h"
@@ -32,7 +33,7 @@ namespace SGP_Map_Editor
 	enum Enemies { Turret_Gun = 0, Turret_Frost, Turret_Fire, Turret_Multi,
 		Drone_Attack, Drone_Seeker, Drone_Heavy,
 		Ground_Mech, Ground_Siege, Ground_FLCL,
-		Boss_Apple, Boss_Pimp, Boss_Pirate      
+		Boss_Apple, Boss_Pimp, Boss_Pirate, Enemies_Total      
 	};
 
 	enum Spawners { Turret_Spawner = 0,
@@ -139,6 +140,8 @@ public:
 	float m_fScaleX;
 	float m_fScaleY;
 
+	CAnimations m_Animations[12];
+
 	////////////////////////////////////////////////////////////////////////////////////
 	//	Function : GetInstance()
 	//
@@ -160,6 +163,20 @@ public:
 	//			function and cleans up any old image IDs if any.
 	////////////////////////////////////////////////////////////////////////////////////
 	bool LoadMapImage(const char* szFilename);
+
+	////////////////////////////////////////////////////////////////////////////////////
+	//	Function : LoadAnimations()
+	//
+	//	Purpose : Loads all 12 enemy animations for assignment.
+	////////////////////////////////////////////////////////////////////////////////////
+	bool LoadAnimations( void );
+
+	////////////////////////////////////////////////////////////////////////////////////
+	//	Function : CreateAnimation()
+	//
+	//	Purpose : Returns a copy of any 12 loaded enemy animations.
+	////////////////////////////////////////////////////////////////////////////////////
+	CAnimations* CreateAnimation( int nAnimationNumber );
 
 	////////////////////////////////////////////////////////////////////////////////////
 	//	Function : Render()

@@ -9,6 +9,7 @@
 
 #include "CBaseEnemy.h"
 #include "CSinglePlayerState.h"
+#include "CMapLoad.h"
 
 CBaseEnemy::CBaseEnemy()
 {
@@ -47,12 +48,14 @@ CBaseEnemy::CBaseEnemy(int nGlobalType, int nImageID, int nMaxHP, int nCurrentHP
 	m_fSpeed = fSpeed;
 	m_vTargetPosition.fX = 0;
 	m_vTargetPosition.fY = 0;
+	SetAnimations(CMapLoad::GetInstance()->CreateAnimation(Ground_Mech));
 	m_bSinglePlayer = true; //Will be a CGame::GetInstance() call to check for game state when creating enemies
 }
 
 CBaseEnemy::~CBaseEnemy()
 {
-
+	delete GetAnimations();
+	SetAnimations(NULL);
 }
 
 RECT CBaseEnemy::GetRect()
