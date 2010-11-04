@@ -421,7 +421,7 @@ void CPlayer::Input(float fElapsedTime)
 	if(CSGD_DirectInput::GetInstance()->KeyPressed(DIK_TAB))
 	{
 		this->m_nSelectedBootSlot--;
-		if(this->m_nSelectedBootSlot > this->ROCKET_BOOTS)
+		if(this->m_nSelectedBootSlot < this->ROCKET_BOOTS)
 		{
 			this->m_nSelectedBootSlot = this->BOOTS;
 		}
