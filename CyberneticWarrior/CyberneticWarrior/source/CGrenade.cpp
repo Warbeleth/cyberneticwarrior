@@ -14,6 +14,7 @@ CGrenade::CGrenade(void)
 	this->m_nBounceCount = 0;
 	this->m_fBoomTime = 5.0f;
 	this->m_vVelocity.fY = 500.0f;
+	this->m_fDirection = 1.0f;
 }
 
 CGrenade::~CGrenade(void)
@@ -65,7 +66,7 @@ void CGrenade::Render(void)
 	CSGD_TextureManager::GetInstance()->Draw( GetImageID(), 
 		(int)(((GetPosX() + (GetWidth()/2.0f) ) - CCamera::GetInstance()->GetOffsetX()) * CCamera::GetInstance()->GetScale()), 
 		(int)(((GetPosY() - (GetHeight()/2.0f)) - CCamera::GetInstance()->GetOffsetY()) * CCamera::GetInstance()->GetScale()), 
-		1.0f * CCamera::GetInstance()->GetScale(), 
+		this->m_fDirection * CCamera::GetInstance()->GetScale(), 
 		1.0f * CCamera::GetInstance()->GetScale(), 
 		&rRender, (GetWidth()/2.0f), (GetHeight()/2.0f),
 		this->GetRotation() );
@@ -111,6 +112,8 @@ bool CGrenade::CheckCollision(CBase *pBase)
 		}
 		else if(pBase->GetType() != OBJ_PLAYER && pBase->GetType() != OBJ_GRENADE)
 		{
+			this->SetPosX(pBase->GetPosX());
+			this->SetPosY(pBase->GetPosY());
 			this->SetBaseVelX(0.0f);
 			this->SetBaseVelY(0.0f);
 			this->m_vVelocity.fY = 0.0f;

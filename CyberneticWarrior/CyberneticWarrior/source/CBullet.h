@@ -6,6 +6,7 @@
 class CBullet : public CBase
 {
 private:
+	float m_fDirection;
 	int	m_nDamage;
 public:
 	CBullet(void);

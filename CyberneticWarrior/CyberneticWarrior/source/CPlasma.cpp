@@ -10,6 +10,14 @@ CPlasma::CPlasma(void)
 	this->SetType(OBJ_PLASMA);
 	this->SetImageID(CSinglePlayerState::GetInstance()->GetWeaponID());
 	this->SetRotation(0.0f);
+	if(CSinglePlayerState::GetInstance()->GetPlayerPointer()->GetForward())
+	{
+		this->m_fDirection = 1.0f;
+	}
+	else
+	{
+		this->m_fDirection = -1.0f;
+	}
 }
 
 CPlasma::~CPlasma(void)
@@ -19,6 +27,9 @@ CPlasma::~CPlasma(void)
 void CPlasma::Update(float fElapsedTime)
 {
 	CBase::Update(fElapsedTime);
+
+
+	
 
 	static tVector2D vScreenDimensions;
 	vScreenDimensions.fX = (float)CGame::GetInstance()->GetScreenWidth();
@@ -43,7 +54,7 @@ void CPlasma::Render(void)
 	CSGD_TextureManager::GetInstance()->Draw( GetImageID(), 
 		(int)(((GetPosX() + (GetWidth()/2.0f) ) - CCamera::GetInstance()->GetOffsetX()) * CCamera::GetInstance()->GetScale()), 
 		(int)(((GetPosY() - (GetHeight()/2.0f)) - CCamera::GetInstance()->GetOffsetY()) * CCamera::GetInstance()->GetScale()), 
-		1.0f * CCamera::GetInstance()->GetScale(), 
+		this->m_fDirection * CCamera::GetInstance()->GetScale(), 
 		1.0f * CCamera::GetInstance()->GetScale(), 
 		&rRender, (GetWidth()/2.0f), (GetHeight()/2.0f),
 		this->GetRotation() );

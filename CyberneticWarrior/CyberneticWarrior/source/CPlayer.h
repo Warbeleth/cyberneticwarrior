@@ -169,7 +169,8 @@ public:
 
 	bool GetMouseDown(void);
 	bool GetOnGround(void);
-	inline bool GetHoming( void )	{ return m_bHomingOn; }
+	inline bool GetForward(void) {return this->m_bForward;}
+	inline bool GetHoming(void)	{ return this->m_bHomingOn; }
 
 	
 	////////////////////////////////////////////////////////////////////////////////////

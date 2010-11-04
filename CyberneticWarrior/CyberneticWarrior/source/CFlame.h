@@ -6,6 +6,7 @@
 class CFlame : public CBase
 {
 private:
+	float m_fDirection;
 	float	m_fLifeTime;
 	int		m_nDamage;
 public:

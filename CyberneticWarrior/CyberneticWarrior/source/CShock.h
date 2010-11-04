@@ -6,6 +6,7 @@
 class CShock : public CBase
 {
 private:
+	float m_fDirection;
 	int	m_nDamage;
 public:
 	CShock(void);

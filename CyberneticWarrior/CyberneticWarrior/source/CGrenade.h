@@ -7,6 +7,7 @@ class CGrenade : public CBase
 {
 private:
 	tVector2D m_vVelocity;
+	float m_fDirection;
 	float m_fBoomTime;
 	int	m_nDamage;
 	int m_nBounceCount;
