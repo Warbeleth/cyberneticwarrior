@@ -11,9 +11,9 @@ class CEvent;
 class CRocket : public CBase, public IListener
 {
 private:
-	int	  m_nRocketState;
+	float m_fDirection;
 	float m_fDeathTimer;
-
+	int	  m_nRocketState;
 protected:
 	enum RocketStates { ROCKET_DIRECTIONAL, ROCKET_HOMING, ROCKET_MAX };
 

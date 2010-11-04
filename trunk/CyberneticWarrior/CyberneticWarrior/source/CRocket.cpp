@@ -15,6 +15,14 @@ CRocket::CRocket( void )
 	SetImageID(CSinglePlayerState::GetInstance()->GetWeaponID());
 
 	this->SetRotation(0.0f);
+	if(CSinglePlayerState::GetInstance()->GetPlayerPointer()->GetForward())
+	{
+		this->m_fDirection = 1.0f;
+	}
+	else
+	{
+		this->m_fDirection = -1.0f;
+	}
 
 
 }
@@ -38,10 +46,8 @@ void CRocket::Update( float fElapsedTime)
 	if( m_fDeathTimer > DEATH_TIME )
 		CGame::GetInstance()->GetMessageSystemPointer()->SendMsg( new CDestroyRocketMessage( this, CSinglePlayerState::GetInstance()->GetPlayerPointer()) );
 
-
-
-
 	
+
 	/*tVector2D vecHandRotation;
 	vecHandRotation.fX = 0;
 	vecHandRotation.fY = -1;
@@ -58,10 +64,6 @@ void CRocket::Update( float fElapsedTime)
 	
 	if( CSGD_DirectInput::GetInstance()->MouseGetPosX() < GetPosX()  - CCamera::GetInstance()->GetOffsetX() )
 		this->m_fRotation = SGD_PI + (SGD_PI - this->m_fRotation);*/
-
-
-	
-
 
 	switch(m_nRocketState)
 	{
@@ -101,6 +103,7 @@ void CRocket::Update( float fElapsedTime)
 void CRocket::Render( void )
 {
 	static RECT rRender;
+	
 	rRender.top = 370;
 	rRender.left = 532;
 	rRender.bottom = 420;
@@ -108,7 +111,7 @@ void CRocket::Render( void )
 	CSGD_TextureManager::GetInstance()->Draw( GetImageID(), 
 		(int)(((GetPosX() + (GetWidth()/2.0f) ) - CCamera::GetInstance()->GetOffsetX()) * CCamera::GetInstance()->GetScale()), 
 		(int)(((GetPosY() - (GetHeight()/2.0f)) - CCamera::GetInstance()->GetOffsetY()) * CCamera::GetInstance()->GetScale()), 
-		1.0f * CCamera::GetInstance()->GetScale(), 
+		this->m_fDirection * CCamera::GetInstance()->GetScale(), 
 		1.0f * CCamera::GetInstance()->GetScale(), 
 		&rRender, (GetWidth()/2.0f), (GetHeight()/2.0f),
 		this->GetRotation() );

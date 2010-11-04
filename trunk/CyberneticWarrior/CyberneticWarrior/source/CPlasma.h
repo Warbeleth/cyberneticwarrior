@@ -6,6 +6,7 @@
 class CPlasma : public CBase
 {
 private:
+	float m_fDirection;
 	int	m_nDamage;
 public:
 	CPlasma(void);

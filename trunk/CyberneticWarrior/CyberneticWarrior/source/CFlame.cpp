@@ -11,6 +11,14 @@ CFlame::CFlame(void)
 	this->SetImageID(CSinglePlayerState::GetInstance()->GetWeaponID());
 	this->SetRotation(0.0f);
 	this->m_fLifeTime = 0.1f;
+	if(CSinglePlayerState::GetInstance()->GetPlayerPointer()->GetForward())
+	{
+		this->m_fDirection = 1.0f;
+	}
+	else
+	{
+		this->m_fDirection = -1.0f;
+	}
 }
 
 CFlame::~CFlame(void)
@@ -20,6 +28,8 @@ CFlame::~CFlame(void)
 void CFlame::Update(float fElapsedTime)
 {
 	CBase::Update(fElapsedTime);
+
+	
 
 	static float fAge = 0.0f;
 	fAge += fElapsedTime;
@@ -38,9 +48,9 @@ void CFlame::Render(void)
 	rRender.bottom = 545;
 	rRender.right = 765;
 	CSGD_TextureManager::GetInstance()->Draw( GetImageID(), 
-		(int)(((GetPosX() + (GetWidth()/2.0f) ) - CCamera::GetInstance()->GetOffsetX()) * CCamera::GetInstance()->GetScale()), 
+		(int)(((GetPosX() + this->m_fDirection*(GetWidth()/2.0f) ) - CCamera::GetInstance()->GetOffsetX()) * CCamera::GetInstance()->GetScale()), 
 		(int)(((GetPosY() - (GetHeight()/2.0f)) - CCamera::GetInstance()->GetOffsetY()) * CCamera::GetInstance()->GetScale()), 
-		1.0f * CCamera::GetInstance()->GetScale(), 
+		this->m_fDirection * CCamera::GetInstance()->GetScale(), 
 		1.0f * CCamera::GetInstance()->GetScale(), 
 		&rRender, 45.0f, 10.0f, this->GetRotation() );
 
