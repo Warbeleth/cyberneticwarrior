@@ -110,10 +110,8 @@ bool CGrenade::CheckCollision(CBase *pBase)
 				this->m_nBounceCount = 0;
 			}
 		}
-		else if(pBase->GetType() != OBJ_PLAYER && pBase->GetType() != OBJ_GRENADE)
+		else if(pBase->GetType() == OBJ_ENEMY)
 		{
-			this->SetPosX(pBase->GetPosX());
-			this->SetPosY(pBase->GetPosY());
 			this->SetBaseVelX(0.0f);
 			this->SetBaseVelY(0.0f);
 			this->m_vVelocity.fY = 0.0f;
