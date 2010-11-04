@@ -147,7 +147,7 @@ void CPlayer::Update(float fElapsedTime)
 		float difference = (this->m_pMovingBlock->GetPosX() - this->m_fMovingPlatformPosX);
 		float playerX = this->GetPosX();
 		float newPX = this->GetPosX() + ((this->m_pMovingBlock->GetPosX() - this->m_fMovingPlatformPosX));
-		this->SetPosX(this->GetPosX() + ((this->m_pMovingBlock->GetPosX() - this->m_fMovingPlatformPosX)*1.325f));
+		this->SetPosX(this->GetPosX() + ((this->m_pMovingBlock->GetPosX() - this->m_fMovingPlatformPosX)/**1.325f*/));
 	}
 
 
@@ -1022,6 +1022,7 @@ bool CPlayer::CheckCollision(CBase* pBase)
 						this->m_fMovingPlatformPosX = hisX;
 						this->m_pMovingBlock = BLOCK;
 						this->m_bOnMovingPlatform = true;
+
 					}
 				}
 
