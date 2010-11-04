@@ -19,6 +19,8 @@ CPlayer::CPlayer(void)
 	this->m_bOnGround = false;
 	this->m_bOnPlatform = false;
 	this->m_bOnMovingPlatform = false;
+	this->m_bJumped = false;
+	this->m_bHovering =false;
 
 	// Facing Forward
 	this->m_bForward = true;
@@ -42,6 +44,7 @@ CPlayer::CPlayer(void)
 	this->m_vJoyVecPos.fY	   = 0.0f;
 	this->m_fJoyRot = 0.0f;
 	this->m_fWaitTime = 0.0f;
+	this->m_fGravity = 900.0f;
 
 	// Moving Platform Position Updates
 	this->m_fMovingPlatformPosX = 0.0f;
@@ -68,9 +71,9 @@ CPlayer::CPlayer(void)
 	GetAnimations()->SetCurrentAnimation(1);
 
 	// Currently Selected
-	m_nSelectedWeapon = 6;
+	m_nSelectedWeapon = this->HAND_GUN;
 	m_nSelectedHeadSlot = 3;
-	m_nSelectedBootSlot = 2;
+	m_nSelectedBootSlot = this->HOVER_BOOTS;
 
 	// Hand
 	m_fHandRotation = 4.2f;
@@ -292,6 +295,7 @@ void CPlayer::Update(float fElapsedTime)
 		//////////////////////////////////////////////////////////////////////////////
 		this->m_vSpeed.fY = 0.0f;
 		this->SetBaseVelY(this->m_vSpeed.fY);
+		this->m_bJumped = false;
 		//////////////////////////////////////////////////////////////////////////////
 	}
 	else
@@ -306,7 +310,7 @@ void CPlayer::Update(float fElapsedTime)
 			//////////////////////////////////////////////////////////////////////////////
 			if(!this->m_pHook->GetIfHooked())
 			{
-				this->m_vSpeed.fY = this->m_vSpeed.fY +( 900.0f * fElapsedTime);
+				this->m_vSpeed.fY = this->m_vSpeed.fY +( this->m_fGravity * fElapsedTime);
 				this->SetBaseVelY(this->m_vSpeed.fY);
 			}
 			//////////////////////////////////////////////////////////////////////////////
@@ -316,7 +320,7 @@ void CPlayer::Update(float fElapsedTime)
 			//////////////////////////////////////////////////////////////////////////////
 			// Other wise jump anyways?
 			//////////////////////////////////////////////////////////////////////////////
-			this->m_vSpeed.fY = this->m_vSpeed.fY +( 900.0f * fElapsedTime);
+			this->m_vSpeed.fY = this->m_vSpeed.fY +( this->m_fGravity * fElapsedTime);
 			this->SetBaseVelY(this->m_vSpeed.fY);
 			//////////////////////////////////////////////////////////////////////////////
 		}
@@ -482,14 +486,52 @@ void CPlayer::Input(float fElapsedTime)
 	// Check Input for Jumping
 	//////////////////////////////////////////////////////////////////////////////
 	static float fJumpSpeed = -550.0f;
-	if((CSGD_DirectInput::GetInstance()->KeyDown(DIK_SPACE)
-		|| CSGD_DirectInput::GetInstance()->JoystickButtonPressed(1)) && this->m_bOnGround)
+	if((CSGD_DirectInput::GetInstance()->KeyPressed(DIK_SPACE)
+		|| CSGD_DirectInput::GetInstance()->JoystickButtonPressed(1)))
 	{
-		this->m_pMovingBlock = NULL;
-		this->m_bOnGround = false;
-		this->m_bOnMovingPlatform = false;
-		this->m_vSpeed.fY = fJumpSpeed;
-		this->SetBaseVelY(this->m_vSpeed.fY);
+		if(this->m_nSelectedBootSlot == this->HOVER_BOOTS && this->m_bJumped)
+		{
+			this->m_bHovering = true;
+		}
+		
+		
+		if(!this->m_bJumped && this->m_bOnGround)
+		{
+			this->m_fGravity = 900.0f;
+			this->m_pMovingBlock = NULL;
+			this->m_bOnGround = false;
+			this->m_bOnMovingPlatform = false;
+			this->m_vSpeed.fY = fJumpSpeed;
+			this->SetBaseVelY(this->m_vSpeed.fY);
+			this->m_bJumped = true;
+
+		}
+		
+
+	}
+	//////////////////////////////////////////////////////////////////////////////
+	if((CSGD_DirectInput::GetInstance()->KeyDown(DIK_SPACE)
+		|| CSGD_DirectInput::GetInstance()->JoystickButtonDown(1)) && !this->m_bOnGround)
+	{
+		if(this->m_nSelectedBootSlot == this->HOVER_BOOTS&& this->m_bHovering && this->m_vSpeed.fY > 0.0f)
+		{
+   			this->m_fGravity = 150.0f;
+			this->m_bJumped = false;
+		}
+		
+		if(this->m_nSelectedBootSlot == this->ROCKET_BOOTS && this->m_bJumped)
+		{
+		}
+	}
+	//////////////////////////////////////////////////////////////////////////////
+	if((CSGD_DirectInput::GetInstance()->KeyReleased(DIK_SPACE)
+		|| CSGD_DirectInput::GetInstance()->JoystickButtonReleased(1)))
+	{
+		if(this->m_nSelectedBootSlot == this->HOVER_BOOTS&& this->m_bHovering)
+		{
+			this->m_bHovering = false;
+			this->m_fGravity = 900.0f;
+		}
 	}
 	//////////////////////////////////////////////////////////////////////////////
 
