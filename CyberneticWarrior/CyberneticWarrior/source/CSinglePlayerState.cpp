@@ -144,7 +144,7 @@ void CSinglePlayerState::Enter(void)
 	this->m_TempPlayer = (CPlayer*)m_pOF->CreateObject("CPlayer");
 	this->m_TempPlayer->SetImageID(this->m_pTM->LoadTexture("resource/graphics/Running1.bmp"));
 	this->m_TempPlayer->SetPosX((float)200);
-	this->m_TempPlayer->SetPosY((float)0.0f);
+	this->m_TempPlayer->SetPosY((float)150.0f);
 	this->m_TempPlayer->SetWidth(64);
 	this->m_TempPlayer->SetHeight(143);
 	this->m_TempPlayer->SetBaseVelX(0);
@@ -197,7 +197,11 @@ void CSinglePlayerState::Enter(void)
 	this->m_TempPlayer->Release();
 
 	m_TempMap->LoadAnimations();	
-	m_TempMap->LoadMap("CW-Map_01.CWM");//"Tutorial_v1.5.CWM");
+
+	m_TempMap->LoadMap("Tutorial_v1.5.CWM");
+
+	//m_TempMap->LoadMap("CW-Map_01.CWM");//"Tutorial_v1.5.CWM");
+
 
 	CLoadingState::GetInstance()->SetReady(1);
 

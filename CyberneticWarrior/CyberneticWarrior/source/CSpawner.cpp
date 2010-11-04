@@ -12,7 +12,7 @@ CSpawner::CSpawner(int nSpawnerType, float fPosX, float fPosY, int nWidth, int n
 	m_fPosX = fPosX;
 	m_fPosY = fPosY;
 	m_fTimeWaited = 0.0f;
-	m_nTypeSpawner = 8;
+	m_nTypeSpawner = 0;
 }
 
 CSpawner::~CSpawner()
