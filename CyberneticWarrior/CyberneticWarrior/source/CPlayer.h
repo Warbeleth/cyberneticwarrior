@@ -41,12 +41,12 @@ private:
 
 	// HUD VARIABLES
 	// Health
-	float m_nRemainingHealth;
-	float m_nTotalHealth;
+	float m_fRemainingHealth;
+	float m_fTotalHealth;
 
 	// Energy
-	float m_nRemainingEnergy;
-	float m_nTotalEnergy;
+	float m_fRemainingEnergy;
+	float m_fTotalEnergy;
 
 	// Score
 	int m_nScore;
@@ -201,9 +201,9 @@ public:
 
 	inline void IncrementScore( int nScore ) { m_nScore += nScore; }
 	inline void DecrementScore( int nScore ) { m_nScore -= nScore; }
-	inline void IncrementHealth( float nRemainingHealth ) { m_nRemainingHealth += nRemainingHealth; (m_nRemainingHealth > 100.0f) ? m_nRemainingHealth = 100.0f : m_nRemainingHealth = m_nRemainingHealth; }
-	inline void DecrementHealth( float nRemainingHealth ) { m_nRemainingHealth -= nRemainingHealth; (m_nRemainingHealth < 0.0f) ? m_nRemainingHealth = 0.0f : m_nRemainingHealth = m_nRemainingHealth; }
-	inline void IncrementEnergy( float nRemainingEnergy ) { m_nRemainingEnergy += nRemainingEnergy; (m_nRemainingEnergy > 100.0f) ? m_nRemainingEnergy = 100.0f : m_nRemainingEnergy = m_nRemainingEnergy; }
-	inline void DecrementEnergy( float nRemainingEnergy ) { m_nRemainingEnergy -= nRemainingEnergy; (m_nRemainingEnergy < 0.0f) ? m_nRemainingEnergy = 0.0f : m_nRemainingEnergy = m_nRemainingEnergy; }
+	inline void IncrementHealth( float fRemainingHealth ) { m_fRemainingHealth += fRemainingHealth; (m_fRemainingHealth > 100.0f) ? m_fRemainingHealth = 100.0f : m_fRemainingHealth = m_fRemainingHealth; }
+	inline void DecrementHealth( float fRemainingHealth ) { m_fRemainingHealth -= fRemainingHealth; (m_fRemainingHealth < 0.0f) ? m_fRemainingHealth = 0.0f : m_fRemainingHealth = m_fRemainingHealth; }
+	inline void IncrementEnergy( float fRemainingEnergy ) { m_fRemainingEnergy += fRemainingEnergy; (m_fRemainingEnergy > 100.0f) ? m_fRemainingEnergy = 100.0f : m_fRemainingEnergy = m_fRemainingEnergy; }
+	inline void DecrementEnergy( float fRemainingEnergy ) { m_fRemainingEnergy -= fRemainingEnergy; (m_fRemainingEnergy < 0.0f) ? m_fRemainingEnergy = 0.0f : m_fRemainingEnergy = m_fRemainingEnergy; }
 };
 #endif
