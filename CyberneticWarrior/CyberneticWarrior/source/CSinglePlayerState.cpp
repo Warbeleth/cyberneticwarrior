@@ -197,7 +197,7 @@ void CSinglePlayerState::Enter(void)
 	this->m_TempPlayer->Release();
 
 	m_TempMap->LoadAnimations();	
-	m_TempMap->LoadMap("CW-Map_01.CWM");
+	m_TempMap->LoadMap("CW-Map_01.CWM");//"Tutorial_v1.5.CWM");
 
 	CLoadingState::GetInstance()->SetReady(1);
 

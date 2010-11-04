@@ -65,7 +65,7 @@ void CAchievementsState::Enter(void)
 	this->m_pWM	=	CSGD_WaveManager::GetInstance();
 	this->m_pDS	=	CSGD_DirectSound::GetInstance();
 
-	this->m_OptionsFont.InitFont("resource/fonts/example.png", "resource/fonts/Example.fnt");
+	this->m_OptionsFont.InitFont("resource/fonts/CyberneticWarriorChintzy.png", "resource/fonts/CyberneticWarriorChintzy.fnt", 64);
 	this->m_nScrollingID = m_OptionsFont.AddScrolling( 0, 0 );
 
 	this->m_nBackgroundID	= m_pTM->LoadTexture("resource/graphics/3d_city.png");

@@ -93,8 +93,9 @@ int CFont::AddScrolling( int nXScrolling, int nYScrolling )
 //////////////////////////////////////////////////////////////////////////////////////////////////////
 // Function: “InitFont”
 //////////////////////////////////////////////////////////////////////////////////////////////////////
-bool CFont::InitFont( const char* szSpriteSheetFilename, const char* szBinaryFilename )
+bool CFont::InitFont( const char* szSpriteSheetFilename, const char* szBinaryFilename , int nCharHeight  )
 {
+	m_nCharHeight = nCharHeight;
 
 	// Unload the image if there is already an image
 	if(m_nImageID != -1 )

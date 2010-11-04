@@ -1009,6 +1009,22 @@
 				Name="Fonts"
 				>
 				<File
+					RelativePath=".\resource\fonts\CyberneticWarriorArcadeFont.fnt"
+					>
+				</File>
+				<File
+					RelativePath=".\resource\fonts\CyberneticWarriorArcadeFont.png"
+					>
+				</File>
+				<File
+					RelativePath=".\resource\fonts\CyberneticWarriorChintzy.fnt"
+					>
+				</File>
+				<File
+					RelativePath=".\resource\fonts\CyberneticWarriorChintzy.png"
+					>
+				</File>
+				<File
 					RelativePath=".\resource\fonts\Example.fnt"
 					>
 				</File>

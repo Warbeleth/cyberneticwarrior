@@ -161,7 +161,7 @@ public:
 	//			
 	//			RETURNS - (true) if it succeeded, (false) if it has failed to open the file
 	//////////////////////////////////////////////////////////////////////////////////////////////////////
-	bool InitFont( const char* szSpriteSheetFilename, const char* szBinaryFilename );
+	bool InitFont( const char* szSpriteSheetFilename, const char* szBinaryFilename, int nCharHeight = 32 );
 
 	//////////////////////////////////////////////////////////////////////////////////////////////////////
 	// Function: “ShutdownFont”
