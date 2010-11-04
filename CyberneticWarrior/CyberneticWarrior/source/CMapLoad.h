@@ -127,6 +127,23 @@ private:
 	~CMapLoad(void){};
 
 public:
+	struct EnemyImageIDs
+	{
+		int TurretGun, 
+			TurretFrost, 
+			TurretFire, 
+			TurretMulti,
+			DroneAttack, 
+			DroneSeeker, 
+			DroneHeavy,
+			GroundMech, 
+			GroundSiege,
+			GroundFLCL,
+			BossApple,
+			BossPimp,
+			BossPirate;
+	}m_sEnemyImage;
+
 	Grid m_gTileMap;
 	Selection m_gSelectionMap;
 	vector<ListObject> m_lMap;

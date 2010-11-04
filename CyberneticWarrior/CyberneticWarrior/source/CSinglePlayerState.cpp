@@ -109,7 +109,7 @@ void CSinglePlayerState::Enter(void)
 	// File Include Needs conversion - Corey
 	//CStackStateMachine::GetInstance()->Push_Back(CLoadingState::GetInstance());
 	this->m_TempMap = CMapLoad::GetInstance();
-	m_TempMap->LoadMap("Level-2.CWM");
+	//m_TempMap->LoadMap("Level-2.CWM");
 	//m_TempMap->LoadMap("CW-Map_01.CWM");
 
 	this->m_pD3D	=		CSGD_Direct3D::GetInstance();
@@ -197,7 +197,7 @@ void CSinglePlayerState::Enter(void)
 	this->m_TempPlayer->Release();
 
 	m_TempMap->LoadAnimations();	
-	//m_TempMap->LoadMap("CW-Map_01.CWM");
+	m_TempMap->LoadMap("CW-Map_01.CWM");
 
 	CLoadingState::GetInstance()->SetReady(1);
 

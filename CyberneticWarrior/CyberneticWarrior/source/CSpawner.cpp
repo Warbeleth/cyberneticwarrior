@@ -10,7 +10,8 @@ CSpawner::CSpawner(int nSpawnerType, float fPosX, float fPosY, int nWidth, int n
 	m_nHeight = nHeight;
 	m_fPosX = fPosX;
 	m_fPosY = fPosY;
-	m_fTimeWaited = 0.0f;	
+	m_fTimeWaited = 0.0f;
+	m_nTypeSpawner = 0;
 }
 
 CSpawner::~CSpawner()
@@ -22,10 +23,13 @@ void CSpawner::Update(float fElapsedTime)
 {
 	m_fTimeWaited += fElapsedTime;
 
-	if(m_fTimeWaited >= 10.0f)
+	if(m_fTimeWaited >= 15.0f)
 	{
 		m_fTimeWaited = 0.0f;
-		CGame::GetInstance()->GetMessageSystemPointer()->SendMsg(new CCreateEnemyMessage(0, (int)GetPosX(), (int)GetPosY()));
+		CGame::GetInstance()->GetMessageSystemPointer()->SendMsg(new CCreateEnemyMessage(m_nTypeSpawner, (int)GetPosX(), (int)GetPosY()));
+		m_nTypeSpawner++;
+		if(m_nTypeSpawner > 12)
+			m_nTypeSpawner = 0;
 	}
 }
 

@@ -857,12 +857,102 @@ void CGame::MessageProc(CBaseMessage*	pMsg)
 
 			//Use "If type..." to decide what to spawn
 			//if(pEnemy->GetEnemyType())
+			int EnemyType = pEnemy->GetEnemyType();
+
+
+			switch(EnemyType)
 			{
-				CFLCLMech* CEnemy = new CFLCLMech(-1, (float)pEnemy->GetPosX(), (float)pEnemy->GetPosY());
-
-
-				CObjectManager::GetInstance()->AddObject(CEnemy);
-				CEnemy->Release();
+			case Turret_Gun:
+				{
+					CTurretCore* CEnemy = new CTurretCore(-1, (float)pEnemy->GetPosX(), (float)pEnemy->GetPosY(), Turret_Gun);
+					CObjectManager::GetInstance()->AddObject(CEnemy);
+					CEnemy->Release();
+				}  
+				break;
+			case Turret_Frost:
+				{
+					CTurretCore* CEnemy = new CTurretCore(-1, (float)pEnemy->GetPosX(), (float)pEnemy->GetPosY(), Turret_Frost);
+					CObjectManager::GetInstance()->AddObject(CEnemy);
+					CEnemy->Release();
+				}  
+				break;
+			case Turret_Fire:
+				{
+					CTurretCore* CEnemy = new CTurretCore(-1, (float)pEnemy->GetPosX(), (float)pEnemy->GetPosY(), Turret_Fire);
+					CObjectManager::GetInstance()->AddObject(CEnemy);
+					CEnemy->Release();
+				}   
+				break;
+			case Turret_Multi:
+				{
+					CTurretCore* CEnemy = new CTurretCore(-1, (float)pEnemy->GetPosX(), (float)pEnemy->GetPosY(), Turret_Multi);
+					CObjectManager::GetInstance()->AddObject(CEnemy);
+					CEnemy->Release();
+				}  
+				break;
+			case Drone_Attack:
+				{
+					CAttackDrone* CEnemy = new CAttackDrone(-1, (float)pEnemy->GetPosX(), (float)pEnemy->GetPosY());
+					CObjectManager::GetInstance()->AddObject(CEnemy);
+					CEnemy->Release();
+				}  
+				break;
+			case Drone_Seeker:
+				{
+					CSeekerDrone* CEnemy = new CSeekerDrone(-1, (float)pEnemy->GetPosX(), (float)pEnemy->GetPosY());
+					CObjectManager::GetInstance()->AddObject(CEnemy);
+					CEnemy->Release();
+				} 
+				break;
+			case Drone_Heavy:
+				{
+					CHeavyAttackDrone* CEnemy = new CHeavyAttackDrone(-1, (float)pEnemy->GetPosX(), (float)pEnemy->GetPosY());
+					CObjectManager::GetInstance()->AddObject(CEnemy);
+					CEnemy->Release();
+				} 
+				break;
+			case Ground_Mech:
+				{
+					CMech* CEnemy = new CMech(-1, (float)pEnemy->GetPosX(), (float)pEnemy->GetPosY());
+					CObjectManager::GetInstance()->AddObject(CEnemy);
+					CEnemy->Release();
+				}
+				break;
+			case Ground_Siege:
+				{
+					CSiegeWalker* CEnemy = new CSiegeWalker(-1, (float)pEnemy->GetPosX(), (float)pEnemy->GetPosY());
+					CObjectManager::GetInstance()->AddObject(CEnemy);
+					CEnemy->Release();
+				}
+				break;
+			case Ground_FLCL:
+				{
+					CFLCLMech* CEnemy = new CFLCLMech(-1, (float)pEnemy->GetPosX(), (float)pEnemy->GetPosY());
+					CObjectManager::GetInstance()->AddObject(CEnemy);
+					CEnemy->Release();
+				}
+				break;
+			case Boss_Apple:
+				{
+					CAppleMech* CEnemy = new CAppleMech(-1, (float)pEnemy->GetPosX(), (float)pEnemy->GetPosY(), Turret_Multi);
+					CObjectManager::GetInstance()->AddObject(CEnemy);
+					CEnemy->Release();
+				}  
+				break;
+			case Boss_Pimp:
+				{
+					CPimpStriker* CEnemy = new CPimpStriker(-1, (float)pEnemy->GetPosX(), (float)pEnemy->GetPosY(), Turret_Multi);
+					CObjectManager::GetInstance()->AddObject(CEnemy);
+					CEnemy->Release();
+				}   
+				break;
+			case Boss_Pirate:
+				{
+					CDeathPirate* CEnemy = new CDeathPirate(-1, (float)pEnemy->GetPosX(), (float)pEnemy->GetPosY(), Turret_Multi);
+					CObjectManager::GetInstance()->AddObject(CEnemy);
+					CEnemy->Release();
+				}   
+				break;
 			}
 			pEnemy = NULL;
 		}

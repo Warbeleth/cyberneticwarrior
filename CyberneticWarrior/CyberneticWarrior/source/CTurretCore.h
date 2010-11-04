@@ -10,15 +10,15 @@ public:
 	CTurretCore();
 	CTurretCore(int nImageID,
 				float PosX = 0, 
-				float PosY = 0, 
+				float PosY = 0,
+				int nGlobalType = Turret_Gun,
 				int Width = 32, 
 				int Height = 48, 
 				int nState = Idle, 
 				int nMaxHP = 100, 
 				int nCurrentHP = 100,
 				int nSightRange = 450, 
-				int nAttackRange = 450, 
-				int nGlobalType = Turret_Gun,
+				int nAttackRange = 450,
 				float fRateOfFire = 1.0f, 
 				float fSpeed = 0.0f
 				);

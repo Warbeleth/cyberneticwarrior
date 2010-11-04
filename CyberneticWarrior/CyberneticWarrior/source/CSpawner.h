@@ -14,6 +14,7 @@ private:
 	float m_fPosX;
 	float m_fPosY;
 	float m_fTimeWaited;
+	int m_nTypeSpawner;
 
 public:
 	CSpawner(int nSpawnerType = 1, float fPosX = 0, float fPosY = 0, int nWidth = 32, int nHeight = 32);

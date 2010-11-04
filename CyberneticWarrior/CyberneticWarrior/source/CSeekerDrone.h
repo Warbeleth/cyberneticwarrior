@@ -18,7 +18,7 @@ public:
 				int nCurrentHP = 100,
 				int nSightRange = 600, 
 				int nAttackRange = 500, 
-				int nGlobalType = Drone_Attack,
+				int nGlobalType = Drone_Seeker,
 				float fRateOfFire = 1.0f, 
 				float fSpeed = 48.0f
 				);
