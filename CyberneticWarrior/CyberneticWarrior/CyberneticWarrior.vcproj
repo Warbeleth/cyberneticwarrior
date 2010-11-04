@@ -292,6 +292,10 @@
 							/>
 						</FileConfiguration>
 					</File>
+					<File
+						RelativePath=".\source\CTurretCore.cpp"
+						>
+					</File>
 				</Filter>
 				<Filter
 					Name="Equipment"
@@ -715,6 +719,10 @@
 					</File>
 					<File
 						RelativePath=".\source\CPlayer.h"
+						>
+					</File>
+					<File
+						RelativePath=".\source\CTurretCore.h"
 						>
 					</File>
 				</Filter>

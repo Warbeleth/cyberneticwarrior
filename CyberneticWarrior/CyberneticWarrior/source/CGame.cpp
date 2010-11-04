@@ -49,6 +49,7 @@
 #include "CIdleEnemy.h"
 #include "CPatrolEnemy.h"
 #include "CFLCLMech.h"
+#include "CTurretCore.h"
 
 
 
@@ -837,16 +838,32 @@ void CGame::MessageProc(CBaseMessage*	pMsg)
 			switch (EnemyType)
 					{
 					case Turret_Gun:
-						
+						{
+							CTurretCore* Temp = (CTurretCore*)pDestroyEnemy->GetEnemyPointer();
+							CObjectManager::GetInstance()->RemoveObject(Temp);
+							Temp = NULL;
+						}
 						break;
 					case Turret_Frost:
-						
+						{
+							CTurretCore* Temp = (CTurretCore*)pDestroyEnemy->GetEnemyPointer();
+							CObjectManager::GetInstance()->RemoveObject(Temp);
+							Temp = NULL;
+						}						
 						break;
 					case Turret_Fire:
-						
+						{
+							CTurretCore* Temp = (CTurretCore*)pDestroyEnemy->GetEnemyPointer();
+							CObjectManager::GetInstance()->RemoveObject(Temp);
+							Temp = NULL;
+						}						
 						break;
 					case Turret_Multi:
-						
+						{
+							CTurretCore* Temp = (CTurretCore*)pDestroyEnemy->GetEnemyPointer();
+							CObjectManager::GetInstance()->RemoveObject(Temp);
+							Temp = NULL;
+						}						
 						break;
 					case Drone_Attack:
 						
