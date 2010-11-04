@@ -16,7 +16,7 @@ private:
 	float m_fTimeWaited;
 
 public:
-	CSpawner(int nSpawnerType = 0, float fPosX = 0, float fPosY = 0, int nWidth = 32, int nHeight = 32);
+	CSpawner(int nSpawnerType = 1, float fPosX = 0, float fPosY = 0, int nWidth = 32, int nHeight = 32);
 	~CSpawner(void);
 
 	void Update(float fElapsedTime);

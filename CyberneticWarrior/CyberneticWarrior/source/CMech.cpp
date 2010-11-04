@@ -3,7 +3,8 @@
 #include "CMech.h"
 #include "CCamera.h"
 #include "CCodeProfiler.h"
-
+#include "CMapLoad.h"
+#include "CSinglePlayerState.h"
 
 #include "CGame.h"
 
@@ -16,7 +17,7 @@ CMech::CMech(int nImageID, float PosX, float PosY,int Width, int Height, int nSt
 				 float(nSightRange + 100) /*max patrol distance*/, nGlobalType, nImageID, nMaxHP, nCurrentHP, nSightRange, 
 				 nAttackRange, fRateOfFire, fSpeed, PosX, PosY, Width, Height)
 {
-
+	SetAnimations(CMapLoad::GetInstance()->CreateAnimation(Ground_Mech));
 }
 CMech::~CMech()
 {
@@ -40,4 +41,22 @@ void CMech::Render()
 	int OffsetX = CCamera::GetInstance()->GetOffsetX();
 	int OffsetY = CCamera::GetInstance()->GetOffsetY();
 
+}
+
+bool CMech::CheckCollision(CBase* pBase)
+{
+	CBase::CheckCollision( pBase );
+
+	bool m_bAttacking = true;
+	
+	if( pBase->GetType() == OBJ_PLAYER && m_bAttacking )
+	{
+		if(GetAnimations())
+		{
+			if(GetAnimations()->CheckHit( pBase, GetPosX(), GetPosY() ))
+				CSinglePlayerState::GetInstance()->GetPlayerPointer()->DecrementHealth(5);
+		}
+	}
+
+	return false;
 }

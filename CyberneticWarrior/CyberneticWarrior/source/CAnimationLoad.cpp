@@ -388,28 +388,65 @@ bool CAnimations::LoadBinary( char* szFilename )
 	return false;
 }
 
-bool CFrame::CheckCollision( CBase* pBase )
+bool CFrame::CheckCollision( CBase* pBase, int nPosX, int nPosY )
 {
 	if(pBase->GetAnimations())
 	{
 		RECT rCollision;
+
 		vector<RECT> vBaseCollisionRects = (*pBase->GetAnimations()->GetCollisionRects());
 				
 		for( int i = 0; i < m_nTotalCollisionRects; ++i )
 		{
+			RECT rThisRect = m_vCollisionRects[i];		
+			rThisRect.left -= m_rFrame.left;
+			rThisRect.right -= m_rFrame.left;
+			rThisRect.left += nPosX;
+			rThisRect.right += nPosX;
+
+			rThisRect.top -= m_rFrame.top;
+			rThisRect.bottom -= m_rFrame.top;
+			rThisRect.top += nPosY;
+			rThisRect.bottom += nPosY;
+
 			for( unsigned int x = 0; x < pBase->GetAnimations()->GetCollisionRects()->size(); ++x )
 			{
-				if(IntersectRect(&rCollision, &m_vCollisionRects[i], &vBaseCollisionRects[i] ))
+				RECT rBaseRect = vBaseCollisionRects[x];
+				RECT rFrame = pBase->GetAnimations()->GetFrameOffset();
+
+				rBaseRect.left -= rFrame.left;
+				rBaseRect.right -= rFrame.left;
+				rBaseRect.left += pBase->GetPosX();
+				rBaseRect.right += pBase->GetPosX();
+
+				rBaseRect.top -= rFrame.top;
+				rBaseRect.bottom -= rFrame.top;
+				rBaseRect.top += pBase->GetPosY();
+				rBaseRect.bottom += pBase->GetPosY();
+
+				if(IntersectRect(&rCollision, &rThisRect, &rBaseRect ))
 					return true;
 			}
 		}
 	}
 	else
 	{		
-		RECT rCollision;
+		RECT rCollision;			
+
 		for( int i = 0; i < m_nTotalCollisionRects; ++i )
 		{
-			if(IntersectRect(&rCollision, &m_vCollisionRects[i], &pBase->GetRect()))
+			RECT rThisRect = m_vCollisionRects[i];		
+			rThisRect.left -= m_rFrame.left;
+			rThisRect.right -= m_rFrame.left;
+			rThisRect.left += nPosX;
+			rThisRect.right += nPosX;
+
+			rThisRect.top -= m_rFrame.top;
+			rThisRect.bottom -= m_rFrame.top;
+			rThisRect.top += nPosY;
+			rThisRect.bottom += nPosY;
+
+			if(IntersectRect(&rCollision, &rThisRect, &pBase->GetRect()))
 				return true;
 		}
 	}
@@ -417,26 +454,59 @@ bool CFrame::CheckCollision( CBase* pBase )
 	return false;
 }
 
-bool CAnimations::CheckCollision( CBase* pBase )
+bool CAnimations::CheckCollision( CBase* pBase, int nPosX, int nPosY )
 {
-	return (m_vAnimations[m_nCurrentAnimation].m_vFrames[m_vAnimations[m_nCurrentAnimation].m_nCurrentFrame].CheckCollision( pBase ));
+	return (m_vAnimations[m_nCurrentAnimation].m_vFrames[m_vAnimations[m_nCurrentAnimation].m_nCurrentFrame].CheckCollision( pBase, nPosX, nPosY ));
 }
 
-bool CFrame::CheckHit( CBase* pBase )
+bool CFrame::CheckHit( CBase* pBase, int nPosX, int nPosY )
 {
-	RECT rHit;
-	for( int i = 0; i < m_nTotalHitRects; ++i )
+	if(pBase->GetAnimations())
 	{
-		if(IntersectRect(&rHit, &m_vHitRects[i], &pBase->GetRect()))
-			return true;
+		RECT rHit;
+
+		vector<RECT> vBaseCollisionRects = (*pBase->GetAnimations()->GetCollisionRects());
+				
+		for( int i = 0; i < m_nTotalHitRects; ++i )
+		{
+			RECT rThisRect = m_vHitRects[i];		
+			rThisRect.left -= m_rFrame.left;
+			rThisRect.right -= m_rFrame.left;
+			rThisRect.left += nPosX;
+			rThisRect.right += nPosX;
+
+			rThisRect.top -= m_rFrame.top;
+			rThisRect.bottom -= m_rFrame.top;
+			rThisRect.top += nPosY;
+			rThisRect.bottom += nPosY;
+
+			for( unsigned int x = 0; x < pBase->GetAnimations()->GetCollisionRects()->size(); ++x )
+			{
+				RECT rBaseRect = vBaseCollisionRects[x];
+				RECT rFrame = pBase->GetAnimations()->GetFrameOffset();
+
+				rBaseRect.left -= rFrame.left;
+				rBaseRect.right -= rFrame.left;
+				rBaseRect.left += pBase->GetPosX();
+				rBaseRect.right += pBase->GetPosX();
+
+				rBaseRect.top -= rFrame.top;
+				rBaseRect.bottom -= rFrame.top;
+				rBaseRect.top += pBase->GetPosY();
+				rBaseRect.bottom += pBase->GetPosY();
+
+				if(IntersectRect(&rHit, &rThisRect, &rBaseRect ))
+					return true;
+			}
+		}
 	}
 
 	return false;
 }
 
-bool CAnimations::CheckHit( CBase* pBase )
+bool CAnimations::CheckHit( CBase* pBase, int nPosX, int nPosY )
 {
-	return (m_vAnimations[m_nCurrentAnimation].m_vFrames[m_vAnimations[m_nCurrentAnimation].m_nCurrentFrame].CheckHit( pBase ));
+	return (m_vAnimations[m_nCurrentAnimation].m_vFrames[m_vAnimations[m_nCurrentAnimation].m_nCurrentFrame].CheckHit( pBase, nPosX, nPosY ));
 }
 	
 RECT CAnimations::GetCollisionFrame( int nPosX, int nPosY ) 

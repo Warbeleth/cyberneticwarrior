@@ -79,8 +79,8 @@ public:
 	void AddHitRect( RECT rRect ) { m_vHitRects.push_back( rRect ); }
 
 
-	bool CheckHit( CBase* pBase );
-	bool CheckCollision( CBase* pBase );
+	bool CheckHit( CBase* pBase, int nPosX, int nPosY );
+	bool CheckCollision( CBase* pBase, int nPosX, int nPosY );
 		
 	//////////////////////////////////////////////////////////////////////////////////////////////////////
 	// Function: “RectRender”
@@ -202,9 +202,9 @@ public:
 	//////////////////////////////////////////////////////////////////////////////////////////////////////
 	bool LoadBinary( char* szFilename );
 
-	bool CheckCollision( CBase* pBase );
+	bool CheckCollision( CBase* pBase, int nPosX, int nPosY );
 
-	bool CheckHit( CBase* pBase );
+	bool CheckHit( CBase* pBase, int nPosX, int nPosY );
 
 	void SetCurrentAnimation( int nCurrentAnimation ) { m_nCurrentAnimation = nCurrentAnimation; m_bJustLoaded = true; }
 
@@ -213,5 +213,6 @@ public:
 	RECT GetFrame( void );
 	int GetFrameWidth( void ); 
 	int GetFrameHeight( void ) ;
+	RECT GetFrameOffset( void ) { return (m_vAnimations[m_nCurrentAnimation].m_vFrames[m_vAnimations[m_nCurrentAnimation].m_nCurrentFrame].GetFrame()); }
 };
 #endif

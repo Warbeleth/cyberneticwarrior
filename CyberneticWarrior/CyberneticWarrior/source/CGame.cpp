@@ -101,6 +101,30 @@ CGame::CGame(void)
 	this->m_dwPreviousTimeStamp		= 0;
 	this->m_fElapsedTime			= 0.0f;
 	this->m_fGameTime				= 0.0f;
+
+	m_cPlayerOne[0] = DIK_SPACE;
+	m_cPlayerOne[1] = DIK_A;
+	m_cPlayerOne[2] = DIK_D;
+	m_cPlayerOne[3] = MOUSE_LEFT;
+	m_cPlayerOne[4] = MOUSE_RIGHT;
+	m_cPlayerOne[5] = -1;
+	m_cPlayerOne[6] = DIK_TAB;
+	m_cPlayerOne[7] = DIK_LSHIFT;
+	m_cPlayerOne[8] = DIK_SPACE;
+	m_cPlayerOne[9] = DIK_W;
+	m_cPlayerOne[10] = DIK_S;
+	// 0 = jump
+	// 1 = left
+	// 2 = right
+	// 3 = fire weapon
+	// 4 = secondary fire
+	// 5 = aim weapon
+	// 6 = swap weapon
+	// 7 = head slot ability
+	// 8 = boot slot ability
+	// 9 = climb rope
+	// 10 = repel rope
+
 }
 
 ////////////////////////////////////////////////////////////////////////////////////

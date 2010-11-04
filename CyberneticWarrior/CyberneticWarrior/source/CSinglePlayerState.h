@@ -39,9 +39,9 @@ private:
 	CPickUp* m_PickUp;
 	CMapLoad* m_TempMap;
 
-	CIdleEnemy* Enemy_1;
-	CPatrolEnemy* Enemy_2;
-	CFLCLMech* Enemy_3;
+	//CIdleEnemy* Enemy_1;
+	//CPatrolEnemy* Enemy_2;
+	//CFLCLMech* Enemy_3;
 
 	CBlock*	m_TempPlatform1;
 	CBlock*	m_TempPlatform2;
