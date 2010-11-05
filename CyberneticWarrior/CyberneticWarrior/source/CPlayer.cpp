@@ -25,6 +25,8 @@ CPlayer::CPlayer(void)
 	this->m_bFDash = false;
 	this->m_bBDash = false;
 
+	this->m_bHookShot = false;
+
 	// Facing Forward
 	this->m_bForward = true;
 
@@ -115,6 +117,7 @@ CPlayer::~CPlayer(void)
 	this->m_fChargeRate = 0.01f;
 	this->m_bFDash = false;
 	this->m_bBDash = false;
+	this->m_bHookShot = false;
 
 	delete m_pHud;
 	delete GetAnimations();
@@ -132,6 +135,7 @@ void CPlayer::Update(float fElapsedTime)
 	if(this->m_pHook && this->m_bShutDown)
 	{
 		CGame::GetInstance()->GetMessageSystemPointer()->SendMsg(new CDestroyHookMessage(this->m_pHook, this));
+		this->m_bHookShot = false;
 		this->m_bShutDown = false;
 	}
 
@@ -781,9 +785,10 @@ void CPlayer::Input(float fElapsedTime)
 	if((CSGD_DirectInput::GetInstance()->MouseButtonPressed(CGame::GetInstance()->GetPlayerOneControls(4)) || CSGD_DirectInput::GetInstance()->JoystickButtonPressed(4)))
 	{
 		this->SetMouseDown(1);
-		if(CSinglePlayerState::GetInstance()->GetProfileValues()->m_bHaveHook)
+		if(CSinglePlayerState::GetInstance()->GetProfileValues()->m_bHaveHook && !this->m_bHookShot)
 		{
 			CGame::GetInstance()->GetMessageSystemPointer()->SendMsg(new CCreateHookMessage(this));
+			this->m_bHookShot = true;
 			this->m_bFixSwing = true;
 		}
 	}

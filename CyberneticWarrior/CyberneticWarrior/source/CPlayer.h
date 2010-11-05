@@ -82,6 +82,7 @@ private:
 	float m_fChargeRate;
 	//////////////////////////
 
+	bool m_bHookShot;
 	bool m_bHovering;
 	bool m_bBoosting;
 	bool m_bJumped;
@@ -182,6 +183,7 @@ public:
 	inline bool GetForward(void) {return this->m_bForward;}
 	inline bool GetHoming(void)	{ return this->m_bHomingOn; }
 
+	inline bool GetHookShot(void) {return this->m_bHookShot;}
 	
 	////////////////////////////////////////////////////////////////////////////////////
 	//	Function : Mutators
@@ -197,6 +199,8 @@ public:
 	void SetPlayerNumber( int nPlayer );
 
 	inline void SetShutDown(bool bShutDown) { this->m_bShutDown = bShutDown;}
+
+	inline void SetHookShot(bool bHookShot) {this->m_bHookShot = bHookShot;}
 
 	void	SetHookPointer(CGrapplingHook*	pHook);
 	
