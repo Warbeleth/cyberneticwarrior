@@ -110,6 +110,7 @@ void CSinglePlayerState::Enter(void)
 	// File Include Needs conversion - Corey
 	//CStackStateMachine::GetInstance()->Push_Back(CLoadingState::GetInstance());
 	this->m_TempMap = CMapLoad::GetInstance();
+	this->m_TempMap->LoadAnimations();	
 	//	m_TempMap->LoadMap("test.CWM");
 	
 	switch(this->m_nCurrentLevel)
@@ -201,6 +202,7 @@ void CSinglePlayerState::Enter(void)
 		this->m_PickUp->Release();
 	}
 
+	//m_TempMap->LoadMap("Tutorial_v1.5.CWM");
 	
 
 	this->m_pOM->AddObject(this->m_TempPlayer);
@@ -214,13 +216,9 @@ void CSinglePlayerState::Enter(void)
 
 	this->m_TempPlayer->Release();
 
-	m_TempMap->LoadAnimations();	
 
-	//m_TempMap->LoadMap("CW-Map_01.CWM");
 
-//	m_TempMap->LoadMap("Tutorial_v1.5.CWM");
 
-	//m_TempMap->LoadMap("CW-Map_01.CWM");//"Tutorial_v1.5.CWM");
 
 
 	CLoadingState::GetInstance()->SetReady(1);
