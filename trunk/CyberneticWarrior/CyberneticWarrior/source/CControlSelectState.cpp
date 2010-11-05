@@ -133,18 +133,18 @@ void	CControlSelectState::Render(void)
 {
 	this->m_pTM->Draw(this->m_nBackgroundID, 0, 0, 1.0f, 1.0f, 0, 0.0f, 0.0f, 0.0f, D3DXCOLOR(0.5f, 1.0f, 0.5f, 1.0f));
 
-	this->m_ControlSelFont.Draw("CHOOSE INPUT", 220, 50, 1.2f, D3DXCOLOR(0.6f, 0.6f, 1.0f, 1.0f));
+	this->m_ControlSelFont.Draw("CHOOSE INPUT", 220, 50, 1.2f, D3DXCOLOR(0.7f, 0.7f, 1.0f, 1.0f));
 
 	this->m_pTM->Draw(this->m_nKeys, 400, 90, (this->m_nSelection == this->KEYBOARD ? 0.75f : 0.7f), 
 		(this->m_nSelection == this->KEYBOARD ? 0.75f : 0.7f), 0, 0.0f, 0.0f, 0.0f,
-		(this->m_nSelection == this->KEYBOARD ? D3DXCOLOR(1.0f,1.0f, 0.75f, 1.0f) : D3DXCOLOR(0.6f, 0.6f, 1.0f, 1.0f)));
+		(this->m_nSelection == this->KEYBOARD ? D3DXCOLOR(1.0f,1.0f, 0.75f, 1.0f) : D3DXCOLOR(1.0f, 1.0f, 1.0f, 0.7f)));
 
 	this->m_pTM->Draw(this->m_nGamePad, 50, 135, (this->m_nSelection == this->GAMEPAD ? 0.55f : 0.5f), 
 		(this->m_nSelection == this->GAMEPAD ? 0.55f : 0.5f), 0, 0.0f, 0.0f, 0.0f, 
-		(this->m_nSelection == this->GAMEPAD ? D3DXCOLOR(1.0f,1.0f, 0.75f, 1.0f) : D3DXCOLOR(0.6f, 0.6f, 1.0f, 1.0f)));
+		(this->m_nSelection == this->GAMEPAD ? D3DXCOLOR(1.0f,1.0f, 0.75f, 1.0f) : D3DXCOLOR(1.0f, 1.0f, 1.0f, 0.7f)));
 
 	this->m_ControlSelFont.Draw("Back", 320, 430, (this->m_nSelection == this->EXIT_MENU ? 1.5f : 1.2f),
-		(this->m_nSelection == this->EXIT_MENU ? D3DXCOLOR(0.0f, 1.0f, 0.0f, 1.0f) : D3DXCOLOR(0.6f, 0.6f, 1.0f, 1.0f)));
+		(this->m_nSelection == this->EXIT_MENU ? D3DXCOLOR(0.0f, 1.0f, 0.0f, 1.0f) : D3DXCOLOR(0.7f, 0.7f, 1.0f, 1.0f)));
 
 
 }
