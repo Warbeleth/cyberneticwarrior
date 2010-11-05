@@ -218,7 +218,7 @@ void CSinglePlayerState::Enter(void)
 
 	//m_TempMap->LoadMap("CW-Map_01.CWM");
 
-	//m_TempMap->LoadMap("Tutorial_v1.5.CWM");
+	m_TempMap->LoadMap("Tutorial_v1.5.CWM");
 
 	//m_TempMap->LoadMap("CW-Map_01.CWM");//"Tutorial_v1.5.CWM");
 

@@ -87,3 +87,25 @@ bool CBlock::CheckCollision(CBase* pBase)
 		return false;
 	}
 }
+
+void CBlock::CheckCulling()
+{
+	SetCulling(false);
+
+	float CameraX = CCamera::GetInstance()->GetOffsetX();
+	float CameraY = CCamera::GetInstance()->GetOffsetY();
+	float xPos = GetPosX();
+	float yPos = GetPosY();
+	float wPos = xPos+GetWidth();
+	float hPos = yPos+GetHeight();
+
+	if(wPos < CameraX)
+		SetCulling(true);
+	if(xPos > CameraX+800)
+		SetCulling(true);
+
+	if(hPos < CameraX)
+		SetCulling(true);
+	if(yPos > CameraY+600)
+		SetCulling(true);
+}
