@@ -26,6 +26,8 @@ class CIdleEnemy;
 class CPatrolEnemy;
 class CFLCLMech;
 
+enum currentLevel {TUTORIAL = 0, LEVEL1, LEVEL2, LEVEL3, LEVEL4, LEVEL5, LEVEL_MAX};
+
 class CSinglePlayerState : public IGameState
 {
 private:
@@ -67,6 +69,7 @@ private:
 
 	int			m_nSelectedWeaponID;
 	int			m_nWeaponID;
+	int			m_nCurrentLevel;
 
 	CObjectFactory<string, CBase>*			m_pOF;
 	CObjectManager*							m_pOM;
@@ -104,6 +107,8 @@ public:
 	inline void		SetNewGame(bool bNewGame) {this->m_bNewGame = bNewGame;}
 	inline bool		GetInputType(void) { return this->m_bInput;}
 	inline void		SetInputType(bool bInput) {this->m_bInput = bInput;}
+	inline void		SetCurrentLevel(int nLevel) {this->m_nCurrentLevel = nLevel;}
+	inline int		GetCurrentLevel(void) {return this->m_nCurrentLevel;}
 
 	bool	Input(void);
 	void	Enter(void);

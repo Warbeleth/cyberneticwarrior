@@ -36,7 +36,7 @@ void CShock::Update(float fElapsedTime)
 	if(((this->GetPosX() + this->GetWidth()/2.0f) <= -20 
 		|| ((this->GetPosX() - this->GetWidth()/2.0f) >= (CCamera::GetInstance()->GetOffsetX() + vScreenDimensions.fX + 20))
 		|| (this->GetPosY() + (this->GetHeight()/2.0f)) <= -20)
-		|| (this->GetPosY() - (this->GetHeight()/2.0f) >= (vScreenDimensions.fY+20)))
+		)//|| (this->GetPosY() - (this->GetHeight()/2.0f) >= (vScreenDimensions.fY+20)))
 	{
 		// destroy
 		CGame::GetInstance()->GetMessageSystemPointer()->SendMsg(new CDestroyShockMessage(this, CSinglePlayerState::GetInstance()->GetPlayerPointer()));

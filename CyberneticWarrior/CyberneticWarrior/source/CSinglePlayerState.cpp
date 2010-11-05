@@ -60,6 +60,7 @@ CSinglePlayerState::CSinglePlayerState(void)
 	//Enemy_1 = NULL;
 	//Enemy_2 = NULL;
 	//Enemy_3 = NULL;
+	this->m_nCurrentLevel = LEVEL2;
 
 	this->SetNewGame(1);
 
@@ -109,8 +110,25 @@ void CSinglePlayerState::Enter(void)
 	// File Include Needs conversion - Corey
 	//CStackStateMachine::GetInstance()->Push_Back(CLoadingState::GetInstance());
 	this->m_TempMap = CMapLoad::GetInstance();
-	//m_TempMap->LoadMap("Level-2.CWM");
-	//m_TempMap->LoadMap("CW-Map_01.CWM");
+	//	m_TempMap->LoadMap("test.CWM");
+	
+	switch(this->m_nCurrentLevel)
+	{
+	case TUTORIAL:
+		m_TempMap->LoadMap("Tutorial_v1.5.CWM");
+		break;
+	case LEVEL1:
+		m_TempMap->LoadMap("CW-Map_01.CWM");
+		break;
+	case LEVEL2:
+		m_TempMap->LoadMap("Level-2.CWM");
+		break;
+	};
+	//if(SetCurrentLevel == TUTORIAL)
+	//	m_TempMap->LoadMap("Tutorial_v1.5.CWM");
+
+
+	//
 
 	this->m_pD3D	=		CSGD_Direct3D::GetInstance();
 	this->m_pDI		= 		CSGD_DirectInput::GetInstance();
@@ -198,7 +216,9 @@ void CSinglePlayerState::Enter(void)
 
 	m_TempMap->LoadAnimations();	
 
-	m_TempMap->LoadMap("Tutorial_v1.5.CWM");
+	//m_TempMap->LoadMap("CW-Map_01.CWM");
+
+	//m_TempMap->LoadMap("Tutorial_v1.5.CWM");
 
 	//m_TempMap->LoadMap("CW-Map_01.CWM");//"Tutorial_v1.5.CWM");
 
@@ -359,6 +379,7 @@ void CSinglePlayerState::Exit(void)
 	}
 
 	this->m_pOM->RemoveAllObjects();
+	this->m_TempMap = NULL;
 	if(this->m_pOM)
 	{
 		this->m_pOM = NULL;

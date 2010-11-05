@@ -402,7 +402,7 @@ void CGame::MessageProc(CBaseMessage*	pMsg)
 
 			static tVector2D vPlayerPos;
 			vPlayerPos.fX = pGH->GetPlayerPointer()->GetPosX() + (float)pGH->GetPlayerPointer()->GetWidth();
-			vPlayerPos.fY = pGH->GetPlayerPointer()->GetPosY()- CCamera::GetInstance()->GetOffsetY();//) - (float)pGH->GetPlayerPointer()->GetHeight()/2;
+			vPlayerPos.fY = pGH->GetPlayerPointer()->GetPosY();//) - (float)pGH->GetPlayerPointer()->GetHeight()/2;
 
 			
 			static tVector2D vMousePos;
@@ -414,7 +414,7 @@ void CGame::MessageProc(CBaseMessage*	pMsg)
 			else if(!CSinglePlayerState::GetInstance()->GetInputType())
 			{
 				vMousePos.fX = (float)CSGD_DirectInput::GetInstance()->MouseGetPosX() + CCamera::GetInstance()->GetOffsetX();
-				vMousePos.fY = (float)CSGD_DirectInput::GetInstance()->MouseGetPosY() - CCamera::GetInstance()->GetOffsetY();
+				vMousePos.fY = (float)CSGD_DirectInput::GetInstance()->MouseGetPosY() + CCamera::GetInstance()->GetOffsetY();
 			}
 
 
