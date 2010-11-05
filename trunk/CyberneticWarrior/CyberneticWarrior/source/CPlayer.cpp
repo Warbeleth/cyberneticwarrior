@@ -1069,7 +1069,7 @@ bool CPlayer::CheckCollision(CBase* pBase)
 			myBottom = myY + GetHeight();
 		}
 
-		if(BLOCK->GetBlock() == BLOCK_SOLID || BLOCK->GetBlock() == BLOCK_MOVING)
+		if(BLOCK->GetBlock() == BLOCK_SOLID || BLOCK->GetBlock() == BLOCK_MOVING || BLOCK->GetBlock() == BLOCK_PARTIAL)
 		{
 
 			if(myBottom >= hisY  
@@ -1106,30 +1106,30 @@ bool CPlayer::CheckCollision(CBase* pBase)
 				return false;
 			}
 		}
-		else if(BLOCK->GetBlock() == BLOCK_PARTIAL)
-		{
-			if((myBottom*0.5f) >= hisY  
-				&& (myBottom*0.5f) < (hisBottom)
-				&& (myRight) > hisX
-				&& (myX) < (hisRight)
-				&& !this->m_bOnGround
-				&& this->m_vSpeed.fY >= 0.0f)
-			{
-				this->m_bOnGround = 1;
-				this->m_bJumped = false;
-				this->m_bOnPlatform = 1;
-				this->SetPosY(hisY - (myBottom - myY));
-				CMapLoad::GetInstance()->m_bCollisionCheck = true;
-				return true;
-			}
-			else if(this->m_bOnPlatform && CMapLoad::GetInstance()->m_bCollisionCheck == false)
-			{
-				this->m_bOnGround = 0;
-				this->m_bOnPlatform = 0;
-				
-				return false;
-			}
-		}
+		//else if(BLOCK->GetBlock() == BLOCK_PARTIAL)
+		//{
+		//	if((myBottom*0.5f) >= hisY  
+		//		&& (myBottom*0.5f) < (hisBottom)
+		//		&& (myRight) > hisX
+		//		&& (myX) < (hisRight)
+		//		&& !this->m_bOnGround
+		//		&& this->m_vSpeed.fY >= 0.0f)
+		//	{
+		//		this->m_bOnGround = 1;
+		//		this->m_bJumped = false;
+		//		this->m_bOnPlatform = 1;
+		//		this->SetPosY(hisY - (myBottom - myY));
+		//		CMapLoad::GetInstance()->m_bCollisionCheck = true;
+		//		return true;
+		//	}
+		//	else if(this->m_bOnPlatform && CMapLoad::GetInstance()->m_bCollisionCheck == false)
+		//	{
+		//		this->m_bOnGround = 0;
+		//		this->m_bOnPlatform = 0;
+		//		
+		//		return false;
+		//	}
+		//}
 		else if(BLOCK->GetBlock() == BLOCK_TRAP)
 		{
 			if(myBottom >= hisY  
