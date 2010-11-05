@@ -11,14 +11,14 @@ class CSGD_WaveManager;
 class CSGD_DirectSound;
 class CEvent;
 
-#define MMENU_SPACE 50
+#define MMENU_SPACE 45
 
 class CMainMenuState : public IGameState
 {
 private:
 
 	enum selections { SINGLE_PLAYER = 0, MULTI_PLAYER, LEADER_BOARDS,
-		  ACHIEVEMENTS, MM_OPTIONS, MM_CONTROLS, CREDITS, EXIT_GAME, 
+		  ACHIEVEMENTS, MM_OPTIONS, MM_CONTROLS, CREDITS, SPACE, EXIT_GAME, 
 		  MMENU_START = 130, MMCURSOR_POS = 90};
 
 

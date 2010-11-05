@@ -10,13 +10,13 @@ class CSGD_TextureManager;
 class CSGD_WaveManager;
 class CSGD_DirectSound;
 
-#define SPMENU_SPACE 42
+#define SPMENU_SPACE 45
 
 class CSinglePlayerMenuState : public IGameState
 {
 private:
 
-	enum selections { NEW_GAME = 0, LOAD, DELETE_PROF, BACK,
+	enum selections { NEW_GAME = 0, LOAD, DELETE_PROF, SPACE, SPACE2 = 7, BACK = 8,
 		SMENU_START =130, SM_CURSOR_POS = 110};
 
 

@@ -54,7 +54,7 @@ void	CHowToPlayState::Enter(void)
 
 	this->m_OptionsFont.InitFont("resource/fonts/example.png", "resource/fonts/Example.fnt");
 
-	this->m_nBackgroundID		= this->m_pTM->LoadTexture("resource/graphics/3d_city.png");
+	this->m_nBackgroundID		= this->m_pTM->LoadTexture("resource/graphics/ControlsBG.png");
 }
 void	CHowToPlayState::Update(float fElapsedTime)
 {
@@ -69,7 +69,7 @@ void	CHowToPlayState::Update(float fElapsedTime)
 		m_nSelection++;
 		if(m_nSelection > 10)
 			m_nSelection = 0;
-	}
+	}/*
 	else if((m_pDI->CheckKeys() && !m_pDI->KeyPressed(DIK_RETURN) && !m_pDI->KeyPressed(DIK_ESCAPE)) || m_pDI->MouseButtonPressed(MOUSE_LEFT) || m_pDI->MouseButtonPressed(MOUSE_RIGHT))
 	{
 		if(m_nSelection != AIM_WEAPON && m_nSelection != SECONDARY_FIRE && m_nSelection != FIRE_WEAPON )
@@ -93,7 +93,7 @@ void	CHowToPlayState::Update(float fElapsedTime)
 		}
 
 		m_nSelection = -1;
-	}
+	}*/
 
 	AtractMode( fElapsedTime );
 }
