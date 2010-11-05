@@ -20,6 +20,7 @@ CGrapplingHook::~CGrapplingHook(void)
 {
 	CSGD_TextureManager::GetInstance()->UnloadTexture(this->GetImageID());
 	CSinglePlayerState::GetInstance()->GetPlayerPointer()->SetHookPointer(NULL);
+	CSinglePlayerState::GetInstance()->GetPlayerPointer()->SetHookShot(false);
 }
 
 
@@ -80,6 +81,7 @@ void CGrapplingHook::Update(float fElapsedTime)
 		// destroy
 		CSinglePlayerState::GetInstance()->GetPlayerPointer()->SetHookPointer(NULL);
 		CGame::GetInstance()->GetMessageSystemPointer()->SendMsg(new CDestroyHookMessage(this, CSinglePlayerState::GetInstance()->GetPlayerPointer()));
+		CSinglePlayerState::GetInstance()->GetPlayerPointer()->SetHookShot(false);
 	}
 
 }
