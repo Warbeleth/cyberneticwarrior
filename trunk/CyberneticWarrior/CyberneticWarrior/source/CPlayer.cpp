@@ -922,6 +922,10 @@ void CPlayer::Input(float fElapsedTime)
 	//////////////////////////////////////////////////////////////////////////////
 
 
+	if(CSinglePlayerState::GetInstance()->GetCurrentLevel() == TUTORIAL)
+	{
+	}
+
 }
 
 void CPlayer::Render(void)

@@ -94,7 +94,7 @@ bool CObjectManager::CheckCollisions(void)
 	{
 		for(unsigned int j = 0; j < this->m_vObjectList.size(); j++)
 		{
-			if(j != i )
+			if(j != i)
 			{
 				//int ObjectType = m_vObjectList[i]->GetType();
 
