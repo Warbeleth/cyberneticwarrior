@@ -949,6 +949,14 @@
 				Name="Graphics"
 				>
 				<File
+					RelativePath=".\resource\graphics\3d_city.png"
+					>
+				</File>
+				<File
+					RelativePath=".\resource\graphics\AchievementsBG.png"
+					>
+				</File>
+				<File
 					RelativePath=".\resource\graphics\akainu.png"
 					>
 				</File>
@@ -965,11 +973,107 @@
 					>
 				</File>
 				<File
-					RelativePath=".\resource\graphics\BackGroundMenu.png"
+					RelativePath=".\resource\graphics\attackdrone.png"
+					>
+				</File>
+				<File
+					RelativePath=".\resource\graphics\BackGround.jpg"
+					>
+				</File>
+				<File
+					RelativePath=".\resource\graphics\BackGround.png"
 					>
 				</File>
 				<File
 					RelativePath=".\resource\graphics\bgGame.png"
+					>
+				</File>
+				<File
+					RelativePath=".\resource\graphics\bossone.png"
+					>
+				</File>
+				<File
+					RelativePath=".\resource\graphics\bosstwo.png"
+					>
+				</File>
+				<File
+					RelativePath=".\resource\graphics\christian_sprites.png"
+					>
+				</File>
+				<File
+					RelativePath=".\resource\graphics\ControlsBG.png"
+					>
+				</File>
+				<File
+					RelativePath=".\resource\graphics\CreditsBG.png"
+					>
+				</File>
+				<File
+					RelativePath=".\resource\graphics\CrossHairs.png"
+					>
+				</File>
+				<File
+					RelativePath=".\resource\graphics\CyberneticHarmony-800.jpg"
+					>
+				</File>
+				<File
+					RelativePath=".\resource\graphics\CyberneticHarmony-800.png"
+					>
+				</File>
+				<File
+					RelativePath=".\resource\graphics\CyberneticHarmony.png"
+					>
+				</File>
+				<File
+					RelativePath=".\resource\graphics\deathpirate.png"
+					>
+				</File>
+				<File
+					RelativePath=".\resource\graphics\EquipmentWeaponIcons.png"
+					>
+				</File>
+				<File
+					RelativePath=".\resource\graphics\fantasy_17.jpg"
+					>
+				</File>
+				<File
+					RelativePath=".\resource\graphics\fireturret.png"
+					>
+				</File>
+				<File
+					RelativePath=".\resource\graphics\GamePad1.png"
+					>
+				</File>
+				<File
+					RelativePath=".\resource\graphics\GamePad2.png"
+					>
+				</File>
+				<File
+					RelativePath=".\resource\graphics\Grappling_Hook.JPG"
+					>
+				</File>
+				<File
+					RelativePath=".\resource\graphics\Grappling_Hook.png"
+					>
+				</File>
+				<File
+					RelativePath=".\resource\graphics\HealthAndEnergy.png"
+					>
+				</File>
+				<File
+					RelativePath=".\resource\graphics\hook.png"
+					>
+				</File>
+				<File
+					RelativePath=".\resource\graphics\iceturret.png"
+					>
+				</File>
+				<File
+					RelativePath=".\resource\graphics\images.png"
+					>
+				</File>
+				<File
+					RelativePath=".\resource\graphics\Keys.png"
 					>
 				</File>
 				<File
@@ -981,7 +1085,63 @@
 					>
 				</File>
 				<File
+					RelativePath=".\resource\graphics\MainMenuBG.png"
+					>
+				</File>
+				<File
 					RelativePath=".\resource\graphics\MainMenuCursor.png"
+					>
+				</File>
+				<File
+					RelativePath=".\resource\graphics\multiturret.png"
+					>
+				</File>
+				<File
+					RelativePath=".\resource\graphics\mute.png"
+					>
+				</File>
+				<File
+					RelativePath=".\resource\graphics\PauseMenuBG.jpg"
+					>
+				</File>
+				<File
+					RelativePath=".\resource\graphics\PauseMenuBG.png"
+					>
+				</File>
+				<File
+					RelativePath=".\resource\graphics\Players.png"
+					>
+				</File>
+				<File
+					RelativePath=".\resource\graphics\ProfileBG.png"
+					>
+				</File>
+				<File
+					RelativePath=".\resource\graphics\ProfileMenu.png"
+					>
+				</File>
+				<File
+					RelativePath=".\resource\graphics\ProfileMenuItem.png"
+					>
+				</File>
+				<File
+					RelativePath=".\resource\graphics\QuestionPop-Up.png"
+					>
+				</File>
+				<File
+					RelativePath=".\resource\graphics\regularattackdrone.png"
+					>
+				</File>
+				<File
+					RelativePath=".\resource\graphics\regulargroundmech.png"
+					>
+				</File>
+				<File
+					RelativePath=".\resource\graphics\regulargroundmech_sprites.png"
+					>
+				</File>
+				<File
+					RelativePath=".\resource\graphics\regularturret.png"
 					>
 				</File>
 				<File
@@ -989,7 +1149,47 @@
 					>
 				</File>
 				<File
+					RelativePath=".\resource\graphics\seekerdrone.png"
+					>
+				</File>
+				<File
+					RelativePath=".\resource\graphics\shield.png"
+					>
+				</File>
+				<File
+					RelativePath=".\resource\graphics\siegemech.png"
+					>
+				</File>
+				<File
+					RelativePath=".\resource\graphics\SoundOn.png"
+					>
+				</File>
+				<File
+					RelativePath=".\resource\graphics\specialgroundmech - Sprites.png"
+					>
+				</File>
+				<File
+					RelativePath=".\resource\graphics\specialgroundmech.png"
+					>
+				</File>
+				<File
+					RelativePath=".\resource\graphics\specialgroundmech_sprites.png"
+					>
+				</File>
+				<File
 					RelativePath=".\resource\graphics\Tile.png"
+					>
+				</File>
+				<File
+					RelativePath=".\resource\graphics\Tiles.png"
+					>
+				</File>
+				<File
+					RelativePath=".\resource\graphics\Tiles_v1.png"
+					>
+				</File>
+				<File
+					RelativePath=".\resource\graphics\Weapons.png"
 					>
 				</File>
 			</Filter>

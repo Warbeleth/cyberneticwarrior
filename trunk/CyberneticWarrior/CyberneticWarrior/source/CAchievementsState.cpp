@@ -68,7 +68,7 @@ void CAchievementsState::Enter(void)
 	this->m_OptionsFont.InitFont("resource/fonts/CyberneticWarriorChintzy.png", "resource/fonts/CyberneticWarriorChintzy.fnt", 64);
 	this->m_nScrollingID = m_OptionsFont.AddScrolling( 0, 0 );
 
-	this->m_nBackgroundID	= m_pTM->LoadTexture("resource/graphics/3d_city.png");
+	this->m_nBackgroundID	= m_pTM->LoadTexture("resource/graphics/AchievementsBG.png");
 }
 
 //////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -136,9 +136,9 @@ void CAchievementsState::Render(void)
 {
 	this->m_pTM->Draw(this->m_nBackgroundID, 0, 0);
 
-	this->m_OptionsFont.Draw("-ACHIEVEMENTS-", 250, 25, 1.0f, D3DXCOLOR(1.0f, 0.0f, 1.0f, 1.0f));
-	this->m_OptionsFont.DrawScrolling("Achievement 1: Incomplete\n\nAchievement 2: Incomplete\n\nAchievement 3: Incomplete", 
-		51, 25+MENU_SPACE, 1.0f, D3DXCOLOR( 1.0f, 0.0f, 1.0f, 1.0f), 24+MENU_SPACE, 800,50, 550, this->m_nScrollingID );
+	this->m_OptionsFont.Draw("ACHIEVEMENTS", 225, 50, 0.6f, D3DXCOLOR(1.0f, 1.0f, 1.0f, 1.0f));
+	this->m_OptionsFont.DrawScrolling("Achievement  1:  Incomplete\n\nAchievement  2:  Incomplete\n\nAchievement  3:  Incomplete", 
+		150, 25+MENU_SPACE, 0.5f, D3DXCOLOR(0.6f, 0.6f, 1.0f, 1.0f), 24+MENU_SPACE, 520, 149, 630, this->m_nScrollingID );
 }
 
 //////////////////////////////////////////////////////////////////////////////////////////////////////

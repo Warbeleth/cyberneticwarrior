@@ -53,6 +53,8 @@ bool	CSinglePlayerMenuState::Input(void)
 		{
 			this->m_nSelection = this->BACK;
 		}
+		else if( m_nSelection == SPACE2 )
+			m_nSelection = DELETE_PROF;
 	}
 	
 	if(this->m_pDI->KeyPressed(DIK_DOWN) || this->m_pDI->JoystickDPadPressed(DIR_DOWN) || (this->m_pDI->JoystickGetLStickYAmount() > 0.0f && this->m_fWaitTime > 0.3f))
@@ -64,6 +66,8 @@ bool	CSinglePlayerMenuState::Input(void)
 		{
 			this->m_nSelection = this->NEW_GAME;
 		}
+		else if( m_nSelection == SPACE )
+			m_nSelection = BACK;
 	}
 
 	if(this->m_pDI->KeyPressed(DIK_ESCAPE) || this->m_pDI->JoystickButtonPressed(8) || this->m_pDI->JoystickButtonPressed(2))
@@ -112,7 +116,7 @@ void	CSinglePlayerMenuState::Enter(void)
 	this->m_pWM		=		CSGD_WaveManager::GetInstance();
 	this->m_pDS		=		CSGD_DirectSound::GetInstance();
 
-	this->m_nBackgroundID		= this->m_pTM->LoadTexture("resource/graphics/BackGroundMenu.png");
+	this->m_nBackgroundID		= this->m_pTM->LoadTexture("resource/graphics/MainMenuBG.png");
 	this->m_nCursorID			= this->m_pTM->LoadTexture("resource/graphics/hook.png");
 	//this->m_nMusicID			= this->m_pWM->LoadWave("resource/sounds/SO3_Victory_Bell.wav");
 	//this->m_nSFXID				= this->m_pWM->LoadWave("");
@@ -136,26 +140,23 @@ void	CSinglePlayerMenuState::Render(void)
 	this->m_pTM->Draw(this->m_nBackgroundID, 0, 0);
 	//this->m_pTM->Draw(this->m_nMenuID,0,0,1.3f,1.0f);//,1.0f,1.0f, 0, 0.0f, 0.0f, 0.0f, D3DCOLOR_ARGB(255,0,128,128));
 
-	this->m_OptionsFont.Draw("Single Player", 250, 100, 1.2f, D3DXCOLOR(1.0f, 1.0f, 0.0f, 1.0f));
+	this->m_OptionsFont.Draw("SINGLE PLAYER", 270, 40, 1.2f, D3DXCOLOR(1.0f, 1.0f, 1.0f, 1.0f));
 	
 	this->m_OptionsFont.Draw("New", 225, (this->NEW_GAME * SPMENU_SPACE) + this->SMENU_START, 
 		(this->m_nSelection == this->NEW_GAME? 1.5f : 1.0f) ,
-		(this->m_nSelection == this->NEW_GAME? D3DXCOLOR(0.0f, 1.0f, 0.0f, 1.0f) : D3DXCOLOR(1.0f, 1.0f, 0.0f, 1.0f)));
+		(this->m_nSelection == this->NEW_GAME? D3DXCOLOR(0.0f, 1.0f, 1.0f, 1.0f) : D3DXCOLOR(0.6f, 0.6f, 1.0f, 1.0f)));
 	
 	this->m_OptionsFont.Draw("Load", 225, (this->LOAD * SPMENU_SPACE) + this->SMENU_START, 
 		(this->m_nSelection == this->LOAD? 1.5f : 1.0f), 
-		(this->m_nSelection == this->LOAD? D3DXCOLOR(0.0f, 1.0f, 0.0f, 1.0f) : D3DXCOLOR(1.0f, 1.0f, 0.0f, 1.0f)));
+		(this->m_nSelection == this->LOAD? D3DXCOLOR(0.0f, 1.0f, 1.0f, 1.0f) : D3DXCOLOR(0.6f, 0.6f, 1.0f, 1.0f)));
 	
 	this->m_OptionsFont.Draw("Delete", 225, (this->DELETE_PROF * SPMENU_SPACE) + this->SMENU_START, 
 		(this->m_nSelection == this->DELETE_PROF? 1.5f : 1.0f), 
-		(this->m_nSelection == this->DELETE_PROF? D3DXCOLOR(0.0f, 1.0f, 0.0f, 1.0f) : D3DXCOLOR(1.0f, 1.0f, 0.0f, 1.0f)));
+		(this->m_nSelection == this->DELETE_PROF? D3DXCOLOR(0.0f, 1.0f, 1.0f, 1.0f) : D3DXCOLOR(0.6f, 0.6f, 1.0f, 1.0f)));
 	
-	this->m_OptionsFont.Draw("Back", 225, (this->BACK * SPMENU_SPACE) + this->SMENU_START, 
+	this->m_OptionsFont.Draw("Back", 345, (this->BACK * SPMENU_SPACE) + this->SMENU_START, 
 		(this->m_nSelection == this->BACK? 1.5f : 1.0f), 
-		(this->m_nSelection == this->BACK? D3DXCOLOR(0.0f, 1.0f, 0.0f, 1.0f) : D3DXCOLOR(1.0f, 1.0f, 0.0f, 1.0f)));
-
-	
-	
+		(this->m_nSelection == this->BACK? D3DXCOLOR(0.0f, 1.0f, 1.0f, 1.0f) : D3DXCOLOR(0.6f, 0.6f, 1.0f, 1.0f)));
 }
 
 void	CSinglePlayerMenuState::Exit(void)

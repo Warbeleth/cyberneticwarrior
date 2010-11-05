@@ -194,48 +194,45 @@ void	CGameProfiler::Update(float fElapsedTime)
 
 void	CGameProfiler::Render(void)
 {
-
+	RECT Profiles = { 0, 0, 346, 83 };
 	this->m_pTM->Draw(this->m_nBackgroundID, 0, 0);
-	this->m_pTM->Draw(this->m_nProfileItemID,50, (this->OP1 * GMENU_SPACE) + this->MENU_START,1.4f,
-		(this->m_nSelection == this->OP1? 0.75f : 0.7f),0,0.0f,0.0f,0.0f,
-		(this->m_nSelection == this->OP1? D3DXCOLOR(1.0f, 1.0f, 1.0f, 1.0f) : D3DXCOLOR(1.0f, 1.0f, 1.0f, 0.5f)));
-	this->m_pTM->Draw(this->m_nProfileItemID,50, (this->OP2 * GMENU_SPACE) + this->MENU_START,1.4f,
-		(this->m_nSelection == this->OP2? 0.75f : 0.7f),0,0.0f,0.0f,0.0f,
-		(this->m_nSelection == this->OP2? D3DXCOLOR(1.0f, 1.0f, 1.0f, 1.0f) : D3DXCOLOR(1.0f, 1.0f, 1.0f, 0.5f)));
-	this->m_pTM->Draw(this->m_nProfileItemID,50, (this->OP3 * GMENU_SPACE) + this->MENU_START,1.4f,
-		(this->m_nSelection == this->OP3? 0.75f : 0.7f),0,0.0f,0.0f,0.0f,
-		(this->m_nSelection == this->OP3? D3DXCOLOR(1.0f, 1.0f, 1.0f, 1.0f) : D3DXCOLOR(1.0f, 1.0f, 1.0f, 0.5f)));
+	this->m_pTM->Draw(this->m_nProfileItemID,150, (this->OP1 * GMENU_SPACE) + this->MENU_START,1.4f,
+		(this->m_nSelection == this->OP1? 0.75f : 0.7f),&Profiles,0.0f,0.0f,0.0f,
+		(this->m_nSelection == this->OP1? D3DXCOLOR(0.6f, 0.6f, 1.0f, 1.0f) : D3DXCOLOR(0.6f, 0.6f, 1.0f, 0.3f)));
+	this->m_pTM->Draw(this->m_nProfileItemID,150, (this->OP2 * GMENU_SPACE) + this->MENU_START,1.4f,
+		(this->m_nSelection == this->OP2? 0.75f : 0.7f),&Profiles,0.0f,0.0f,0.0f,
+		(this->m_nSelection == this->OP2? D3DXCOLOR(0.6f, 0.6f, 1.0f, 1.0f) : D3DXCOLOR(0.6f, 0.6f, 1.0f, 0.3f)));
+	this->m_pTM->Draw(this->m_nProfileItemID,150, (this->OP3 * GMENU_SPACE) + this->MENU_START,1.4f,
+		(this->m_nSelection == this->OP3? 0.75f : 0.7f),&Profiles,0.0f,0.0f,0.0f,
+		(this->m_nSelection == this->OP3? D3DXCOLOR(0.6f, 0.6f, 1.0f, 1.0f) : D3DXCOLOR(0.6f, 0.6f, 1.0f, 0.3f)));
 
 	if(this->GetManagement() == SAVE_GAME)
 	{
-		this->m_OptionsFont.Draw("-SAVE-", 300, 50, 1.2f, D3DXCOLOR(1.0f, 1.0f, 0.0f, 1.0f));
+		this->m_OptionsFont.Draw("SAVE", 335, 40, 1.2f, D3DXCOLOR(1.0f, 1.0f, 1.0f, 1.0f));
 	}
 	else if(this->GetManagement() == DELETE_PROFILE)
 	{
-		this->m_OptionsFont.Draw("-DELETE-", 300, 50, 1.2f, D3DXCOLOR(1.0f, 1.0f, 0.0f, 1.0f));
+		this->m_OptionsFont.Draw("DELETE", 310, 40, 1.2f, D3DXCOLOR(1.0f, 1.0f, 1.0f, 1.0f));
 	}
 	else if(this->GetManagement() == LOAD_GAME)
 	{
-		this->m_OptionsFont.Draw("-LOAD-", 300, 50, 1.2f, D3DXCOLOR(1.0f, 1.0f, 0.0f, 1.0f));
+		this->m_OptionsFont.Draw("LOAD", 335, 40, 1.2f, D3DXCOLOR(1.0f, 1.0f, 1.0f, 1.0f));
 	}
-	this->m_OptionsFont.Draw(this->m_nFileName[this->OP1], 225, (this->OP1 * GMENU_SPACE) + this->MENU_START + 15, 
+	this->m_OptionsFont.Draw(this->m_nFileName[this->OP1], 275, (this->OP1 * GMENU_SPACE) + this->MENU_START + 15, 
 		(this->m_nSelection == this->OP1? 1.5f : 1.0f) ,
-		(this->m_nSelection == this->OP1? D3DXCOLOR(0.0f, 1.0f, 0.0f, 1.0f) : D3DXCOLOR(1.0f, 1.0f, 0.0f, 1.0f)));
+		(this->m_nSelection == this->OP1? D3DXCOLOR(0.0f, 1.0f, 1.0f, 1.0f) : D3DXCOLOR(0.6f, 0.6f, 1.0f, 1.0f)));
 
-	this->m_OptionsFont.Draw(this->m_nFileName[this->OP2], 225, (this->OP2 * GMENU_SPACE) + this->MENU_START + 15, 
+	this->m_OptionsFont.Draw(this->m_nFileName[this->OP2], 275, (this->OP2 * GMENU_SPACE) + this->MENU_START + 15, 
 		(this->m_nSelection == this->OP2? 1.5f : 1.0f), 
-		(this->m_nSelection == this->OP2? D3DXCOLOR(0.0f, 1.0f, 0.0f, 1.0f) : D3DXCOLOR(1.0f, 1.0f, 0.0f, 1.0f)));
+		(this->m_nSelection == this->OP2? D3DXCOLOR(0.0f, 1.0f, 1.0f, 1.0f) : D3DXCOLOR(0.6f, 0.6f, 1.0f, 1.0f)));
 
-	this->m_OptionsFont.Draw(this->m_nFileName[this->OP3], 225, (this->OP3 * GMENU_SPACE) + this->MENU_START + 15, 
+	this->m_OptionsFont.Draw(this->m_nFileName[this->OP3], 275, (this->OP3 * GMENU_SPACE) + this->MENU_START + 15, 
 		(this->m_nSelection == this->OP3? 1.5f : 1.0f), 
-		(this->m_nSelection == this->OP3? D3DXCOLOR(0.0f, 1.0f, 0.0f, 1.0f) : D3DXCOLOR(1.0f, 1.0f, 0.0f, 1.0f)));
+		(this->m_nSelection == this->OP3? D3DXCOLOR(0.0f, 1.0f, 1.0f, 1.0f) : D3DXCOLOR(0.6f, 0.6f, 1.0f, 1.0f)));
 
-	this->m_OptionsFont.Draw("Return", 225, (this->BACK * GMENU_SPACE) + this->MENU_START, 
+	this->m_OptionsFont.Draw("Return", 325, (this->BACK * GMENU_SPACE) + this->MENU_START, 
 		(this->m_nSelection == this->BACK? 1.5f : 1.0f), 
-		(this->m_nSelection == this->BACK? D3DXCOLOR(0.0f, 1.0f, 0.0f, 1.0f) : D3DXCOLOR(1.0f, 1.0f, 0.0f, 1.0f)));
-
-
-
+		(this->m_nSelection == this->BACK? D3DXCOLOR(0.0f, 1.0f, 1.0f, 1.0f) : D3DXCOLOR(0.6f, 0.6f, 1.0f, 1.0f)));
 }
 
 void	CGameProfiler::Exit(void)
