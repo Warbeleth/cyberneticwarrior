@@ -216,7 +216,7 @@ void CBaseEnemy::CheckCulling()
 	if(xPos > CameraX+800)
 		SetCulling(true);
 
-	if(hPos < CameraX)
+	if(hPos < CameraY)
 		SetCulling(true);
 	if(yPos > CameraY+600)
 		SetCulling(true);
