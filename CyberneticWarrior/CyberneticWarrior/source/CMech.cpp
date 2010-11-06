@@ -18,6 +18,7 @@ CMech::CMech(int nImageID, float PosX, float PosY,int Width, int Height, int nSt
 				 nAttackRange, fRateOfFire, fSpeed, PosX, PosY, Width, Height)
 {
 	SetAnimations(CMapLoad::GetInstance()->CreateAnimation(Ground_Mech));
+	GetAnimations()->SetCurrentAnimation(1);
 }
 CMech::~CMech()
 {

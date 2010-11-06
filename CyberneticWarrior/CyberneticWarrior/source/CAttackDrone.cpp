@@ -17,6 +17,7 @@ CAttackDrone::CAttackDrone(int nImageID, float PosX, float PosY,int Width, int H
 				 nAttackRange, fRateOfFire, fSpeed, PosX, PosY, Width, Height)
 {
 	SetAnimations(CMapLoad::GetInstance()->CreateAnimation(Drone_Attack));
+	GetAnimations()->SetCurrentAnimation(1);
 }
 CAttackDrone::~CAttackDrone()
 {

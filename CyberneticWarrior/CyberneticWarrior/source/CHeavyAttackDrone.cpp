@@ -17,6 +17,7 @@ CHeavyAttackDrone::CHeavyAttackDrone(int nImageID, float PosX, float PosY,int Wi
 				 nAttackRange, fRateOfFire, fSpeed, PosX, PosY, Width, Height)
 {
 	SetAnimations(CMapLoad::GetInstance()->CreateAnimation(Drone_Heavy));
+	GetAnimations()->SetCurrentAnimation(1);
 }
 CHeavyAttackDrone::~CHeavyAttackDrone()
 {

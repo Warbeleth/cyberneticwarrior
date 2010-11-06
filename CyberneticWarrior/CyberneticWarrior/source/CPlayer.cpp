@@ -1053,16 +1053,16 @@ void CPlayer::Render(void)
 	if(this->m_bForward)
 	{
 		CSGD_TextureManager::GetInstance()->Draw(m_nHandID, 
-			(int)(((GetPosX() + (GetWidth()/2)) - OffsetX) * CCamera::GetInstance()->GetScale()-10), 
-			(int)(((GetPosY() - (GetHeight()/2)) - OffsetY) * CCamera::GetInstance()->GetScale()+25), 
+			(int)(((GetPosX() + (GetAnimations()->GetFrameWidth()/2)) - OffsetX) * CCamera::GetInstance()->GetScale()-10), 
+			(int)(((GetPosY() - (GetAnimations()->GetFrameHeight()/2)) - OffsetY) * CCamera::GetInstance()->GetScale()+25), 
 			0.7f * CCamera::GetInstance()->GetScale(), 0.7f * CCamera::GetInstance()->GetScale(), 
 			&this->m_rWeapons[m_nWeaponIndex], 64, 128, m_fHandRotation, -1 );
 	}
 	else
 	{
 		CSGD_TextureManager::GetInstance()->Draw(m_nHandID, 
-			(int)(((GetPosX() + (GetWidth()/2)) - OffsetX) * CCamera::GetInstance()->GetScale())+GetWidth()/2, 
-			(int)(((GetPosY() - (GetHeight()/2)) - OffsetY) * CCamera::GetInstance()->GetScale()+25), 
+			(int)(((GetPosX() + (GetAnimations()->GetFrameWidth()/2)) - OffsetX) * CCamera::GetInstance()->GetScale())+GetWidth()/2, 
+			(int)(((GetPosY() - (GetAnimations()->GetFrameHeight()/2)) - OffsetY) * CCamera::GetInstance()->GetScale()+25), 
 			-0.7f * CCamera::GetInstance()->GetScale(), 0.7f * CCamera::GetInstance()->GetScale(), 
 			&this->m_rWeapons[m_nWeaponIndex], 64, 128, m_fHandRotation, -1 );
 	}

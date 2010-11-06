@@ -15,6 +15,7 @@ CPimpStriker::CPimpStriker(int nImageID, float PosX, float PosY,int Width, int H
 				nAttackRange, fRateOfFire, fSpeed, PosX, PosY, Width, Height)
 {
 	SetAnimations(CMapLoad::GetInstance()->CreateAnimation(Boss_Pimp));
+	GetAnimations()->SetCurrentAnimation(1);
 }
 CPimpStriker::~CPimpStriker()
 {
