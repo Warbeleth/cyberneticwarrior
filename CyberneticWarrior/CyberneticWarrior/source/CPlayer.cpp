@@ -13,6 +13,39 @@
 
 CPlayer::CPlayer(void)
 {
+	// Setting Weapon Rects
+	this->m_rWeapons[this->HG].top		= 8;
+	this->m_rWeapons[this->HG].left		= 32;
+	this->m_rWeapons[this->HG].right	= 80;
+	this->m_rWeapons[this->HG].bottom	= 152;
+
+	this->m_rWeapons[this->RL].top		 = 260;
+	this->m_rWeapons[this->RL].left		 = 135;
+	this->m_rWeapons[this->RL].right	 = 208;
+	this->m_rWeapons[this->RL].bottom	 = 452;
+
+	this->m_rWeapons[this->FT].top		 = 10;
+	this->m_rWeapons[this->FT].left		 = 125;
+	this->m_rWeapons[this->FT].right	 = 205;
+	this->m_rWeapons[this->FT].bottom	 = 200;
+
+	this->m_rWeapons[this->PR].top		 = 8;
+	this->m_rWeapons[this->PR].left		 = 235;
+	this->m_rWeapons[this->PR].right	 = 307;
+	this->m_rWeapons[this->PR].bottom	 = 213;
+
+	this->m_rWeapons[this->SR].top		 = 245;
+	this->m_rWeapons[this->SR].left		 = 20;
+	this->m_rWeapons[this->SR].right	 = 80;
+	this->m_rWeapons[this->SR].bottom	 = 455;
+
+	this->m_rWeapons[this->SG].top		 = 264;
+	this->m_rWeapons[this->SG].left		 = 250;
+	this->m_rWeapons[this->SG].right	 = 320;
+	this->m_rWeapons[this->SG].bottom	 = 342;
+
+	this->m_nWeaponIndex = this->HG;
+
 	// Type
 	this->SetType(OBJ_PLAYER);
 
@@ -465,22 +498,28 @@ void CPlayer::Input(float fElapsedTime)
 		switch(m_nSelectedWeapon)
 		{
 		case HAND_GUN:
-			m_nSelectedWeapon = ROCKET_LAUNCHER;
+			this->m_nSelectedWeapon = ROCKET_LAUNCHER;
+			this->m_nWeaponIndex = this->RL;
 			break;
 		case ROCKET_LAUNCHER:
-			m_nSelectedWeapon = FLAME_THROWER;
+			this->m_nSelectedWeapon = FLAME_THROWER;
+			this->m_nWeaponIndex = this->FT;
 			break;
 		case FLAME_THROWER:
-			m_nSelectedWeapon = PLASMA_RIFLE;
+			this->m_nSelectedWeapon = PLASMA_RIFLE;
+			this->m_nWeaponIndex = this->PR;
 			break;
 		case PLASMA_RIFLE:
-			m_nSelectedWeapon = STICKY_GRENADE;
+			this->m_nSelectedWeapon = STICKY_GRENADE;
+			this->m_nWeaponIndex = this->SG;
 			break;
 		case STICKY_GRENADE:
-			m_nSelectedWeapon = SONIC_RIFLE;
+			this->m_nSelectedWeapon = SONIC_RIFLE;
+			this->m_nWeaponIndex = this->SR;
 			break;
 		case SONIC_RIFLE:
-			m_nSelectedWeapon = HAND_GUN;
+			this->m_nSelectedWeapon = HAND_GUN;
+			this->m_nWeaponIndex = this->HG;
 			break;
 		};
 	}
@@ -1017,7 +1056,7 @@ void CPlayer::Render(void)
 			(int)(((GetPosX() + (GetWidth()/2)) - OffsetX) * CCamera::GetInstance()->GetScale()-10), 
 			(int)(((GetPosY() - (GetHeight()/2)) - OffsetY) * CCamera::GetInstance()->GetScale()+25), 
 			0.7f * CCamera::GetInstance()->GetScale(), 0.7f * CCamera::GetInstance()->GetScale(), 
-			&rRender, 64, 128, m_fHandRotation, -1 );
+			&this->m_rWeapons[m_nWeaponIndex], 64, 128, m_fHandRotation, -1 );
 	}
 	else
 	{
@@ -1025,7 +1064,7 @@ void CPlayer::Render(void)
 			(int)(((GetPosX() + (GetWidth()/2)) - OffsetX) * CCamera::GetInstance()->GetScale())+GetWidth()/2, 
 			(int)(((GetPosY() - (GetHeight()/2)) - OffsetY) * CCamera::GetInstance()->GetScale()+25), 
 			-0.7f * CCamera::GetInstance()->GetScale(), 0.7f * CCamera::GetInstance()->GetScale(), 
-			&rRender, 64, 128, m_fHandRotation, -1 );
+			&this->m_rWeapons[m_nWeaponIndex], 64, 128, m_fHandRotation, -1 );
 	}
 	//////////////////////////////////////////////////////////////////////////////
 
