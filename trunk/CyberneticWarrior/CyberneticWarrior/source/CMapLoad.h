@@ -20,13 +20,7 @@
 #include "CBase.h"
 #include "CAnimationLoad.h"
 
-//Enemies
-#include "CBaseEnemy.h"
-//Base types
-#include "CIdleEnemy.h"
-#include "CPatrolEnemy.h"
-//Special
-#include "CFLCLMech.h"
+
 
 namespace SGP_Map_Editor
 {
@@ -121,7 +115,7 @@ private:
 	//
 	//	Purpose : Protection to prevent calling of unused functions for this singleton
 	////////////////////////////////////////////////////////////////////////////////////
-	CMapLoad(){};
+	CMapLoad(){ m_gSelectionMap.m_nImageID = -1; };
 	CMapLoad(CMapLoad &copy);
 	CMapLoad& operator=(CMapLoad &assign);
 	~CMapLoad(void){};
