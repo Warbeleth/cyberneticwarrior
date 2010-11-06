@@ -112,7 +112,7 @@ CPlayer::CPlayer(void)
 
 	// Animation
 	SetAnimations(new CAnimations());
-	GetAnimations()->LoadBinary("resource/binary/PlayerAnimations.bae");
+	GetAnimations()->LoadBinary("resource/binary/MainCharacter.bae");
 	GetAnimations()->SetCurrentAnimation(1);
 
 	// Currently Selected

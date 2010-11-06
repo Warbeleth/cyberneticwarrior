@@ -5,6 +5,7 @@
 
 
 #include "CGame.h"
+#include "CMapLoad.h"
 
 CHeavyAttackDrone::CHeavyAttackDrone()
 {
@@ -15,7 +16,7 @@ CHeavyAttackDrone::CHeavyAttackDrone(int nImageID, float PosX, float PosY,int Wi
 				 float(nSightRange + 100) /*max patrol distance*/, nGlobalType, nImageID, nMaxHP, nCurrentHP, nSightRange, 
 				 nAttackRange, fRateOfFire, fSpeed, PosX, PosY, Width, Height)
 {
-
+	SetAnimations(CMapLoad::GetInstance()->CreateAnimation(Drone_Heavy));
 }
 CHeavyAttackDrone::~CHeavyAttackDrone()
 {

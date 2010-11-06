@@ -151,7 +151,7 @@ public:
 	float m_fScaleX;
 	float m_fScaleY;
 
-	CAnimations m_Animations[12];
+	CAnimations m_Animations[13];
 
 	////////////////////////////////////////////////////////////////////////////////////
 	//	Function : GetInstance()

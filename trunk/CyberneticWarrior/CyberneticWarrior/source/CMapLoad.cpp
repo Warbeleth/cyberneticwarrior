@@ -44,7 +44,7 @@ bool CMapLoad::LoadMap(const char* szFilename)
 		m_sEnemyImage.GroundFLCL = CSGD_TextureManager::GetInstance()->LoadTexture("resource/graphics/specialgroundmech.png");
 		m_sEnemyImage.BossApple = CSGD_TextureManager::GetInstance()->LoadTexture("resource/graphics/bossone.png");
 		m_sEnemyImage.BossPimp = CSGD_TextureManager::GetInstance()->LoadTexture("resource/graphics/bosstwo.png");
-		m_sEnemyImage.BossPirate = CSGD_TextureManager::GetInstance()->LoadTexture("resource/graphics/deathpirate.png");
+		m_sEnemyImage.BossPirate = CSGD_TextureManager::GetInstance()->LoadTexture("resource/graphics/deathpirate2.png");
 	}
 
 	string m_szWorkingDirectoryGRAPHICS = "resource/graphics/";
@@ -312,8 +312,19 @@ bool CMapLoad::LoadMapImage(const char* szFilename)
 
 bool CMapLoad::LoadAnimations( void )
 {
+	m_Animations[Turret_Gun].LoadBinary("resource/binary/Turret_Regular.bae");
+	m_Animations[Turret_Frost].LoadBinary("resource/binary/Turret_Ice.bae");
+	m_Animations[Turret_Fire].LoadBinary("resource/binary/Turret_Fire.bae");
+	m_Animations[Turret_Multi].LoadBinary("resource/binary/Turret_MultiTurret.bae");
+	m_Animations[Drone_Attack].LoadBinary("resource/binary/Air_RegularAttackDrone.bae");
+	m_Animations[Drone_Seeker].LoadBinary("resource/binary/Air_Seeker.bae");
+	m_Animations[Drone_Heavy].LoadBinary("resource/binary/Air_SpecialAttackDrone.bae");
 	m_Animations[Ground_Mech].LoadBinary("resource/binary/Ground_Mech.bae");
+	m_Animations[Ground_Siege].LoadBinary("resource/binary/Ground_Siege.bae");
 	m_Animations[Ground_FLCL].LoadBinary("resource/binary/Ground_FLCL.bae");
+	m_Animations[Boss_Apple].LoadBinary("resource/binary/AppleMech.bae");
+	m_Animations[Boss_Pimp].LoadBinary("resource/binary/PimpStriker.bae");
+	m_Animations[Boss_Pirate].LoadBinary("resource/binary/DeathPirate.bae");
 	return true;
 }
 	
