@@ -49,6 +49,7 @@ void CBlock::Update(float fElapsedTime)
 
 void CBlock::Render(void)
 {
+#ifdef DRAWRECT
 	int left = (int)GetPosX() - CCamera::GetInstance()->GetOffsetX();
 	int top = (int)GetPosY() - CCamera::GetInstance()->GetOffsetY();
 	int right = left + GetWidth();
@@ -58,6 +59,7 @@ void CBlock::Render(void)
 	CSGD_Direct3D::GetInstance()->DrawLine(left, bottom, right, bottom, 255, 0, 0);
 	CSGD_Direct3D::GetInstance()->DrawLine(left, top, left, bottom, 255, 0, 0);
 	CSGD_Direct3D::GetInstance()->DrawLine(right, top, right, bottom, 255, 0, 0);
+#endif
 }	
 
 RECT CBlock::GetRect(void)

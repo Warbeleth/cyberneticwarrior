@@ -12,5 +12,6 @@
 #include "CMessageSystem.h"
 #include <fstream>
 #include "CCamera.h"
+//#define DRAWRECT
 
 #endif
