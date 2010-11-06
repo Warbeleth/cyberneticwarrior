@@ -4,6 +4,7 @@
 #include "CCamera.h"
 
 #include "CGame.h"
+#include "CMapLoad.h"
 
 CSiegeWalker::CSiegeWalker()
 {
@@ -13,7 +14,7 @@ CSiegeWalker::CSiegeWalker(int nImageID, float PosX, float PosY,int Width, int H
 				float fSpeed) : CIdleEnemy(nState, nGlobalType, nImageID, nMaxHP, nCurrentHP, nSightRange, 
 				nAttackRange, fRateOfFire, fSpeed, PosX, PosY, Width, Height)
 {
-
+	SetAnimations(CMapLoad::GetInstance()->CreateAnimation(Ground_Siege));
 }
 CSiegeWalker::~CSiegeWalker()
 {

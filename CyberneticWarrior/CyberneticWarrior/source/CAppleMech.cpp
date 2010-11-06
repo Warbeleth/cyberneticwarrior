@@ -4,6 +4,7 @@
 #include "CCamera.h"
 
 #include "CGame.h"
+#include "CMapLoad.h"
 
 CAppleMech::CAppleMech()
 {
@@ -13,7 +14,7 @@ CAppleMech::CAppleMech(int nImageID, float PosX, float PosY,int Width, int Heigh
 				float fSpeed) : CIdleEnemy(nState, nGlobalType, nImageID, nMaxHP, nCurrentHP, nSightRange, 
 				nAttackRange, fRateOfFire, fSpeed, PosX, PosY, Width, Height)
 {
-
+	SetAnimations(CMapLoad::GetInstance()->CreateAnimation(Boss_Apple));
 }
 CAppleMech::~CAppleMech()
 {

@@ -5,6 +5,7 @@
 
 
 #include "CGame.h"
+#include "CMapLoad.h"
 
 CAttackDrone::CAttackDrone()
 {
@@ -15,7 +16,7 @@ CAttackDrone::CAttackDrone(int nImageID, float PosX, float PosY,int Width, int H
 				 float(nSightRange + 100) /*max patrol distance*/, nGlobalType, nImageID, nMaxHP, nCurrentHP, nSightRange, 
 				 nAttackRange, fRateOfFire, fSpeed, PosX, PosY, Width, Height)
 {
-
+	SetAnimations(CMapLoad::GetInstance()->CreateAnimation(Drone_Attack));
 }
 CAttackDrone::~CAttackDrone()
 {
