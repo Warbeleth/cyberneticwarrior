@@ -25,6 +25,9 @@ private:
 
 	enum WeaponSelection{HAND_GUN = 6, ROCKET_LAUNCHER = 8, FLAME_THROWER = 10, 
 		PLASMA_RIFLE = 12, SONIC_RIFLE = 14, STICKY_GRENADE = 16};
+
+	enum WeaponRect {HG = 0, RL, FT, PR, SR, SG};
+	
 	enum BootSelection{ROCKET_BOOTS=0,HOVER_BOOTS, BOOTS};
 
 	tVector2D	m_vRotationCenter;
@@ -33,6 +36,8 @@ private:
 
 	CBlock*			m_pMovingBlock;
 	
+	RECT	m_rWeapons[6];
+
 	float m_fAcceleration;
 	float m_fRotationRate;
 
@@ -57,6 +62,7 @@ private:
 
 	// Currently Selected
 	int m_nSelectedWeapon;
+	int m_nWeaponIndex;
 	int m_nSelectedHeadSlot;
 	int m_nSelectedBootSlot;
 
