@@ -7,6 +7,26 @@
 //////////////////////////////////////////////////////////////////////////////////////////////////////
 #include "CMapLoad.h"
 
+//Enemy includes
+#include "CBaseEnemy.h"
+#include "CIdleEnemy.h"
+#include "CPatrolEnemy.h"
+
+//Ground
+#include "CFLCLMech.h"
+#include "CMech.h"
+#include "CSiegeWalker.h"
+//Turrets
+#include "CTurretCore.h"
+//Air
+#include "CAttackDrone.h"
+#include "CHeavyAttackDrone.h"
+#include "CSeekerDrone.h"
+//Bosses
+#include "CAppleMech.h"
+#include "CDeathPirate.h"
+#include "CPimpStriker.h"
+
 
 bool CMapLoad::LoadMap(const char* szFilename)
 {
@@ -80,6 +100,9 @@ bool CMapLoad::LoadMap(const char* szFilename)
 
 		LoadMapImage(m_szImageLoad.c_str());
 
+		//Clear the list
+		m_lMap.clear();
+
 		//Create Map Based on size
 		for(int i = 0; i < m_gTileMap.m_nColumns*m_gTileMap.m_nRows; i++)
 		{
@@ -114,10 +137,100 @@ bool CMapLoad::LoadMap(const char* szFilename)
 			m_lMap[Index] = NewNode;
 
 			//Use "If nGlobalType..." to decide what to spawn
-			CFLCLMech* CEnemy = new CFLCLMech(-1, (float)NewNode.m_eEnemy.m_nPosX, (float)NewNode.m_eEnemy.m_nPosY);
-
-			m_pOM->AddObject(CEnemy);
-			CEnemy->Release();
+			switch(NewNode.m_eEnemy.m_nType)
+			{
+			case Turret_Gun:
+				{
+					CTurretCore* CEnemy = new CTurretCore(-1, (float)NewNode.m_eEnemy.m_nPosX, (float)NewNode.m_eEnemy.m_nPosY, Turret_Gun);
+					CObjectManager::GetInstance()->AddObject(CEnemy);
+					CEnemy->Release();
+				}  
+				break;
+			case Turret_Frost:
+				{
+					CTurretCore* CEnemy = new CTurretCore(-1, (float)NewNode.m_eEnemy.m_nPosX, (float)NewNode.m_eEnemy.m_nPosY, Turret_Frost);
+					CObjectManager::GetInstance()->AddObject(CEnemy);
+					CEnemy->Release();
+				}  
+				break;
+			case Turret_Fire:
+				{
+					CTurretCore* CEnemy = new CTurretCore(-1, (float)NewNode.m_eEnemy.m_nPosX, (float)NewNode.m_eEnemy.m_nPosY, Turret_Fire);
+					CObjectManager::GetInstance()->AddObject(CEnemy);
+					CEnemy->Release();
+				}   
+				break;
+			case Turret_Multi:
+				{
+					CTurretCore* CEnemy = new CTurretCore(-1, (float)NewNode.m_eEnemy.m_nPosX, (float)NewNode.m_eEnemy.m_nPosY, Turret_Multi);
+					CObjectManager::GetInstance()->AddObject(CEnemy);
+					CEnemy->Release();
+				}  
+				break;
+			case Drone_Attack:
+				{
+					CAttackDrone* CEnemy = new CAttackDrone(-1, (float)NewNode.m_eEnemy.m_nPosX, (float)NewNode.m_eEnemy.m_nPosY);
+					CObjectManager::GetInstance()->AddObject(CEnemy);
+					CEnemy->Release();
+				}  
+				break;
+			case Drone_Seeker:
+				{
+					CSeekerDrone* CEnemy = new CSeekerDrone(-1, (float)NewNode.m_eEnemy.m_nPosX, (float)NewNode.m_eEnemy.m_nPosY);
+					CObjectManager::GetInstance()->AddObject(CEnemy);
+					CEnemy->Release();
+				} 
+				break;
+			case Drone_Heavy:
+				{
+					CHeavyAttackDrone* CEnemy = new CHeavyAttackDrone(-1, (float)NewNode.m_eEnemy.m_nPosX, (float)NewNode.m_eEnemy.m_nPosY);
+					CObjectManager::GetInstance()->AddObject(CEnemy);
+					CEnemy->Release();
+				} 
+				break;
+			case Ground_Mech:
+				{
+					CMech* CEnemy = new CMech(-1, (float)NewNode.m_eEnemy.m_nPosX, (float)NewNode.m_eEnemy.m_nPosY);
+					CObjectManager::GetInstance()->AddObject(CEnemy);
+					CEnemy->Release();
+				}
+				break;
+			case Ground_Siege:
+				{
+					CSiegeWalker* CEnemy = new CSiegeWalker(-1, (float)NewNode.m_eEnemy.m_nPosX, (float)NewNode.m_eEnemy.m_nPosY);
+					CObjectManager::GetInstance()->AddObject(CEnemy);
+					CEnemy->Release();
+				}
+				break;
+			case Ground_FLCL:
+				{
+					CFLCLMech* CEnemy = new CFLCLMech(-1, (float)NewNode.m_eEnemy.m_nPosX, (float)NewNode.m_eEnemy.m_nPosY);
+					CObjectManager::GetInstance()->AddObject(CEnemy);
+					CEnemy->Release();
+				}
+				break;
+			case Boss_Apple:
+				{
+					CAppleMech* CEnemy = new CAppleMech(-1, (float)NewNode.m_eEnemy.m_nPosX, (float)NewNode.m_eEnemy.m_nPosY);
+					CObjectManager::GetInstance()->AddObject(CEnemy);
+					CEnemy->Release();
+				}  
+				break;
+			case Boss_Pimp:
+				{
+					CPimpStriker* CEnemy = new CPimpStriker(-1, (float)NewNode.m_eEnemy.m_nPosX, (float)NewNode.m_eEnemy.m_nPosY);
+					CObjectManager::GetInstance()->AddObject(CEnemy);
+					CEnemy->Release();
+				}   
+				break;
+			case Boss_Pirate:
+				{
+					CDeathPirate* CEnemy = new CDeathPirate(-1, (float)NewNode.m_eEnemy.m_nPosX, (float)NewNode.m_eEnemy.m_nPosY);
+					CObjectManager::GetInstance()->AddObject(CEnemy);
+					CEnemy->Release();
+				}   
+				break;
+			}
 		}
 
 		//Read in spawner count
@@ -189,7 +302,14 @@ bool CMapLoad::LoadMap(const char* szFilename)
 
 bool CMapLoad::LoadMapImage(const char* szFilename)
 {
-	m_gSelectionMap.m_nImageID = CSGD_TextureManager::GetInstance()->LoadTexture(szFilename);
+	if(m_gSelectionMap.m_nImageID == -1)
+		m_gSelectionMap.m_nImageID = CSGD_TextureManager::GetInstance()->LoadTexture(szFilename);
+	else
+	{
+		CSGD_TextureManager::GetInstance()->UnloadTexture(m_gSelectionMap.m_nImageID);
+		m_gSelectionMap.m_nImageID = CSGD_TextureManager::GetInstance()->LoadTexture(szFilename);
+	}
+
 	return true;
 }
 
