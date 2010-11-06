@@ -523,19 +523,19 @@ void CPlayer::Input(float fElapsedTime)
 			break;
 		};
 	}
-	/*
+	
 	if(CSGD_DirectInput::GetInstance()->KeyPressed(DIK_1))
 	{
-		this->m_nSelectedWeapon = this->HAND_GUN;
+		this->m_nSelectedBootSlot = this->BOOTS;
 	}
 	if(CSGD_DirectInput::GetInstance()->KeyPressed(DIK_2))
 	{
-		this->m_nSelectedWeapon = this->ROCKET_LAUNCHER;
+		this->m_nSelectedBootSlot = this->HOVER_BOOTS;
 	}
 	if(CSGD_DirectInput::GetInstance()->KeyPressed(DIK_3))
 	{
-		this->m_nSelectedWeapon = this->FLAME_THROWER;
-	}
+		this->m_nSelectedBootSlot = this->ROCKET_BOOTS;
+	}/*
 	if(CSGD_DirectInput::GetInstance()->KeyPressed(DIK_4))
 	{
 		this->m_nSelectedWeapon = this->PLASMA_RIFLE;
@@ -550,14 +550,14 @@ void CPlayer::Input(float fElapsedTime)
 	}
 	*/
 
-	if(CSGD_DirectInput::GetInstance()->KeyPressed(DIK_TAB))
+	/*if(CSGD_DirectInput::GetInstance()->KeyPressed(DIK_TAB))
 	{
 		this->m_nSelectedBootSlot--;
 		if(this->m_nSelectedBootSlot < this->ROCKET_BOOTS)
 		{
 			this->m_nSelectedBootSlot = this->BOOTS;
 		}
-	}
+	}*/
 	//if(CSGD_DirectInput::GetInstance()->MouseWheelMovement() >
 	//////////////////////////////////////////////////////////////////////////////
 

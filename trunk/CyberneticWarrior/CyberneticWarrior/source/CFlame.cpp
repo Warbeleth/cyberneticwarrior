@@ -47,13 +47,25 @@ void CFlame::Render(void)
 	rRender.left = 550;
 	rRender.bottom = 545;
 	rRender.right = 765;
-	CSGD_TextureManager::GetInstance()->Draw( GetImageID(), 
+
+	if(CSinglePlayerState::GetInstance()->GetPlayerPointer()->GetForward())
+	{
+		CSGD_TextureManager::GetInstance()->Draw( GetImageID(), 
 		(int)(((GetPosX() + this->m_fDirection*(GetWidth()/2.0f) ) - CCamera::GetInstance()->GetOffsetX()) * CCamera::GetInstance()->GetScale()), 
 		(int)(((GetPosY() - (GetHeight()/2.0f)) - CCamera::GetInstance()->GetOffsetY()) * CCamera::GetInstance()->GetScale()), 
 		this->m_fDirection * CCamera::GetInstance()->GetScale(), 
 		1.0f * CCamera::GetInstance()->GetScale(), 
 		&rRender, 45.0f, 10.0f, this->GetRotation() );
-
+	}
+	else
+	{
+		CSGD_TextureManager::GetInstance()->Draw( GetImageID(), 
+		(int)(((GetPosX() + (this->m_fDirection/2)*(GetWidth()/2.0f) ) - CCamera::GetInstance()->GetOffsetX()) * CCamera::GetInstance()->GetScale()), 
+		(int)(((GetPosY() - (GetHeight()/2.0f)) - CCamera::GetInstance()->GetOffsetY()) * CCamera::GetInstance()->GetScale()), 
+		this->m_fDirection * CCamera::GetInstance()->GetScale(), 
+		1.0f * CCamera::GetInstance()->GetScale(), 
+		&rRender, 45.0f, 10.0f, this->GetRotation() );
+	}
 
 	/*RECT rLALA;
 	rLALA.top = (LONG)GetPosY()- CCamera::GetInstance()->GetOffsetY();
