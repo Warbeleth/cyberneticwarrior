@@ -35,8 +35,8 @@ void CObjectManager::UpdateObjects(float fElapsedTime)
 
 	while(iter != this->m_vObjectList.end())
 	{
-		(*iter)->Update(fElapsedTime);
 		(*iter)->CheckCulling();
+		(*iter)->Update(fElapsedTime);
 		iter++;
 	}
 }

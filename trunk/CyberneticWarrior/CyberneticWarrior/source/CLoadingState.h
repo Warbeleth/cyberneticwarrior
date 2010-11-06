@@ -39,6 +39,8 @@ public:
 
 	bool	GetReady(void);
 	void	SetReady(bool bReady);
+	inline	bool	GetLoad(void) {return this->m_bLoad;}
+	inline	void	SetLoad(bool bLoad) {this->m_bLoad = bLoad;}
 
 	bool	Input(void);
 	void	Enter(void);
