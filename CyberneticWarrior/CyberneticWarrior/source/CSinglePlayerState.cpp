@@ -119,20 +119,20 @@ void CSinglePlayerState::Enter(void)
 	this->m_TempMap = CMapLoad::GetInstance();
 	this->m_TempMap->LoadAnimations();	
 	//	m_TempMap->LoadMap("test.CWM");
-	/*
+	
 	switch(this->m_nCurrentLevel)
 	{
 	case TUTORIAL:
 		m_TempMap->LoadMap("Tutorial_v1.5.CWM");
 		break;
-	case LEVEL1:*/
+	case LEVEL1:
 		m_TempMap->LoadMap("CW-Map_02.CWM");
-		/*break;
+		break;
 	case LEVEL2:
 		m_TempMap->LoadMap("Level-2.CWM");
 		break;
 	};
-	*/
+	
 	//if(SetCurrentLevel == TUTORIAL)
 	//	m_TempMap->LoadMap("Tutorial_v1.5.CWM");
 
