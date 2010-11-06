@@ -161,7 +161,7 @@ void CSinglePlayerState::Enter(void)
 	this->m_pOF->RegisterClassType<CIce>("CIce");
 
 
-	this->m_nBackgroundImageID = this->m_pTM->LoadTexture("resource/graphics/bgGame.png");
+	this->m_nBackgroundImageID = this->m_pTM->LoadTexture("resource/graphics/3d_city.png");
 	this->m_nCrossHairID = this->m_pTM->LoadTexture("resource/graphics/CrossHairs.png");
 	this->m_nBGMusic = this->m_pWM->LoadWave("resource/sounds/Jak2_Haven_City.wav");
 	this->m_nSelectedWeaponID		= m_pTM->LoadTexture("resource/graphics/EquipmentWeaponIcons.png");
@@ -172,13 +172,26 @@ void CSinglePlayerState::Enter(void)
 
 	if(this->m_nCurrentLevel == TUTORIAL && this->m_nPreviousLevel == -1)
 	{
+		this->m_TempPlayer->SetPosX((float)200);
 		this->m_TempPlayer->SetPosY((float)90);
+	}
+	else if(this->m_nCurrentLevel == LEVEL1 && this->m_nPreviousLevel == TUTORIAL)
+	{
+		this->m_TempPlayer->SetPosX((float)42);
+		this->m_TempPlayer->SetPosY((float)700);
+	}
+	else if(this->m_nCurrentLevel == TUTORIAL && this->m_nPreviousLevel == LEVEL1)
+	{
+		this->m_TempPlayer->SetPosX((float)2300);
+		this->m_TempPlayer->SetPosY((float)1024);
 	}
 	else if(this->m_nCurrentLevel == LEVEL2 && this->m_nPreviousLevel == TUTORIAL)
 	{
+		this->m_TempPlayer->SetPosX((float)400);
 		this->m_TempPlayer->SetPosY((float)0);
 	}
-	this->m_TempPlayer->SetPosX((float)200);
+
+
 	this->m_TempPlayer->SetWidth(64);
 	this->m_TempPlayer->SetHeight(143);
 	this->m_TempPlayer->SetBaseVelX(0);
@@ -199,7 +212,8 @@ void CSinglePlayerState::Enter(void)
 
 
 
-	if(!this->m_Profile.m_bHaveHook)	{		
+	if(!this->m_Profile.m_bHaveHook)	
+	{		
 		this->m_PickUp = (CPickUp*)m_pOF->CreateObject("CPickUp");		
 		this->m_PickUp->SetImageID(this->m_pTM->LoadTexture("resource/graphics/Grappling_Hook.png"));		
 		this->m_PickUp->SetPosX((float)50);		

@@ -422,8 +422,32 @@ void CPlayer::Update(float fElapsedTime)
 	{
 		if(this->GetPosX() > 2490 && this->GetPosY() > 638 && this->GetPosY() < 900)
 		{
+			CSinglePlayerState::GetInstance()->SetCurrentLevel(LEVEL1);
+			CSinglePlayerState::GetInstance()->SetPreviousLevel(TUTORIAL);
+			CSinglePlayerState::GetInstance()->SetChangeLevel(true);
+		}
+		if(this->GetPosX() > 1980 && this->GetPosX() < 2240 && this->GetPosY() > 1407)
+		{
 			CSinglePlayerState::GetInstance()->SetCurrentLevel(LEVEL2);
 			CSinglePlayerState::GetInstance()->SetPreviousLevel(TUTORIAL);
+			CSinglePlayerState::GetInstance()->SetChangeLevel(true);
+		}
+	}
+	if(CSinglePlayerState::GetInstance()->GetCurrentLevel() == LEVEL1)
+	{
+		if(this->GetPosX() < 0 && this->GetPosY() > 638 && this->GetPosY() < 900)
+		{
+			CSinglePlayerState::GetInstance()->SetCurrentLevel(TUTORIAL);
+			CSinglePlayerState::GetInstance()->SetPreviousLevel(LEVEL1);
+			CSinglePlayerState::GetInstance()->SetChangeLevel(true);
+		}
+	}
+	if(CSinglePlayerState::GetInstance()->GetCurrentLevel() == LEVEL2)
+	{
+		if(this->GetPosX() < 0 && this->GetPosY() < 0 )
+		{
+			CSinglePlayerState::GetInstance()->SetCurrentLevel(TUTORIAL);
+			CSinglePlayerState::GetInstance()->SetPreviousLevel(LEVEL1);
 			CSinglePlayerState::GetInstance()->SetChangeLevel(true);
 		}
 	}
@@ -1087,6 +1111,10 @@ bool CPlayer::CheckCollision(CBase* pBase)
 		if(BLOCK->GetBlock() == BLOCK_SOLID || BLOCK->GetBlock() == BLOCK_MOVING || BLOCK->GetBlock() == BLOCK_PARTIAL)
 		{
 
+			/*if(myBottom > hisY && myRight > hisX && myRight < hisRight && myX < hisX )
+			{
+				this->SetPosX(this->GetPosX()-1);
+			}*/
 			if(myBottom >= hisY  
 				&& (myBottom) < (hisBottom)
 				&& (myRight) > hisX
@@ -1120,6 +1148,8 @@ bool CPlayer::CheckCollision(CBase* pBase)
 			
 				return false;
 			}
+
+			
 		}
 		//else if(BLOCK->GetBlock() == BLOCK_PARTIAL)
 		//{

@@ -111,7 +111,7 @@ bool CGrenade::CheckCollision(CBase *pBase)
 				this->m_nBounceCount = 0;
 			}
 		}
-		else if(pBase->GetType() == OBJ_ENEMY)
+		else if(pBase->GetType() == OBJ_ENEMY && pBase->GetType() != OBJ_SPAWNER)
 		{
 			CBaseEnemy* pEnemy = (CBaseEnemy*)pBase; 
 			float p = pEnemy->GetTargetPosition().fX;

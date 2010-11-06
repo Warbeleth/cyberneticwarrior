@@ -133,7 +133,7 @@ bool CRocket::CheckCollision( CBase* pBase )
 	RECT rIntersect;
 	if( IntersectRect(&rIntersect, &GetRect(), &pBase->GetRect()) )
 	{
-		if( pBase->GetType() != OBJ_PLAYER )
+		if( pBase->GetType() != OBJ_PLAYER && pBase->GetType() != OBJ_SPAWNER )
 		{
 			// Destroy the rocket
 			CGame::GetInstance()->GetMessageSystemPointer()->SendMsg( new CDestroyRocketMessage( this, CSinglePlayerState::GetInstance()->GetPlayerPointer()) );
