@@ -126,7 +126,7 @@ void CSinglePlayerState::Enter(void)
 		m_TempMap->LoadMap("Tutorial_v1.5.CWM");
 		break;
 	case LEVEL1:
-		m_TempMap->LoadMap("CW-Map_01.CWM");
+		m_TempMap->LoadMap("CW-Map_02.CWM");
 		break;
 	case LEVEL2:
 		m_TempMap->LoadMap("Level-2.CWM");
