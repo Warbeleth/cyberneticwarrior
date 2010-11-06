@@ -26,7 +26,7 @@ class CIdleEnemy;
 class CPatrolEnemy;
 class CFLCLMech;
 
-enum currentLevel {TUTORIAL = 0, LEVEL1, LEVEL2, LEVEL3, LEVEL4, LEVEL5, LEVEL_MAX};
+enum currentLevel {TUTORIAL = 0, LEVEL1, LEVEL2, LEVEL3, LEVEL4, LEVEL5, SECRET1, LEVEL_MAX};
 
 class CSinglePlayerState : public IGameState
 {
