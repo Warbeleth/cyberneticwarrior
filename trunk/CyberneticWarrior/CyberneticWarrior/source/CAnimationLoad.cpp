@@ -255,10 +255,12 @@ void CAnimations::Render( int nPosX, int nPosY, float fScaleX  )
 		CCamera::GetInstance()->GetScale(), 
 		&m_vAnimations[ m_nCurrentAnimation ].m_vFrames[ m_vAnimations[m_nCurrentAnimation].m_nCurrentFrame ].GetFrame() );
 
+	#ifdef DRAWRECT
 	if(fScaleX == 1)
 		m_vAnimations[ m_nCurrentAnimation ].m_vFrames[ m_vAnimations[m_nCurrentAnimation].m_nCurrentFrame ].RectRender( nPosX-CCamera::GetInstance()->GetOffsetX()-GetFrameWidth()/2, nPosY-CCamera::GetInstance()->GetOffsetY()-GetFrameHeight(), fScaleX );
 	else if(fScaleX == -1 )
 		m_vAnimations[ m_nCurrentAnimation ].m_vFrames[ m_vAnimations[m_nCurrentAnimation].m_nCurrentFrame ].RectRender( nPosX-CCamera::GetInstance()->GetOffsetX()-3*GetFrameWidth()/2, nPosY-CCamera::GetInstance()->GetOffsetY()-GetFrameHeight(), fScaleX );
+	#endif
 }
 
 //////////////////////////////////////////////////////////////////////////////////////////////////////

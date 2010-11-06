@@ -15,6 +15,7 @@ CAppleMech::CAppleMech(int nImageID, float PosX, float PosY,int Width, int Heigh
 				nAttackRange, fRateOfFire, fSpeed, PosX, PosY, Width, Height)
 {
 	SetAnimations(CMapLoad::GetInstance()->CreateAnimation(Boss_Apple));
+	GetAnimations()->SetCurrentAnimation(1);
 }
 CAppleMech::~CAppleMech()
 {
