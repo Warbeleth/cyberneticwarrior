@@ -253,10 +253,7 @@ bool CMapLoad::LoadMap(const char* szFilename)
 
 			m_lMap[Index] = NewNode;
 
-			CSpawner* Spawner = (CSpawner*)m_pOF->CreateObject("CSpawner");
-			Spawner->SetPosX((float)NewNode.m_sSpawner.m_nPosX);
-			Spawner->SetPosY((float)NewNode.m_sSpawner.m_nPosY);
-			Spawner->SetSpawner(NewNode.m_sSpawner.m_nType);
+			CSpawner* Spawner = new CSpawner(NewNode.m_sSpawner.m_nType, (float)NewNode.m_sSpawner.m_nPosX, (float)NewNode.m_sSpawner.m_nPosY);
 
 			m_pOM->AddObject(Spawner);
 			Spawner->Release();
