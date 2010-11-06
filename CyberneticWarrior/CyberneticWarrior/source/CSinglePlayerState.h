@@ -57,6 +57,7 @@ private:
 	bool m_bNewGame;
 	bool m_bMusic;
 	bool m_bInput;
+	bool m_bLevelChange;
 
 	int			m_nMusicVolume;
 	int			m_nSFXVolume;
@@ -70,6 +71,7 @@ private:
 	int			m_nSelectedWeaponID;
 	int			m_nWeaponID;
 	int			m_nCurrentLevel;
+	int			m_nPreviousLevel;
 
 	CObjectFactory<string, CBase>*			m_pOF;
 	CObjectManager*							m_pOM;
@@ -105,10 +107,14 @@ public:
 	inline int		GetWeaponSelectionID(void) {return this->m_nSelectedWeaponID;}
 	inline bool		GetNewGame(void) { return this->m_bNewGame;}
 	inline void		SetNewGame(bool bNewGame) {this->m_bNewGame = bNewGame;}
+	inline bool		GetChangeLevel(void)	{return this->m_bLevelChange;}
+	inline void		SetChangeLevel(bool bChange) {this->m_bLevelChange = bChange;}
 	inline bool		GetInputType(void) { return this->m_bInput;}
 	inline void		SetInputType(bool bInput) {this->m_bInput = bInput;}
 	inline void		SetCurrentLevel(int nLevel) {this->m_nCurrentLevel = nLevel;}
 	inline int		GetCurrentLevel(void) {return this->m_nCurrentLevel;}
+	inline void		SetPreviousLevel(int nPLevel) {this->m_nPreviousLevel = nPLevel;}
+	inline int		GetPreviousLevel(void)	{return this->m_nPreviousLevel;}
 
 	bool	Input(void);
 	void	Enter(void);

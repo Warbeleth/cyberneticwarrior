@@ -10,6 +10,7 @@
 #include "CAnimationLoad.h"
 #include "CMapLoad.h"
 
+
 CPlayer::CPlayer(void)
 {
 	// Type
@@ -410,6 +411,22 @@ void CPlayer::Update(float fElapsedTime)
 	// Update Players Animations
 	//////////////////////////////////////////////////////////////////////////////
 	GetAnimations()->Update( fElapsedTime );
+	//////////////////////////////////////////////////////////////////////////////
+
+
+	
+	//////////////////////////////////////////////////////////////////////////////
+	// Check for when player has progressed to a new level or area
+	//////////////////////////////////////////////////////////////////////////////
+	if(CSinglePlayerState::GetInstance()->GetCurrentLevel() == TUTORIAL)
+	{
+		if(this->GetPosX() > 2490 && this->GetPosY() > 638 && this->GetPosY() < 900)
+		{
+			CSinglePlayerState::GetInstance()->SetCurrentLevel(LEVEL2);
+			CSinglePlayerState::GetInstance()->SetPreviousLevel(TUTORIAL);
+			CSinglePlayerState::GetInstance()->SetChangeLevel(true);
+		}
+	}
 	//////////////////////////////////////////////////////////////////////////////
 }
 
@@ -927,9 +944,7 @@ void CPlayer::Input(float fElapsedTime)
 	//////////////////////////////////////////////////////////////////////////////
 
 
-	if(CSinglePlayerState::GetInstance()->GetCurrentLevel() == TUTORIAL)
-	{
-	}
+
 
 }
 

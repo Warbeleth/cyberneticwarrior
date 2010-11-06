@@ -60,7 +60,8 @@ CSinglePlayerState::CSinglePlayerState(void)
 	//Enemy_1 = NULL;
 	//Enemy_2 = NULL;
 	//Enemy_3 = NULL;
-	this->m_nCurrentLevel = LEVEL2;
+	this->m_nCurrentLevel = TUTORIAL;
+	this->m_nPreviousLevel = -1;
 
 	this->SetNewGame(1);
 
@@ -69,6 +70,7 @@ CSinglePlayerState::CSinglePlayerState(void)
 	this->SetType(GAMEPLAY);
 	this->SetInputType(this->CKEYBOARD);
 	this->m_bMusic = 1;
+	this->m_bLevelChange = false;
 }
 
 CSinglePlayerState::~CSinglePlayerState(void)
@@ -76,9 +78,13 @@ CSinglePlayerState::~CSinglePlayerState(void)
 	this->m_nBackgroundImageID		= -1;
 	this->m_nCrossHairID			= -1;
 	this->m_nBGMusic				= -1;
+	this->m_bLevelChange = false;
 
 	this->m_nSelectedWeaponID		= -1;
 	this->m_nWeaponID					= -1;
+
+	this->m_nCurrentLevel = TUTORIAL;
+	this->m_nPreviousLevel = 0;
 
 	this->m_TempPlayer = NULL;
 	this->m_TempPlatform1 = NULL;
@@ -109,6 +115,7 @@ void CSinglePlayerState::Enter(void)
 {
 	// File Include Needs conversion - Corey
 	//CStackStateMachine::GetInstance()->Push_Back(CLoadingState::GetInstance());
+	this->m_bLevelChange = false;
 	this->m_TempMap = CMapLoad::GetInstance();
 	this->m_TempMap->LoadAnimations();	
 	//	m_TempMap->LoadMap("test.CWM");
@@ -129,7 +136,7 @@ void CSinglePlayerState::Enter(void)
 	//	m_TempMap->LoadMap("Tutorial_v1.5.CWM");
 
 
-	//
+	
 
 	this->m_pD3D	=		CSGD_Direct3D::GetInstance();
 	this->m_pDI		= 		CSGD_DirectInput::GetInstance();
@@ -162,8 +169,16 @@ void CSinglePlayerState::Enter(void)
 
 	this->m_TempPlayer = (CPlayer*)m_pOF->CreateObject("CPlayer");
 	this->m_TempPlayer->SetImageID(this->m_pTM->LoadTexture("resource/graphics/Running1.bmp"));
+
+	if(this->m_nCurrentLevel == TUTORIAL && this->m_nPreviousLevel == -1)
+	{
+		this->m_TempPlayer->SetPosY((float)90);
+	}
+	else if(this->m_nCurrentLevel == LEVEL2 && this->m_nPreviousLevel == TUTORIAL)
+	{
+		this->m_TempPlayer->SetPosY((float)0);
+	}
 	this->m_TempPlayer->SetPosX((float)200);
-	this->m_TempPlayer->SetPosY((float)150.0f);
 	this->m_TempPlayer->SetWidth(64);
 	this->m_TempPlayer->SetHeight(143);
 	this->m_TempPlayer->SetBaseVelX(0);
@@ -246,6 +261,7 @@ bool CSinglePlayerState::Input(void)
 
 void CSinglePlayerState::Update(float fElapsedTime)
 {
+	
 	if(this->m_bMusic)
 	{
 		//this->m_pWM->Play(this->m_nBGMusic, DSBPLAY_LOOPING);
@@ -283,6 +299,12 @@ void CSinglePlayerState::Update(float fElapsedTime)
 		this->m_pDI->MouseSetPosY(CGame::GetInstance()->GetScreenHeight() - 32);
 	}
 
+	if(this->m_bLevelChange)
+	{
+		CLoadingState::GetInstance()->SetLoad(false);
+		CStackStateMachine::GetInstance()->ChangeState(CLoadingState::GetInstance());
+		//CStackStateMachine::GetInstance()->RemoveState(GAMEPLAY);
+	}
 
 }
 
