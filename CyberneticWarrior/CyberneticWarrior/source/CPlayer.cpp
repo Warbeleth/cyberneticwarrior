@@ -1193,7 +1193,7 @@ bool CPlayer::CheckCollision(CBase* pBase)
 				&&	myX < hisX
 				&&	(myY >= hisY || myBottom <= hisBottom))
 			{
-				SetPosX(hisX - GetWidth());
+				SetPosX(hisX - (myRight - myX));
 			}
 			else if(myX < hisRight
 				&& RightDifference < 64
