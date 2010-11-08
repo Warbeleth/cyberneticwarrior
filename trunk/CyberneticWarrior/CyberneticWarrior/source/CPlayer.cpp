@@ -1148,6 +1148,11 @@ bool CPlayer::CheckCollision(CBase* pBase)
 			myBottom = myY + GetHeight();
 		}
 
+		float LeftDifference = fabs(myX - hisX);
+		float RightDifference = fabs(myY - hisY);
+		float TopDifference = fabs(myRight - hisRight);
+		float BottomDifference = fabs(myBottom - hisBottom);
+
 		if(BLOCK->GetBlock() == BLOCK_SOLID || BLOCK->GetBlock() == BLOCK_MOVING || BLOCK->GetBlock() == BLOCK_PARTIAL)
 		{
 
@@ -1179,6 +1184,26 @@ bool CPlayer::CheckCollision(CBase* pBase)
 
 				CMapLoad::GetInstance()->m_bCollisionCheck = true;
 				return true;
+			}
+			else if(myRight > hisX
+				&& RightDifference < 64
+				&& LeftDifference < 64
+				&& TopDifference < 128
+				&& BottomDifference < 128
+				&&	myX < hisX
+				&&	(myY >= hisY || myBottom <= hisBottom))
+			{
+				SetPosX(hisX - GetWidth());
+			}
+			else if(myX < hisRight
+				&& RightDifference < 64
+				&& LeftDifference < 64
+				&& TopDifference < 128
+				&& BottomDifference < 128
+				&& myRight > hisRight
+				&& (myY >= hisY || myBottom <= hisBottom))
+			{
+				SetPosX(hisRight);
 			}
 			else if(this->m_bOnPlatform && CMapLoad::GetInstance()->m_bCollisionCheck == false)
 			{
