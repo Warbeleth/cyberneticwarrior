@@ -1115,11 +1115,11 @@ void CPlayer::Render(void)
 	if(this->m_nSelectedWeapon == this->SONIC_RIFLE)
 	{
 		RECT rCharge;
-		rCharge.left = (LONG)(64 *(15));
-		rCharge.top  = (LONG)0;
+		rCharge.left = (LONG)(64 *9);
+		rCharge.top  = (LONG)64;
 		rCharge.right = rCharge.left + 64;
-		rCharge.bottom = rCharge.top +(LONG)(64 *(this->m_fChargeRate*this->m_nCharge));
-		CSGD_TextureManager::GetInstance()->Draw(CSinglePlayerState::GetInstance()->GetWeaponSelectionID(), 0, (int)(600-(64 *(this->m_fChargeRate*this->m_nCharge))),
+		rCharge.bottom = rCharge.top +(LONG)(70 *(this->m_fChargeRate*this->m_nCharge));
+		CSGD_TextureManager::GetInstance()->Draw(CSinglePlayerState::GetInstance()->GetWeaponSelectionID(), 0, (int)(600-(70 *(this->m_fChargeRate*this->m_nCharge))),
 			1.0f,1.0f,&rCharge);
 	}
 	//////////////////////////////////////////////////////////////////////////////
