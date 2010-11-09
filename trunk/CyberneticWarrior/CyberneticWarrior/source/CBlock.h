@@ -13,9 +13,12 @@ private:
 	float m_fPosY;
 	float m_fTimeWaited;
 	float m_fSpeed;
+	float m_fScaleX;
+	float m_fScaleY;
 	int m_nWidth;
 	int m_nHeight;
 	bool m_bStable;
+	RECT m_rDrawRect;
 
 public:
 
@@ -39,6 +42,10 @@ public:
 	void SetHeight(int nHeight) { m_nHeight = nHeight; }
 	void SetBlock(int nType) { m_nBlockType = nType; }
 	void SetStable(bool Value) { m_bStable = Value; }
+	void SetDrawRect(RECT rDrawRect) { m_rDrawRect = rDrawRect; }
+	void SetScaleX(float Value) { m_fScaleX = Value; }
+	void SetScaleY(float Value) { m_fScaleY = Value; }
+
 
 
 	bool CheckCollision(CBase* pBase);

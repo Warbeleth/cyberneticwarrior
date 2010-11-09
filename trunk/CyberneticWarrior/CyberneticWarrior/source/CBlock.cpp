@@ -15,6 +15,8 @@ CBlock::CBlock(int nBlockType, float fPosX, float fPosY, int nWidth, int nHeight
 	m_fTimeWaited = 0;
 	m_fSpeed = 75;
 	m_bStable = true;
+	m_fScaleX = 1.0f;
+	m_fScaleY = 1.0f;
 }
 
 CBlock::~CBlock(void)
@@ -48,7 +50,23 @@ void CBlock::Update(float fElapsedTime)
 }
 
 void CBlock::Render(void)
-{
+{	
+	if(GetImageID() != -1)
+	{
+		int OffsetX = CCamera::GetInstance()->GetOffsetX();
+		int OffsetY = CCamera::GetInstance()->GetOffsetY();
+		float CamScale = CCamera::GetInstance()->GetScale();
+		int PosX = (int)((GetPosX()-OffsetX)*CamScale);
+		int PosY = (int)((GetPosY()-OffsetY)*CamScale);
+
+		CSGD_TextureManager* TM = CSGD_TextureManager::GetInstance();
+		CSGD_Direct3D* D3D = CSGD_Direct3D::GetInstance();
+
+		TM->Draw(GetImageID(), PosX, PosY, m_fScaleX*CamScale, m_fScaleY*CamScale, &m_rDrawRect, 0, 0, 0, -1);
+		D3D->GetSprite()->Flush();	// DRAW ALL SPRITES NOW!!!
+	}
+
+	
 #ifdef DRAWRECT
 	int left = (int)GetPosX() - CCamera::GetInstance()->GetOffsetX();
 	int top = (int)GetPosY() - CCamera::GetInstance()->GetOffsetY();
@@ -94,8 +112,8 @@ void CBlock::CheckCulling()
 {
 	SetCulling(false);
 
-	float CameraX = CCamera::GetInstance()->GetOffsetX();
-	float CameraY = CCamera::GetInstance()->GetOffsetY();
+	float CameraX = (float)CCamera::GetInstance()->GetOffsetX();
+	float CameraY = (float)CCamera::GetInstance()->GetOffsetY();
 	float xPos = GetPosX();
 	float yPos = GetPosY();
 	float wPos = xPos+GetWidth();

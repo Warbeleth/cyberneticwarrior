@@ -113,8 +113,6 @@ RECT CBaseEnemy::GetRect()
 
 void CBaseEnemy::Update(float fElapsedTime)
 { 
-	SetCurrentHP(GetCurrentHP() - int((75 * fElapsedTime)));
-
 	//Get target position
 	if(m_bSinglePlayer)
 	{
