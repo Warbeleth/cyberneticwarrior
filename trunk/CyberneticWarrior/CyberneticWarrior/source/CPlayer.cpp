@@ -1112,6 +1112,9 @@ bool CPlayer::CheckCollision(CBase* pBase)
 	{
 		Offset.m_nY = rPlayerFrame.bottom - rPrevRect.bottom;
 		SetPosY(GetPosY()-Offset.m_nY);
+
+		Offset.m_nX = rPlayerFrame.right - rPrevRect.right;
+
 		rPrevRect = rPlayerFrame;
 
 		//m_bOnPlatform = false;
@@ -1185,6 +1188,18 @@ bool CPlayer::CheckCollision(CBase* pBase)
 				CMapLoad::GetInstance()->m_bCollisionCheck = true;
 				return true;
 			}
+			else if(myY < hisBottom
+				&& RightDifference < 64
+				&& LeftDifference < 64
+				&& TopDifference < 128
+				&& BottomDifference < 128
+				&& myBottom > hisBottom
+				&& m_vSpeed.fY < 0.0f
+				&& (myX >= hisX || myRight <= hisRight))
+			{
+				SetPosY(hisBottom);
+				m_vSpeed.fY = 0.0;
+			}
 			else if(myRight > hisX
 				&& RightDifference < 64
 				&& LeftDifference < 64
@@ -1194,6 +1209,8 @@ bool CPlayer::CheckCollision(CBase* pBase)
 				&&	(myY >= hisY || myBottom <= hisBottom))
 			{
 				SetPosX(hisX - (myRight - myX));
+				m_vSpeed.fX = 0.0;
+				SetPosX(GetPosX() - Offset.m_nX);
 			}
 			else if(myX < hisRight
 				&& RightDifference < 64
@@ -1204,6 +1221,7 @@ bool CPlayer::CheckCollision(CBase* pBase)
 				&& (myY >= hisY || myBottom <= hisBottom))
 			{
 				SetPosX(hisRight);
+				m_vSpeed.fX = 0.0;
 			}
 			else if(this->m_bOnPlatform && CMapLoad::GetInstance()->m_bCollisionCheck == false)
 			{
