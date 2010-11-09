@@ -242,7 +242,8 @@ void	CStackStateMachine::UpdateState(float fElapsedtime)
 			{
 				this->m_pHead->pData->Update(fElapsedtime);
 			}
-		}else
+		}
+		else
 		{
 
 			this->m_pHead->pData->Update(fElapsedtime);
