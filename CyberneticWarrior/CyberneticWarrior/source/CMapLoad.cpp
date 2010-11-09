@@ -290,6 +290,21 @@ bool CMapLoad::LoadMap(const char* szFilename)
 			newPlatform->SetBlock(NewNode.m_cCollision.m_nType);
 			newPlatform->SetType(OBJ_BLOCK);
 
+			int ImageRow = m_lMap[Index].m_nDrawImage / m_gSelectionMap.m_nColumns;
+			int ImageCol = m_lMap[Index].m_nDrawImage % m_gSelectionMap.m_nColumns;
+
+			RECT rDrawRect;
+			rDrawRect.left = ImageCol * m_gSelectionMap.m_nWidth;
+			rDrawRect.top = ImageRow * m_gSelectionMap.m_nHeight;
+			rDrawRect.right = rDrawRect.left + m_gSelectionMap.m_nWidth;
+			rDrawRect.bottom = rDrawRect.top + m_gSelectionMap.m_nHeight;
+
+			newPlatform->SetDrawRect(rDrawRect);
+			newPlatform->SetImageID(m_nImageID);
+			newPlatform->SetScaleX(m_fScaleX);
+			newPlatform->SetScaleY(m_fScaleY);
+
+
 			m_pOM->AddObject(newPlatform);
 			newPlatform->Release();
 		}
@@ -300,11 +315,12 @@ bool CMapLoad::LoadMap(const char* szFilename)
 bool CMapLoad::LoadMapImage(const char* szFilename)
 {
 	if(m_gSelectionMap.m_nImageID == -1)
-		m_gSelectionMap.m_nImageID = CSGD_TextureManager::GetInstance()->LoadTexture(szFilename);
+		m_nImageID = m_gSelectionMap.m_nImageID = CSGD_TextureManager::GetInstance()->LoadTexture(szFilename);
 	else
 	{
 		CSGD_TextureManager::GetInstance()->UnloadTexture(m_gSelectionMap.m_nImageID);
-		m_gSelectionMap.m_nImageID = CSGD_TextureManager::GetInstance()->LoadTexture(szFilename);
+		m_nImageID = -1;
+		m_nImageID = m_gSelectionMap.m_nImageID = CSGD_TextureManager::GetInstance()->LoadTexture(szFilename);
 	}
 
 	return true;
@@ -352,41 +368,41 @@ void CMapLoad::Render()
 	int OffsetY = CCamera::GetInstance()->GetOffsetY();
 	float CamScale = CCamera::GetInstance()->GetScale();
 
-	for (int Row = 0; Row < m_gTileMap.m_nRows; Row++)
-		for (int Col = 0; Col < m_gTileMap.m_nColumns; Col++)
-		{
-			int Index = Row * m_gTileMap.m_nColumns + Col;
+	//for (int Row = 0; Row < m_gTileMap.m_nRows; Row++)
+	//	for (int Col = 0; Col < m_gTileMap.m_nColumns; Col++)
+	//	{
+	//		int Index = Row * m_gTileMap.m_nColumns + Col;
 
-			int PosX = (int)(CamScale * (Col * m_gTileMap.m_nWidth - OffsetX));
-			int PosY = (int)(CamScale * (Row * m_gTileMap.m_nHeight - OffsetY));
+	//		int PosX = (int)(CamScale * (Col * m_gTileMap.m_nWidth - OffsetX));
+	//		int PosY = (int)(CamScale * (Row * m_gTileMap.m_nHeight - OffsetY));
 
-			//m_lMap[Index].m_nDrawImage;
-			//y = i/width
-			//x = i%width
+	//		//m_lMap[Index].m_nDrawImage;
+	//		//y = i/width
+	//		//x = i%width
 
-			int ImageRow = m_lMap[Index].m_nDrawImage / m_gSelectionMap.m_nColumns;
-			int ImageCol = m_lMap[Index].m_nDrawImage % m_gSelectionMap.m_nColumns;
+	//		int ImageRow = m_lMap[Index].m_nDrawImage / m_gSelectionMap.m_nColumns;
+	//		int ImageCol = m_lMap[Index].m_nDrawImage % m_gSelectionMap.m_nColumns;
 
-			if ((ImageRow == (m_gSelectionMap.m_nRows - 1)) && (ImageCol == (m_gSelectionMap.m_nColumns - 1)))
-				continue;
+	//		if ((ImageRow == (m_gSelectionMap.m_nRows - 1)) && (ImageCol == (m_gSelectionMap.m_nColumns - 1)))
+	//			continue;
 
-			if (PosX > 800 || PosX + m_gSelectionMap.m_nWidth < 0)
-				continue;
+	//		if (PosX > 800 || PosX + m_gSelectionMap.m_nWidth < 0)
+	//			continue;
 
-			if (PosY > 600 || PosY + m_gSelectionMap.m_nHeight < 0)
-				continue;
+	//		if (PosY > 600 || PosY + m_gSelectionMap.m_nHeight < 0)
+	//			continue;
 
-			RECT rDrawRect;
-			rDrawRect.left = ImageCol * m_gSelectionMap.m_nWidth;
-			rDrawRect.top = ImageRow * m_gSelectionMap.m_nHeight;
-			rDrawRect.right = rDrawRect.left + m_gSelectionMap.m_nWidth;
-			rDrawRect.bottom = rDrawRect.top + m_gSelectionMap.m_nHeight;
+	//		RECT rDrawRect;
+	//		rDrawRect.left = ImageCol * m_gSelectionMap.m_nWidth;
+	//		rDrawRect.top = ImageRow * m_gSelectionMap.m_nHeight;
+	//		rDrawRect.right = rDrawRect.left + m_gSelectionMap.m_nWidth;
+	//		rDrawRect.bottom = rDrawRect.top + m_gSelectionMap.m_nHeight;
 
 
-			TM->Draw(m_gSelectionMap.m_nImageID, PosX, PosY, m_fScaleX*CamScale, m_fScaleY*CamScale, &rDrawRect, 0, 0, 0, -1);
-		}
+	//		TM->Draw(m_gSelectionMap.m_nImageID, PosX, PosY, m_fScaleX*CamScale, m_fScaleY*CamScale, &rDrawRect, 0, 0, 0, -1);
+	//	}
 
-		D3D->GetSprite()->Flush();	// DRAW ALL SPRITES NOW!!!
+	//	D3D->GetSprite()->Flush();	// DRAW ALL SPRITES NOW!!!
 
 #ifdef BOXTYPES
 		for (int Row = 0; Row < m_gTileMap.m_nRows; Row++)
