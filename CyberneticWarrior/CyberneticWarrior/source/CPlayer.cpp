@@ -728,7 +728,8 @@ void CPlayer::Input(float fElapsedTime)
 		}
 
 		this->m_pMovingBlock = NULL;
-		this->m_bJoyMove = true;
+
+			//this->m_bJoyMove = true;
 		this->m_bOnMovingPlatform = false;
 
 		if(this->m_pHook)
@@ -759,7 +760,6 @@ void CPlayer::Input(float fElapsedTime)
 		{
 			this->m_vSpeed.fX += nMoveSpeed;
 		}
-		this->m_bJoyMove = true;
 		this->m_pMovingBlock = NULL;
 		this->m_bOnMovingPlatform = false;
 
@@ -783,6 +783,12 @@ void CPlayer::Input(float fElapsedTime)
 
 		GetAnimations()->SetCurrentAnimation(0);
 	}
+
+	if(CSGD_DirectInput::GetInstance()->JoystickGetLStickDirDown(DIR_RIGHT) || CSGD_DirectInput::GetInstance()->JoystickGetLStickDirDown(DIR_LEFT))
+	{
+		this->m_bJoyMove = true;
+	}
+	
 	//////////////////////////////////////////////////////////////////////////////
 	//if(CSGD_DirectInput::GetInstance()->KeyReleased(CGame::GetInstance()->GetPlayerOneControls(2)))
 	if((this->m_fBoostTime > 0.05f && (this->m_bFDash||this->m_bBDash))|| this->m_fWaitTime > 0.5f) 
@@ -1109,7 +1115,7 @@ void CPlayer::Render(void)
 	if(this->m_nSelectedWeapon == this->SONIC_RIFLE)
 	{
 		RECT rCharge;
-		rCharge.left = (LONG)(64 *(this->SONIC_RIFLE+1));
+		rCharge.left = (LONG)(64 *(15));
 		rCharge.top  = (LONG)0;
 		rCharge.right = rCharge.left + 64;
 		rCharge.bottom = rCharge.top +(LONG)(64 *(this->m_fChargeRate*this->m_nCharge));

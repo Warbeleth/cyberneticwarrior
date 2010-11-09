@@ -121,6 +121,8 @@ bool	CGameProfiler::Input(void)
 
 		if(!bReturn)
 		{
+			CSinglePlayerState::GetInstance()->SetCurrentLevel(TUTORIAL);
+			CSinglePlayerState::GetInstance()->SetPreviousLevel(-1);
 			if(this->GetManagement() != LOAD_GAME)
 			{
 				fManager.clear();

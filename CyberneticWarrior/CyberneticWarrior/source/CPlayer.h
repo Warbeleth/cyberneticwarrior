@@ -84,8 +84,8 @@ private:
 	//////////////////////////
 	// used for Sonic Rifle
 	//////////////////////////
-	int m_nCharge;
-	float m_fChargeRate;
+	int		 m_nCharge;
+	float	 m_fChargeRate;
 	//////////////////////////
 
 	bool m_bHookShot;
