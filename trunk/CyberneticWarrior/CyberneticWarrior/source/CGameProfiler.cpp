@@ -17,6 +17,8 @@ CGameProfiler::CGameProfiler(void)
 	this->m_pWM		= NULL;
 	this->m_pDS		= NULL;
 
+	this->m_fWaitTime = 0.0f;
+
 	this->m_nBackgroundID			= -1;
 	this->m_nProfileItemID			= -1;
 	//this->m_nCursorID				= -1;
@@ -55,9 +57,10 @@ CGameProfiler::~CGameProfiler(void)
 
 bool	CGameProfiler::Input(void)
 {
-	if(this->m_pDI->KeyPressed(DIK_UP) || this->m_pDI->JoystickDPadPressed(DIR_UP) || this->m_pDI->JoystickGetLStickYAmount(0) > 0.0f)
+	if(this->m_pDI->KeyPressed(DIK_UP) || this->m_pDI->JoystickDPadPressed(DIR_UP) || this->m_pDI->JoystickGetLStickYAmount(0) < 0.0f && this->m_fWaitTime > 0.3f)
 	{
 		--this->m_nSelection;
+		this->m_fWaitTime = 0.0f;
 
 		if(this->m_nSelection < this->OP1)
 		{
@@ -65,9 +68,10 @@ bool	CGameProfiler::Input(void)
 		}
 	}
 
-	if(this->m_pDI->KeyPressed(DIK_DOWN) || this->m_pDI->JoystickDPadPressed(DIR_DOWN) || this->m_pDI->JoystickGetLStickYAmount(0) < 0.0f)
+	if(this->m_pDI->KeyPressed(DIK_DOWN) || this->m_pDI->JoystickDPadPressed(DIR_DOWN) || this->m_pDI->JoystickGetLStickYAmount(0) > 0.0f && this->m_fWaitTime > 0.3f)
 	{
 		++this->m_nSelection;
+		this->m_fWaitTime = 0.0f;
 
 		if(this->m_nSelection > this->BACK)
 		{
@@ -190,6 +194,7 @@ void	CGameProfiler::Enter(void)
 void	CGameProfiler::Update(float fElapsedTime)
 {
 	this->m_nSelectionPos = (this->m_nSelection * GMENU_SPACE) + this->MENU_START;
+	this->m_fWaitTime += fElapsedTime;
 }
 
 void	CGameProfiler::Render(void)

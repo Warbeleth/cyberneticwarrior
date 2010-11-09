@@ -48,6 +48,7 @@ void CPatrolEnemy::Update(float fElapsedTime)
 		if(Distance <= GetSightRange())
 		{
 			ChangeAIState(pActive);
+			this->ReturnAIState();
 		}
 		else
 			ChangeAIState(Patrol);
