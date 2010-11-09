@@ -6,9 +6,9 @@
 class CFlame : public CBase
 {
 private:
+	CBase*   m_pOwner;
 	float m_fDirection;
 	float	m_fLifeTime;
-	int   m_nOwnerType;
 	int		m_nDamage;
 public:
 	CFlame(void);
@@ -18,7 +18,7 @@ public:
 	void Render(void);
 	RECT GetRect(void)const;
 	bool CheckCollision(CBase* pBase);
-	inline	int		GetOwnerType(void) {return this->m_nOwnerType;}
-	inline	void	SetOwnerType(int nOwner) {this->m_nOwnerType = nOwner;}
+	inline	CBase*		GetOwner(void) {return this->m_pOwner;}
+	inline	void	SetOwner(CBase* pOwner) {this->m_pOwner = pOwner;}
 };
 #endif

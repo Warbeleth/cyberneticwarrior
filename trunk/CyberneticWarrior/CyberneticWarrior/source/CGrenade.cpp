@@ -31,7 +31,7 @@ void CGrenade::Update(float fElapsedTime)
 
 	if(fAge > this->m_fBoomTime)
 	{
-		CGame::GetInstance()->GetMessageSystemPointer()->SendMsg( new CDestroyGrenadeMessage( this, CSinglePlayerState::GetInstance()->GetPlayerPointer()) );
+		CGame::GetInstance()->GetMessageSystemPointer()->SendMsg( new CDestroyGrenadeMessage( this, this->GetOwner()) );
 		fAge = 0.0f;
 	}
 	
@@ -50,7 +50,7 @@ void CGrenade::Update(float fElapsedTime)
 		)//|| (this->GetPosY() - (this->GetHeight()/2.0f) >= (vScreenDimensions.fY+20)))
 	{
 		// destroy
-		CGame::GetInstance()->GetMessageSystemPointer()->SendMsg(new CDestroyGrenadeMessage(this, CSinglePlayerState::GetInstance()->GetPlayerPointer()));
+		CGame::GetInstance()->GetMessageSystemPointer()->SendMsg(new CDestroyGrenadeMessage(this, this->GetOwner()));
 	}
 	
 	CBase::Update(fElapsedTime);
@@ -107,17 +107,15 @@ bool CGrenade::CheckCollision(CBase *pBase)
 			// Destroy the bullet
 			if(this->m_nBounceCount > 2)
 			{
-				CGame::GetInstance()->GetMessageSystemPointer()->SendMsg( new CDestroyGrenadeMessage( this, CSinglePlayerState::GetInstance()->GetPlayerPointer()) );
+				CGame::GetInstance()->GetMessageSystemPointer()->SendMsg( new CDestroyGrenadeMessage( this, this->GetOwner()) );
 				this->m_nBounceCount = 0;
 			}
 		}
-		if(this->GetOwnerType() == OBJ_PLAYER)
+		if(this->GetOwner()->GetType() == OBJ_PLAYER)
 		{
 			if(pBase->GetType() == OBJ_ENEMY && pBase->GetType() != OBJ_SPAWNER)
 			{
 				CBaseEnemy* pEnemy = (CBaseEnemy*)pBase; 
-				float p = pEnemy->GetTargetPosition().fX;
-				float o = pEnemy->GetTargetPosition().fY;
 				this->SetPosX(pEnemy->GetPosX());
 				this->SetPosY(pEnemy->GetPosY());
 				this->SetBaseVelX(0.0f);
@@ -125,8 +123,16 @@ bool CGrenade::CheckCollision(CBase *pBase)
 				this->m_vVelocity.fY = 0.0f;
 			}
 		}
-		else if(this->GetOwnerType() == OBJ_ENEMY)
+		else if(this->GetOwner()->GetType() == OBJ_ENEMY)
 		{
+			if(pBase->GetType() == OBJ_PLAYER && pBase->GetType() != OBJ_SPAWNER)
+			{
+				this->SetPosX(pBase->GetPosX());
+				this->SetPosY(pBase->GetPosY());
+				this->SetBaseVelX(0.0f);
+				this->SetBaseVelY(0.0f);
+				this->m_vVelocity.fY = 0.0f;
+			}
 		}
 
 		return 1;

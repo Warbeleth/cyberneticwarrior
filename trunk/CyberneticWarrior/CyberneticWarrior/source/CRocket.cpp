@@ -94,7 +94,7 @@ void CRocket::Update( float fElapsedTime)
 		)//|| (this->GetPosY() - (this->GetHeight()/2.0f) >= (vScreenDimensions.fY+20)))
 	{
 		// destroy
-		CGame::GetInstance()->GetMessageSystemPointer()->SendMsg(new CDestroyRocketMessage(this, CSinglePlayerState::GetInstance()->GetPlayerPointer()));
+		CGame::GetInstance()->GetMessageSystemPointer()->SendMsg(new CDestroyRocketMessage(this, this->GetOwner()));
 	}
 
 	CBase::Update( fElapsedTime );
@@ -133,16 +133,21 @@ bool CRocket::CheckCollision( CBase* pBase )
 	RECT rIntersect;
 	if( IntersectRect(&rIntersect, &GetRect(), &pBase->GetRect()) )
 	{
-		if(this->GetOwnerType() == OBJ_PLAYER)
+		if(this->GetOwner()->GetType() == OBJ_PLAYER)
 		{
 			if( pBase->GetType() != OBJ_PLAYER && pBase->GetType() != OBJ_SPAWNER )
 			{
 				// Destroy the rocket
-				CGame::GetInstance()->GetMessageSystemPointer()->SendMsg( new CDestroyRocketMessage( this, CSinglePlayerState::GetInstance()->GetPlayerPointer()) );
+				CGame::GetInstance()->GetMessageSystemPointer()->SendMsg( new CDestroyRocketMessage( this, this->GetOwner()) );
 			}
 		}
-		else if(this->GetOwnerType() == OBJ_ENEMY)
+		else if(this->GetOwner()->GetType() == OBJ_ENEMY)
 		{
+			if( pBase->GetType() != OBJ_ENEMY && pBase->GetType() != OBJ_SPAWNER )
+			{
+				// Destroy the rocket
+				CGame::GetInstance()->GetMessageSystemPointer()->SendMsg( new CDestroyRocketMessage( this, this->GetOwner()) );
+			}
 		}
 
 		return 1;

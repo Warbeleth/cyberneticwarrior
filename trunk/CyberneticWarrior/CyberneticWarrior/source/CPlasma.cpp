@@ -40,7 +40,7 @@ void CPlasma::Update(float fElapsedTime)
 		)//|| (this->GetPosY() - (this->GetHeight()/2.0f) >= (vScreenDimensions.fY+20)))
 	{
 		// destroy
-		CGame::GetInstance()->GetMessageSystemPointer()->SendMsg(new CDestroyPlasmaMessage(this, CSinglePlayerState::GetInstance()->GetPlayerPointer()));
+		CGame::GetInstance()->GetMessageSystemPointer()->SendMsg(new CDestroyPlasmaMessage(this, this->GetOwner()));
 	}
 }
 
@@ -76,16 +76,21 @@ bool CPlasma::CheckCollision(CBase *pBase)
 	RECT rIntersect;
 	if( IntersectRect(&rIntersect, &GetRect(), &pBase->GetRect()) )
 	{
-		if(this->GetOwnerType() == OBJ_PLAYER)
+		if(this->GetOwner()->GetType() == OBJ_PLAYER)
 		{
 			if( pBase->GetType() != OBJ_PLAYER && pBase->GetType() != OBJ_PLASMA  && pBase->GetType() != OBJ_SPAWNER)
 			{
 				// Destroy the bullet
-				CGame::GetInstance()->GetMessageSystemPointer()->SendMsg( new CDestroyPlasmaMessage( this, CSinglePlayerState::GetInstance()->GetPlayerPointer()) );
+				CGame::GetInstance()->GetMessageSystemPointer()->SendMsg( new CDestroyPlasmaMessage( this, this->GetOwner()) );
 			}
 		}
-		else if(this->GetOwnerType() == OBJ_ENEMY)
+		else if(this->GetOwner()->GetType() == OBJ_ENEMY)
 		{
+			if( pBase->GetType() != OBJ_ENEMY && pBase->GetType() != OBJ_PLASMA  && pBase->GetType() != OBJ_SPAWNER)
+			{
+				// Destroy the bullet
+				CGame::GetInstance()->GetMessageSystemPointer()->SendMsg( new CDestroyPlasmaMessage( this, this->GetOwner()) );
+			}
 		}
 
 		return 1;
