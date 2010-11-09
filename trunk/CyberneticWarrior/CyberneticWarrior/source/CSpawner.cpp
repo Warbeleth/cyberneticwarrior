@@ -13,14 +13,14 @@ CSpawner::CSpawner(int nSpawnerType, float fPosX, float fPosY, int nWidth, int n
 	m_fPosY = fPosY;
 	m_fTimeWaited = 0.0f;
 
-	if(nSpawnerType == SPAWNER_TURRET)
-		m_nTypeSpawner = 0;
-	else if(nSpawnerType == SPAWNER_AIR)
-		m_nTypeSpawner = 4;
-	else if(nSpawnerType == SPAWNER_GROUND)
-		m_nTypeSpawner = 7;
-	else if(nSpawnerType == SPAWNER_BOSS)
-		m_nTypeSpawner = 10;
+	if(m_nSpawnerType == SPAWNER_TURRET)
+		m_nTypeToSpawn = 0;
+	else if(m_nSpawnerType == SPAWNER_AIR)
+		m_nTypeToSpawn = 4;
+	else if(m_nSpawnerType == SPAWNER_GROUND)
+		m_nTypeToSpawn = 7;
+	else if(m_nSpawnerType == SPAWNER_BOSS)
+		m_nTypeToSpawn = 10;
 }
 
 CSpawner::~CSpawner()
@@ -35,21 +35,29 @@ void CSpawner::Update(float fElapsedTime)
 	if(m_fTimeWaited >= 30.0f)
 	{
 		m_fTimeWaited = 0.0f;
-		CGame::GetInstance()->GetMessageSystemPointer()->SendMsg(new CCreateEnemyMessage(m_nTypeSpawner, (int)GetPosX(), (int)GetPosY()));
-		m_nTypeSpawner++;
+		CGame::GetInstance()->GetMessageSystemPointer()->SendMsg(new CCreateEnemyMessage(m_nTypeToSpawn, (int)GetPosX(), (int)GetPosY()));
+		m_nTypeToSpawn++;
 
 		if(m_nSpawnerType == SPAWNER_TURRET)
-			if(m_nTypeSpawner > 3)
-				m_nTypeSpawner = 0;
+		{
+			if(m_nTypeToSpawn > 3)
+				m_nTypeToSpawn = 0;
+		}
 		else if(m_nSpawnerType == SPAWNER_AIR)
-			if(m_nTypeSpawner > 6)
-				m_nTypeSpawner = 4;
+		{
+			if(m_nTypeToSpawn > 6)
+				m_nTypeToSpawn = 4;
+		}
 		else if(m_nSpawnerType == SPAWNER_GROUND)
-			if(m_nTypeSpawner > 9)
-				m_nTypeSpawner = 7;
+		{
+			if(m_nTypeToSpawn > 9)
+				m_nTypeToSpawn = 7;
+		}
 		else if(m_nSpawnerType == SPAWNER_BOSS)
-			if(m_nTypeSpawner > 12)
-				m_nTypeSpawner = 10;
+		{
+			if(m_nTypeToSpawn > 12)
+				m_nTypeToSpawn = 10;
+		}
 	}
 }
 
