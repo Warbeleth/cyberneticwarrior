@@ -35,7 +35,7 @@ void CFlame::Update(float fElapsedTime)
 	fAge += fElapsedTime;
 	if(fAge > this->m_fLifeTime)
 	{
-		CGame::GetInstance()->GetMessageSystemPointer()->SendMsg( new CDestroyFlameMessage( this, CSinglePlayerState::GetInstance()->GetPlayerPointer()) );
+		CGame::GetInstance()->GetMessageSystemPointer()->SendMsg( new CDestroyFlameMessage( this, this->GetOwner()) );
 		fAge = 0.0f;
 	}
 }
@@ -92,15 +92,15 @@ bool CFlame::CheckCollision(CBase *pBase)
 	RECT rIntersect;
 	if( IntersectRect(&rIntersect, &GetRect(), &pBase->GetRect()) )
 	{
-		if(this->GetOwnerType() == OBJ_PLAYER)
+		if(this->GetOwner()->GetType() == OBJ_PLAYER)
 		{
 			if( pBase->GetType() != OBJ_PLAYER && pBase->GetType() != OBJ_FLAME && pBase->GetType() != OBJ_SPAWNER)
 			{
 				// Destroy the bullet
-				//CGame::GetInstance()->GetMessageSystemPointer()->SendMsg( new CDestroyFlameMessage( this, CSinglePlayerState::GetInstance()->GetPlayerPointer()) );
+				//CGame::GetInstance()->GetMessageSystemPointer()->SendMsg( new CDestroyFlameMessage( this, this->GetOwner()) );
 			}
 		}
-		else if(this->GetOwnerType() == OBJ_ENEMY)
+		else if(this->GetOwner()->GetType() == OBJ_ENEMY)
 		{
 		}
 

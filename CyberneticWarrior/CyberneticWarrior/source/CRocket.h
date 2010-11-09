@@ -11,10 +11,10 @@ class CEvent;
 class CRocket : public CBase, public IListener
 {
 private:
+	CBase*   m_pOwner;
 	float m_fDirection;
 	float m_fDeathTimer;
 	int	  m_nRocketState;
-	int   m_nOwnerType;
 protected:
 	enum RocketStates { ROCKET_DIRECTIONAL, ROCKET_HOMING, ROCKET_MAX };
 
@@ -27,8 +27,8 @@ public:
 	RECT GetRect( void ) const;
 	bool CheckCollision( CBase* pBase );
 	void HandleEvent( CEvent* pEvent );
-	inline	int		GetOwnerType(void) {return this->m_nOwnerType;}
-	inline	void	SetOwnerType(int nOwner) {this->m_nOwnerType = nOwner;}
+	inline	CBase*		GetOwner(void) {return this->m_pOwner;}
+	inline	void	SetOwner(CBase* pOwner) {this->m_pOwner = pOwner;}
 };
 
 #endif
