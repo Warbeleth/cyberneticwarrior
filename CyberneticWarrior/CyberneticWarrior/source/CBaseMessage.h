@@ -2,6 +2,7 @@
 #define BASEMESSAGE_H_
 
 class CGrapplingHook;
+class CBase;
 class CBaseEnemy;
 class CPlayer;
 class CRocket;
@@ -75,144 +76,144 @@ public:
 class CCreateRocketMessage : public CBaseMessage
 {
 private:
-	CPlayer*	m_pPlayer;
+	CBase*	m_pOwner;
 public:
-	CCreateRocketMessage( CPlayer* pPlayer );
+	CCreateRocketMessage( CBase* pOwner );
 	~CCreateRocketMessage( void );
 
-	CPlayer* GetPlayerPointer( void );
-	void SetPlayerPointer( CPlayer* pPlayer );
+	CBase* GetOwnerPointer( void );
+	void SetOwnerPointer( CBase* pOwner );
 };
 
 class CDestroyRocketMessage : public CBaseMessage
 {
 private:
 	CRocket*		m_pRocket;
-	CPlayer*		m_pPlayer;
+	CBase*		m_pOwner;
 public:
-	CDestroyRocketMessage(CRocket* pRocket, CPlayer* pPlayer);
+	CDestroyRocketMessage(CRocket* pRocket, CBase* pOwner);
 	~CDestroyRocketMessage(void);
-	CPlayer* GetPlayerPointer(void);
+	CBase* GetOwnerPointer(void);
 	CRocket* GetRocketPointer(void);
 };
 
 class CCreateBulletMessage : public CBaseMessage
 {
 private:
-	CPlayer*		m_pPlayer;
+	CBase*		m_pOwner;
 public:
-	CCreateBulletMessage(CPlayer* pPlayer);
+	CCreateBulletMessage(CBase* pOwner);
 	~CCreateBulletMessage(void);
 
-	CPlayer* GetPlayerPointer(void);
-	void SetPlayerPointer(CPlayer* pPlayer);
+	CBase* GetOwnerPointer(void);
+	void SetOwnerPointer(CBase* pOwner);
 };
 
 class CDestroyBulletMessage : public CBaseMessage
 {
 private:
 	CBullet*		m_pBullet;
-	CPlayer*		m_pPlayer;
+	CBase*			m_pOwner;
 public:
-	CDestroyBulletMessage(CBullet* pBullet, CPlayer* pPlayer);
+	CDestroyBulletMessage(CBullet* pBullet, CBase* pOwner);
 	~CDestroyBulletMessage(void);
-	CPlayer*	GetPlayerPointer(void);
+	CBase*	GetOwnerPointer(void);
 	CBullet*	GetBulletPointer(void);
 };
 
 class CCreateFlameMessage : public CBaseMessage
 {
 private:
-	CPlayer*		m_pPlayer;
+	CBase*		m_pOwner;
 public:
-	CCreateFlameMessage(CPlayer* pPlayer);
+	CCreateFlameMessage(CBase* pOwner);
 	~CCreateFlameMessage(void);
 
-	CPlayer* GetPlayerPointer(void);
-	void SetPlayerPointer(CPlayer* pPlayer);
+	CBase* GetOwnerPointer(void);
+	void SetOwnerPointer(CBase* pOwner);
 };
 
 class CDestroyFlameMessage : public CBaseMessage
 {
 private:
 	CFlame*			m_pFlame;
-	CPlayer*		m_pPlayer;
+	CBase*		m_pOwner;
 public:
-	CDestroyFlameMessage(CFlame* pFlame, CPlayer* pPlayer);
+	CDestroyFlameMessage(CFlame* pFlame, CBase* pOwner);
 	~CDestroyFlameMessage(void);
-	CPlayer*	GetPlayerPointer(void);
+	CBase*	GetOwnerPointer(void);
 	CFlame*		GetFlamePointer(void);
 };
 
 class CCreatePlasmaMessage : public CBaseMessage
 {
 private:
-	CPlayer*		m_pPlayer;
+	CBase*		m_pOwner;
 public:
-	CCreatePlasmaMessage(CPlayer* pPlayer);
+	CCreatePlasmaMessage(CBase* pOwner);
 	~CCreatePlasmaMessage(void);
 
-	CPlayer* GetPlayerPointer(void);
-	void SetPlayerPointer(CPlayer* pPlayer);
+	CBase* GetOwnerPointer(void);
+	void SetOwnerPointer(CBase* pOwner);
 };
 
 class CDestroyPlasmaMessage : public CBaseMessage
 {
 private:
 	CPlasma*			m_pPlasma;
-	CPlayer*			m_pPlayer;
+	CBase*				m_pOwner;
 public:
-	CDestroyPlasmaMessage(CPlasma* pPlasma, CPlayer* pPlayer);
+	CDestroyPlasmaMessage(CPlasma* pPlasma, CBase* pOwner);
 	~CDestroyPlasmaMessage(void);
-	CPlayer*		GetPlayerPointer(void);
+	CBase*			GetOwnerPointer(void);
 	CPlasma*		GetPlasmaPointer(void);
 };
 
 class CCreateShockMessage : public CBaseMessage
 {
 private:
-	CPlayer*		m_pPlayer;
+	CBase*		m_pOwner;
 public:
-	CCreateShockMessage(CPlayer* pPlayer);
+	CCreateShockMessage(CBase* pOwner);
 	~CCreateShockMessage(void);
 
-	CPlayer* GetPlayerPointer(void);
-	void SetPlayerPointer(CPlayer* pPlayer);
+	CBase* GetOwnerPointer(void);
+	void SetOwnerPointer(CBase* pOwner);
 };
 
 class CDestroyShockMessage : public CBaseMessage
 {
 private:
 	CShock*				m_pShock;
-	CPlayer*			m_pPlayer;
+	CBase*				m_pOwner;
 public:
-	CDestroyShockMessage(CShock* pShock, CPlayer* pPlayer);
+	CDestroyShockMessage(CShock* pShock, CBase* pOwner);
 	~CDestroyShockMessage(void);
-	CPlayer*		GetPlayerPointer(void);
+	CBase*			GetOwnerPointer(void);
 	CShock*			GetShockPointer(void);
 };
 
 class CCreateGrenadeMessage : public CBaseMessage
 {
 private:
-	CPlayer*		m_pPlayer;
+	CBase*		m_pOwner;
 public:
-	CCreateGrenadeMessage(CPlayer* pPlayer);
+	CCreateGrenadeMessage(CBase* pOwner);
 	~CCreateGrenadeMessage(void);
 
-	CPlayer* GetPlayerPointer(void);
-	void SetPlayerPointer(CPlayer* pPlayer);
+	CBase* GetOwnerPointer(void);
+	void SetOwnerPointer(CBase* pOwner);
 };
 
 class CDestroyGrenadeMessage : public CBaseMessage
 {
 private:
 	CGrenade*			m_pGrenade;
-	CPlayer*			m_pPlayer;
+	CBase*			m_pOwner;
 public:
-	CDestroyGrenadeMessage(CGrenade* pGrenade, CPlayer* pPlayer);
+	CDestroyGrenadeMessage(CGrenade* pGrenade, CBase* pOwner);
 	~CDestroyGrenadeMessage(void);
-	CPlayer*		GetPlayerPointer(void);
+	CBase*		GetOwnerPointer(void);
 	CGrenade*		GetGrenadePointer(void);
 };
 
@@ -220,27 +221,27 @@ class CCreateIceMessage : public CBaseMessage
 {
 private:
 	CPlayer*		m_pPlayer;
-	CBaseEnemy*			m_pOwner;
+	CBase*			m_pOwner;
 public:
-	CCreateIceMessage(CPlayer* pPlayer, CBaseEnemy* pOwner);
+	CCreateIceMessage(CPlayer* pPlayer, CBase* pOwner);
 	~CCreateIceMessage(void);
 
 	CPlayer* GetPlayerPointer(void);
 	void SetPlayerPointer(CPlayer* pPlayer);
 
-	CBaseEnemy* GetOwnerPointer(void);
-	void SetOwnerPointer(CBaseEnemy* pEnemy);
+	CBase* GetOwnerPointer(void);
+	void SetOwnerPointer(CBase* pOwner);
 };
 
 class CDestroyIceMessage : public CBaseMessage
 {
 private:
 	CIce*				m_pIce;
-	CBaseEnemy*			m_pOwner;
+	CBase*			m_pOwner;
 public:
-	CDestroyIceMessage(CIce* pIce, CBaseEnemy* pOwner);
+	CDestroyIceMessage(CIce* pIce, CBase* pOwner);
 	~CDestroyIceMessage(void);
-	CBaseEnemy*		GetOwnerPointer(void);
+	CBase*		GetOwnerPointer(void);
 	CIce*			GetIcePointer(void);
 };
 
@@ -248,27 +249,27 @@ class CCreateFireMessage : public CBaseMessage
 {
 private:
 	CPlayer*		m_pPlayer;
-	CBaseEnemy*			m_pOwner;
+	CBase*			m_pOwner;
 public:
-	CCreateFireMessage(CPlayer* pPlayer, CBaseEnemy* pOwner);
+	CCreateFireMessage(CPlayer* pPlayer, CBase* pOwner);
 	~CCreateFireMessage(void);
 
 	CPlayer* GetPlayerPointer(void);
 	void SetPlayerPointer(CPlayer* pPlayer);
 
-	CBaseEnemy* GetOwnerPointer(void);
-	void SetOwnerPointer(CBaseEnemy* pOwner);
+	CBase* GetOwnerPointer(void);
+	void SetOwnerPointer(CBase* pOwner);
 };
 
 class CDestroyFireMessage : public CBaseMessage
 {
 private:
 	CFire*				m_pFire;
-	CBaseEnemy*			m_pOwner;
+	CBase*			m_pOwner;
 public:
-	CDestroyFireMessage(CFire* pFire, CBaseEnemy* pOwner);
+	CDestroyFireMessage(CFire* pFire, CBase* pOwner);
 	~CDestroyFireMessage(void);
-	CBaseEnemy*		GetOwnerPointer(void);
+	CBase*			GetOwnerPointer(void);
 	CFire*			GetFirePointer(void);
 };
 

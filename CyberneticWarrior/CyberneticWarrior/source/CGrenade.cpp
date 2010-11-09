@@ -111,16 +111,22 @@ bool CGrenade::CheckCollision(CBase *pBase)
 				this->m_nBounceCount = 0;
 			}
 		}
-		else if(pBase->GetType() == OBJ_ENEMY && pBase->GetType() != OBJ_SPAWNER)
+		if(this->GetOwnerType() == OBJ_PLAYER)
 		{
-			CBaseEnemy* pEnemy = (CBaseEnemy*)pBase; 
-			float p = pEnemy->GetTargetPosition().fX;
-			float o = pEnemy->GetTargetPosition().fY;
-			this->SetPosX(pEnemy->GetPosX());
-			this->SetPosY(pEnemy->GetPosY());
-			this->SetBaseVelX(0.0f);
-			this->SetBaseVelY(0.0f);
-			this->m_vVelocity.fY = 0.0f;
+			if(pBase->GetType() == OBJ_ENEMY && pBase->GetType() != OBJ_SPAWNER)
+			{
+				CBaseEnemy* pEnemy = (CBaseEnemy*)pBase; 
+				float p = pEnemy->GetTargetPosition().fX;
+				float o = pEnemy->GetTargetPosition().fY;
+				this->SetPosX(pEnemy->GetPosX());
+				this->SetPosY(pEnemy->GetPosY());
+				this->SetBaseVelX(0.0f);
+				this->SetBaseVelY(0.0f);
+				this->m_vVelocity.fY = 0.0f;
+			}
+		}
+		else if(this->GetOwnerType() == OBJ_ENEMY)
+		{
 		}
 
 		return 1;

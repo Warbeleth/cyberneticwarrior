@@ -92,10 +92,16 @@ bool CFlame::CheckCollision(CBase *pBase)
 	RECT rIntersect;
 	if( IntersectRect(&rIntersect, &GetRect(), &pBase->GetRect()) )
 	{
-		if( pBase->GetType() != OBJ_PLAYER && pBase->GetType() != OBJ_FLAME && pBase->GetType() != OBJ_SPAWNER)
+		if(this->GetOwnerType() == OBJ_PLAYER)
 		{
-			// Destroy the bullet
-			CGame::GetInstance()->GetMessageSystemPointer()->SendMsg( new CDestroyFlameMessage( this, CSinglePlayerState::GetInstance()->GetPlayerPointer()) );
+			if( pBase->GetType() != OBJ_PLAYER && pBase->GetType() != OBJ_FLAME && pBase->GetType() != OBJ_SPAWNER)
+			{
+				// Destroy the bullet
+				//CGame::GetInstance()->GetMessageSystemPointer()->SendMsg( new CDestroyFlameMessage( this, CSinglePlayerState::GetInstance()->GetPlayerPointer()) );
+			}
+		}
+		else if(this->GetOwnerType() == OBJ_ENEMY)
+		{
 		}
 
 		return 1;
