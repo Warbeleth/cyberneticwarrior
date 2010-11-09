@@ -37,7 +37,7 @@ void	CCreateHookMessage::SetPlayerPointer(CPlayer* pPlayer)	{ this->m_pPlayer = 
 ///////////////////////////////////////////////////////////////////////////////
 //	class "CDestroyHookMessage"
 ///////////////////////////////////////////////////////////////////////////////
-CDestroyHookMessage::CDestroyHookMessage(CGrapplingHook*	pHook, CPlayer* pPlayer) : CBaseMessage(MSG_DESTROY_HOOK)
+CDestroyHookMessage::CDestroyHookMessage(CGrapplingHook* pHook, CPlayer* pPlayer) : CBaseMessage(MSG_DESTROY_HOOK)
 {
 	this->m_pHook	= pHook;
 	this->m_pPlayer = pPlayer;
@@ -57,42 +57,42 @@ CPlayer*	CDestroyHookMessage::GetPlayerPointer(void)
 ///////////////////////////////////////////////////////////////////////////////
 //	class "CCreateRocketMessage"
 ///////////////////////////////////////////////////////////////////////////////
-CCreateRocketMessage::CCreateRocketMessage( CPlayer* pPlayer ) : CBaseMessage(MSG_CREATE_ROCKET)
+CCreateRocketMessage::CCreateRocketMessage( CBase* pOwner ) : CBaseMessage(MSG_CREATE_ROCKET)
 {	
-	this->m_pPlayer = pPlayer;
+	this->m_pOwner = pOwner;
 }
 
 CCreateRocketMessage::~CCreateRocketMessage( void )
 {
 }
 
-CPlayer* CCreateRocketMessage::GetPlayerPointer( void )
+CBase* CCreateRocketMessage::GetOwnerPointer( void )
 {
-	return this->m_pPlayer;
+	return this->m_pOwner;
 }
 
-void CCreateRocketMessage::SetPlayerPointer( CPlayer* pPlayer )
+void CCreateRocketMessage::SetOwnerPointer( CBase* pOwner )
 {
-	this->m_pPlayer = pPlayer;
+	this->m_pOwner = pOwner;
 }
 
 
 ///////////////////////////////////////////////////////////////////////////////
 //	class "CDetroyRocketMessage"
 ///////////////////////////////////////////////////////////////////////////////
-CDestroyRocketMessage::CDestroyRocketMessage(CRocket* pRocket, CPlayer* pPlayer) : CBaseMessage(MSG_DESTROY_ROCKET)
+CDestroyRocketMessage::CDestroyRocketMessage(CRocket* pRocket, CBase* pOwner) : CBaseMessage(MSG_DESTROY_ROCKET)
 {
 	this->m_pRocket = pRocket;
-	this->m_pPlayer = pPlayer;
+	this->m_pOwner = pOwner;
 }
 
 CDestroyRocketMessage::~CDestroyRocketMessage(void)
 {
 }
 
-CPlayer* CDestroyRocketMessage::GetPlayerPointer(void)
+CBase* CDestroyRocketMessage::GetOwnerPointer(void)
 {
-	return this->m_pPlayer;
+	return this->m_pOwner;
 }
 
 CRocket* CDestroyRocketMessage::GetRocketPointer(void)
@@ -104,42 +104,42 @@ CRocket* CDestroyRocketMessage::GetRocketPointer(void)
 ///////////////////////////////////////////////////////////////////////////////
 //	class "CCreateBulletMessage"
 ///////////////////////////////////////////////////////////////////////////////
-CCreateBulletMessage::CCreateBulletMessage( CPlayer* pPlayer ) : CBaseMessage(MSG_CREATE_BULLET)
+CCreateBulletMessage::CCreateBulletMessage( CBase* pOwner ) : CBaseMessage(MSG_CREATE_BULLET)
 {	
-	this->m_pPlayer = pPlayer;
+	this->m_pOwner = pOwner;
 }
 
 CCreateBulletMessage::~CCreateBulletMessage( void )
 {
 }
 
-CPlayer* CCreateBulletMessage::GetPlayerPointer( void )
+CBase* CCreateBulletMessage::GetOwnerPointer( void )
 {
-	return this->m_pPlayer;
+	return this->m_pOwner;
 }
 
-void CCreateBulletMessage::SetPlayerPointer( CPlayer* pPlayer )
+void CCreateBulletMessage::SetOwnerPointer( CBase* pOwner )
 {
-	this->m_pPlayer = pPlayer;
+	this->m_pOwner = pOwner;
 }
 
 
 ///////////////////////////////////////////////////////////////////////////////
 //	class "CDestroyBulletMessage"
 ///////////////////////////////////////////////////////////////////////////////
-CDestroyBulletMessage::CDestroyBulletMessage(CBullet* pBullet, CPlayer* pPlayer) : CBaseMessage(MSG_DESTROY_BULLET)
+CDestroyBulletMessage::CDestroyBulletMessage(CBullet* pBullet, CBase* pOwner) : CBaseMessage(MSG_DESTROY_BULLET)
 {
 	this->m_pBullet = pBullet;
-	this->m_pPlayer = pPlayer;
+	this->m_pOwner = pOwner;
 }
 
 CDestroyBulletMessage::~CDestroyBulletMessage(void)
 {
 }
 
-CPlayer* CDestroyBulletMessage::GetPlayerPointer(void)
+CBase* CDestroyBulletMessage::GetOwnerPointer(void)
 {
-	return this->m_pPlayer;
+	return this->m_pOwner;
 }
 
 CBullet* CDestroyBulletMessage::GetBulletPointer(void)
@@ -150,42 +150,42 @@ CBullet* CDestroyBulletMessage::GetBulletPointer(void)
 ///////////////////////////////////////////////////////////////////////////////
 //	class "CCreateFlameMessage"
 ///////////////////////////////////////////////////////////////////////////////
-CCreateFlameMessage::CCreateFlameMessage( CPlayer* pPlayer) : CBaseMessage(MSG_CREATE_FLAME)
+CCreateFlameMessage::CCreateFlameMessage( CBase* pOwner) : CBaseMessage(MSG_CREATE_FLAME)
 {	
-	this->m_pPlayer = pPlayer;
+	this->m_pOwner = pOwner;
 }
 
 CCreateFlameMessage::~CCreateFlameMessage( void )
 {
 }
 
-CPlayer* CCreateFlameMessage::GetPlayerPointer( void )
+CBase* CCreateFlameMessage::GetOwnerPointer( void )
 {
-	return this->m_pPlayer;
+	return this->m_pOwner;
 }
 
-void CCreateFlameMessage::SetPlayerPointer( CPlayer* pPlayer )
+void CCreateFlameMessage::SetOwnerPointer( CBase* pOwner )
 {
-	m_pPlayer = pPlayer;
+	m_pOwner = pOwner;
 }
 
 
 ///////////////////////////////////////////////////////////////////////////////
 //	class "CDestroyFlameMessage"
 ///////////////////////////////////////////////////////////////////////////////
-CDestroyFlameMessage::CDestroyFlameMessage(CFlame* pFlame, CPlayer* pPlayer) : CBaseMessage(MSG_DESTROY_FLAME)
+CDestroyFlameMessage::CDestroyFlameMessage(CFlame* pFlame, CBase* pOwner) : CBaseMessage(MSG_DESTROY_FLAME)
 {
 	this->m_pFlame = pFlame;
-	this->m_pPlayer = pPlayer;
+	this->m_pOwner = pOwner;
 }
 
 CDestroyFlameMessage::~CDestroyFlameMessage(void)
 {
 }
 
-CPlayer* CDestroyFlameMessage::GetPlayerPointer(void)
+CBase* CDestroyFlameMessage::GetOwnerPointer(void)
 {
-	return this->m_pPlayer;
+	return this->m_pOwner;
 }
 
 CFlame* CDestroyFlameMessage::GetFlamePointer(void)
@@ -198,42 +198,42 @@ CFlame* CDestroyFlameMessage::GetFlamePointer(void)
 ///////////////////////////////////////////////////////////////////////////////
 //	class "CCreatePlasmaMessage"
 ///////////////////////////////////////////////////////////////////////////////
-CCreatePlasmaMessage::CCreatePlasmaMessage( CPlayer* pPlayer ) : CBaseMessage(MSG_CREATE_PLASMA)
+CCreatePlasmaMessage::CCreatePlasmaMessage( CBase* pOwner ) : CBaseMessage(MSG_CREATE_PLASMA)
 {	
-	this->m_pPlayer = pPlayer;
+	this->m_pOwner = pOwner;
 }
 
 CCreatePlasmaMessage::~CCreatePlasmaMessage( void )
 {
 }
 
-CPlayer* CCreatePlasmaMessage::GetPlayerPointer( void )
+CBase* CCreatePlasmaMessage::GetOwnerPointer( void )
 {
-	return this->m_pPlayer;
+	return this->m_pOwner;
 }
 
-void CCreatePlasmaMessage::SetPlayerPointer( CPlayer* pPlayer )
+void CCreatePlasmaMessage::SetOwnerPointer( CBase* pOwner )
 {
-	this->m_pPlayer = pPlayer;
+	this->m_pOwner = pOwner;
 }
 
 
 ///////////////////////////////////////////////////////////////////////////////
 //	class "CDestroyPlasmaMessage"
 ///////////////////////////////////////////////////////////////////////////////
-CDestroyPlasmaMessage::CDestroyPlasmaMessage(CPlasma* pPlasma, CPlayer* pPlayer) : CBaseMessage(MSG_DESTROY_PLASMA)
+CDestroyPlasmaMessage::CDestroyPlasmaMessage(CPlasma* pPlasma, CBase* m_pOwner) : CBaseMessage(MSG_DESTROY_PLASMA)
 {
 	this->m_pPlasma = pPlasma;
-	this->m_pPlayer = pPlayer;
+	this->m_pOwner = m_pOwner;
 }
 
 CDestroyPlasmaMessage::~CDestroyPlasmaMessage(void)
 {
 }
 
-CPlayer* CDestroyPlasmaMessage::GetPlayerPointer(void)
+CBase* CDestroyPlasmaMessage::GetOwnerPointer(void)
 {
-	return this->m_pPlayer;
+	return this->m_pOwner;
 }
 
 CPlasma* CDestroyPlasmaMessage::GetPlasmaPointer(void)
@@ -245,42 +245,42 @@ CPlasma* CDestroyPlasmaMessage::GetPlasmaPointer(void)
 ///////////////////////////////////////////////////////////////////////////////
 //	class "CCreateShockMessage"
 ///////////////////////////////////////////////////////////////////////////////
-CCreateShockMessage::CCreateShockMessage( CPlayer* pPlayer ) : CBaseMessage(MSG_CREATE_SHOCK)
+CCreateShockMessage::CCreateShockMessage( CBase* pOwner ) : CBaseMessage(MSG_CREATE_SHOCK)
 {	
-	this->m_pPlayer = pPlayer;
+	this->m_pOwner = pOwner;
 }
 
 CCreateShockMessage::~CCreateShockMessage( void )
 {
 }
 
-CPlayer* CCreateShockMessage::GetPlayerPointer( void )
+CBase* CCreateShockMessage::GetOwnerPointer( void )
 {
-	return this->m_pPlayer;
+	return this->m_pOwner;
 }
 
-void CCreateShockMessage::SetPlayerPointer( CPlayer* pPlayer )
+void CCreateShockMessage::SetOwnerPointer( CBase* pOwner )
 {
-	this->m_pPlayer = pPlayer;
+	this->m_pOwner = pOwner;
 }
 
 
 ///////////////////////////////////////////////////////////////////////////////
 //	class "CDestroyShockMessage"
 ///////////////////////////////////////////////////////////////////////////////
-CDestroyShockMessage::CDestroyShockMessage(CShock* pShock, CPlayer* pPlayer) : CBaseMessage(MSG_DESTROY_SHOCK)
+CDestroyShockMessage::CDestroyShockMessage(CShock* pShock, CBase* pOwner) : CBaseMessage(MSG_DESTROY_SHOCK)
 {
 	this->m_pShock = pShock;
-	this->m_pPlayer = pPlayer;
+	this->m_pOwner = pOwner;
 }
 
 CDestroyShockMessage::~CDestroyShockMessage(void)
 {
 }
 
-CPlayer* CDestroyShockMessage::GetPlayerPointer(void)
+CBase* CDestroyShockMessage::GetOwnerPointer(void)
 {
-	return this->m_pPlayer;
+	return this->m_pOwner;
 }
 
 CShock* CDestroyShockMessage::GetShockPointer(void)
@@ -292,42 +292,42 @@ CShock* CDestroyShockMessage::GetShockPointer(void)
 ///////////////////////////////////////////////////////////////////////////////
 //	class "CCreateGrenadeMessage"
 ///////////////////////////////////////////////////////////////////////////////
-CCreateGrenadeMessage::CCreateGrenadeMessage( CPlayer* pPlayer ) : CBaseMessage(MSG_CREATE_GRENADE)
+CCreateGrenadeMessage::CCreateGrenadeMessage( CBase* pOwner ) : CBaseMessage(MSG_CREATE_GRENADE)
 {	
-	this->m_pPlayer = pPlayer;
+	this->m_pOwner = pOwner;
 }
 
 CCreateGrenadeMessage::~CCreateGrenadeMessage( void )
 {
 }
 
-CPlayer* CCreateGrenadeMessage::GetPlayerPointer( void )
+CBase* CCreateGrenadeMessage::GetOwnerPointer( void )
 {
-	return this->m_pPlayer;
+	return this->m_pOwner;
 }
 
-void CCreateGrenadeMessage::SetPlayerPointer( CPlayer* pPlayer )
+void CCreateGrenadeMessage::SetOwnerPointer( CBase* pOwner )
 {
-	this->m_pPlayer = pPlayer;
+	this->m_pOwner = pOwner;
 }
 
 
 ///////////////////////////////////////////////////////////////////////////////
 //	class "CDestroyGrenadeMessage"
 ///////////////////////////////////////////////////////////////////////////////
-CDestroyGrenadeMessage::CDestroyGrenadeMessage(CGrenade* pGrenade, CPlayer* pPlayer) : CBaseMessage(MSG_DESTROY_GRENADE)
+CDestroyGrenadeMessage::CDestroyGrenadeMessage(CGrenade* pGrenade, CBase* pOwner) : CBaseMessage(MSG_DESTROY_GRENADE)
 {
 	this->m_pGrenade = pGrenade;
-	this->m_pPlayer = pPlayer;
+	this->m_pOwner = pOwner;
 }
 
 CDestroyGrenadeMessage::~CDestroyGrenadeMessage(void)
 {
 }
 
-CPlayer* CDestroyGrenadeMessage::GetPlayerPointer(void)
+CBase* CDestroyGrenadeMessage::GetOwnerPointer(void)
 {
-	return this->m_pPlayer;
+	return this->m_pOwner;
 }
 
 CGrenade* CDestroyGrenadeMessage::GetGrenadePointer(void)
@@ -339,7 +339,7 @@ CGrenade* CDestroyGrenadeMessage::GetGrenadePointer(void)
 ///////////////////////////////////////////////////////////////////////////////
 //	class "CCreateIceMessage"
 ///////////////////////////////////////////////////////////////////////////////
-CCreateIceMessage::CCreateIceMessage( CPlayer* pPlayer, CBaseEnemy* pOwner ) : CBaseMessage(MSG_CREATE_ICE)
+CCreateIceMessage::CCreateIceMessage( CPlayer* pPlayer, CBase* pOwner ) : CBaseMessage(MSG_CREATE_ICE)
 {	
 	this->m_pPlayer = pPlayer;
 	this->m_pOwner = pOwner;
@@ -359,12 +359,12 @@ void CCreateIceMessage::SetPlayerPointer( CPlayer* pPlayer )
 	this->m_pPlayer = pPlayer;
 }
 
-CBaseEnemy*	CCreateIceMessage::GetOwnerPointer(void)
+CBase*	CCreateIceMessage::GetOwnerPointer(void)
 {
 	return this->m_pOwner;
 }
 
-void CCreateIceMessage::SetOwnerPointer(CBaseEnemy* pOwner)
+void CCreateIceMessage::SetOwnerPointer(CBase* pOwner)
 {
 	this->m_pOwner = pOwner;
 }
@@ -372,7 +372,7 @@ void CCreateIceMessage::SetOwnerPointer(CBaseEnemy* pOwner)
 ///////////////////////////////////////////////////////////////////////////////
 //	class "CDestroyIceMessage"
 ///////////////////////////////////////////////////////////////////////////////
-CDestroyIceMessage::CDestroyIceMessage(CIce* pIce, CBaseEnemy* pOwner) : CBaseMessage(MSG_DESTROY_ICE)
+CDestroyIceMessage::CDestroyIceMessage(CIce* pIce, CBase* pOwner) : CBaseMessage(MSG_DESTROY_ICE)
 {
 	this->m_pIce = pIce;
 	this->m_pOwner = pOwner;
@@ -382,7 +382,7 @@ CDestroyIceMessage::~CDestroyIceMessage(void)
 {
 }
 
-CBaseEnemy* CDestroyIceMessage::GetOwnerPointer(void)
+CBase* CDestroyIceMessage::GetOwnerPointer(void)
 {
 	return this->m_pOwner;
 }
@@ -396,7 +396,7 @@ CIce* CDestroyIceMessage::GetIcePointer(void)
 ///////////////////////////////////////////////////////////////////////////////
 //	class "CCreateFireMessage"
 ///////////////////////////////////////////////////////////////////////////////
-CCreateFireMessage::CCreateFireMessage( CPlayer* pPlayer, CBaseEnemy* pOwner ) : CBaseMessage(MSG_CREATE_FIRE)
+CCreateFireMessage::CCreateFireMessage( CPlayer* pPlayer, CBase* pOwner ) : CBaseMessage(MSG_CREATE_FIRE)
 {	
 	this->m_pPlayer = pPlayer;
 	this->m_pOwner = pOwner;
@@ -416,12 +416,12 @@ void CCreateFireMessage::SetPlayerPointer( CPlayer* pPlayer )
 	this->m_pPlayer = pPlayer;
 }
 
-CBaseEnemy* CCreateFireMessage::GetOwnerPointer(void) 
+CBase* CCreateFireMessage::GetOwnerPointer(void) 
 {
 	return this->m_pOwner;
 }
 
-void CCreateFireMessage::SetOwnerPointer(CBaseEnemy* pOwner)
+void CCreateFireMessage::SetOwnerPointer(CBase* pOwner)
 {
 	this->m_pOwner = pOwner;
 }
@@ -429,7 +429,7 @@ void CCreateFireMessage::SetOwnerPointer(CBaseEnemy* pOwner)
 ///////////////////////////////////////////////////////////////////////////////
 //	class "CDestroyFireMessage"
 ///////////////////////////////////////////////////////////////////////////////
-CDestroyFireMessage::CDestroyFireMessage(CFire* pFire, CBaseEnemy* pOwner) : CBaseMessage(MSG_DESTROY_FIRE)
+CDestroyFireMessage::CDestroyFireMessage(CFire* pFire, CBase* pOwner) : CBaseMessage(MSG_DESTROY_FIRE)
 {
 	this->m_pFire = pFire;
 	this->m_pOwner = pOwner;
@@ -439,7 +439,7 @@ CDestroyFireMessage::~CDestroyFireMessage(void)
 {
 }
 
-CBaseEnemy* CDestroyFireMessage::GetOwnerPointer(void)
+CBase* CDestroyFireMessage::GetOwnerPointer(void)
 {
 	return this->m_pOwner;
 }
