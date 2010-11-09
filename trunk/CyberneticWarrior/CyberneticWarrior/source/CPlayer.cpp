@@ -137,6 +137,11 @@ CPlayer::CPlayer(void)
 	this->m_pHud = new CHud();
 	this->m_pHud->SetPlayerPointer(this);
 
+	if(CSinglePlayerState::GetInstance()->GetInputType())
+	{
+		this->m_fHandRotation = SGD_PI/2;
+	}
+
 }
 
 CPlayer::~CPlayer(void)
@@ -199,15 +204,17 @@ void CPlayer::Update(float fElapsedTime)
 
 
 	// Check to see which direction player is currently facing
-	if(CSGD_DirectInput::GetInstance()->MouseGetPosX() + CCamera::GetInstance()->GetOffsetX() > this->GetPosX())
+	if(CSinglePlayerState::GetInstance()->GetInputType() == 0)
 	{
-		this->m_bForward = 1;
+		if(CSGD_DirectInput::GetInstance()->MouseGetPosX() + CCamera::GetInstance()->GetOffsetX() > this->GetPosX())
+		{
+			this->m_bForward = 1;
+		}
+		else
+		{
+			this->m_bForward = 0;
+		}
 	}
-	else
-	{
-		this->m_bForward = 0;
-	}
-
 
 	if(this->m_vSpeed.fX == this->m_fDash ||this->m_vSpeed.fX == -this->m_fDash) 
 		this->m_fBoostTime += fElapsedTime;
@@ -400,24 +407,26 @@ void CPlayer::Update(float fElapsedTime)
 	//////////////////////////////////////////////////////////////////////////////
 	// Players hand rotation thingy majigies
 	//////////////////////////////////////////////////////////////////////////////
+	if(CSinglePlayerState::GetInstance()->GetInputType() == 0)
+	{
+		// Create Hand Vector
+		tVector2D vecHandRotation;
+		vecHandRotation.fX = 0.0f;
+		vecHandRotation.fY = -1.0f;
 
-	// Create Hand Vector
-	tVector2D vecHandRotation;
-	vecHandRotation.fX = 0.0f;
-	vecHandRotation.fY = -1.0f;
+		//vecHandRotation = Vector2DRotate( vecHandRotation,)
+		// Create Mouse Vector
+		tVector2D vecMouseVector;
+		vecMouseVector.fX = CSGD_DirectInput::GetInstance()->MouseGetPosX() - GetPosX() + CCamera::GetInstance()->GetOffsetX();
+		vecMouseVector.fY = CSGD_DirectInput::GetInstance()->MouseGetPosY() - GetPosY() + CCamera::GetInstance()->GetOffsetY();
 
-	//vecHandRotation = Vector2DRotate( vecHandRotation,)
-	// Create Mouse Vector
-	tVector2D vecMouseVector;
-	vecMouseVector.fX = CSGD_DirectInput::GetInstance()->MouseGetPosX() - GetPosX() + CCamera::GetInstance()->GetOffsetX();
-	vecMouseVector.fY = CSGD_DirectInput::GetInstance()->MouseGetPosY() - GetPosY() + CCamera::GetInstance()->GetOffsetY();
+		// Find Initial rotation
+		m_fHandRotation = AngleBetweenVectors( vecHandRotation, vecMouseVector );
 
-	// Find Initial rotation
-	m_fHandRotation = AngleBetweenVectors( vecHandRotation, vecMouseVector );
-
-	// Calculate final rotation for players hand
-	if( CSGD_DirectInput::GetInstance()->MouseGetPosX() < GetPosX()  - CCamera::GetInstance()->GetOffsetX() )
-		m_fHandRotation = SGD_PI + (SGD_PI - m_fHandRotation);
+		// Calculate final rotation for players hand
+		if( CSGD_DirectInput::GetInstance()->MouseGetPosX() < GetPosX()  - CCamera::GetInstance()->GetOffsetX() )
+			m_fHandRotation = SGD_PI + (SGD_PI - m_fHandRotation);
+	}
 	//////////////////////////////////////////////////////////////////////////////
 
 	////////////////////////////////////////
@@ -719,6 +728,7 @@ void CPlayer::Input(float fElapsedTime)
 		}
 
 		this->m_pMovingBlock = NULL;
+		this->m_bJoyMove = true;
 		this->m_bOnMovingPlatform = false;
 
 		if(this->m_pHook)
@@ -749,6 +759,7 @@ void CPlayer::Input(float fElapsedTime)
 		{
 			this->m_vSpeed.fX += nMoveSpeed;
 		}
+		this->m_bJoyMove = true;
 		this->m_pMovingBlock = NULL;
 		this->m_bOnMovingPlatform = false;
 
@@ -821,10 +832,14 @@ void CPlayer::Input(float fElapsedTime)
 		}*/
 	}
 	//////////////////////////////////////////////////////////////////////////////
-	if(CSGD_DirectInput::GetInstance()->KeyReleased(DIK_D))
+	if(CSGD_DirectInput::GetInstance()->KeyReleased(DIK_D)
+		|| CSGD_DirectInput::GetInstance()->JoystickDPadReleased(DIR_RIGHT) || 
+		(CSGD_DirectInput::GetInstance()->JoystickGetLStickXAmount() > -15.0f 
+		&& CSGD_DirectInput::GetInstance()->JoystickGetLStickXAmount() < 15.0f && this->m_bJoyMove))
 	{
 		this->m_vSpeed.fX = 0.0f;
 		this->SetBaseVelX(0.0f);
+		this->m_bJoyMove = false;
 
 		if(this->m_pHook)
 		{
@@ -836,10 +851,14 @@ void CPlayer::Input(float fElapsedTime)
 		}
 	}
 	//////////////////////////////////////////////////////////////////////////////
-	if(CSGD_DirectInput::GetInstance()->KeyReleased(CGame::GetInstance()->GetPlayerOneControls(1)))
+	if(CSGD_DirectInput::GetInstance()->KeyReleased(CGame::GetInstance()->GetPlayerOneControls(1))
+		|| CSGD_DirectInput::GetInstance()->JoystickDPadReleased(DIR_LEFT) || 
+		(CSGD_DirectInput::GetInstance()->JoystickGetLStickXAmount() > -15.0f 
+		&& CSGD_DirectInput::GetInstance()->JoystickGetLStickXAmount() < 15.0f && this->m_bJoyMove))
 	{
 		this->SetBaseVelX(0.0f);
 		this->m_vSpeed.fX = 0.0f;
+		this->m_bJoyMove = false;
 
 		if(this->m_pHook)
 		{
@@ -961,22 +980,26 @@ void CPlayer::Input(float fElapsedTime)
 			this->m_vJoyVecPos.fX = 1.0f;
 			this->m_vJoyVecPos.fY = 0.0f;
 			this->m_bForward = 1;
+			this->m_fHandRotation = SGD_PI/2;
 		}
 		if(CSGD_DirectInput::GetInstance()->JoystickGetRStickDirDown(DIR_LEFT))
 		{
 			this->m_vJoyVecPos.fX = -1.0f;
 			this->m_vJoyVecPos.fY = 0.0f;
 			this->m_bForward = 0;
+			this->m_fHandRotation = (3*SGD_PI)/2;
 		}
 		if(CSGD_DirectInput::GetInstance()->JoystickGetRStickDirDown(DIR_UP))
 		{
 			this->m_vJoyVecPos.fX = 0.0f;
 			this->m_vJoyVecPos.fY = -1.0f;
+			this->m_fHandRotation = 2*SGD_PI;
 		}
 		if(CSGD_DirectInput::GetInstance()->JoystickGetRStickDirDown(DIR_DOWN))
 		{
 			this->m_vJoyVecPos.fX = 0.0f;
 			this->m_vJoyVecPos.fY = 1.0f;
+			this->m_fHandRotation = SGD_PI;
 		}
 
 		if(CSGD_DirectInput::GetInstance()->JoystickGetRStickDirDown(DIR_DOWN) && CSGD_DirectInput::GetInstance()->JoystickGetRStickDirDown(DIR_RIGHT))
@@ -984,24 +1007,28 @@ void CPlayer::Input(float fElapsedTime)
 			this->m_vJoyVecPos.fX = 1.0f;
 			this->m_vJoyVecPos.fY = 1.0f;
 			this->m_bForward = 1;
+			this->m_fHandRotation = (3*SGD_PI)/4;
 		}
 		else if(CSGD_DirectInput::GetInstance()->JoystickGetRStickDirDown(DIR_DOWN) && CSGD_DirectInput::GetInstance()->JoystickGetRStickDirDown(DIR_LEFT))
 		{
 			this->m_vJoyVecPos.fX = -1.0f;
 			this->m_vJoyVecPos.fY = 1.0f;
 			this->m_bForward = 0;
+			this->m_fHandRotation = (5*SGD_PI)/4;
 		}
 		else if(CSGD_DirectInput::GetInstance()->JoystickGetRStickDirDown(DIR_UP) && CSGD_DirectInput::GetInstance()->JoystickGetRStickDirDown(DIR_RIGHT))
 		{
 			this->m_vJoyVecPos.fX = 1.0f;
 			this->m_vJoyVecPos.fY = -1.0f;
 			this->m_bForward = 1;
+			this->m_fHandRotation = SGD_PI/4;
 		}
 		else if(CSGD_DirectInput::GetInstance()->JoystickGetRStickDirDown(DIR_UP) && CSGD_DirectInput::GetInstance()->JoystickGetRStickDirDown(DIR_LEFT))
 		{
 			this->m_vJoyVecPos.fX = -1.0f;
 			this->m_vJoyVecPos.fY = -1.0f;
 			this->m_bForward = 0;
+			this->m_fHandRotation = (7*SGD_PI)/4;
 		}
 
 	}
@@ -1057,7 +1084,7 @@ void CPlayer::Render(void)
 			(int)(((GetPosX() + (GetAnimations()->GetFrameWidth()/2)) - OffsetX) * CCamera::GetInstance()->GetScale()-10), 
 			(int)(((GetPosY() - (GetAnimations()->GetFrameHeight()/2)) - OffsetY) * CCamera::GetInstance()->GetScale()+25), 
 			0.7f * CCamera::GetInstance()->GetScale(), 0.7f * CCamera::GetInstance()->GetScale(), 
-			&this->m_rWeapons[m_nWeaponIndex], 64, 128, m_fHandRotation, -1 );
+			&this->m_rWeapons[m_nWeaponIndex], 64, 128, this->m_fHandRotation, -1 );
 	}
 	else
 	{
@@ -1065,7 +1092,7 @@ void CPlayer::Render(void)
 			(int)(((GetPosX() + (GetAnimations()->GetFrameWidth()/2)) - OffsetX) * CCamera::GetInstance()->GetScale())+GetWidth()/2, 
 			(int)(((GetPosY() - (GetAnimations()->GetFrameHeight()/2)) - OffsetY) * CCamera::GetInstance()->GetScale()+25), 
 			-0.7f * CCamera::GetInstance()->GetScale(), 0.7f * CCamera::GetInstance()->GetScale(), 
-			&this->m_rWeapons[m_nWeaponIndex], 64, 128, m_fHandRotation, -1 );
+			&this->m_rWeapons[m_nWeaponIndex], 64, 128, this->m_fHandRotation, -1 );
 	}
 	//////////////////////////////////////////////////////////////////////////////
 

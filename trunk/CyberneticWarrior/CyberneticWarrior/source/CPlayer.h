@@ -107,6 +107,8 @@ private:
 
 	bool m_bShutDown;
 
+	bool m_bJoyMove;
+
 	CGrapplingHook*		m_pHook;
 	
 	tVector2D m_vJoyVecPos;
