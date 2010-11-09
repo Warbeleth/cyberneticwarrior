@@ -105,6 +105,7 @@ bool	COptionsMenuState::Input(void)
 {
 	m_bInput = false;
 
+	if(this->m_pDI->KeyPressed(DIK_UP) || this->m_pDI->JoystickDPadPressed(DIR_UP,0))
 	if(this->m_pDI->KeyPressed(DIK_UP) || this->m_pDI->JoystickDPadPressed(DIR_UP,0)
 		|| (this->m_pDI->JoystickGetLStickYAmount(0) < 0.0f && this->m_fWaitTime > 0.3f))
 	{

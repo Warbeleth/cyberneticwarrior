@@ -54,7 +54,7 @@ bool CMech::CheckCollision(CBase* pBase)
 	{
 		if(GetAnimations())
 		{
-			if(GetAnimations()->CheckHit( pBase, GetPosX(), GetPosY() ))
+			if(GetAnimations()->CheckHit( pBase, (int)GetPosX(), (int)GetPosY() ))
 				CSinglePlayerState::GetInstance()->GetPlayerPointer()->DecrementHealth(5);
 		}
 	}

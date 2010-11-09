@@ -187,19 +187,6 @@
 					</FileConfiguration>
 				</File>
 				<File
-					RelativePath=".\source\CBaseEnemy.cpp"
-					>
-					<FileConfiguration
-						Name="Debug|Win32"
-						>
-						<Tool
-							Name="VCCLCompilerTool"
-							UsePrecompiledHeader="2"
-							PrecompiledHeaderThrough="PrecompiledHeader.h"
-						/>
-					</FileConfiguration>
-				</File>
-				<File
 					RelativePath=".\source\IGameState.cpp"
 					>
 					<FileConfiguration
@@ -243,6 +230,19 @@
 					<File
 						RelativePath=".\source\CAttackDrone.cpp"
 						>
+					</File>
+					<File
+						RelativePath=".\source\CBaseEnemy.cpp"
+						>
+						<FileConfiguration
+							Name="Debug|Win32"
+							>
+							<Tool
+								Name="VCCLCompilerTool"
+								UsePrecompiledHeader="2"
+								PrecompiledHeaderThrough="PrecompiledHeader.h"
+							/>
+						</FileConfiguration>
 					</File>
 					<File
 						RelativePath=".\source\CDeathPirate.cpp"
@@ -703,10 +703,6 @@
 					>
 				</File>
 				<File
-					RelativePath=".\source\CBaseEnemy.h"
-					>
-				</File>
-				<File
 					RelativePath=".\source\IBaseInterface.h"
 					>
 				</File>
@@ -739,6 +735,10 @@
 					</File>
 					<File
 						RelativePath=".\source\CAttackDrone.h"
+						>
+					</File>
+					<File
+						RelativePath=".\source\CBaseEnemy.h"
 						>
 					</File>
 					<File

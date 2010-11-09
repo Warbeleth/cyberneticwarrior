@@ -101,8 +101,8 @@ void CSpawner::CheckCulling()
 {
 	SetCulling(false);
 
-	float CameraX = CCamera::GetInstance()->GetOffsetX();
-	float CameraY = CCamera::GetInstance()->GetOffsetY();
+	float CameraX = (float)CCamera::GetInstance()->GetOffsetX();
+	float CameraY = (float)CCamera::GetInstance()->GetOffsetY();
 	float xPos = GetPosX();
 	float yPos = GetPosY();
 	float wPos = xPos+GetWidth();
