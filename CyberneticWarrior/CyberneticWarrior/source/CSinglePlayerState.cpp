@@ -84,7 +84,7 @@ CSinglePlayerState::~CSinglePlayerState(void)
 	this->m_nWeaponID					= -1;
 
 	this->m_nCurrentLevel = TUTORIAL;
-	this->m_nPreviousLevel = 0;
+	this->m_nPreviousLevel = -1;
 
 	this->m_TempPlayer = NULL;
 	this->m_TempPlatform1 = NULL;
@@ -392,6 +392,7 @@ void CSinglePlayerState::Exit(void)
 
 
 
+
 	CObjectManager::GetInstance()->RemoveObject(this->m_PickUp);	
 	this->m_pOF->UnregisterClassType ("CIce");	
 	this->m_pOF->UnregisterClassType("CFire");	
@@ -471,6 +472,9 @@ void CSinglePlayerState::Exit(void)
 	{
 		this->m_pD3D = NULL;
 	}
+
+		//this->m_nCurrentLevel = TUTORIAL;
+	//this->m_nPreviousLevel = -1;
 }
 
 
