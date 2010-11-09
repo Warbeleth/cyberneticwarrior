@@ -19,6 +19,8 @@ private:
 
 	CFont		m_ControlSelFont;
 
+	float		m_fWaitTime;
+
 	int			m_nBackgroundID;
 	int			m_nKeys;
 	int			m_nGamePad;

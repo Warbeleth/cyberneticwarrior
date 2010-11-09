@@ -54,6 +54,7 @@ void CPatrolEnemy::Update(float fElapsedTime)
 			ChangeAIState(Patrol);
 
 		if(ReturnAIState() == Patrol)
+
 		{
 			SetPosX((GetPosX() + GetSpeed() * fElapsedTime));
 
