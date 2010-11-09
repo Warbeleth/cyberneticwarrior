@@ -27,6 +27,8 @@ private:
 
 	const char*	m_nFileName[3];
 
+	float m_fWaitTime;
+
 	int	m_nBackgroundID;
 	int m_nProfileItemID;
 

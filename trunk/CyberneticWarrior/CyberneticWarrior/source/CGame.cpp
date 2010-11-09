@@ -463,17 +463,7 @@ void CGame::MessageProc(CBaseMessage*	pMsg)
 			pBullet->SetOwner(pCR->GetOwnerPointer());		
 
 
-			tVector2D vShotPos;
-			if(pCR->GetOwnerPointer()->GetType() == OBJ_PLAYER)
-			{
-				vShotPos.fX = (float)CSGD_DirectInput::GetInstance()->MouseGetPosX() + CCamera::GetInstance()->GetOffsetX();
-				vShotPos.fY = (float)CSGD_DirectInput::GetInstance()->MouseGetPosY() + CCamera::GetInstance()->GetOffsetY();
-			}
-			else if(pCR->GetOwnerPointer()->GetType() == OBJ_ENEMY)
-			{
-				vShotPos.fX = CSinglePlayerState::GetInstance()->GetPlayerPointer()->GetPosX();
-				vShotPos.fY = CSinglePlayerState::GetInstance()->GetPlayerPointer()->GetPosY();
-			}
+			
 
 			tVector2D bOwnerPos;
 			if(pCR->GetOwnerPointer()->GetType() == OBJ_PLAYER)
@@ -486,6 +476,27 @@ void CGame::MessageProc(CBaseMessage*	pMsg)
 				CBaseEnemy* pEnemy = (CBaseEnemy*)pCR->GetOwnerPointer();
 				bOwnerPos.fX = pEnemy->GetPosX() + pEnemy->GetWidth();
 				bOwnerPos.fY = pEnemy->GetPosY();
+			}
+
+			tVector2D vShotPos;
+			if(pCR->GetOwnerPointer()->GetType() == OBJ_PLAYER)
+			{
+				CPlayer* pPlayer = (CPlayer*)pCR->GetOwnerPointer();
+				if(CSinglePlayerState::GetInstance()->GetInputType())
+				{
+					vShotPos.fX = bOwnerPos.fX + (float)pPlayer->GetJoyPos()->fX;
+					vShotPos.fY = bOwnerPos.fY +(float)pPlayer->GetJoyPos()->fY;
+				}
+				else if(!CSinglePlayerState::GetInstance()->GetInputType())
+				{
+					vShotPos.fX = (float)CSGD_DirectInput::GetInstance()->MouseGetPosX() + CCamera::GetInstance()->GetOffsetX();
+					vShotPos.fY = (float)CSGD_DirectInput::GetInstance()->MouseGetPosY() + CCamera::GetInstance()->GetOffsetY();
+				}
+			}
+			else if(pCR->GetOwnerPointer()->GetType() == OBJ_ENEMY)
+			{
+				vShotPos.fX = CSinglePlayerState::GetInstance()->GetPlayerPointer()->GetPosX();
+				vShotPos.fY = CSinglePlayerState::GetInstance()->GetPlayerPointer()->GetPosY();
 			}
 
 			
@@ -532,18 +543,7 @@ void CGame::MessageProc(CBaseMessage*	pMsg)
 			pRocket->SetPosY(pCR->GetOwnerPointer()->GetPosY());
 			pRocket->SetOwner(pCR->GetOwnerPointer());		
 
-			tVector2D vShotPos;
-			if(pCR->GetOwnerPointer()->GetType() == OBJ_PLAYER)
-			{
-				vShotPos.fX = (float)CSGD_DirectInput::GetInstance()->MouseGetPosX() + CCamera::GetInstance()->GetOffsetX();
-				vShotPos.fY = (float)CSGD_DirectInput::GetInstance()->MouseGetPosY() + CCamera::GetInstance()->GetOffsetY();
-			}
-			else if(pCR->GetOwnerPointer()->GetType() == OBJ_ENEMY)
-			{
-				vShotPos.fX = CSinglePlayerState::GetInstance()->GetPlayerPointer()->GetPosX();
-				vShotPos.fY = CSinglePlayerState::GetInstance()->GetPlayerPointer()->GetPosY();
-			}
-
+			
 			tVector2D bOwnerPos;
 			if(pCR->GetOwnerPointer()->GetType() == OBJ_PLAYER)
 			{
@@ -556,6 +556,28 @@ void CGame::MessageProc(CBaseMessage*	pMsg)
 				bOwnerPos.fX = pEnemy->GetPosX() + pEnemy->GetWidth();
 				bOwnerPos.fY = pEnemy->GetPosY();
 			}
+
+			tVector2D vShotPos;
+			if(pCR->GetOwnerPointer()->GetType() == OBJ_PLAYER)
+			{
+				CPlayer* pPlayer = (CPlayer*)pCR->GetOwnerPointer();
+				if(CSinglePlayerState::GetInstance()->GetInputType())
+				{
+					vShotPos.fX = bOwnerPos.fX + (float)pPlayer->GetJoyPos()->fX;
+					vShotPos.fY = bOwnerPos.fY +(float)pPlayer->GetJoyPos()->fY;
+				}
+				else if(!CSinglePlayerState::GetInstance()->GetInputType())
+				{
+					vShotPos.fX = (float)CSGD_DirectInput::GetInstance()->MouseGetPosX() + CCamera::GetInstance()->GetOffsetX();
+					vShotPos.fY = (float)CSGD_DirectInput::GetInstance()->MouseGetPosY() + CCamera::GetInstance()->GetOffsetY();
+				}
+			}
+			else if(pCR->GetOwnerPointer()->GetType() == OBJ_ENEMY)
+			{
+				vShotPos.fX = CSinglePlayerState::GetInstance()->GetPlayerPointer()->GetPosX();
+				vShotPos.fY = CSinglePlayerState::GetInstance()->GetPlayerPointer()->GetPosY();
+			}
+
 
 			pRocket->SetRotation( SGD_PI + (SGD_PI - AngleBetweenVectors(bOwnerPos, vShotPos)));
 
@@ -598,17 +620,7 @@ void CGame::MessageProc(CBaseMessage*	pMsg)
 			pFlame->SetPosY(pCR->GetOwnerPointer()->GetPosY());
 			pFlame->SetOwner(pCR->GetOwnerPointer());		
 
-			tVector2D vShotPos;
-			if(pCR->GetOwnerPointer()->GetType() == OBJ_PLAYER)
-			{
-				vShotPos.fX = (float)CSGD_DirectInput::GetInstance()->MouseGetPosX() + CCamera::GetInstance()->GetOffsetX();
-				vShotPos.fY = (float)CSGD_DirectInput::GetInstance()->MouseGetPosY() + CCamera::GetInstance()->GetOffsetY();
-			}
-			else if(pCR->GetOwnerPointer()->GetType() == OBJ_ENEMY)
-			{
-				vShotPos.fX = CSinglePlayerState::GetInstance()->GetPlayerPointer()->GetPosX();
-				vShotPos.fY = CSinglePlayerState::GetInstance()->GetPlayerPointer()->GetPosY();
-			}
+			
 
 			tVector2D bOwnerPos;
 			if(pCR->GetOwnerPointer()->GetType() == OBJ_PLAYER)
@@ -623,6 +635,27 @@ void CGame::MessageProc(CBaseMessage*	pMsg)
 				bOwnerPos.fY = pEnemy->GetPosY();
 			}
 
+
+			tVector2D vShotPos;
+			if(pCR->GetOwnerPointer()->GetType() == OBJ_PLAYER)
+			{
+				CPlayer* pPlayer = (CPlayer*)pCR->GetOwnerPointer();
+				if(CSinglePlayerState::GetInstance()->GetInputType())
+				{
+					vShotPos.fX = bOwnerPos.fX + (float)pPlayer->GetJoyPos()->fX;
+					vShotPos.fY = bOwnerPos.fY +(float)pPlayer->GetJoyPos()->fY;
+				}
+				else if(!CSinglePlayerState::GetInstance()->GetInputType())
+				{
+					vShotPos.fX = (float)CSGD_DirectInput::GetInstance()->MouseGetPosX() + CCamera::GetInstance()->GetOffsetX();
+					vShotPos.fY = (float)CSGD_DirectInput::GetInstance()->MouseGetPosY() + CCamera::GetInstance()->GetOffsetY();
+				}
+			}
+			else if(pCR->GetOwnerPointer()->GetType() == OBJ_ENEMY)
+			{
+				vShotPos.fX = CSinglePlayerState::GetInstance()->GetPlayerPointer()->GetPosX();
+				vShotPos.fY = CSinglePlayerState::GetInstance()->GetPlayerPointer()->GetPosY();
+			}
 
 			
 			/*tVector2D vFlameRot;
@@ -675,17 +708,7 @@ void CGame::MessageProc(CBaseMessage*	pMsg)
 			pPlasma->SetPosY(pCR->GetOwnerPointer()->GetPosY());
 			pPlasma->SetOwner(pCR->GetOwnerPointer());		
 
-			tVector2D vShotPos;
-			if(pCR->GetOwnerPointer()->GetType() == OBJ_PLAYER)
-			{
-				vShotPos.fX = (float)CSGD_DirectInput::GetInstance()->MouseGetPosX() + CCamera::GetInstance()->GetOffsetX();
-				vShotPos.fY = (float)CSGD_DirectInput::GetInstance()->MouseGetPosY() + CCamera::GetInstance()->GetOffsetY();
-			}
-			else if(pCR->GetOwnerPointer()->GetType() == OBJ_ENEMY)
-			{
-				vShotPos.fX = CSinglePlayerState::GetInstance()->GetPlayerPointer()->GetPosX();
-				vShotPos.fY = CSinglePlayerState::GetInstance()->GetPlayerPointer()->GetPosY();
-			}
+			
 
 			tVector2D bOwnerPos;
 			if(pCR->GetOwnerPointer()->GetType() == OBJ_PLAYER)
@@ -698,6 +721,27 @@ void CGame::MessageProc(CBaseMessage*	pMsg)
 				CBaseEnemy* pEnemy = (CBaseEnemy*)pCR->GetOwnerPointer();
 				bOwnerPos.fX = pEnemy->GetPosX() + pEnemy->GetWidth();
 				bOwnerPos.fY = pEnemy->GetPosY();
+			}
+
+			tVector2D vShotPos;
+			if(pCR->GetOwnerPointer()->GetType() == OBJ_PLAYER)
+			{
+				CPlayer* pPlayer = (CPlayer*)pCR->GetOwnerPointer();
+				if(CSinglePlayerState::GetInstance()->GetInputType())
+				{
+					vShotPos.fX = bOwnerPos.fX + (float)pPlayer->GetJoyPos()->fX;
+					vShotPos.fY = bOwnerPos.fY +(float)pPlayer->GetJoyPos()->fY;
+				}
+				else if(!CSinglePlayerState::GetInstance()->GetInputType())
+				{
+					vShotPos.fX = (float)CSGD_DirectInput::GetInstance()->MouseGetPosX() + CCamera::GetInstance()->GetOffsetX();
+					vShotPos.fY = (float)CSGD_DirectInput::GetInstance()->MouseGetPosY() + CCamera::GetInstance()->GetOffsetY();
+				}
+			}
+			else if(pCR->GetOwnerPointer()->GetType() == OBJ_ENEMY)
+			{
+				vShotPos.fX = CSinglePlayerState::GetInstance()->GetPlayerPointer()->GetPosX();
+				vShotPos.fY = CSinglePlayerState::GetInstance()->GetPlayerPointer()->GetPosY();
 			}
 
 			tVector2D vShot;
@@ -747,17 +791,7 @@ void CGame::MessageProc(CBaseMessage*	pMsg)
 				pGrenade->SetYVelocity(-350.0f);
 			}
 
-			tVector2D vShotPos;
-			if(pCR->GetOwnerPointer()->GetType() == OBJ_PLAYER)
-			{
-				vShotPos.fX = (float)CSGD_DirectInput::GetInstance()->MouseGetPosX() + CCamera::GetInstance()->GetOffsetX();
-				vShotPos.fY = (float)CSGD_DirectInput::GetInstance()->MouseGetPosY() + CCamera::GetInstance()->GetOffsetY();
-			}
-			else if(pCR->GetOwnerPointer()->GetType() == OBJ_ENEMY)
-			{
-				vShotPos.fX = CSinglePlayerState::GetInstance()->GetPlayerPointer()->GetPosX();
-				vShotPos.fY = CSinglePlayerState::GetInstance()->GetPlayerPointer()->GetPosY();
-			}
+			
 
 			tVector2D bOwnerPos;
 			if(pCR->GetOwnerPointer()->GetType() == OBJ_PLAYER)
@@ -770,6 +804,27 @@ void CGame::MessageProc(CBaseMessage*	pMsg)
 				CBaseEnemy* pEnemy = (CBaseEnemy*)pCR->GetOwnerPointer();
 				bOwnerPos.fX = pEnemy->GetPosX() + pEnemy->GetWidth();
 				bOwnerPos.fY = pEnemy->GetPosY();
+			}
+
+			tVector2D vShotPos;
+			if(pCR->GetOwnerPointer()->GetType() == OBJ_PLAYER)
+			{
+				CPlayer* pPlayer = (CPlayer*)pCR->GetOwnerPointer();
+				if(CSinglePlayerState::GetInstance()->GetInputType())
+				{
+					vShotPos.fX = bOwnerPos.fX + (float)pPlayer->GetJoyPos()->fX;
+					vShotPos.fY = bOwnerPos.fY +(float)pPlayer->GetJoyPos()->fY;
+				}
+				else if(!CSinglePlayerState::GetInstance()->GetInputType())
+				{
+					vShotPos.fX = (float)CSGD_DirectInput::GetInstance()->MouseGetPosX() + CCamera::GetInstance()->GetOffsetX();
+					vShotPos.fY = (float)CSGD_DirectInput::GetInstance()->MouseGetPosY() + CCamera::GetInstance()->GetOffsetY();
+				}
+			}
+			else if(pCR->GetOwnerPointer()->GetType() == OBJ_ENEMY)
+			{
+				vShotPos.fX = CSinglePlayerState::GetInstance()->GetPlayerPointer()->GetPosX();
+				vShotPos.fY = CSinglePlayerState::GetInstance()->GetPlayerPointer()->GetPosY();
 			}
 
 			tVector2D vShot;
@@ -811,18 +866,7 @@ void CGame::MessageProc(CBaseMessage*	pMsg)
 			pShock->SetPosY(pCR->GetOwnerPointer()->GetPosY());
 			pShock->SetOwner(pCR->GetOwnerPointer());		
 
-			tVector2D vShotPos;
-			if(pCR->GetOwnerPointer()->GetType() == OBJ_PLAYER)
-			{
-				vShotPos.fX = (float)CSGD_DirectInput::GetInstance()->MouseGetPosX() + CCamera::GetInstance()->GetOffsetX();
-				vShotPos.fY = (float)CSGD_DirectInput::GetInstance()->MouseGetPosY() + CCamera::GetInstance()->GetOffsetY();
-			}
-			else if(pCR->GetOwnerPointer()->GetType() == OBJ_ENEMY)
-			{
-				vShotPos.fX = CSinglePlayerState::GetInstance()->GetPlayerPointer()->GetPosX();
-				vShotPos.fY = CSinglePlayerState::GetInstance()->GetPlayerPointer()->GetPosY();
-			}
-
+			
 			tVector2D bOwnerPos;
 			if(pCR->GetOwnerPointer()->GetType() == OBJ_PLAYER)
 			{
@@ -835,6 +879,29 @@ void CGame::MessageProc(CBaseMessage*	pMsg)
 				bOwnerPos.fX = pEnemy->GetPosX() + pEnemy->GetWidth();
 				bOwnerPos.fY = pEnemy->GetPosY();
 			}
+
+			tVector2D vShotPos;
+			if(pCR->GetOwnerPointer()->GetType() == OBJ_PLAYER)
+			{
+				CPlayer* pPlayer = (CPlayer*)pCR->GetOwnerPointer();
+				if(CSinglePlayerState::GetInstance()->GetInputType())
+				{
+					vShotPos.fX = bOwnerPos.fX + (float)pPlayer->GetJoyPos()->fX;
+					vShotPos.fY = bOwnerPos.fY +(float)pPlayer->GetJoyPos()->fY;
+				}
+				else if(!CSinglePlayerState::GetInstance()->GetInputType())
+				{
+					vShotPos.fX = (float)CSGD_DirectInput::GetInstance()->MouseGetPosX() + CCamera::GetInstance()->GetOffsetX();
+					vShotPos.fY = (float)CSGD_DirectInput::GetInstance()->MouseGetPosY() + CCamera::GetInstance()->GetOffsetY();
+				}
+			}
+			else if(pCR->GetOwnerPointer()->GetType() == OBJ_ENEMY)
+			{
+				vShotPos.fX = CSinglePlayerState::GetInstance()->GetPlayerPointer()->GetPosX();
+				vShotPos.fY = CSinglePlayerState::GetInstance()->GetPlayerPointer()->GetPosY();
+			}
+
+
 
 			tVector2D vShot;
 

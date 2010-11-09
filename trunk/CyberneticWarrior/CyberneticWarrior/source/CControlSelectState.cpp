@@ -14,6 +14,8 @@ CControlSelectState::CControlSelectState(void)
 	this->m_pWM  = NULL;
 	this->m_pDS  = NULL;
 
+	this->m_fWaitTime = 0.0f;
+
 	this->m_nBackgroundID = -1;
 	this->m_nSelection    = -1;
 }
@@ -32,8 +34,10 @@ CControlSelectState::~CControlSelectState(void)
 
 bool	CControlSelectState::Input(void)
 {
-	if(this->m_pDI->KeyPressed(DIK_RIGHT))
+	if(this->m_pDI->KeyPressed(DIK_RIGHT) || this->m_pDI->JoystickDPadDown(DIR_RIGHT,0)  && this->m_fWaitTime > 0.3f
+		|| this->m_pDI->JoystickGetLStickXAmount(0) > 0.0f && this->m_fWaitTime > 0.3f)
 	{
+		this->m_fWaitTime = 0.0f;
 		if(this->m_nSelection == this->GAMEPAD)
 		{
 			this->m_nSelection = this->KEYBOARD;
@@ -43,8 +47,10 @@ bool	CControlSelectState::Input(void)
 			this->m_nSelection = this->GAMEPAD;
 		}
 	}
-	if(this->m_pDI->KeyPressed(DIK_LEFT))
+	if(this->m_pDI->KeyPressed(DIK_LEFT) || this->m_pDI->JoystickDPadDown(DIR_LEFT,0)  && this->m_fWaitTime > 0.3f
+		|| this->m_pDI->JoystickGetLStickXAmount(0) && this->m_fWaitTime > 0.3f)
 	{
+		this->m_fWaitTime = 0.0f;
 		if(this->m_nSelection == this->GAMEPAD)
 		{
 			this->m_nSelection = this->KEYBOARD;
@@ -54,8 +60,10 @@ bool	CControlSelectState::Input(void)
 			this->m_nSelection = this->GAMEPAD;
 		}
 	}
-	if(this->m_pDI->KeyPressed(DIK_DOWN))
+	if(this->m_pDI->KeyPressed(DIK_DOWN) || this->m_pDI->JoystickDPadPressed(DIR_DOWN,0)
+		|| (this->m_pDI->JoystickGetLStickYAmount(0) > 0.0f && this->m_fWaitTime > 0.3f))
 	{
+		this->m_fWaitTime = 0.0f;
 		if(this->m_nSelection != this->EXIT_MENU)
 		{
 			this->m_nSelection = this->EXIT_MENU;
@@ -65,8 +73,10 @@ bool	CControlSelectState::Input(void)
 			this->m_nSelection = this->KEYBOARD;
 		}
 	}
-	if(this->m_pDI->KeyPressed(DIK_UP))
+	if(this->m_pDI->KeyPressed(DIK_UP) || this->m_pDI->JoystickDPadPressed(DIR_UP,0)
+		|| (this->m_pDI->JoystickGetLStickYAmount(0) < 0.0f && this->m_fWaitTime > 0.3f))
 	{
+		this->m_fWaitTime = 0.0f;
 		if(this->m_nSelection != this->EXIT_MENU)
 		{
 			this->m_nSelection = this->EXIT_MENU;
@@ -77,7 +87,7 @@ bool	CControlSelectState::Input(void)
 		}
 	}
 
-	if(this->m_pDI->KeyPressed(DIK_RETURN))
+	if(this->m_pDI->KeyPressed(DIK_RETURN) || this->m_pDI->JoystickButtonPressed(1,0) || this->m_pDI->JoystickButtonPressed(9,0))
 	{
 		switch(this->m_nSelection)
 		{
@@ -99,7 +109,7 @@ bool	CControlSelectState::Input(void)
 	}
 		
 
-	if(this->m_pDI->KeyPressed(DIK_ESCAPE))
+	if(this->m_pDI->KeyPressed(DIK_ESCAPE)|| this->m_pDI->JoystickButtonPressed(2,0) || this->m_pDI->JoystickButtonPressed(8,0))
 	{
 		CStackStateMachine::GetInstance()->Pop_back();
 		return 1;
@@ -127,6 +137,7 @@ void	CControlSelectState::Enter(void)
 
 void	CControlSelectState::Update(float fElapsedTime)
 {
+	this->m_fWaitTime += fElapsedTime;
 }
 
 void	CControlSelectState::Render(void)
