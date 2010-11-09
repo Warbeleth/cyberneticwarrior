@@ -1261,10 +1261,9 @@ bool CPlayer::CheckCollision(CBase* pBase)
 		else if(BLOCK->GetBlock() == BLOCK_TRAP)
 		{
 			if(myBottom >= hisY  
-				&& (myBottom) < (hisBottom)
+				&& (myBottom) <= (hisBottom)
 				&& (myRight) > hisX
 				&& (myX) < (hisRight)
-				&& !this->m_bOnGround
 				&& this->m_vSpeed.fY >= 0.0f)
 			{
 				this->m_bOnGround = 1;
