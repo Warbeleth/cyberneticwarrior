@@ -44,10 +44,7 @@ CLoadingState::~CLoadingState(void)
 
 bool	CLoadingState::Input(void)
 {
-	if(this->m_pDI->CheckKeys() || this->m_pDI->JoystickButtonPressed(0) || this->m_pDI->JoystickButtonPressed(1) 
-		|| this->m_pDI->JoystickButtonPressed(2) || this->m_pDI->JoystickButtonPressed(3) || this->m_pDI->JoystickButtonPressed(4)
-		|| this->m_pDI->JoystickButtonPressed(5) || this->m_pDI->JoystickButtonPressed(6) || this->m_pDI->JoystickButtonPressed(7)
-		|| this->m_pDI->JoystickButtonPressed(8) || this->m_pDI->JoystickButtonPressed(9) && this->GetReady())
+	if(this->m_pDI->CheckKeys() && this->GetReady())
 	{
 		CStackStateMachine::GetInstance()->RemoveState(LOADING);
 	}
