@@ -623,15 +623,11 @@ void CPlayer::Input(float fElapsedTime)
 	//////////////////////////////////////////////////////////////////////////////
 
 
-
-
-
 	//////////////////////////////////////////////////////////////////////////////
 	// Reset animations to initial
 	//////////////////////////////////////////////////////////////////////////////
 	GetAnimations()->SetCurrentAnimation(1);
 	//////////////////////////////////////////////////////////////////////////////
-
 
 
 	//////////////////////////////////////////////////////////////////////////////
@@ -1481,3 +1477,20 @@ void CPlayer::SetPlayerNumber( int nPlayer )
 tVector2D CPlayer::GetSpeed(void)	{ return m_vSpeed; }
 
 float	CPlayer::GetRotationRate(void)	{ return m_fRotationRate; }
+
+CPoint CPlayer::GetBulletStartPos( void )
+{
+	CPoint ptStartingPos;
+	tVector2D vecStartingPoint;	
+	RECT _currentFrame = GetAnimations()->GetCollisionFrame((int)GetPosX(), (int)GetPosY());
+
+	vecStartingPoint.fX = 0;
+	vecStartingPoint.fY = m_ptArmOffsets[m_nWeaponIndex].m_nY;
+
+	vecStartingPoint = Vector2DRotate( vecStartingPoint, m_fHandRotation );
+
+	ptStartingPos.m_nX = (int)vecStartingPoint.fX + (int)((_currentFrame.left + GetAnimations()->GetPivotPoint().m_nX ) * CCamera::GetInstance()->GetScale());
+	ptStartingPos.m_nY = (int)vecStartingPoint.fY + (int)((_currentFrame.top + GetAnimations()->GetPivotPoint().m_nY ) * CCamera::GetInstance()->GetScale());
+
+	return ptStartingPos;
+}

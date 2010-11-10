@@ -228,5 +228,7 @@ public:
 	inline void DecrementHealth( float fRemainingHealth ) { m_fRemainingHealth -= fRemainingHealth; (m_fRemainingHealth < 0.0f) ? m_fRemainingHealth = 0.0f : m_fRemainingHealth = m_fRemainingHealth; }
 	inline void IncrementEnergy( float fRemainingEnergy ) { m_fRemainingEnergy += fRemainingEnergy; (m_fRemainingEnergy > 100.0f) ? m_fRemainingEnergy = 100.0f : m_fRemainingEnergy = m_fRemainingEnergy; }
 	inline void DecrementEnergy( float fRemainingEnergy ) { m_fRemainingEnergy -= fRemainingEnergy; (m_fRemainingEnergy < 0.0f) ? m_fRemainingEnergy = 0.0f : m_fRemainingEnergy = m_fRemainingEnergy; }
+
+	CPoint GetBulletStartPos( void );
 };
 #endif
