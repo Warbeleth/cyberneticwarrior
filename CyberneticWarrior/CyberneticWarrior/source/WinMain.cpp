@@ -240,23 +240,33 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine
 	CGame* pGame = CGame::GetInstance();
 	pGame->Initialize(hWnd, hInstance, g_nWINDOW_WIDTH, g_nWINDOW_HEIGHT, g_bIS_WINDOWED);
 
-	while(TRUE)
+	bool bPlaying = true;
+	while(bPlaying)
 	{
-		if(pGame->Main() == false)
-		{
-			PostQuitMessage(0);
-		}
-
 		if(PeekMessage(&msg, NULL, 0, 0, PM_REMOVE))
 		{
-			if(msg.message == WM_QUIT)
+			switch(msg.message)
 			{
+			case WM_QUIT:
+				{
+					bPlaying = false;
+				}
 				break;
-			}
-
+			case WM_CHAR:
+				{
+					unsigned char m = unsigned char(msg.wParam);
+					char x = 0;
+				}
+				break;
+			};
 			TranslateMessage(&msg);
 
 			DispatchMessage(&msg);
+		}		
+		
+		if(pGame->Main() == false)
+		{
+			PostQuitMessage(0);
 		}
 	}
 

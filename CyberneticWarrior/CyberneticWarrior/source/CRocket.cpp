@@ -13,18 +13,7 @@ CRocket::CRocket( void )
 	m_nRocketState	= ROCKET_DIRECTIONAL;
 	SetType( OBJ_ROCKET );
 	SetImageID(CSinglePlayerState::GetInstance()->GetWeaponID());
-
-	this->SetRotation(0.0f);
-	if(CSinglePlayerState::GetInstance()->GetPlayerPointer()->GetForward())
-	{
-		this->m_fDirection = 1.0f;
-	}
-	else
-	{
-		this->m_fDirection = -1.0f;
-	}
-
-
+	this->SetRotation(CSinglePlayerState::GetInstance()->GetPlayerPointer()->GetRotation());
 }
 
 CRocket::~CRocket( void )
@@ -73,10 +62,20 @@ void CRocket::Update( float fElapsedTime)
 		}
 	case ROCKET_HOMING:
 		{
+			tVector2D vecRocketRotation;
+			vecRocketRotation.fX = 0.0f;
+			vecRocketRotation.fY = -1.0f;
+
 			tVector2D vecMousePosition;
 			vecMousePosition.fX = (float)(CSGD_DirectInput::GetInstance()->MouseGetPosX() + CCamera::GetInstance()->GetOffsetX());
 			vecMousePosition.fY = (float)(CSGD_DirectInput::GetInstance()->MouseGetPosY() + CCamera::GetInstance()->GetOffsetY());
 
+			SetRotation( CSinglePlayerState::GetInstance()->GetPlayerPointer()->GetRotation() );
+
+			if( CSGD_DirectInput::GetInstance()->MouseGetPosX() < GetPosX()  - CCamera::GetInstance()->GetOffsetX() )
+				SetRotation( 2*SGD_PI - CSinglePlayerState::GetInstance()->GetPlayerPointer()->GetRotation() );
+	
+			
 			SetBaseVelX( vecMousePosition.fX - 8 - GetPosX() );
 			SetBaseVelY( vecMousePosition.fY + 8 - GetPosY() );
 
@@ -111,8 +110,8 @@ void CRocket::Render( void )
 	CSGD_TextureManager::GetInstance()->Draw( GetImageID(), 
 		(int)(((GetPosX() + (GetWidth()/2.0f) ) - CCamera::GetInstance()->GetOffsetX()) * CCamera::GetInstance()->GetScale()), 
 		(int)(((GetPosY() - (GetHeight()/2.0f)) - CCamera::GetInstance()->GetOffsetY()) * CCamera::GetInstance()->GetScale()), 
-		this->m_fDirection * CCamera::GetInstance()->GetScale(), 
-		1.0f * CCamera::GetInstance()->GetScale(), 
+		CCamera::GetInstance()->GetScale(), 
+		CCamera::GetInstance()->GetScale(), 
 		&rRender, (GetWidth()/2.0f), (GetHeight()/2.0f),
 		this->GetRotation() );
 }

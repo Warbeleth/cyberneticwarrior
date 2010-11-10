@@ -458,6 +458,7 @@ void CGame::MessageProc(CBaseMessage*	pMsg)
 			pBullet = (CBullet*)CObjectFactory<std::string, CBase>::GetInstance()->CreateObject("CBullet");
 			pBullet->SetWidth(16);
 			pBullet->SetHeight(16);
+			
 			pBullet->SetPosX(pCR->GetOwnerPointer()->GetPosX() + (float)pCR->GetOwnerPointer()->GetWidth());
 			pBullet->SetPosY(pCR->GetOwnerPointer()->GetPosY());
 			pBullet->SetOwner(pCR->GetOwnerPointer());		
@@ -500,10 +501,7 @@ void CGame::MessageProc(CBaseMessage*	pMsg)
 			}
 
 			
-			pBullet->SetRotation( SGD_PI + (SGD_PI - AngleBetweenVectors(bOwnerPos, vShotPos)));
-
-
-
+			pBullet->SetRotation( (float)(CSinglePlayerState::GetInstance()->GetPlayerPointer()->GetHandRotation() - .5*SGD_PI));
 
 			tVector2D vShot;
 
@@ -579,7 +577,7 @@ void CGame::MessageProc(CBaseMessage*	pMsg)
 
 			}
 
-			pRocket->SetRotation( SGD_PI + (SGD_PI - AngleBetweenVectors(bOwnerPos, vShotPos)));
+			pRocket->SetRotation( (float)(CSinglePlayerState::GetInstance()->GetPlayerPointer()->GetHandRotation() - .5*SGD_PI));
 
 
 			tVector2D vShot;
@@ -667,6 +665,8 @@ void CGame::MessageProc(CBaseMessage*	pMsg)
 
 			pFlame->SetRotation( SGD_PI + (SGD_PI - AngleBetweenVectors(vFlameRot, vMousePos)));
 */
+			
+			pFlame->SetRotation( (float)(CSinglePlayerState::GetInstance()->GetPlayerPointer()->GetHandRotation() - .5*SGD_PI));
 
 			tVector2D vShot;
 
@@ -722,6 +722,8 @@ void CGame::MessageProc(CBaseMessage*	pMsg)
 				bOwnerPos.fX = pEnemy->GetPosX() + pEnemy->GetWidth();
 				bOwnerPos.fY = pEnemy->GetPosY();
 			}
+			
+			pPlasma->SetRotation( (float)(CSinglePlayerState::GetInstance()->GetPlayerPointer()->GetHandRotation() - .5*SGD_PI));
 
 			tVector2D vShotPos;
 			if(pCR->GetOwnerPointer()->GetType() == OBJ_PLAYER)
@@ -806,6 +808,9 @@ void CGame::MessageProc(CBaseMessage*	pMsg)
 				bOwnerPos.fY = pEnemy->GetPosY();
 			}
 
+			pGrenade->SetRotation( (float)(CSinglePlayerState::GetInstance()->GetPlayerPointer()->GetHandRotation() - .5*SGD_PI));
+
+
 			tVector2D vShotPos;
 			if(pCR->GetOwnerPointer()->GetType() == OBJ_PLAYER)
 			{
@@ -826,7 +831,6 @@ void CGame::MessageProc(CBaseMessage*	pMsg)
 				vShotPos.fX = CSinglePlayerState::GetInstance()->GetPlayerPointer()->GetPosX();
 				vShotPos.fY = CSinglePlayerState::GetInstance()->GetPlayerPointer()->GetPosY();
 			}
-
 			tVector2D vShot;
 
 			vShot = vShotPos - bOwnerPos;
@@ -900,6 +904,8 @@ void CGame::MessageProc(CBaseMessage*	pMsg)
 				vShotPos.fX = CSinglePlayerState::GetInstance()->GetPlayerPointer()->GetPosX();
 				vShotPos.fY = CSinglePlayerState::GetInstance()->GetPlayerPointer()->GetPosY();
 			}
+			
+			pShock->SetRotation( (float)(CSinglePlayerState::GetInstance()->GetPlayerPointer()->GetHandRotation() - .5*SGD_PI));
 
 
 
@@ -948,6 +954,8 @@ void CGame::MessageProc(CBaseMessage*	pMsg)
 			vPlayerPos.fX = pCR->GetPlayerPointer()->GetPosX() + (float)pCR->GetPlayerPointer()->GetWidth();
 			vPlayerPos.fY = pCR->GetPlayerPointer()->GetPosY();
 
+			pFire->SetRotation( (float)(CSinglePlayerState::GetInstance()->GetPlayerPointer()->GetHandRotation() - .5*SGD_PI));
+
 			tVector2D vShot;
 
 			vShot = vPlayerPos - vOwnerPos;
@@ -992,6 +1000,8 @@ void CGame::MessageProc(CBaseMessage*	pMsg)
 			tVector2D vPlayerPos;
 			vPlayerPos.fX = pCR->GetPlayerPointer()->GetPosX() + (float)pCR->GetPlayerPointer()->GetWidth();
 			vPlayerPos.fY = pCR->GetPlayerPointer()->GetPosY();
+			
+			pIce->SetRotation( (float)(CSinglePlayerState::GetInstance()->GetPlayerPointer()->GetHandRotation() - .5*SGD_PI));
 
 			tVector2D vShot;
 

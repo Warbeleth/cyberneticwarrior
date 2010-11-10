@@ -40,7 +40,7 @@ public:
 
 	static CHowToPlayState*	GetInstance(void);
 	static void DeleteInstance(void);
-
+	
 };
 
 #endif

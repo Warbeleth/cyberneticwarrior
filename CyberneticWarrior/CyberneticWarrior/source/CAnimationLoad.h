@@ -45,11 +45,12 @@ class CFrame
 private:
 	RECT			m_rFrame;				// Frame of the image being displayed
 	CPoint			m_ptAnchor;				// Anchor to align th eimages on
+	CPoint			m_ptPivotPoint;			// The arm pivot point for an animation
 	int				m_nTotalHitRects;		// Total hit rects for melee weapon collision
 	int				m_nTotalCollisionRects;	// Total collision rects for the character
 	int				m_nTrigger;				// Trigger for an event to occur
 	vector<RECT>	m_vHitRects;			// The actual hit rects data
-	vector<RECT>	m_vCollisionRects;	// The actual collision rects data
+	vector<RECT>	m_vCollisionRects;		// The actual collision rects data
 
 	// Friends with CAnimation
 	friend class CAnimation;
@@ -97,6 +98,7 @@ public:
 	// Purpose: Accesses the specified type. 
 	///////////////////////////////////////////////////////////////////////////////////////////////////////
 	CPoint GetAnchor( void ) { return m_ptAnchor; }
+	CPoint GetPivot( void ) { return m_ptPivotPoint; }
 	RECT GetFrame( void ) { return m_rFrame; }
 	vector<RECT>* GetCollisionRects( void ) { return &m_vCollisionRects; }
 
@@ -113,7 +115,9 @@ public:
 								   m_rFrame.right = rRect.right;
 								   m_rFrame.bottom = rRect.bottom; }
 	void SetAnchor( CPoint ptAnchor ) { m_ptAnchor.m_nX = ptAnchor.m_nX;
-									   m_ptAnchor.m_nY = ptAnchor.m_nY; }
+									    m_ptAnchor.m_nY = ptAnchor.m_nY; }
+	void SetPivot( CPoint ptPivot ) { m_ptPivotPoint.m_nX = ptPivot.m_nX; 
+									  m_ptPivotPoint.m_nY = ptPivot.m_nY; }
 };
 
 //////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -214,5 +218,7 @@ public:
 	int GetFrameWidth( void ); 
 	int GetFrameHeight( void ) ;
 	RECT GetFrameOffset( void ) { return (m_vAnimations[m_nCurrentAnimation].m_vFrames[m_vAnimations[m_nCurrentAnimation].m_nCurrentFrame].GetFrame()); }
+	CPoint GetPivotPoint( void ) { return (m_vAnimations[m_nCurrentAnimation].m_vFrames[m_vAnimations[m_nCurrentAnimation].m_nCurrentFrame].GetPivot()); }
+	
 };
 #endif

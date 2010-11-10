@@ -32,6 +32,8 @@ CFrame::CFrame( void )
 	m_rFrame.bottom          = 0;
 	m_ptAnchor.m_nX           = 0;
 	m_ptAnchor.m_nY           = 0;
+	m_ptPivotPoint.m_nX		= 0;
+	m_ptPivotPoint.m_nY		= 0;
 	m_nTotalHitRects         = 0;
 	m_nTotalCollisionRects   = 0;
 	m_nTrigger               = 0;
@@ -322,6 +324,12 @@ bool CAnimations::LoadBinary( char* szFilename )
 				in.read( (char*)&_anchor.m_nY, sizeof(int) );
 				m_vAnimations[i].m_vFrames[x].SetAnchor( _anchor );
 
+				// pivot
+				CPoint _pivot;
+				in.read( (char*)&_pivot.m_nX, sizeof(int) );
+				in.read( (char*)&_pivot.m_nY, sizeof(int) );
+				m_vAnimations[i].m_vFrames[x].SetPivot( _pivot );
+
 				// frame
 				RECT _frameRect;
 				in.read( (char*)&_frameRect.left, sizeof(int) );
@@ -413,13 +421,13 @@ bool CFrame::CheckCollision( CBase* pBase, int nPosX, int nPosY )
 
 				rBaseRect.left -= rFrame.left;
 				rBaseRect.right -= rFrame.left;
-				rBaseRect.left += pBase->GetPosX();
-				rBaseRect.right += pBase->GetPosX();
+				rBaseRect.left += (LONG)pBase->GetPosX();
+				rBaseRect.right += (LONG)pBase->GetPosX();
 
 				rBaseRect.top -= rFrame.top;
 				rBaseRect.bottom -= rFrame.top;
-				rBaseRect.top += pBase->GetPosY();
-				rBaseRect.bottom += pBase->GetPosY();
+				rBaseRect.top += (LONG)pBase->GetPosY();
+				rBaseRect.bottom += (LONG)pBase->GetPosY();
 
 				if(IntersectRect(&rCollision, &rThisRect, &rBaseRect ))
 					return true;
@@ -484,13 +492,13 @@ bool CFrame::CheckHit( CBase* pBase, int nPosX, int nPosY )
 
 				rBaseRect.left -= rFrame.left;
 				rBaseRect.right -= rFrame.left;
-				rBaseRect.left += pBase->GetPosX();
-				rBaseRect.right += pBase->GetPosX();
+				rBaseRect.left += (LONG)pBase->GetPosX();
+				rBaseRect.right += (LONG)pBase->GetPosX();
 
 				rBaseRect.top -= rFrame.top;
 				rBaseRect.bottom -= rFrame.top;
-				rBaseRect.top += pBase->GetPosY();
-				rBaseRect.bottom += pBase->GetPosY();
+				rBaseRect.top += (LONG)pBase->GetPosY();
+				rBaseRect.bottom += (LONG)pBase->GetPosY();
 
 				if(IntersectRect(&rHit, &rThisRect, &rBaseRect ))
 					return true;
