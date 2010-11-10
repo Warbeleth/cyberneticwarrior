@@ -115,7 +115,6 @@ public:
 	virtual void CheckCulling();
 
 
-
 	////////////////////////////////////////////////////////////////////////////////////
 	// Accessors
 	////////////////////////////////////////////////////////////////////////////////////
@@ -258,5 +257,6 @@ public:
 
 	CAnimations* GetAnimations( void ) const { return m_pAnimations; }
 	void SetAnimations( CAnimations* pAnimation ) { m_pAnimations = pAnimation; }
+	virtual CPoint GetBulletStartPos( void );
 };
 #endif

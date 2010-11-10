@@ -298,3 +298,12 @@ void CBase::SetRotation(float fRotation)
 {
 	this->m_fRotation = fRotation;
 }
+
+CPoint CBase::GetBulletStartPos( void )
+{
+	CPoint ptStartingPos;
+	ptStartingPos.m_nX = (int)GetPosX();
+	ptStartingPos.m_nY = (int)GetPosY();
+
+	return ptStartingPos;
+}
