@@ -1,6 +1,7 @@
 #include "PrecompiledHeader.h"
 #include "COptionsMenuState.h"
 #include "CStackStateMachine.h"
+#include "CControlSelectState.h"
 
 COptionsMenuState*	COptionsMenuState::sm_pOptionsMenuInstance = NULL;
 
@@ -25,7 +26,7 @@ COptionsMenuState::COptionsMenuState(void)
 	this->m_nMusicVolume		= 75;
 	this->m_nSFXVolume			= 75;
 
-	this->m_nSelection			= this->MUSIC_VOLUME;
+	this->m_nSelection			= this->CONTROL_SELECT;
 	this->m_nSelectionPos		= this->OMENU_START;
 
 	this->m_bSelection			= 0;
@@ -49,7 +50,7 @@ COptionsMenuState::~COptionsMenuState(void)
 	this->m_nCursorID			= -1;
 	this->m_nSFXID				= -1;
 
-	this->m_nSelection			= this->MUSIC_VOLUME;
+	this->m_nSelection			= this->CONTROL_SELECT;
 	this->m_nSelectionPos		= this->OMENU_START;
 
 	this->m_bSelection			= 0;
@@ -97,7 +98,7 @@ void	COptionsMenuState::Enter(void)
 
 	this->m_pWM->SetVolume(this->m_nMusicID, this->m_nMusicVolume);
 
-	this->m_nSelection			= this->MUSIC_VOLUME;
+	this->m_nSelection			= this->CONTROL_SELECT;
 	this->m_nSelectionPos		= this->OMENU_START;
 }
 
@@ -116,7 +117,7 @@ bool	COptionsMenuState::Input(void)
 		}
 		--this->m_nSelection;
 		this->m_fWaitTime = 0.0f;
-		if(this->m_nSelection < this->MUSIC_VOLUME)// && !this->m_bSelection)
+		if(this->m_nSelection < this->CONTROL_SELECT)// && !this->m_bSelection)
 		{
 			this->m_nSelection = this->EXIT_OMENU;
 		}
@@ -134,7 +135,7 @@ bool	COptionsMenuState::Input(void)
 		this->m_fWaitTime = 0.0f;
 		if(this->m_nSelection > this->EXIT_OMENU)// && !this->m_bSelection)
 		{
-			this->m_nSelection = this->MUSIC_VOLUME;
+			this->m_nSelection = this->CONTROL_SELECT;
 		}
 	}
 
@@ -226,6 +227,9 @@ bool	COptionsMenuState::Input(void)
 
 		switch(this->m_nSelection)
 		{
+		case this->CONTROL_SELECT:
+			CStackStateMachine::GetInstance()->Push_Back(CControlSelectState::GetInstance());
+			break;
 		case this->MUSIC_VOLUME:
 			//this->m_pWM->Stop(this->m_nBGMusic);
 			//CStackStateMachine::GetInstance()->Push_Back(CSinglePlayerState::GetInstance());
@@ -298,23 +302,27 @@ void	COptionsMenuState::Render(void)
 	this->m_pTM->Draw(this->m_nCursorID, (int)(this->MENUX + 310 +(250 *(this->m_nSFXVolume * .01f))), (this->SFX_VOLUME * OMENU_SPACE) + this->OMENU_START - 9);
 	//this->m_pTM->Draw(this->m_nMenuID,0,0,1.3f,1.0f);//,1.0f,1.0f, 0, 0.0f, 0.0f, 0.0f, D3DCOLOR_ARGB(255,0,128,128));
 
-	this->m_OptionsFont.Draw("-OPTIONS MENU-", 225, 25, 1.2f, D3DXCOLOR(1.0f, 1.0f, 0.0f, 1.0f));
+	this->m_OptionsFont.Draw("-OPTIONS MENU-", 225, 25, 1.2f, D3DXCOLOR(0.7f, 1.0f	, 1.0f, 1.0f));
 	
+	this->m_OptionsFont.Draw("Control Selection", this->MENUX, (this->CONTROL_SELECT * OMENU_SPACE) + this->OMENU_START, 
+		(this->m_nSelection == this->CONTROL_SELECT? 1.2f : 1.0f) ,
+		(this->m_nSelection == this->CONTROL_SELECT? D3DXCOLOR(0.0f, 1.0f, 1.0f, 1.0f) : D3DXCOLOR(0.7f, 0.7f, 1.0f, 1.0f)));
+
 	this->m_OptionsFont.Draw("Music Volume", this->MENUX, (this->MUSIC_VOLUME * OMENU_SPACE) + this->OMENU_START, 
 		(this->m_nSelection == this->MUSIC_VOLUME? 1.2f : 1.0f) ,
-		(this->m_nSelection == this->MUSIC_VOLUME? D3DXCOLOR(0.0f, 1.0f, 0.0f, 1.0f) : D3DXCOLOR(1.0f, 1.0f, 0.0f, 1.0f)));
+		(this->m_nSelection == this->MUSIC_VOLUME? D3DXCOLOR(0.0f, 1.0f, 1.0f, 1.0f) : D3DXCOLOR(0.7f, 0.7f, 1.0f, 1.0f)));
 	
 	this->m_OptionsFont.Draw("SFX Volume", this->MENUX, (this->SFX_VOLUME * OMENU_SPACE) + this->OMENU_START, 
 		(this->m_nSelection == this->SFX_VOLUME? 1.2f : 1.0f), 
-		(this->m_nSelection == this->SFX_VOLUME? D3DXCOLOR(0.0f, 1.0f, 0.0f, 1.0f) : D3DXCOLOR(1.0f, 1.0f, 0.0f, 1.0f)));
+		(this->m_nSelection == this->SFX_VOLUME? D3DXCOLOR(0.0f, 1.0f, 1.0f, 1.0f) : D3DXCOLOR(0.7f, 0.7f, 1.0f, 1.0f)));
 	
 	this->m_OptionsFont.Draw("Mute", this->MENUX, (this->MUTE * OMENU_SPACE) + this->OMENU_START, 
 		(this->m_nSelection == this->MUTE? 1.2f : 1.0f),
-		(this->m_nSelection == this->MUTE? D3DXCOLOR(0.0f, 1.0f, 0.0f, 1.0f) : D3DXCOLOR(1.0f, 1.0f, 0.0f, 1.0f)));
+		(this->m_nSelection == this->MUTE? D3DXCOLOR(0.0f, 1.0f, 1.0f, 1.0f) : D3DXCOLOR(0.7f, 0.7f, 1.0f, 1.0f)));
 	
 	this->m_OptionsFont.Draw("Exit", this->MENUX + 225, (this->EXIT_OMENU * OMENU_SPACE) + this->OMENU_START,
 		(this->m_nSelection == this->EXIT_OMENU? 1.2f : 1.0f),
-		(this->m_nSelection == this->EXIT_OMENU? D3DXCOLOR(0.0f, 1.0f, 0.0f, 1.0f) : D3DXCOLOR(1.0f, 1.0f, 0.0f, 1.0f)));
+		(this->m_nSelection == this->EXIT_OMENU? D3DXCOLOR(0.0f, 1.0f, 1.0f, 1.0f) : D3DXCOLOR(0.7f, 0.7f, 1.0f, 1.0f)));
 	
 	CSGD_Direct3D::GetInstance()->GetSprite()->Flush();
 	CSGD_Direct3D::GetInstance()->DrawLine(MENUX + 325, (this->MUSIC_VOLUME * OMENU_SPACE) + this->OMENU_START + 25, MENUX + 325 + 250,  (this->MUSIC_VOLUME * OMENU_SPACE) + this->OMENU_START + 25, ((this->m_nSelection != this->MUSIC_VOLUME || !this->m_bSelection)? 255: 0), 0, ((this->m_nSelection == this->MUSIC_VOLUME && this->m_bSelection)? 255: 0));

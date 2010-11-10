@@ -93,12 +93,12 @@ bool	CControlSelectState::Input(void)
 		{
 		case this->GAMEPAD:
 			CSinglePlayerState::GetInstance()->SetInputType(1);
-			CStackStateMachine::GetInstance()->ChangeState(CLoadingState::GetInstance());
+		//	CStackStateMachine::GetInstance()->ChangeState(CLoadingState::GetInstance());
 			return 1;
 			break;
 		case this->KEYBOARD:
 			CSinglePlayerState::GetInstance()->SetInputType(0);
-			CStackStateMachine::GetInstance()->ChangeState(CLoadingState::GetInstance());
+			//CStackStateMachine::GetInstance()->ChangeState(CLoadingState::GetInstance());
 			return 1;
 			break;
 		case this->EXIT_MENU:

@@ -42,7 +42,7 @@ void CCreditsState::Enter( void )
 {
 	m_CreditsFont.InitFont("resource/fonts/CyberneticWarriorArcadeFont.png", "resource/fonts/CyberneticWarriorArcadeFont.fnt");
 	
-m_nCreditsBGId = CSGD_TextureManager::GetInstance()->LoadTexture("resource/graphics/CreditsBG.png");
+	m_nCreditsBGId = CSGD_TextureManager::GetInstance()->LoadTexture("resource/graphics/CreditsBG.png");
 
 	m_nScrollingId = m_CreditsFont.AddScrolling( 0, -100 );
 }
