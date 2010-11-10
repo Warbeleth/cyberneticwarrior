@@ -44,6 +44,8 @@ CPlayer::CPlayer(void)
 	this->m_rWeapons[this->SG].right	 = 320;
 	this->m_rWeapons[this->SG].bottom	 = 342;
 
+	this->m_fInputTime = 0.0f;
+
 	this->m_nWeaponIndex = this->HG;
 
 	// Type
@@ -178,6 +180,8 @@ void CPlayer::Update(float fElapsedTime)
 		this->m_bShutDown = false;
 	}
 
+	
+	
 	// If player is swinging do not update based on CBase otherwise Carry on
 	if(this->m_pHook)
 	{
@@ -227,7 +231,7 @@ void CPlayer::Update(float fElapsedTime)
 	// used for gamepad controls
 	// Notes: May be used later, probably not(Do not remove yet)
 
-	//this->m_fWaitTime +=  fElapsedTime;
+	this->m_fInputTime +=  fElapsedTime;
 
 	//this->m_vJoyVecPos.fX = this->GetPosX();
 	//this->m_vJoyVecPos.fY = this->GetPosY();
@@ -502,8 +506,9 @@ void CPlayer::Input(float fElapsedTime)
 	//////////////////////////////////////////////////////////////////////////////
 	// Check to see what weapon/equipment player changes too
 	//////////////////////////////////////////////////////////////////////////////
-	if(CSGD_DirectInput::GetInstance()->KeyPressed(CGame::GetInstance()->GetPlayerOneControls(6)))
+	if(CSGD_DirectInput::GetInstance()->KeyPressed(CGame::GetInstance()->GetPlayerOneControls(6)) || (CSGD_DirectInput::GetInstance()->JoystickButtonDown(5) && this->m_fInputTime > 0.3f))
 	{
+		this->m_fInputTime = 0.0f;
 		switch(m_nSelectedWeapon)
 		{
 		case HAND_GUN:
@@ -532,7 +537,18 @@ void CPlayer::Input(float fElapsedTime)
 			break;
 		};
 	}
+
+	if(CSGD_DirectInput::GetInstance()->JoystickButtonDown(6) || CSGD_DirectInput::GetInstance()->KeyDown(DIK_L) && m_fInputTime > 0.3f)
+	{
+		this->m_fInputTime = 0.0f;
+		this->m_nSelectedBootSlot--;
+		if(this->m_nSelectedBootSlot == -1)
+		{
+			this->m_nSelectedBootSlot = this->BOOTS;
+		}
 	
+	}
+
 	if(CSGD_DirectInput::GetInstance()->KeyPressed(DIK_1))
 	{
 		this->m_nSelectedBootSlot = this->BOOTS;
