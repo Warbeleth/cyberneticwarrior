@@ -14,35 +14,53 @@
 CPlayer::CPlayer(void)
 {
 	// Setting Weapon Rects
-	this->m_rWeapons[this->HG].top		= 8;
-	this->m_rWeapons[this->HG].left		= 32;
+	this->m_rWeapons[this->HG].top		= 12;
+	this->m_rWeapons[this->HG].left		= 40;
 	this->m_rWeapons[this->HG].right	= 80;
-	this->m_rWeapons[this->HG].bottom	= 152;
+	this->m_rWeapons[this->HG].bottom	= 146;
+	// 20, 126
+	m_ptPivots[HG].m_nX = 20;
+	m_ptPivots[HG].m_nY = 126;
 
-	this->m_rWeapons[this->RL].top		 = 260;
-	this->m_rWeapons[this->RL].left		 = 135;
-	this->m_rWeapons[this->RL].right	 = 208;
-	this->m_rWeapons[this->RL].bottom	 = 452;
+	this->m_rWeapons[this->RL].top		 = 264;
+	this->m_rWeapons[this->RL].left		 = 138;
+	this->m_rWeapons[this->RL].right	 = 206;
+	this->m_rWeapons[this->RL].bottom	 = 442;
+	// 188, 384
+	m_ptPivots[RL].m_nX = 50;
+	m_ptPivots[RL].m_nY = 120;
 
-	this->m_rWeapons[this->FT].top		 = 10;
-	this->m_rWeapons[this->FT].left		 = 125;
-	this->m_rWeapons[this->FT].right	 = 205;
-	this->m_rWeapons[this->FT].bottom	 = 200;
+	this->m_rWeapons[this->FT].top		 = 11;
+	this->m_rWeapons[this->FT].left		 = 132;
+	this->m_rWeapons[this->FT].right	 = 200;
+	this->m_rWeapons[this->FT].bottom	 = 198;
+	// 150, 184
+	m_ptPivots[FT].m_nX = 18;
+	m_ptPivots[FT].m_nY = 173;
 
-	this->m_rWeapons[this->PR].top		 = 8;
-	this->m_rWeapons[this->PR].left		 = 235;
-	this->m_rWeapons[this->PR].right	 = 307;
-	this->m_rWeapons[this->PR].bottom	 = 213;
+	this->m_rWeapons[this->PR].top		 = 12;
+	this->m_rWeapons[this->PR].left		 = 244;
+	this->m_rWeapons[this->PR].right	 = 300;
+	this->m_rWeapons[this->PR].bottom	 = 206;
+	// 258, 192
+	m_ptPivots[PR].m_nX = 14;
+	m_ptPivots[PR].m_nY = 180;
 
-	this->m_rWeapons[this->SR].top		 = 245;
-	this->m_rWeapons[this->SR].left		 = 20;
-	this->m_rWeapons[this->SR].right	 = 80;
-	this->m_rWeapons[this->SR].bottom	 = 455;
+	this->m_rWeapons[this->SR].top		 = 249;
+	this->m_rWeapons[this->SR].left		 = 25;
+	this->m_rWeapons[this->SR].right	 = 78;
+	this->m_rWeapons[this->SR].bottom	 = 448;
+	// 46, 433
+	m_ptPivots[SR].m_nX = 21;
+	m_ptPivots[SR].m_nY = 184;
 
-	this->m_rWeapons[this->SG].top		 = 264;
-	this->m_rWeapons[this->SG].left		 = 250;
-	this->m_rWeapons[this->SG].right	 = 320;
-	this->m_rWeapons[this->SG].bottom	 = 342;
+	this->m_rWeapons[this->SG].top		 = 266;
+	this->m_rWeapons[this->SG].left		 = 252;
+	this->m_rWeapons[this->SG].right	 = 317;
+	this->m_rWeapons[this->SG].bottom	 = 338;
+	// 298, 324
+	m_ptPivots[SG].m_nX = 46;
+	m_ptPivots[SG].m_nY = 58;
 
 	this->m_fInputTime = 0.0f;
 
@@ -442,8 +460,8 @@ void CPlayer::Update(float fElapsedTime)
 
 	if(CCamera::GetInstance()->GetOffsetX() < 0)
 		CCamera::GetInstance()->SetCameraOffsetX(0);
-
-	CCamera::GetInstance()->SetCameraOffsetY(int(this->GetPosY()-430));
+	
+	CCamera::GetInstance()->SetCameraOffsetY(int(this->GetPosY()-(430)));
 
 	if(CCamera::GetInstance()->GetOffsetY() < 0)
 		CCamera::GetInstance()->SetCameraOffsetY(0);
@@ -1095,26 +1113,23 @@ void CPlayer::Render(void)
 	//////////////////////////////////////////////////////////////////////////////
 	// Draw players Hand/weapons
 	//////////////////////////////////////////////////////////////////////////////
-	RECT rRender;
-	rRender.top = 256;
-	rRender.left = 130;
-	rRender.bottom = 450;
-	rRender.right = 220;
+	RECT _currentFrame = GetAnimations()->GetCollisionFrame((int)GetPosX(), (int)GetPosY());
 	if(this->m_bForward)
 	{
 		CSGD_TextureManager::GetInstance()->Draw(m_nHandID, 
-			(int)(((GetPosX() + (GetAnimations()->GetFrameWidth()/2)) - OffsetX) * CCamera::GetInstance()->GetScale()-10), 
-			(int)(((GetPosY() - (GetAnimations()->GetFrameHeight()/2)) - OffsetY) * CCamera::GetInstance()->GetScale()+25), 
+			(int)((_currentFrame.left - 20 + GetAnimations()->GetPivotPoint().m_nX - OffsetX) * CCamera::GetInstance()->GetScale()), 
+			(int)((_currentFrame.top - 80 + GetAnimations()->GetPivotPoint().m_nY - OffsetY) * CCamera::GetInstance()->GetScale()), 
 			0.7f * CCamera::GetInstance()->GetScale(), 0.7f * CCamera::GetInstance()->GetScale(), 
-			&this->m_rWeapons[m_nWeaponIndex], 64, 128, this->m_fHandRotation, -1 );
-	}
+			&this->m_rWeapons[m_nWeaponIndex], (float)m_ptPivots[m_nWeaponIndex].m_nX, (float)m_ptPivots[m_nWeaponIndex].m_nY, m_fHandRotation, -1 );
+}
 	else
 	{
 		CSGD_TextureManager::GetInstance()->Draw(m_nHandID, 
-			(int)(((GetPosX() + (GetAnimations()->GetFrameWidth()/2)) - OffsetX) * CCamera::GetInstance()->GetScale())+GetWidth()/2, 
-			(int)(((GetPosY() - (GetAnimations()->GetFrameHeight()/2)) - OffsetY) * CCamera::GetInstance()->GetScale()+25), 
+			(int)((_currentFrame.left +20 + (GetAnimations()->GetFrameWidth() - GetAnimations()->GetPivotPoint().m_nX) - OffsetX) * CCamera::GetInstance()->GetScale()), 
+			(int)((_currentFrame.top - 80 + GetAnimations()->GetPivotPoint().m_nY - OffsetY) * CCamera::GetInstance()->GetScale()), 
 			-0.7f * CCamera::GetInstance()->GetScale(), 0.7f * CCamera::GetInstance()->GetScale(), 
-			&this->m_rWeapons[m_nWeaponIndex], 64, 128, this->m_fHandRotation, -1 );
+			&this->m_rWeapons[m_nWeaponIndex], (float)m_ptPivots[m_nWeaponIndex].m_nX, (float)m_ptPivots[m_nWeaponIndex].m_nY, m_fHandRotation, -1 );
+
 	}
 	//////////////////////////////////////////////////////////////////////////////
 
@@ -1166,6 +1181,7 @@ bool CPlayer::CheckCollision(CBase* pBase)
 		Offset.m_nX = rPlayerFrame.right - rPrevRect.right;
 
 		rPrevRect = rPlayerFrame;
+
 
 		//m_bOnPlatform = false;
 		//m_bOnGround = false;

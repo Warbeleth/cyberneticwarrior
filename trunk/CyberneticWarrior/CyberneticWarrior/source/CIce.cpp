@@ -9,7 +9,7 @@ CIce::CIce(void)
 {
 	this->SetType(OBJ_ICE);
 	this->SetImageID(CSinglePlayerState::GetInstance()->GetWeaponID());
-	this->SetRotation(0.0f);
+	this->SetRotation(CSinglePlayerState::GetInstance()->GetPlayerPointer()->GetRotation());
 	this->m_fLifeTime = 1.0f;
 }
 

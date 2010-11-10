@@ -37,6 +37,7 @@ private:
 	CBlock*			m_pMovingBlock;
 	
 	RECT	m_rWeapons[6];
+	CPoint	m_ptPivots[6];
 
 	float m_fAcceleration;
 	float m_fRotationRate;
@@ -187,6 +188,7 @@ public:
 	float	GetVectorMagnitude(void);
 	float	GetRotation(void);
 	float	GetRotationRate(void);
+	float	GetHandRotation( void ) { return m_fHandRotation; }
 
 	bool GetMouseDown(void);
 	bool GetOnGround(void);
@@ -194,6 +196,7 @@ public:
 	inline bool GetHoming(void)	{ return this->m_bHomingOn; }
 
 	inline bool GetHookShot(void) {return this->m_bHookShot;}
+
 	
 	////////////////////////////////////////////////////////////////////////////////////
 	//	Function : Mutators

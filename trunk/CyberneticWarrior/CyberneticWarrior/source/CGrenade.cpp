@@ -11,7 +11,7 @@ CGrenade::CGrenade(void)
 {
 	this->SetType(OBJ_GRENADE);
 	this->SetImageID(CSinglePlayerState::GetInstance()->GetWeaponID());
-	this->SetRotation(0.0f);
+	this->SetRotation(CSinglePlayerState::GetInstance()->GetPlayerPointer()->GetRotation());
 	this->m_nBounceCount = 0;
 	this->m_fBoomTime = 5.0f;
 	this->m_vVelocity.fY = 500.0f;

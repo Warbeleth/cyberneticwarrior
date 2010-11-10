@@ -137,7 +137,7 @@ void CBaseEnemy::Render(void)
 	if(GetAnimations() != NULL)
 	{
 
-		GetAnimations()->Render( GetPosX()+GetAnimations()->GetFrameWidth()/2, GetPosY()+GetAnimations()->GetFrameHeight() );
+		GetAnimations()->Render( (int)GetPosX()+GetAnimations()->GetFrameWidth()/2, (int)GetPosY()+GetAnimations()->GetFrameHeight() );
 	}
 	else
 	{
@@ -187,7 +187,7 @@ bool CBaseEnemy::CheckCollision(CBase* pBase)
 	{
 		if(GetAnimations())
 		{
-			if(GetAnimations()->CheckCollision( pBase, GetPosX(), GetPosY()))
+			if(GetAnimations()->CheckCollision( pBase, (int)GetPosX(), (int)GetPosY()))
 				return true;
 		}
 		else

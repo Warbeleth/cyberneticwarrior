@@ -9,7 +9,7 @@ CFire::CFire(void)
 {
 	this->SetType(OBJ_FIRE);
 	this->SetImageID(CSinglePlayerState::GetInstance()->GetWeaponID());
-	this->SetRotation(0.0f);
+	this->SetRotation(CSinglePlayerState::GetInstance()->GetPlayerPointer()->GetRotation());
 }
 
 CFire::~CFire(void)
@@ -31,8 +31,8 @@ void CFire::Render(void)
 	CSGD_TextureManager::GetInstance()->Draw( GetImageID(), 
 		(int)(((GetPosX() + (GetWidth()/2.0f) ) - CCamera::GetInstance()->GetOffsetX()) * CCamera::GetInstance()->GetScale()), 
 		(int)(((GetPosY() - (GetHeight()/2.0f)) - CCamera::GetInstance()->GetOffsetY()) * CCamera::GetInstance()->GetScale()), 
-		1.0f * CCamera::GetInstance()->GetScale(), 
-		1.0f * CCamera::GetInstance()->GetScale(), 
+		CCamera::GetInstance()->GetScale(), 
+		CCamera::GetInstance()->GetScale(), 
 		&rRender, (GetWidth()/2.0f), (GetHeight()/2.0f),
 		this->GetRotation() );
 }
