@@ -38,6 +38,7 @@ private:
 	
 	RECT	m_rWeapons[6];
 	CPoint	m_ptPivots[6];
+	CPoint	m_ptArmOffsets[6];
 
 	float m_fAcceleration;
 	float m_fRotationRate;
