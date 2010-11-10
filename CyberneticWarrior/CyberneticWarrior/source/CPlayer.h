@@ -44,6 +44,8 @@ private:
 	float m_fRotation;
 	float m_fJoyRot;
 
+	float m_fInputTime;
+
 	// HUD VARIABLES
 	// Health
 	float m_fRemainingHealth;
