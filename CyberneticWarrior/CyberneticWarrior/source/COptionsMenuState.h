@@ -17,7 +17,7 @@ class COptionsMenuState : public IGameState
 {
 private:
 
-	enum selections { MUSIC_VOLUME = 0, SFX_VOLUME, MUTE, EXIT_OMENU,
+	enum selections { CONTROL_SELECT = 0, MUSIC_VOLUME, SFX_VOLUME, MUTE, EXIT_OMENU,
 		OMENU_START = 150, OM_CURSOR_POS = 130, MENUX = 125};
 
 	CFont	m_OptionsFont;

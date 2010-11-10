@@ -173,19 +173,19 @@ void	CMainMenuState::Render(void)
 	
 	this->m_MenuFont.Draw("Single Player", 225, (this->SINGLE_PLAYER * MMENU_SPACE) + this->MMENU_START, 
 		(this->m_nSelection == this->SINGLE_PLAYER? 1.5f : 1.0f) ,
-		(this->m_nSelection == this->SINGLE_PLAYER? D3DXCOLOR(0.0f, 1.0f, 1.0f, 1.0f) : D3DXCOLOR(0.6f, 0.6f, 1.0f, 1.0f)));
+		(this->m_nSelection == this->SINGLE_PLAYER? D3DXCOLOR(0.0f, 1.0f, 1.0f, 1.0f) : D3DXCOLOR(0.7f, 0.7f, 1.0f, 1.0f)));
 	
 	this->m_MenuFont.Draw("Multi Player", 225, (this->MULTI_PLAYER * MMENU_SPACE) + this->MMENU_START, 
 		(this->m_nSelection == this->MULTI_PLAYER? 1.5f : 1.0f), 
-		(this->m_nSelection == this->MULTI_PLAYER? D3DXCOLOR(0.0f, 1.0f, 1.0f, 1.0f) : D3DXCOLOR(0.6f, 0.6f, 1.0f, 1.0f)));
+		(this->m_nSelection == this->MULTI_PLAYER? D3DXCOLOR(0.0f, 1.0f, 1.0f, 1.0f) : D3DXCOLOR(0.7f, 0.7f, 1.0f, 1.0f)));
 	
 	this->m_MenuFont.Draw("Leader Boards", 225, (this->LEADER_BOARDS * MMENU_SPACE) + this->MMENU_START, 
 		(this->m_nSelection == this->LEADER_BOARDS? 1.5f : 1.0f),
-		(this->m_nSelection == this->LEADER_BOARDS?D3DXCOLOR(0.0f, 1.0f, 1.0f, 1.0f) : D3DXCOLOR(0.6f, 0.6f, 1.0f, 1.0f)));
+		(this->m_nSelection == this->LEADER_BOARDS?D3DXCOLOR(0.0f, 1.0f, 1.0f, 1.0f) : D3DXCOLOR(0.7f, 0.7f, 1.0f, 1.0f)));
 	
 	this->m_MenuFont.Draw("Achievements", 225, (this->ACHIEVEMENTS * MMENU_SPACE) + this->MMENU_START,
 		(this->m_nSelection == this->ACHIEVEMENTS? 1.5f : 1.0f),
-		(this->m_nSelection == this->ACHIEVEMENTS? D3DXCOLOR(0.0f, 1.0f, 1.0f, 1.0f) : D3DXCOLOR(0.6f, 0.6f, 1.0f, 1.0f)));
+		(this->m_nSelection == this->ACHIEVEMENTS? D3DXCOLOR(0.0f, 1.0f, 1.0f, 1.0f) : D3DXCOLOR(0.7f, 0.7f, 1.0f, 1.0f)));
 	
 	this->m_MenuFont.Draw("Options", 225, (this->MM_OPTIONS * MMENU_SPACE) + this->MMENU_START, 
 		(this->m_nSelection == this->MM_OPTIONS? 1.5f : 1.0f), 

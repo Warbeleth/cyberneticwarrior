@@ -4,7 +4,7 @@
 #include "CGame.h"
 #include "CMainMenuState.h"
 #include "CSinglePlayerState.h"
-#include "CControlSelectState.h"
+#include "CLoadingState.h"
 #include <fstream>
 
 CGameProfiler*	CGameProfiler::sm_pGameProfilerInstance = NULL;
@@ -156,7 +156,7 @@ bool	CGameProfiler::Input(void)
 					{
 						fManager.read((char*)&thisBool, sizeof(bool));
 						CSinglePlayerState::GetInstance()->SetProfileValues(thisBool);
-						CStackStateMachine::GetInstance()->Push_Back(CControlSelectState::GetInstance());
+						CStackStateMachine::GetInstance()->ChangeState(CLoadingState::GetInstance());
 					}
 				}
 				fManager.close();	
@@ -164,7 +164,7 @@ bool	CGameProfiler::Input(void)
 			if(this->GetNewGame() && this->GetManagement() == SAVE_GAME)
 			{
 				CSinglePlayerState::GetInstance()->SetProfileValues(0);
-				CStackStateMachine::GetInstance()->Push_Back(CControlSelectState::GetInstance());
+				CStackStateMachine::GetInstance()->ChangeState(CLoadingState::GetInstance());
 			}
 		}
 	}
@@ -186,8 +186,8 @@ void	CGameProfiler::Enter(void)
 	//this->m_nMusicID			= this->m_pWM->LoadWave("resource/sounds/SO3_Victory_Bell.wav");
 	//this->m_nSFXID				= this->m_pWM->LoadWave("");
 
-	this->m_OptionsFont.InitFont("resource/fonts/example.png", "resource/fonts/Example.fnt");
-
+	//this->m_OptionsFont.InitFont("resource/fonts/example.png", "resource/fonts/Example.fnt");
+	this->m_OptionsFont.InitFont("resource/fonts/CyberneticWarriorArcadeFont.png", "resource/fonts/CyberneticWarriorArcadeFont.fnt");
 
 	this->m_nSelection			= this->OP1;
 	this->m_nSelectionPos		= this->MENU_START;
