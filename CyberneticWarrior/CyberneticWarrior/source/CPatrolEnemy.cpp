@@ -76,7 +76,7 @@ void CPatrolEnemy::Update(float fElapsedTime)
 		}
 		else if(this->ReturnAIState() == pActive)
 		{
-			CGame::GetInstance()->GetMessageSystemPointer()->SendMsg(new CCreateBulletMessage(this));
+			//CGame::GetInstance()->GetMessageSystemPointer()->SendMsg(new CCreateBulletMessage(this));
 		}
 	}
 }
