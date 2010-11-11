@@ -47,9 +47,6 @@ void CFlame::Render(void)
 		CCamera::GetInstance()->GetScale(), 
 		&rRender, (GetWidth()/2.0f), (GetHeight()/2.0f),
 		this->GetRotation() );
-
-	CSGD_Direct3D::GetInstance()->DrawLine( GetPosX()-4, GetPosY()-4, GetPosX()+4, GetPosY()+4, 255, 0, 0 );
-	CSGD_Direct3D::GetInstance()->DrawLine( GetPosX()-4, GetPosY()+4, GetPosX()+4, GetPosY()-4, 255, 0, 0 );
 }
 
 RECT CFlame::GetRect(void) const
