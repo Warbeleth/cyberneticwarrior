@@ -215,11 +215,23 @@ namespace Animation
 
         private void SplitContainer2_Panel1_MouseClick(object sender, MouseEventArgs e)
         {
-            RECT rect = new RECT();
-            rect.left = startpoint.X;
-            rect.top = startpoint.Y;
-            rect.right = endpoint.X;
-            rect.bottom = endpoint.Y;
+            if (MouseButtons.Left == e.Button)
+            {
+                RECT rect = new RECT();
+                rect.left = startpoint.X;
+                rect.top = startpoint.Y;
+                rect.right = endpoint.X;
+                rect.bottom = endpoint.Y;
+            }
+            else if (MouseButtons.Right == e.Button && FramesListBox.SelectedIndex >= 0 )
+            {
+                int nOffsetX = e.Location.X - SplitContainer2.Panel1.AutoScrollPosition.X;
+                int nOffsetY = e.Location.Y - SplitContainer2.Panel1.AutoScrollPosition.Y;
+
+                Point _location = new Point(e.Location.X - AnimationsEditor.GetAnimations[AnimationsListBox.SelectedIndex].GetFrames[FramesListBox.SelectedIndex].Frame.left, e.Location.Y - AnimationsEditor.GetAnimations[AnimationsListBox.SelectedIndex].GetFrames[FramesListBox.SelectedIndex].Frame.top );
+
+                AnimationsEditor.GetAnimations[AnimationsListBox.SelectedIndex].GetFrames[FramesListBox.SelectedIndex].SecondPoint = _location;
+            }
         }
 
         private void Button_AddAnimation_Click(object sender, EventArgs e)
@@ -737,15 +749,22 @@ namespace Animation
             }
         }
 
+        public static int x = 0;
         private void PreviewToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            if (AnimationsListBox.SelectedIndex >= 0)
+            if (AnimationsListBox.SelectedIndex >= 0 && x == 0)
             {
                 _previewWindow.CurrentlyPlaying = AnimationsEditor.GetAnimations[AnimationsListBox.SelectedIndex];
                 _previewWindow.nImageID = spritesheet;
 
+                ++x;
                 _previewWindow.Show(this);
             }
+            else
+            {
+                _previewWindow.CurrentlyPlaying = AnimationsEditor.GetAnimations[AnimationsListBox.SelectedIndex];
+            }
+
             bPreview = true;
         }
 
@@ -796,6 +815,10 @@ namespace Animation
                         // anchor
                         _export.Write(AnimationsEditor.GetAnimations[i].GetFrames[x].Anchor.X);
                         _export.Write(AnimationsEditor.GetAnimations[i].GetFrames[x].Anchor.Y);
+
+                        // second point
+                        _export.Write(AnimationsEditor.GetAnimations[i].GetFrames[x].SecondPoint.X);
+                        _export.Write(AnimationsEditor.GetAnimations[i].GetFrames[x].SecondPoint.Y);
 
                         // frame
                         _export.Write(AnimationsEditor.GetAnimations[i].GetFrames[x].Frame.left);
@@ -896,6 +919,12 @@ namespace Animation
                         _anchor.X = _import.ReadInt32();
                         _anchor.Y = _import.ReadInt32();
                         AnimationsEditor.GetAnimations[Index._nId].GetFrames[Index2._nId].Anchor = _anchor;
+
+                        // second point
+                        Point _secondpoint = new Point();
+                        _secondpoint.X = _import.ReadInt32();
+                        _secondpoint.Y = _import.ReadInt32();
+                        AnimationsEditor.GetAnimations[Index._nId].GetFrames[Index2._nId].SecondPoint = _secondpoint;
 
                         // frame
                         RECT _frameRect = new RECT();
