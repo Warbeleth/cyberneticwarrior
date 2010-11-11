@@ -23,6 +23,7 @@ CFLCLMech::CFLCLMech(int nImageID, float PosX, float PosY,int Width, int Height,
 	m_fReviveTime = fReviveTime;
 	m_fTimeReviving = fTimeReviving;
 	SetAnimations(CMapLoad::GetInstance()->CreateAnimation(Ground_FLCL));
+	GetAnimations()->SetCurrentAnimation(3);
 }
 CFLCLMech::~CFLCLMech()
 {
@@ -36,29 +37,41 @@ void CFLCLMech::Update(float fElapsedTime)
 
 	CPatrolEnemy::Update(fElapsedTime);
 
-	if(ReturnAIState() == pDead)
+	switch(ReturnAIState())
 	{
-		if(GetRevive())
+	case Patrol:
+		GetAnimations()->SetCurrentAnimation(3);
+		break;
+	case pActive:
+		GetAnimations()->SetCurrentAnimation(0);
+		break;
+	case pDead:
 		{
-			SetRevive(false);
-			m_bReviving = true;
-		}
-		else if(m_bReviving)
-		{
-			SetTimeDead(GetTimeDead() + (fElapsedTime));
-
-			if(GetTimeDead() >= GetReviveTime())
+			GetAnimations()->SetCurrentAnimation(1);
+			if(GetRevive())
 			{
-				m_bReviving = false;
-				SetCurrentHP(GetMaxHP());
-				ChangeAIState(pActive);
+				SetRevive(false);
+				m_bReviving = true;
+			}
+			else if(m_bReviving)
+			{
+				SetTimeDead(GetTimeDead() + (fElapsedTime));
+
+				if(GetTimeDead() >= GetReviveTime())
+				{
+					m_bReviving = false;
+					SetCurrentHP(GetMaxHP());
+					GetAnimations()->SetCurrentAnimation(2);
+					ChangeAIState(pActive);
+				}
+			}
+			else
+			{
+				CGame::GetInstance()->GetMessageSystemPointer()->SendMsg(new CDestroyEnemyMessage((CBaseEnemy*)this));
 			}
 		}
-		else
-		{
-			CGame::GetInstance()->GetMessageSystemPointer()->SendMsg(new CDestroyEnemyMessage((CBaseEnemy*)this));
-		}
-	}
+		break;
+	};
 	//Code Profiler -END
 	//CCodeProfiler::GetInstance()->FuntionEnd(this->m_nCID);
 }

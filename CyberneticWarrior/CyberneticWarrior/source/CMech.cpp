@@ -29,10 +29,18 @@ void CMech::Update(float fElapsedTime)
 {
 	CPatrolEnemy::Update(fElapsedTime);
 
-	if(ReturnAIState() == pDead)
+	switch(ReturnAIState())
 	{
+	case Patrol:
+		GetAnimations()->SetCurrentAnimation(1);
+		break;
+	case pActive:
+		GetAnimations()->SetCurrentAnimation(0);
+		break;
+	case pDead:
 		CGame::GetInstance()->GetMessageSystemPointer()->SendMsg(new CDestroyEnemyMessage((CBaseEnemy*)this));
-	}
+		break;
+	};
 }
 
 void CMech::Render()

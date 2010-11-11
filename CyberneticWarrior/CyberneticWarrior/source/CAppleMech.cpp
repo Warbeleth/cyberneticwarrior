@@ -26,10 +26,18 @@ void CAppleMech::Update(float fElapsedTime)
 {
 	CIdleEnemy::Update(fElapsedTime);
 
-	if(ReturnAIState() == iDead)
+	switch(ReturnAIState())
 	{
+	case Idle:
+		GetAnimations()->SetCurrentAnimation(1);
+		break;
+	case iActive:
+		GetAnimations()->SetCurrentAnimation(0);
+		break;
+	case iDead:
 		CGame::GetInstance()->GetMessageSystemPointer()->SendMsg(new CDestroyEnemyMessage((CBaseEnemy*)this));
-	}
+		break;
+	};
 }
 
 void CAppleMech::Render()

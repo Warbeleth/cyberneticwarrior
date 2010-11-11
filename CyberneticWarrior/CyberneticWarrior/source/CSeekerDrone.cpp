@@ -17,6 +17,7 @@ CSeekerDrone::CSeekerDrone(int nImageID, float PosX, float PosY,int Width, int H
 				 nAttackRange, fRateOfFire, fSpeed, PosX, PosY, Width, Height)
 {
 	SetAnimations(CMapLoad::GetInstance()->CreateAnimation(Drone_Seeker));
+	GetAnimations()->SetCurrentAnimation(0);
 }
 CSeekerDrone::~CSeekerDrone()
 {
@@ -27,10 +28,18 @@ void CSeekerDrone::Update(float fElapsedTime)
 {
 	CPatrolEnemy::Update(fElapsedTime);
 
-	if(ReturnAIState() == pDead)
+	switch(ReturnAIState())
 	{
+	case Patrol:
+		GetAnimations()->SetCurrentAnimation(0);
+		break;
+	case pActive:
+		GetAnimations()->SetCurrentAnimation(0);
+		break;
+	case pDead:
 		CGame::GetInstance()->GetMessageSystemPointer()->SendMsg(new CDestroyEnemyMessage((CBaseEnemy*)this));
-	}
+		break;
+	};
 }
 
 void CSeekerDrone::Render()

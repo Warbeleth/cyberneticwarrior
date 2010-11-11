@@ -89,6 +89,8 @@
             this.StatusStrip1 = new System.Windows.Forms.StatusStrip();
             this.ToolStripStatusLabel1 = new System.Windows.Forms.ToolStripStatusLabel();
             this.ToolStripStatusLabel2 = new System.Windows.Forms.ToolStripStatusLabel();
+            this.label12 = new System.Windows.Forms.Label();
+            this.label16 = new System.Windows.Forms.Label();
             this.GroupBox4.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.numUpDown_Right)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.numUpDown_Bottom)).BeginInit();
@@ -305,6 +307,8 @@
             // SplitContainer2.Panel2
             // 
             this.SplitContainer2.Panel2.BackColor = System.Drawing.SystemColors.Window;
+            this.SplitContainer2.Panel2.Controls.Add(this.label16);
+            this.SplitContainer2.Panel2.Controls.Add(this.label12);
             this.SplitContainer2.Panel2.Controls.Add(this.Label15);
             this.SplitContainer2.Panel2.Controls.Add(this.Label14);
             this.SplitContainer2.Panel2.Controls.Add(this.GroupBox7);
@@ -318,7 +322,7 @@
             // Label15
             // 
             this.Label15.AutoSize = true;
-            this.Label15.Location = new System.Drawing.Point(19, 98);
+            this.Label15.Location = new System.Drawing.Point(17, 167);
             this.Label15.Name = "Label15";
             this.Label15.Size = new System.Drawing.Size(55, 17);
             this.Label15.TabIndex = 5;
@@ -327,7 +331,7 @@
             // Label14
             // 
             this.Label14.AutoSize = true;
-            this.Label14.Location = new System.Drawing.Point(19, 7);
+            this.Label14.Location = new System.Drawing.Point(19, 73);
             this.Label14.Name = "Label14";
             this.Label14.Size = new System.Drawing.Size(77, 17);
             this.Label14.TabIndex = 4;
@@ -341,9 +345,9 @@
             this.GroupBox7.Controls.Add(this.Label10);
             this.GroupBox7.Controls.Add(this.CollisionRectsListBox);
             this.GroupBox7.Controls.Add(this.HitRectsListBox);
-            this.GroupBox7.Location = new System.Drawing.Point(19, 267);
+            this.GroupBox7.Location = new System.Drawing.Point(20, 341);
             this.GroupBox7.Name = "GroupBox7";
-            this.GroupBox7.Size = new System.Drawing.Size(162, 375);
+            this.GroupBox7.Size = new System.Drawing.Size(162, 301);
             this.GroupBox7.TabIndex = 3;
             this.GroupBox7.TabStop = false;
             this.GroupBox7.Text = "Selected Frame";
@@ -351,7 +355,7 @@
             // Label13
             // 
             this.Label13.AutoSize = true;
-            this.Label13.Location = new System.Drawing.Point(7, 328);
+            this.Label13.Location = new System.Drawing.Point(9, 271);
             this.Label13.Name = "Label13";
             this.Label13.Size = new System.Drawing.Size(54, 17);
             this.Label13.TabIndex = 5;
@@ -374,7 +378,7 @@
             "Trigger 8",
             "Trigger 9",
             "Trigger 10"});
-            this.ComboBox_Triggers.Location = new System.Drawing.Point(67, 325);
+            this.ComboBox_Triggers.Location = new System.Drawing.Point(69, 268);
             this.ComboBox_Triggers.Name = "ComboBox_Triggers";
             this.ComboBox_Triggers.Size = new System.Drawing.Size(89, 24);
             this.ComboBox_Triggers.TabIndex = 4;
@@ -384,7 +388,7 @@
             // Label11
             // 
             this.Label11.AutoSize = true;
-            this.Label11.Location = new System.Drawing.Point(6, 173);
+            this.Label11.Location = new System.Drawing.Point(6, 142);
             this.Label11.Name = "Label11";
             this.Label11.Size = new System.Drawing.Size(100, 17);
             this.Label11.TabIndex = 3;
@@ -403,9 +407,9 @@
             // 
             this.CollisionRectsListBox.FormattingEnabled = true;
             this.CollisionRectsListBox.ItemHeight = 16;
-            this.CollisionRectsListBox.Location = new System.Drawing.Point(9, 193);
+            this.CollisionRectsListBox.Location = new System.Drawing.Point(9, 162);
             this.CollisionRectsListBox.Name = "CollisionRectsListBox";
-            this.CollisionRectsListBox.Size = new System.Drawing.Size(149, 116);
+            this.CollisionRectsListBox.Size = new System.Drawing.Size(149, 100);
             this.CollisionRectsListBox.TabIndex = 0;
             this.CollisionRectsListBox.MouseClick += new System.Windows.Forms.MouseEventHandler(this.CollisionRectsListBox_MouseClick);
             // 
@@ -415,7 +419,7 @@
             this.HitRectsListBox.ItemHeight = 16;
             this.HitRectsListBox.Location = new System.Drawing.Point(9, 38);
             this.HitRectsListBox.Name = "HitRectsListBox";
-            this.HitRectsListBox.Size = new System.Drawing.Size(149, 132);
+            this.HitRectsListBox.Size = new System.Drawing.Size(149, 100);
             this.HitRectsListBox.TabIndex = 0;
             this.HitRectsListBox.MouseClick += new System.Windows.Forms.MouseEventHandler(this.HitRectsListBox_MouseClick);
             // 
@@ -423,7 +427,7 @@
             // 
             this.FramesListBox.FormattingEnabled = true;
             this.FramesListBox.ItemHeight = 16;
-            this.FramesListBox.Location = new System.Drawing.Point(19, 118);
+            this.FramesListBox.Location = new System.Drawing.Point(16, 187);
             this.FramesListBox.Name = "FramesListBox";
             this.FramesListBox.Size = new System.Drawing.Size(162, 148);
             this.FramesListBox.TabIndex = 2;
@@ -443,7 +447,7 @@
             // 
             this.AnimationsListBox.FormattingEnabled = true;
             this.AnimationsListBox.ItemHeight = 16;
-            this.AnimationsListBox.Location = new System.Drawing.Point(19, 28);
+            this.AnimationsListBox.Location = new System.Drawing.Point(16, 96);
             this.AnimationsListBox.Name = "AnimationsListBox";
             this.AnimationsListBox.Size = new System.Drawing.Size(163, 68);
             this.AnimationsListBox.TabIndex = 0;
@@ -772,6 +776,24 @@
             this.ToolStripStatusLabel2.Size = new System.Drawing.Size(17, 20);
             this.ToolStripStatusLabel2.Text = "0";
             // 
+            // label12
+            // 
+            this.label12.AutoSize = true;
+            this.label12.Location = new System.Drawing.Point(19, 18);
+            this.label12.Name = "label12";
+            this.label12.Size = new System.Drawing.Size(126, 17);
+            this.label12.TabIndex = 6;
+            this.label12.Text = "Second Point X - 0";
+            // 
+            // label16
+            // 
+            this.label16.AutoSize = true;
+            this.label16.Location = new System.Drawing.Point(20, 43);
+            this.label16.Name = "label16";
+            this.label16.Size = new System.Drawing.Size(126, 17);
+            this.label16.TabIndex = 7;
+            this.label16.Text = "Second Point Y - 0";
+            // 
             // AnimationEditor
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
@@ -880,6 +902,8 @@
         internal System.Windows.Forms.Button Button_RemoveAnimation;
         internal System.Windows.Forms.Button Button_AddAnimation;
         private System.Windows.Forms.NumericUpDown numUpDown_AnimationTime;
+        private System.Windows.Forms.Label label16;
+        private System.Windows.Forms.Label label12;
     }
 }
 

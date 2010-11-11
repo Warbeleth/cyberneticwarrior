@@ -114,6 +114,7 @@ namespace Animation
     {
         RECT        m_rFrame = new RECT();
         Point       m_pAnchor;
+        Point       m_pSecondPoint;
         int         m_nTotalHitRects;
         int         m_nTotalCollisionRects;
         int         m_nTrigger;
@@ -128,6 +129,8 @@ namespace Animation
            m_rFrame.bottom          = 0;
            m_pAnchor.X              = 0;
            m_pAnchor.Y              = 0;
+           m_pSecondPoint.X         = 0;
+           m_pSecondPoint.Y         = 0;
            m_nTotalHitRects         = 0;
            m_nTotalCollisionRects   = 0;
            m_nTrigger               = 0;
@@ -157,8 +160,14 @@ namespace Animation
             pD3D.DrawLine(Frame.right + nOffsetX, Frame.bottom + nOffsetY, Frame.left + nOffsetX, Frame.bottom + nOffsetY, 255, 0, 0);
             pD3D.DrawLine(Frame.left + nOffsetX, Frame.bottom + nOffsetY, Frame.left + nOffsetX, Frame.top + nOffsetY, 255, 0, 0);
 
+            // Anchor
             pD3D.DrawLine(Anchor.X + nOffsetX - 2, Anchor.Y + nOffsetY - 2, Anchor.X + nOffsetX + 2, Anchor.Y + nOffsetY + 2, 255, 0, 255);
             pD3D.DrawLine(Anchor.X + nOffsetX + 2, Anchor.Y + nOffsetY - 2, Anchor.X + nOffsetX - 2, Anchor.Y + nOffsetY + 2, 255, 0, 255);
+           
+            // Second Point
+            pD3D.DrawLine(SecondPoint.X + Frame.left + nOffsetX - 2, SecondPoint.Y + Frame.top + nOffsetY - 2, SecondPoint.X + Frame.left + nOffsetX + 2, SecondPoint.Y + Frame.top + nOffsetY + 2, 255, 0, 255);
+            pD3D.DrawLine(SecondPoint.X + Frame.left + nOffsetX + 2, SecondPoint.Y + Frame.top + nOffsetY - 2, SecondPoint.X + Frame.left + nOffsetX - 2, SecondPoint.Y + Frame.top + nOffsetY + 2, 255, 0, 255);
+            
             // Draw Hit Rects
             for (int i = 0; i < GetTotalHitRECTS; ++i)
             {
@@ -223,6 +232,12 @@ namespace Animation
         {
             get { return m_pAnchor; }
             set { m_pAnchor = value; }
+        }
+
+        public Point SecondPoint
+        {
+            get { return m_pSecondPoint; }
+            set { m_pSecondPoint = value; }
         }
 
         public int GetTotalHitRECTS

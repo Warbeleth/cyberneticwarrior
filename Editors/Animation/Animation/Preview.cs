@@ -48,7 +48,7 @@ namespace Animation
                 fTotalTime = (Environment.TickCount / 1000.0f);
                 fElapsedtime += (fTotalTime - fPrevTime);
 
-                if (fElapsedtime >= 1)//_currentlyPlaying.TimeBetweenFrames)
+                if (fElapsedtime >= _currentlyPlaying.TimeBetweenFrames)
                 {
                     fElapsedtime = 0.0f;
                     _currentlyPlaying.CurrentFrame++;
@@ -78,8 +78,8 @@ namespace Animation
 
                     D3D.DeviceBegin();
                     D3D.SpriteBegin();
-                    
-                    pTM.Draw(nImageID, 100 - offset.X, 100 - offset.Y, 1, 1, _rect, 0, 0, 0, Color.White.ToArgb());
+
+                    pTM.Draw(nImageID, Panel1.Width / 2 - offset.X - (_currentlyPlaying.GetFrames[0].Frame.right - _currentlyPlaying.GetFrames[0].Frame.left)/2, Panel1.Height / 2 - offset.Y + (_currentlyPlaying.GetFrames[0].Frame.bottom - _currentlyPlaying.GetFrames[0].Frame.top)/2, 1, 1, _rect, 0, 0, 0, Color.White.ToArgb());
 
                     D3D.SpriteEnd();
                     D3D.DeviceEnd();
