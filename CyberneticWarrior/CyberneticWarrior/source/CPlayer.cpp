@@ -685,7 +685,7 @@ void CPlayer::Input(float fElapsedTime)
 			if(this->GetPosY() > (this->m_pHook->GetPosY() + 30) && this->GetPosY() < (this->m_pHook->GetPosY() + 500)
 				&& this->m_pHook->GetIfHooked() && !this->GetOnGround())
 			{
-				if(this->GetPosX() < this->m_pHook->GetPosX())
+				if(this->GetPosX() < this->m_pHook->GetPosX()  && this->m_pHook->GetIfHooked() && !this->GetOnGround())
 				{
 					this->m_bFixSwing = true;
 					this->SetPosX(this->GetPosX() + 0.5f);
@@ -708,13 +708,13 @@ void CPlayer::Input(float fElapsedTime)
 			if(this->GetPosY() > (this->m_pHook->GetPosY() + 30) && this->GetPosY() < (this->m_pHook->GetPosY() + 500)
 				&& this->m_pHook->GetIfHooked() && !this->GetOnGround())
 			{
-				if(this->GetPosX() < this->m_pHook->GetPosX())
+				if(this->GetPosX() > this->m_pHook->GetPosX()  && this->m_pHook->GetIfHooked() && !this->GetOnGround())
 				{
 					this->m_bFixSwing = true;
 					this->SetPosX(this->GetPosX() - 0.5f);
 					this->SetPosY(this->GetPosY() + 0.5f);
 				}
-				if(this->GetPosX() > this->m_pHook->GetPosX() && this->m_pHook->GetIfHooked() && !this->GetOnGround())
+				if(this->GetPosX() < this->m_pHook->GetPosX() && this->m_pHook->GetIfHooked() && !this->GetOnGround())
 				{
 					this->m_bFixSwing = true;
 					this->SetPosX(this->GetPosX() + 0.5f);
