@@ -25,6 +25,7 @@
 #include "CCreditsState.h"
 #include "CAtractModeState.h"
 #include "CLoadingState.h"
+#include "CGameOverState.h"
 
 #include "CMapLoad.h"
 #include "CGameProfiler.h"
@@ -256,6 +257,7 @@ void CGame::ShutDown(void)
 	CCreditsState::GetInstance()->DeleteInstance();
 	CAtractModeState::GetInstance()->DeleteInstance();
 	CLoadingState::GetInstance()->DeleteInstance();
+	CGameOverState::GetInstance()->DeleteInstance();
 
 	if(this->m_pDI)
 	{

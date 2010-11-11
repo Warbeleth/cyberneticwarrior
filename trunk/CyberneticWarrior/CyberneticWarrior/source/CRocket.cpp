@@ -48,15 +48,19 @@ void CRocket::Update( float fElapsedTime)
 			tVector2D vecMousePosition;
 			vecMousePosition.fX = (float)(CSGD_DirectInput::GetInstance()->MouseGetPosX() + CCamera::GetInstance()->GetOffsetX());
 			vecMousePosition.fY = (float)(CSGD_DirectInput::GetInstance()->MouseGetPosY() + CCamera::GetInstance()->GetOffsetY());
-
-			SetRotation( CSinglePlayerState::GetInstance()->GetPlayerPointer()->GetRotation() );
-
-			if( CSGD_DirectInput::GetInstance()->MouseGetPosX() < GetPosX()  - CCamera::GetInstance()->GetOffsetX() )
-				SetRotation( 2*SGD_PI - CSinglePlayerState::GetInstance()->GetPlayerPointer()->GetRotation() );
-	
+			vecMousePosition.fX -= GetPosX();
+			vecMousePosition.fY -= GetPosY();
 			
-			SetBaseVelX( vecMousePosition.fX - 8 - GetPosX() );
-			SetBaseVelY( vecMousePosition.fY + 8 - GetPosY() );
+			// Find Initial rotation
+			float fAngle = AngleBetweenVectors( vecRocketRotation, vecMousePosition ) - SGD_PI/2;
+
+			// Calculate final rotation
+			if( CSGD_DirectInput::GetInstance()->MouseGetPosX() < GetPosX() - CCamera::GetInstance()->GetOffsetX() )
+				fAngle = SGD_PI - fAngle ;
+
+			SetRotation(fAngle);
+			SetBaseVelX( vecMousePosition.fX);
+			SetBaseVelY( vecMousePosition.fY);
 
 			break;
 		}

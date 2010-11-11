@@ -1,6 +1,7 @@
 #include "PrecompiledHeader.h"
 
 #include "CSinglePlayerState.h"
+#include "CGameOverState.h"
 #include "CObjectManager.h"
 #include "CGame.h"
 #include "CCamera.h"
@@ -276,8 +277,10 @@ bool CSinglePlayerState::Input(void)
 }
 
 void CSinglePlayerState::Update(float fElapsedTime)
-{
-	
+{	
+	if(m_TempPlayer->GetHealth() == 0)
+		CStackStateMachine::GetInstance()->Push_Back(CGameOverState::GetInstance());
+
 	if(this->m_bMusic)
 	{
 		//this->m_pWM->Play(this->m_nBGMusic, DSBPLAY_LOOPING);

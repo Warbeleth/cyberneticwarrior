@@ -13,10 +13,8 @@
 
 CPlayer::CPlayer(void)
 {
-			CSinglePlayerState::GetInstance()->SetProfileValues(1);
+	CSinglePlayerState::GetInstance()->SetProfileValues(1);
 	
-
-
 	// Setting Weapon Rects
 	this->m_rWeapons[this->HG].top		= 12;
 	this->m_rWeapons[this->HG].left		= 40;
@@ -29,7 +27,7 @@ CPlayer::CPlayer(void)
 	m_ptArmOffsets[HG].m_nX = -20;
 	m_ptArmOffsets[HG].m_nY = -80;
 	// Radius
-	m_nStartPosRadius[HG] = -80;
+	m_fStartPosRadius[HG] = -80.0f;
 
 	this->m_rWeapons[this->RL].top		 = 264;
 	this->m_rWeapons[this->RL].left		 = 138;
@@ -42,7 +40,7 @@ CPlayer::CPlayer(void)
 	m_ptArmOffsets[RL].m_nX = -30;
 	m_ptArmOffsets[RL].m_nY = -80;
 	// Radius
-	m_nStartPosRadius[RL] = -80;
+	m_fStartPosRadius[RL] = -80.0f;
 
 	this->m_rWeapons[this->FT].top		 = 11;
 	this->m_rWeapons[this->FT].left		 = 132;
@@ -55,7 +53,7 @@ CPlayer::CPlayer(void)
 	m_ptArmOffsets[FT].m_nX = -15;
 	m_ptArmOffsets[FT].m_nY = -120;
 	// Radius
-	m_nStartPosRadius[FT] = -200;
+	m_fStartPosRadius[FT] = -200.0f;
 
 	this->m_rWeapons[this->PR].top		 = 12;
 	this->m_rWeapons[this->PR].left		 = 244;
@@ -68,7 +66,7 @@ CPlayer::CPlayer(void)
 	m_ptArmOffsets[PR].m_nX = -15;
 	m_ptArmOffsets[PR].m_nY = -125;
 	// Radius
-	m_nStartPosRadius[PR] = -115;
+	m_fStartPosRadius[PR] = -115.0f;
 
 	this->m_rWeapons[this->SR].top		 = 249;
 	this->m_rWeapons[this->SR].left		 = 25;
@@ -81,7 +79,7 @@ CPlayer::CPlayer(void)
 	m_ptArmOffsets[SR].m_nX = -15;
 	m_ptArmOffsets[SR].m_nY = -125;
 	// Radius
-	m_nStartPosRadius[SR] = -115;
+	m_fStartPosRadius[SR] = -115.0f;
 
 	this->m_rWeapons[this->SG].top		 = 266;
 	this->m_rWeapons[this->SG].left		 = 252;
@@ -94,7 +92,7 @@ CPlayer::CPlayer(void)
 	m_ptArmOffsets[SG].m_nX = -30;
 	m_ptArmOffsets[SG].m_nY = -40;
 	// Radius
-	m_nStartPosRadius[SG] = -30;
+	m_fStartPosRadius[SG] = -30;
 
 	this->m_fInputTime = 0.0f;
 
@@ -512,7 +510,7 @@ void CPlayer::Update(float fElapsedTime)
 
 		// Calculate final rotation for players hand
 		if( CSGD_DirectInput::GetInstance()->MouseGetPosX() < GetPosX()  - CCamera::GetInstance()->GetOffsetX() )
-			m_fHandRotation = SGD_PI + (SGD_PI - m_fHandRotation);
+			m_fHandRotation = 2*SGD_PI - m_fHandRotation;
 	}
 	//////////////////////////////////////////////////////////////////////////////
 
@@ -1569,7 +1567,7 @@ CPoint CPlayer::GetBulletStartPos( void )
 	RECT _currentFrame = GetAnimations()->GetCollisionFrame((int)GetPosX(), (int)GetPosY());
 
 	vecStartingPoint.fX = 0;
-	vecStartingPoint.fY = m_nStartPosRadius[m_nWeaponIndex];
+	vecStartingPoint.fY = m_fStartPosRadius[m_nWeaponIndex];
 
 	vecStartingPoint = Vector2DRotate( vecStartingPoint, m_fHandRotation );
 

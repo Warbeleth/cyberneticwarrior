@@ -469,6 +469,10 @@
 					</FileConfiguration>
 				</File>
 				<File
+					RelativePath=".\source\CGameOverState.cpp"
+					>
+				</File>
+				<File
 					RelativePath=".\source\CGameProfiler.cpp"
 					>
 					<FileConfiguration
@@ -855,6 +859,10 @@
 				</File>
 				<File
 					RelativePath=".\source\CCreditsState.h"
+					>
+				</File>
+				<File
+					RelativePath=".\source\CGameOverState.h"
 					>
 				</File>
 				<File
