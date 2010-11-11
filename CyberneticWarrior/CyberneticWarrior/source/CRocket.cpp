@@ -11,7 +11,10 @@ CRocket::CRocket( void )
 	m_nRocketState	= ROCKET_DIRECTIONAL;
 	SetType( OBJ_ROCKET );
 	SetImageID(CSinglePlayerState::GetInstance()->GetWeaponID());
-	this->SetRotation(CSinglePlayerState::GetInstance()->GetPlayerPointer()->GetRotation());
+	rRender.top = 372;
+	rRender.left = 538;
+	rRender.bottom = 402;
+	rRender.right = 638;
 }
 
 CRocket::~CRocket( void )
@@ -20,6 +23,7 @@ CRocket::~CRocket( void )
 
 void CRocket::Update( float fElapsedTime)
 {
+	CBaseProjectile::Update( fElapsedTime );
 
 	if(CSinglePlayerState::GetInstance()->GetPlayerPointer()->GetHoming())
 	{
@@ -78,66 +82,16 @@ void CRocket::Update( float fElapsedTime)
 		// destroy
 		CGame::GetInstance()->GetMessageSystemPointer()->SendMsg(new CDestroyRocketMessage(this, this->GetOwner()));
 	}
-
-	CBase::Update( fElapsedTime );
-}
-
-void CRocket::Render( void )
-{
-	static RECT rRender;
-	
-	rRender.top = 372;
-	rRender.left = 538;
-	rRender.bottom = 402;
-	rRender.right = 638;
-	CSGD_TextureManager::GetInstance()->Draw( GetImageID(), 
-		(int)(((GetPosX() - (GetWidth()/2.0f) ) - CCamera::GetInstance()->GetOffsetX()) * CCamera::GetInstance()->GetScale()), 
-		(int)(((GetPosY() - (GetHeight()/2.0f)) - CCamera::GetInstance()->GetOffsetY()) * CCamera::GetInstance()->GetScale()), 
-		CCamera::GetInstance()->GetScale(), 
-		CCamera::GetInstance()->GetScale(), 
-		&rRender, (GetWidth()/2.0f), (GetHeight()/2.0f),
-		this->GetRotation() );
-}
-
-RECT CRocket::GetRect( void ) const
-{
-	RECT rCollision;
-	rCollision.top = (LONG)( GetPosY() );
-	rCollision.left = (LONG)( GetPosX() );
-	rCollision.bottom = (LONG)( rCollision.top + GetHeight() );
-	rCollision.right = rCollision.left + GetWidth();
-
-	return rCollision;
 }
 
 bool CRocket::CheckCollision( CBase* pBase )
-{
-	RECT rIntersect;
-	if( IntersectRect(&rIntersect, &GetRect(), &pBase->GetRect()) )
-	{
-		if(this->GetOwner()->GetType() == OBJ_PLAYER)
-		{
-			if( pBase->GetType() != OBJ_PLAYER && pBase->GetType() != OBJ_SPAWNER )
-			{
-				// Destroy the rocket
-				CGame::GetInstance()->GetMessageSystemPointer()->SendMsg( new CDestroyRocketMessage( this, this->GetOwner()) );
-			}
-		}
-		else if(this->GetOwner()->GetType() == OBJ_ENEMY)
-		{
-			if( pBase->GetType() != OBJ_ENEMY && pBase->GetType() != OBJ_SPAWNER )
-			{
-				// Destroy the rocket
-				CGame::GetInstance()->GetMessageSystemPointer()->SendMsg( new CDestroyRocketMessage( this, this->GetOwner()) );
-			}
-		}
-
-		return 1;
+{	
+	if(CBaseProjectile::CheckCollision( pBase ))
+	{				
+		// Destroy the rocket
+		CGame::GetInstance()->GetMessageSystemPointer()->SendMsg( new CDestroyRocketMessage( this, this->GetOwner()) );
+		return true;
 	}
 	else
-		return 0;
-}
-
-void CRocket::HandleEvent( CEvent* pEvent )
-{
+		return false;
 }

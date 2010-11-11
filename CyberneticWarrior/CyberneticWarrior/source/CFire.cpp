@@ -3,13 +3,15 @@
 #include "CFire.h"
 #include "CGame.h"
 #include "CSinglePlayerState.h"
-#include "CPlayer.h"
 
 CFire::CFire(void)
 {
 	this->SetType(OBJ_FIRE);
 	this->SetImageID(CSinglePlayerState::GetInstance()->GetWeaponID());
-	this->SetRotation(CSinglePlayerState::GetInstance()->GetPlayerPointer()->GetRotation());
+	rRender.top = 610;
+	rRender.left = 550;
+	rRender.right = 610;
+	rRender.bottom = 550;
 }
 
 CFire::~CFire(void)
@@ -18,49 +20,17 @@ CFire::~CFire(void)
 
 void CFire::Update(float fElapsedTime)
 {
-	CBase::Update(fElapsedTime);
-}
-
-void CFire::Render(void)
-{
-	RECT rRender;
-	rRender.top = 610;
-	rRender.left = 550;
-	rRender.right = 610;
-	rRender.bottom = 550;
-	CSGD_TextureManager::GetInstance()->Draw( GetImageID(), 
-		(int)(((GetPosX() - (GetWidth()/2.0f) ) - CCamera::GetInstance()->GetOffsetX()) * CCamera::GetInstance()->GetScale()), 
-		(int)(((GetPosY() - (GetHeight()/2.0f)) - CCamera::GetInstance()->GetOffsetY()) * CCamera::GetInstance()->GetScale()), 
-		CCamera::GetInstance()->GetScale(), 
-		CCamera::GetInstance()->GetScale(), 
-		&rRender, (GetWidth()/2.0f), (GetHeight()/2.0f),
-		this->GetRotation() );
-}
-
-RECT CFire::GetRect(void) const
-{
-	RECT rCollision;
-	rCollision.top = (LONG)( GetPosY() );
-	rCollision.left = (LONG)( GetPosX() );
-	rCollision.bottom = (LONG)( rCollision.top + GetHeight() );
-	rCollision.right = rCollision.left + GetWidth();
-
-	return rCollision;
+	CBaseProjectile::Update( fElapsedTime );
 }
 
 bool CFire::CheckCollision(CBase *pBase)
 {
-	RECT rIntersect;
-	if( IntersectRect(&rIntersect, &GetRect(), &pBase->GetRect()) )
-	{
-		if( pBase->GetType() != OBJ_PLAYER )
-		{
-			// Destroy the bullet
-			//CGame::GetInstance()->GetMessageSystemPointer()->SendMsg( new CDestroyFireMessage( this, CSinglePlayerState::GetInstance()->GetPlayerPointer()) );
-		}
-
-		return 1;
+	if(CBaseProjectile::CheckCollision( pBase ))
+	{				
+		// Destroy the bullet
+		//CGame::GetInstance()->GetMessageSystemPointer()->SendMsg( new CDestroyFireMessage( this, CSinglePlayerState::GetInstance()->GetPlayerPointer()) );
+		return true;
 	}
 	else
-		return 0;
+		return false;
 }

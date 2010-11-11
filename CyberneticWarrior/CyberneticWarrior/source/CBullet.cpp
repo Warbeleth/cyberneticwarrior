@@ -3,13 +3,16 @@
 #include "CBullet.h"
 #include "CGame.h"
 #include "CSinglePlayerState.h"
-#include "CPlayer.h"
 
 CBullet::CBullet(void)
 {
 	this->SetType(OBJ_BULLET);
 	this->SetImageID(CSinglePlayerState::GetInstance()->GetWeaponID());
-	this->SetRotation(CSinglePlayerState::GetInstance()->GetPlayerPointer()->GetRotation());
+	this->SetDamage(100);
+	rRender.top = 239;
+	rRender.left = 976;
+	rRender.right = 985;
+	rRender.bottom = 245;
 }
 
 CBullet::~CBullet(void)
@@ -18,10 +21,7 @@ CBullet::~CBullet(void)
 
 void CBullet::Update(float fElapsedTime)
 {
-	CBase::Update(fElapsedTime);
-
-
-	
+	CBaseProjectile::Update( fElapsedTime );
 
 	static tVector2D vScreenDimensions;
 	vScreenDimensions.fX = (float)CGame::GetInstance()->GetScreenWidth();
@@ -36,58 +36,14 @@ void CBullet::Update(float fElapsedTime)
 	}
 }
 
-void CBullet::Render(void)
-{
-	RECT rRender;
-	rRender.top = 239;
-	rRender.left = 976;
-	rRender.right = 985;
-	rRender.bottom = 245;
-	CSGD_TextureManager::GetInstance()->Draw( GetImageID(), 
-		(int)(((GetPosX() - (GetWidth()/2.0f) ) - CCamera::GetInstance()->GetOffsetX()) * CCamera::GetInstance()->GetScale()), 
-		(int)(((GetPosY() - (GetHeight()/2.0f)) - CCamera::GetInstance()->GetOffsetY()) * CCamera::GetInstance()->GetScale()), 
-		CCamera::GetInstance()->GetScale(),
-		CCamera::GetInstance()->GetScale(), 
-		&rRender, (GetWidth()/2.0f), (GetHeight()/2.0f),
-		this->GetRotation() );
-}
-
-RECT CBullet::GetRect(void) const
-{
-	RECT rCollision;
-	rCollision.top = (LONG)( GetPosY() );
-	rCollision.left = (LONG)( GetPosX() );
-	rCollision.bottom = (LONG)( rCollision.top + GetHeight() );
-	rCollision.right = rCollision.left + GetWidth();
-
-	return rCollision;
-}
-
 bool CBullet::CheckCollision(CBase *pBase)
 {
-	RECT rIntersect;
-	if( IntersectRect(&rIntersect, &GetRect(), &pBase->GetRect()) )
-	{
-		if(this->GetOwner()->GetType() == OBJ_PLAYER)
-		{
-			if( pBase->GetType() != OBJ_PLAYER && pBase->GetType() != OBJ_SPAWNER)
-			{
-				// Destroy the bullet
-				CGame::GetInstance()->GetMessageSystemPointer()->SendMsg( new CDestroyBulletMessage( this, this->GetOwner()) );
-		
-			}
-		}
-		else if(this->GetOwner()->GetType() == OBJ_ENEMY)
-		{
-			if( pBase->GetType() != OBJ_ENEMY && pBase->GetType() != OBJ_SPAWNER)
-			{
-				// Destroy the bullet
-				CGame::GetInstance()->GetMessageSystemPointer()->SendMsg( new CDestroyBulletMessage( this, this->GetOwner()) );
-			}
-		}
-
-		return 1;
+	if(CBaseProjectile::CheckCollision( pBase ))
+	{				
+		// Destroy the bullet
+		CGame::GetInstance()->GetMessageSystemPointer()->SendMsg( new CDestroyBulletMessage( this, this->GetOwner()) );
+		return true;
 	}
 	else
-		return 0;
+		return false;
 }
