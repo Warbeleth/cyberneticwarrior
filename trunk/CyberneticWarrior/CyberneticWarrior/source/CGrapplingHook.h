@@ -23,6 +23,7 @@ public:
 	void	SetRotation(float fRotation);
 
 	float	GetRotationRate(void)const;
+	inline void	SetRotationRate(float fRotationRate) {this->m_fRotationRate = fRotationRate;}
 
 	bool	GetIfHooked(void)const;
 	void	SetHooked(bool bHooked);

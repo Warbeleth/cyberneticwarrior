@@ -13,6 +13,10 @@
 
 CPlayer::CPlayer(void)
 {
+			CSinglePlayerState::GetInstance()->SetProfileValues(1);
+	
+
+
 	// Setting Weapon Rects
 	this->m_rWeapons[this->HG].top		= 12;
 	this->m_rWeapons[this->HG].left		= 40;
@@ -110,6 +114,9 @@ CPlayer::CPlayer(void)
 	this->m_bBDash = false;
 
 	this->m_bHookShot = false;
+	this->m_bRotFoward = false;
+	this->m_bRotBackward = false;
+	this->m_bFirstSwing = true;
 
 	// Facing Forward
 	this->m_bForward = true;
@@ -125,6 +132,8 @@ CPlayer::CPlayer(void)
 
 	// Rotation
 	this->m_fRotation = 0.0f;
+	this->m_fRotationFixRate = 0.01f;
+
 	this->m_vRotationCenter.fX = this->GetPosX()+this->GetWidth();
 	this->m_vRotationCenter.fY = 0.0f;
 	this->m_vVectorVelocity.fX = 0.0f;
@@ -156,6 +165,7 @@ CPlayer::CPlayer(void)
 
 	// Score
 	this->m_nScore = 0;
+
 
 	// boost
 	this->m_fBoostTime = 0.0f;
@@ -228,7 +238,18 @@ void CPlayer::Update(float fElapsedTime)
 		this->m_bShutDown = false;
 	}
 
-	
+	// so needed
+	/*if(this->m_nSwingCount == 0)
+		&& this->GetPosX() > (this->m_pHook->GetPosX() - 3.0f) 
+		&& this->GetPosX() < (this->m_pHook->GetPosX() + 3.0f))
+	{
+		this->m_fRotationFixRate = 0.001f;
+	}
+	else if(this->m_nSwingCount == 1 )
+	{
+		this->m_fRotationFixRate = 0.01f;
+	}*/
+
 	
 	// If player is swinging do not update based on CBase otherwise Carry on
 	if(this->m_pHook)
@@ -289,6 +310,10 @@ void CPlayer::Update(float fElapsedTime)
 
 
 
+	// Check for players Input 
+	// Notes: (May need to be moved around function call for proper checks)
+	this->Input(fElapsedTime);
+	
 	// Grappling hook
 	// Notes: will probably get its own separate function
 	if(this->m_pHook)
@@ -301,24 +326,36 @@ void CPlayer::Update(float fElapsedTime)
 			//////////////////////////////////////////////////////////////////////////////
 			// Adjust hook to player doesnt pass boundaries and he doesnt just stay still in the air
 			//////////////////////////////////////////////////////////////////////////////
-			if(this->GetPosX() < this->m_pHook->GetPosX() && this->m_bFixSwing)
+			
+			if(this->GetPosX() > (this->m_pHook->GetPosX() - 1) 
+				&& this->GetPosX() < (this->m_pHook->GetPosX() + 1) && this->m_bFixSwing)
 			{
-				this->SetRotation(this->GetRotation() - 0.01f*fElapsedTime);
+				this->SetRotation(0.0f);
+				this->m_bFirstSwing = true;
+				this->m_bAllowSwing = true;
 			}
-			if(this->GetPosX() > this->m_pHook->GetPosX() && this->m_bFixSwing)
+			else if(this->GetPosX() < this->m_pHook->GetPosX() && this->m_bFixSwing)
 			{
-				this->SetRotation(this->GetRotation() + 0.01f*fElapsedTime);
+				this->SetRotation(this->GetRotation() - (m_fRotationFixRate*fElapsedTime));
+				//if(this->m_fRotationFixRate != 0.0f)
+					//this->m_fRotationFixRate -= 0.001f;
 			}
-			if(this->GetPosY() < this->m_pHook->GetPosY() + 10.0f && this->GetPosX() < this->m_pHook->GetPosX()-20.0f)
+			else if(this->GetPosX() > this->m_pHook->GetPosX() && this->m_bFixSwing)
 			{
-				this->SetRotation(this->GetRotation() - 0.1f*fElapsedTime);
-				//this->SetPosY(this->m_pHook->GetPosY() + 1.0f);
+				this->SetRotation(this->GetRotation() + (m_fRotationFixRate*fElapsedTime));
+				//if(this->m_fRotationFixRate != 0.0f)
+					//this->m_fRotationFixRate -= 0.001f;
 			}
-			if(this->GetPosY() < this->m_pHook->GetPosY() + 10.0f && this->GetPosX() > this->m_pHook->GetPosX()+20.0f)
-			{
-				this->SetRotation(this->GetRotation() + 0.1f*fElapsedTime);
-				//this->SetPosY(this->m_pHook->GetPosY() + 1.0f);
-			}
+			//if(this->GetPosY() < (this->m_pHook->GetPosY() + 5.0f) && this->GetPosX() < (this->m_pHook->GetPosX()-5.0f))
+			//{
+			//	this->SetRotation(this->GetRotation() - m_fRotationFixRate*fElapsedTime);
+			//	//this->SetPosY(this->m_pHook->GetPosY() + 1.0f);
+			//}
+			//if(this->GetPosY() < (this->m_pHook->GetPosY() + 5.0f) && this->GetPosX() > (this->m_pHook->GetPosX()+5.0f))
+			//{
+			//	this->SetRotation(this->GetRotation() + m_fRotationFixRate*fElapsedTime);
+			//	//this->SetPosY(this->m_pHook->GetPosY() + 1.0f);
+			//}
 			/*else if( this->m_bFixSwing)
 			{
 				this->SetRotation(0.0f);
@@ -393,9 +430,7 @@ void CPlayer::Update(float fElapsedTime)
 	}
 
 
-	// Check for players Input 
-	// Notes: (May need to be moved around function call for proper checks)
-	this->Input(fElapsedTime);
+	
 
 
 	//////////////////////////////////////////////////////////////////////////////
@@ -653,15 +688,15 @@ void CPlayer::Input(float fElapsedTime)
 			{
 				if(this->GetPosX() < this->m_pHook->GetPosX())
 				{
-					this->m_bFixSwing = false;
-					this->SetPosX(this->GetPosX() + 1.5f);
-					this->SetPosY(this->GetPosY() - 1.5f);
+					this->m_bFixSwing = true;
+					this->SetPosX(this->GetPosX() + 0.5f);
+					this->SetPosY(this->GetPosY() - 0.5f);
 				}
 				if(this->GetPosX() > this->m_pHook->GetPosX() && this->m_pHook->GetIfHooked() && !this->GetOnGround())
 				{
-					this->m_bFixSwing = false;
-					this->SetPosX(this->GetPosX() - 1.5f);
-					this->SetPosY(this->GetPosY() - 1.5f);
+					this->m_bFixSwing = true;
+					this->SetPosX(this->GetPosX() - 0.5f);
+					this->SetPosY(this->GetPosY() - 0.5f);
 				}
 			}
 		}
@@ -675,15 +710,15 @@ void CPlayer::Input(float fElapsedTime)
 			{
 				if(this->GetPosX() < this->m_pHook->GetPosX())
 				{
-					this->m_bFixSwing = false;
-					this->SetPosX(this->GetPosX() - 1.5f);
-					this->SetPosY(this->GetPosY() + 1.5f);
+					this->m_bFixSwing = true;
+					this->SetPosX(this->GetPosX() - 0.5f);
+					this->SetPosY(this->GetPosY() + 0.5f);
 				}
 				if(this->GetPosX() > this->m_pHook->GetPosX() && this->m_pHook->GetIfHooked() && !this->GetOnGround())
 				{
-					this->m_bFixSwing = false;
-					this->SetPosX(this->GetPosX() + 1.5f);
-					this->SetPosY(this->GetPosY() + 1.5f);
+					this->m_bFixSwing = true;
+					this->SetPosX(this->GetPosX() + 0.5f);
+					this->SetPosY(this->GetPosY() + 0.5f);
 				}
 			}
 		}
@@ -794,18 +829,37 @@ void CPlayer::Input(float fElapsedTime)
 
 		if(this->m_pHook)
 		{
-			if(this->m_pHook->GetIfHooked() && !this->GetOnGround() && this->GetPosY() > this->m_pHook->GetPosY())
+			if(this->m_pHook->GetIfHooked() && !this->GetOnGround() && this->m_bAllowSwing)
 			{
-				this->m_pHook->SetRotation(this->m_pHook->GetRotation() + this->m_pHook->GetRotationRate() * fElapsedTime);
-				if(!this->m_bOnGround)
+				if(this->GetRotation() < 0.0f && this->m_bRotFoward)
+				{
+					this->m_pHook->SetRotation(-this->m_pHook->GetRotation());
+					this->m_bRotFoward = false;
+				}
+				this->m_bRotBackward = true;
+				this->m_pHook->SetRotation(this->m_pHook->GetRotation() + (this->m_pHook->GetRotationRate()*fElapsedTime));
+				/*if(this->m_bFirstSwing == true && 
+					(this->GetPosX() > (this->m_pHook->GetPosX() + 100) || this->GetPosX() < this->m_pHook->GetPosX() - 100))
+				{
+					this->m_pHook->SetRotation(0.0f);
+					this->m_bFirstSwing = false;
+					this->m_bAllowSwing = false;
+				}*/
+				if( this->GetPosY() < this->m_pHook->GetPosY())
+				{
+					this->m_pHook->SetRotation(0.0f);
+					this->m_bAllowSwing = false;
+				}
+				if(!this->m_bOnGround && this->m_bAllowSwing)
 				{
 					this->m_bFixSwing = false;
 					this->SetRotation(this->m_pHook->GetRotation());
 				}
-			}
-			else if( this->m_pHook->GetIfHooked() && !this->GetOnGround() && this->GetPosY() < this->m_pHook->GetPosY())
-			{
-				this->SetPosY(this->GetPosY() +1);
+				else if(!this->m_bOnGround && !this->m_bAllowSwing)
+				{
+					this->m_bFixSwing = true;
+					this->SetRotation(this->m_pHook->GetRotation());
+				}
 			}
 		}
 
@@ -825,19 +879,37 @@ void CPlayer::Input(float fElapsedTime)
 
 		if(this->m_pHook)
 		{
-			if(this->m_pHook->GetIfHooked() && !this->GetOnGround() && this->GetPosY() > this->m_pHook->GetPosY())
+			if(this->m_pHook->GetIfHooked() && !this->GetOnGround() && this->m_bAllowSwing)
 			{
-				this->m_pHook->SetRotation(this->m_pHook->GetRotation() - this->m_pHook->GetRotationRate() * fElapsedTime);
-				if(!this->m_bOnGround)
+				if(this->GetRotation() > 0.0f && this->m_bRotBackward)
+				{
+					this->m_pHook->SetRotation(-this->m_pHook->GetRotation());
+					this->m_bRotBackward = false;
+				}
+				this->m_bRotFoward = true;
+				this->m_pHook->SetRotation(this->m_pHook->GetRotation() - (this->m_pHook->GetRotationRate()*fElapsedTime));
+				/*if(this->m_bFirstSwing == true && 
+					(this->GetPosX() > (this->m_pHook->GetPosX() + 100) || this->GetPosX() < this->m_pHook->GetPosX() - 100))
+				{
+					this->m_pHook->SetRotation(0.0f);
+					this->m_bFirstSwing = false;
+					this->m_bAllowSwing = false;
+				}*/
+				if( this->GetPosY() < this->m_pHook->GetPosY())
+				{
+					this->m_pHook->SetRotation(0.0f);
+					this->m_bAllowSwing = false;
+				}
+				if(!this->m_bOnGround && this->m_bAllowSwing)
 				{
 					this->m_bFixSwing = false;
-
 					this->SetRotation(this->m_pHook->GetRotation());
 				}
-			}
-			else if( this->m_pHook->GetIfHooked() && !this->GetOnGround() && this->GetPosY() < this->m_pHook->GetPosY())
-			{
-				this->SetPosY(this->GetPosY() +1);
+				else if(!this->m_bOnGround && !this->m_bAllowSwing)
+				{
+					this->m_bFixSwing = true;
+					this->SetRotation(this->m_pHook->GetRotation());
+				}
 			}
 		}
 
@@ -950,7 +1022,7 @@ void CPlayer::Input(float fElapsedTime)
 	if((CSGD_DirectInput::GetInstance()->MouseButtonPressed(CGame::GetInstance()->GetPlayerOneControls(4)) || CSGD_DirectInput::GetInstance()->JoystickButtonPressed(4)))
 	{
 		this->SetMouseDown(1);
-		if(CSinglePlayerState::GetInstance()->GetProfileValues()->m_bHaveHook && !this->m_bHookShot)
+		if(/*CSinglePlayerState::GetInstance()->GetProfileValues()->m_bHaveHook &&*/ !this->m_bHookShot)
 		{
 			CGame::GetInstance()->GetMessageSystemPointer()->SendMsg(new CCreateHookMessage(this));
 			this->m_bHookShot = true;

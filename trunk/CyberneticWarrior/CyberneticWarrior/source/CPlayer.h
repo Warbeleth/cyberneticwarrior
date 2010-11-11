@@ -71,6 +71,7 @@ private:
 	int m_nSelectedHeadSlot;
 	int m_nSelectedBootSlot;
 
+
 	///////////////////
 	// Hand
 	int		m_nHandID;
@@ -80,6 +81,7 @@ private:
 	float m_fShotTime;
 	float m_fThrowTime;
 	float m_fMovingPlatformPosX;
+	float m_fRotationFixRate;
 
 	float m_fBoostTime;
 
@@ -99,6 +101,11 @@ private:
 	bool m_bJumped;
 	bool m_bFDash;
 	bool m_bBDash;
+	bool m_bAllowSwing;
+	bool m_bRotFoward;
+	bool m_bRotBackward;
+	bool m_bFirstSwing;
+
 
 	bool m_bOnGround;
 	bool m_bOnPlatform;
