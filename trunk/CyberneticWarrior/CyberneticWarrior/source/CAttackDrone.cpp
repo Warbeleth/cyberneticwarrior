@@ -18,6 +18,7 @@ CAttackDrone::CAttackDrone(int nImageID, float PosX, float PosY,int Width, int H
 {
 	SetAnimations(CMapLoad::GetInstance()->CreateAnimation(Drone_Attack));
 	GetAnimations()->SetCurrentAnimation(1);
+	this->SetShotDelay(0.0f);
 }
 CAttackDrone::~CAttackDrone()
 {
@@ -27,6 +28,7 @@ CAttackDrone::~CAttackDrone()
 void CAttackDrone::Update(float fElapsedTime)
 {
 	CPatrolEnemy::Update(fElapsedTime);
+	SetShotDelay(this->GetShotDelay() + fElapsedTime);
 
 	switch(ReturnAIState())
 	{
@@ -35,6 +37,11 @@ void CAttackDrone::Update(float fElapsedTime)
 		break;
 	case pActive:
 		GetAnimations()->SetCurrentAnimation(0);
+		if(this->GetShotDelay() > this->GetRateOfFire())
+		{
+			this->SetShotDelay(0.0f);	
+			CGame::GetInstance()->GetMessageSystemPointer()->SendMsg(new CCreateBulletMessage(this));
+		}
 		break;
 	case pDead:
 		CGame::GetInstance()->GetMessageSystemPointer()->SendMsg(new CDestroyEnemyMessage((CBaseEnemy*)this));

@@ -41,6 +41,7 @@ class CBaseEnemy : /*public IBaseInterface, */public CBase
 	int m_nWidth;
 	int m_nHeight;
 	float m_fRateOfFire;
+	float m_fShotDelay;
 	float m_fSpeed;
 	bool m_bSinglePlayer;
 	tVector2D m_vTargetPosition;
@@ -83,6 +84,9 @@ public:
 	// Purpose : Returns the specified type.
 	//////////////////////////////////////////////////////////////////////////////////////////////////////
 	//int GetType() { return m_nType; };
+	virtual CPoint GetBulletStartPos( void );
+
+
 	int GetEnemyType() { return m_nGlobalType; };
 	int GetImageID() { return m_nImageID; };
 	int GetMaxHP() { return m_nMaxHP; };
@@ -94,6 +98,7 @@ public:
 	int GetWidth() { return m_nWidth; };
 	int GetHeight() { return m_nHeight; };
 	float GetRateOfFire() { return m_fRateOfFire; };
+	float GetShotDelay() { return m_fShotDelay; };
 	float GetSpeed() { return m_fSpeed; };
 	tVector2D GetTargetPosition() { return m_vTargetPosition; };
 	bool GetGameType() { return m_bSinglePlayer; };
@@ -113,6 +118,7 @@ public:
 	void SetAttackRange(int Value) { m_nAttackRange = Value; };
 	void SetPosX(float Value) { m_fPosX = Value; };
 	void SetPosY(float Value) { m_fPosY = Value; };
+	void SetShotDelay(float fShotDelay) {this->m_fShotDelay = fShotDelay; };
 	void SetWidth(int Value) { m_nWidth = Value; };
 	void SetHeight(int Value) { m_nHeight = Value; };
 	void SetRateOfFire(float Value) { m_fRateOfFire = Value; };

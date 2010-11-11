@@ -99,7 +99,9 @@ bool CGrenade::CheckCollision(CBase *pBase)
 		}
 		else if(this->GetOwner()->GetType() == OBJ_ENEMY)
 		{
-			if(pBase->GetType() == OBJ_PLAYER && pBase->GetType() != OBJ_SPAWNER)
+			if(pBase->GetType() == OBJ_PLAYER 
+				&& pBase->GetType() != OBJ_SPAWNER 
+				&& pBase->GetType() != OBJ_ENEMY)
 			{
 				this->SetPosX(pBase->GetPosX());
 				this->SetPosY(pBase->GetPosY());

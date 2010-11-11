@@ -221,3 +221,13 @@ void CBaseEnemy::CheckCulling()
 	if(yPos > CameraY+600)
 		SetCulling(true);
 }
+
+
+CPoint CBaseEnemy::GetBulletStartPos( void )
+{
+	CPoint ptStartingPos;
+	ptStartingPos.m_nX = (int)this->GetPosX();
+	ptStartingPos.m_nY = (int)this->GetPosY();
+
+	return ptStartingPos;
+}
