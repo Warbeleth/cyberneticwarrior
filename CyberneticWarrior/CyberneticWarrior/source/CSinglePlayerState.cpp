@@ -269,9 +269,9 @@ bool CSinglePlayerState::Input(void)
 	
 	if(m_TempPlayer->GetHealth() == 0)
 	{
-		this->GetPlayerPointer()->SetShutDown(true);
-		CStackStateMachine::GetInstance()->UpdateState(0.0f);
-		CStackStateMachine::GetInstance()->Push_Back(CGameOverState::GetInstance());
+		//this->GetPlayerPointer()->SetShutDown(true);
+		//CStackStateMachine::GetInstance()->UpdateState(0.0f);
+		//CStackStateMachine::GetInstance()->Push_Back(CGameOverState::GetInstance());
 	}
 
 	//if(this->m_pDI->KeyPressed(DIK_SPACE))
