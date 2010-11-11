@@ -9,7 +9,7 @@
 CGrapplingHook::CGrapplingHook(void)
 {
 	this->m_fRotation = 0.0f;
-	this->m_fRotationRate = .0185f;
+	this->m_fRotationRate = 0.001f;
 	this->SetType(OBJ_GRAPPLING_HOOK);
 	this->SetImageID(CSGD_TextureManager::GetInstance()->LoadTexture("resource/graphics/hook.png"));
 	this->SetHooked(0);

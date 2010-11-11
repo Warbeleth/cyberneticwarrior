@@ -65,7 +65,7 @@ CSinglePlayerState::CSinglePlayerState(void)
 
 	this->SetNewGame(1);
 
-	this->m_Profile.m_bHaveHook = 0;
+	this->m_Profile.m_bHaveHook = true;
 
 	this->SetType(GAMEPLAY);
 	this->SetInputType(this->CKEYBOARD);
@@ -123,6 +123,7 @@ void CSinglePlayerState::Enter(void)
 	switch(this->m_nCurrentLevel)
 	{
 	case TUTORIAL:
+		//m_TempMap->LoadMap("swingaway.CWM"); // leave here to test grappling hook
 		m_TempMap->LoadMap("Tutorial_v1.5.CWM");
 		break;
 	case LEVEL1:
