@@ -1038,7 +1038,7 @@ void CPlayer::Input(float fElapsedTime)
 		{
 			this->m_pHook->SetHooked(0);
 		}
-		//CGame::GetInstance()->GetMessageSystemPointer()->SendMsg(new CDestroyHookMessage(this));
+		CGame::GetInstance()->GetMessageSystemPointer()->SendMsg(new CDestroyHookMessage(this->m_pHook, this));
 	}
 	//////////////////////////////////////////////////////////////////////////////
 
