@@ -10,7 +10,6 @@
 
 #include "CIdleEnemy.h"
 #include "CCamera.h"
-#include "CGame.h"
 
 CIdleEnemy::CIdleEnemy(void)
 {
@@ -41,7 +40,6 @@ void CIdleEnemy::Update(float fElapsedTime)
 		tVector2D Result;
 		Result.fX = GetTargetPosition().fX - GetPosX();
 		Result.fY = GetTargetPosition().fY - GetPosY();
-			//CGame::GetInstance()->GetMessageSystemPointer()->SendMsg(new CCreateBulletMessage(this));
 
 		int Distance = int(sqrt(Result.fX*Result.fX + Result.fY*Result.fY));
 

@@ -10,7 +10,6 @@
 
 #include "CPatrolEnemy.h"
 #include "CCamera.h"
-#include "CGame.h"
 
 CPatrolEnemy::CPatrolEnemy(void)
 {
@@ -55,6 +54,7 @@ void CPatrolEnemy::Update(float fElapsedTime)
 			ChangeAIState(Patrol);
 
 		if(ReturnAIState() == Patrol)
+
 		{
 			SetPosX((GetPosX() + GetSpeed() * fElapsedTime));
 
@@ -73,10 +73,6 @@ void CPatrolEnemy::Update(float fElapsedTime)
 				SetSpeed(-1*GetSpeed());
 			}
 
-		}
-		else if(this->ReturnAIState() == pActive)
-		{
-			//CGame::GetInstance()->GetMessageSystemPointer()->SendMsg(new CCreateBulletMessage(this));
 		}
 	}
 }
