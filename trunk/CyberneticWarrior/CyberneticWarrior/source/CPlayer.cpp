@@ -682,7 +682,8 @@ void CPlayer::Input(float fElapsedTime)
 	{
 		if(this->m_pHook)
 		{
-			if(this->GetPosY() > this->m_pHook->GetPosY() + 30 && this->m_pHook->GetIfHooked() && !this->GetOnGround())
+			if(this->GetPosY() > (this->m_pHook->GetPosY() + 30) && this->GetPosY() < (this->m_pHook->GetPosY() + 500)
+				&& this->m_pHook->GetIfHooked() && !this->GetOnGround())
 			{
 				if(this->GetPosX() < this->m_pHook->GetPosX())
 				{
@@ -704,7 +705,8 @@ void CPlayer::Input(float fElapsedTime)
 	{
 		if(this->m_pHook)
 		{
-			if(this->GetPosY() > this->m_pHook->GetPosY() + 30 && this->m_pHook->GetIfHooked() && !this->GetOnGround())
+			if(this->GetPosY() > (this->m_pHook->GetPosY() + 30) && this->GetPosY() < (this->m_pHook->GetPosY() + 500)
+				&& this->m_pHook->GetIfHooked() && !this->GetOnGround())
 			{
 				if(this->GetPosX() < this->m_pHook->GetPosX())
 				{
@@ -762,7 +764,7 @@ void CPlayer::Input(float fElapsedTime)
 			fJumpSpeed = -100.0f;
 			this->m_vSpeed.fY = fJumpSpeed;
 			this->SetBaseVelY(this->m_vSpeed.fY);
-			this->DecrementEnergy(0.17f);
+			this->DecrementEnergy(0.012f);
 		}
 		else if(this->m_nSelectedBootSlot == this->ROCKET_BOOTS && this->m_bBoosting && this->m_fRemainingEnergy == 0.0f)
 		{
@@ -807,7 +809,6 @@ void CPlayer::Input(float fElapsedTime)
 	{
    		this->m_vSpeed.fX = 0.0f;
 		this->m_fBoostTime = 0.0f;
-		this->DecrementEnergy(30.0f);
 		//this->m_bDash = false;
 	}
 		
@@ -843,7 +844,7 @@ void CPlayer::Input(float fElapsedTime)
 					this->m_bFirstSwing = false;
 					this->m_bAllowSwing = false;
 				}*/
-				if( this->GetPosY() < this->m_pHook->GetPosY())
+				if( this->GetPosY() < (this->m_pHook->GetPosY() + 15.0f))
 				{
 					this->m_pHook->SetRotation(0.0f);
 					this->m_bAllowSwing = false;
@@ -893,7 +894,7 @@ void CPlayer::Input(float fElapsedTime)
 					this->m_bFirstSwing = false;
 					this->m_bAllowSwing = false;
 				}*/
-				if( this->GetPosY() < this->m_pHook->GetPosY())
+				if( this->GetPosY() < (this->m_pHook->GetPosY()+15.0f))
 				{
 					this->m_pHook->SetRotation(0.0f);
 					this->m_bAllowSwing = false;
@@ -938,6 +939,7 @@ void CPlayer::Input(float fElapsedTime)
 		{
 			this->m_vSpeed.fX = -this->m_fDash;
 			this->m_bBDash = false;
+			this->DecrementEnergy(30.0f);
 		}
 		if(this->m_nSelectedBootSlot == this->ROCKET_BOOTS && !this->m_bBDash)
 		{
@@ -957,6 +959,7 @@ void CPlayer::Input(float fElapsedTime)
 		{
 			this->m_vSpeed.fX = this->m_fDash;
 			this->m_bFDash = false;
+			this->DecrementEnergy(30.0f);
 		}
 		if(this->m_nSelectedBootSlot == this->ROCKET_BOOTS && !this->m_bFDash)
 		{
