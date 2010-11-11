@@ -266,6 +266,13 @@ bool CSinglePlayerState::Input(void)
 		CStackStateMachine::GetInstance()->Push_Back(CPauseMenuState::GetInstance());
 		//CStackStateMachine::GetInstance()->Pop_back();
 	}
+	
+	if(m_TempPlayer->GetHealth() == 0)
+	{
+		this->GetPlayerPointer()->SetShutDown(true);
+		CStackStateMachine::GetInstance()->UpdateState(0.0f);
+		CStackStateMachine::GetInstance()->Push_Back(CGameOverState::GetInstance());
+	}
 
 	//if(this->m_pDI->KeyPressed(DIK_SPACE))
 	//	m_TempPlayer->DecrementEnergy(20);
@@ -278,9 +285,6 @@ bool CSinglePlayerState::Input(void)
 
 void CSinglePlayerState::Update(float fElapsedTime)
 {	
-	if(m_TempPlayer->GetHealth() == 0)
-		CStackStateMachine::GetInstance()->Push_Back(CGameOverState::GetInstance());
-
 	if(this->m_bMusic)
 	{
 		//this->m_pWM->Play(this->m_nBGMusic, DSBPLAY_LOOPING);

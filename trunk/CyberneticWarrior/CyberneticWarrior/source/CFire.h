@@ -1,9 +1,9 @@
 #ifndef CFIRE_H_
 #define CFIRE_H_
 
-#include "CBase.h"
+#include "CBaseProjectile.h"
 
-class CFire : public CBase
+class CFire : public CBaseProjectile
 {
 private:
 	int	m_nDamage;
@@ -12,8 +12,6 @@ public:
 	~CFire(void);
 
 	void Update(float fElapsedTime);
-	void Render(void);
-	RECT GetRect(void)const;
 	bool CheckCollision(CBase* pBase);
 };
 #endif

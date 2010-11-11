@@ -324,6 +324,10 @@
 					Name="Equipment"
 					>
 					<File
+						RelativePath=".\source\CBaseProjectile.cpp"
+						>
+					</File>
+					<File
 						RelativePath=".\source\CBullet.cpp"
 						>
 					</File>
@@ -788,6 +792,10 @@
 				<Filter
 					Name="Equipment"
 					>
+					<File
+						RelativePath=".\source\CBaseProjectile.h"
+						>
+					</File>
 					<File
 						RelativePath=".\source\CBullet.h"
 						>

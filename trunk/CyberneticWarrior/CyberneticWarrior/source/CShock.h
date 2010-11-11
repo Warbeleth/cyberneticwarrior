@@ -1,23 +1,15 @@
 #ifndef CSHOCK_H_
 #define CSHOCK_H_
 
-#include "CBase.h"
+#include "CBaseProjectile.h"
 
-class CShock : public CBase
+class CShock : public CBaseProjectile
 {
-private:
-	CBase*   m_pOwner;
-	float m_fDirection;
-	int	m_nDamage;
 public:
 	CShock(void);
 	~CShock(void);
 
 	void Update(float fElapsedTime);
-	void Render(void);
-	RECT GetRect(void)const;
 	bool CheckCollision(CBase* pBase);
-	inline	CBase*		GetOwner(void) {return this->m_pOwner;}
-	inline	void	SetOwner(CBase* pOwner) {this->m_pOwner = pOwner;}
 };
 #endif
