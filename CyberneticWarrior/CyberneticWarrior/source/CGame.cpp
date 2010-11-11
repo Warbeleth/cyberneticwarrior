@@ -443,8 +443,8 @@ void CGame::MessageProc(CBaseMessage*	pMsg)
 		{
 			CDestroyHookMessage* pDH = (CDestroyHookMessage*)pMsg;
 
-   			//pDH->GetPlayerPointer()->SetHookPointer(NULL);
-			CSGD_TextureManager::GetInstance()->UnloadTexture(pDH->GetHookPointer()->GetImageID());
+   			pDH->GetPlayerPointer()->SetHookPointer(NULL);
+		//	CSGD_TextureManager::GetInstance()->UnloadTexture(pDH->GetHookPointer()->GetImageID());
 			CObjectManager::GetInstance()->RemoveObject(pDH->GetHookPointer());
 
 			pDH = NULL;
@@ -462,13 +462,22 @@ void CGame::MessageProc(CBaseMessage*	pMsg)
 			pBullet->SetWidth(9);
 			pBullet->SetHeight(6);
 			
-			CPoint ptStartingPos = pCR->GetOwnerPointer()->GetBulletStartPos();
-
+			CPoint ptStartingPos;
+			if(pCR->GetOwnerPointer()->GetType() == OBJ_PLAYER)
+			{
+				ptStartingPos = pCR->GetOwnerPointer()->GetBulletStartPos();
+			}
+			else if(pCR->GetOwnerPointer()->GetType() == OBJ_ENEMY)
+			{
+				CBaseEnemy* pEnemy = (CBaseEnemy*)pCR->GetOwnerPointer();
+				ptStartingPos = (*pEnemy).GetBulletStartPos();
+			}
+	
 			pBullet->SetPosX((float)ptStartingPos.m_nX);
 			pBullet->SetPosY((float)ptStartingPos.m_nY);
 			pBullet->SetOwner(pCR->GetOwnerPointer());		
 
-
+			
 			tVector2D bOwnerPos;
 			if(pCR->GetOwnerPointer()->GetType() == OBJ_PLAYER)
 			{
@@ -477,10 +486,10 @@ void CGame::MessageProc(CBaseMessage*	pMsg)
 			}
 			else if(pCR->GetOwnerPointer()->GetType() == OBJ_ENEMY)
 			{
-				CBaseEnemy* pEnemy = (CBaseEnemy*)pCR->GetOwnerPointer();
-				bOwnerPos.fX = pEnemy->GetPosX() + pEnemy->GetWidth();
-				bOwnerPos.fY = pEnemy->GetPosY();
+				bOwnerPos.fX = (float)ptStartingPos.m_nX;
+				bOwnerPos.fY = (float)ptStartingPos.m_nY;
 			}
+
 
 			tVector2D vShotPos;
 			if(pCR->GetOwnerPointer()->GetType() == OBJ_PLAYER)
@@ -541,7 +550,16 @@ void CGame::MessageProc(CBaseMessage*	pMsg)
 			pRocket->SetWidth(100);
 			pRocket->SetHeight(30);
 
-			CPoint ptStartingPos = pCR->GetOwnerPointer()->GetBulletStartPos();
+			CPoint ptStartingPos;
+			if(pCR->GetOwnerPointer()->GetType() == OBJ_PLAYER)
+			{
+				ptStartingPos = pCR->GetOwnerPointer()->GetBulletStartPos();
+			}
+			else if(pCR->GetOwnerPointer()->GetType() == OBJ_ENEMY)
+			{
+				CBaseEnemy* pEnemy = (CBaseEnemy*)pCR->GetOwnerPointer();
+				ptStartingPos = (*pEnemy).GetBulletStartPos();
+			}
 	
 			pRocket->SetPosX((float)ptStartingPos.m_nX);
 			pRocket->SetPosY((float)ptStartingPos.m_nY);
@@ -556,10 +574,12 @@ void CGame::MessageProc(CBaseMessage*	pMsg)
 			}
 			else if(pCR->GetOwnerPointer()->GetType() == OBJ_ENEMY)
 			{
-				CBaseEnemy* pEnemy = (CBaseEnemy*)pCR->GetOwnerPointer();
-				bOwnerPos.fX = pEnemy->GetPosX() + pEnemy->GetWidth();
-				bOwnerPos.fY = pEnemy->GetPosY();
+				bOwnerPos.fX = (float)ptStartingPos.m_nX;
+				bOwnerPos.fY = (float)ptStartingPos.m_nY;
 			}
+
+			
+
 
 			tVector2D vShotPos;
 			if(pCR->GetOwnerPointer()->GetType() == OBJ_PLAYER)
@@ -580,7 +600,6 @@ void CGame::MessageProc(CBaseMessage*	pMsg)
 			{
 				vShotPos.fX = CSinglePlayerState::GetInstance()->GetPlayerPointer()->GetPosX();
 				vShotPos.fY = CSinglePlayerState::GetInstance()->GetPlayerPointer()->GetPosY();
-
 			}
 
 			pRocket->SetRotation( (float)(CSinglePlayerState::GetInstance()->GetPlayerPointer()->GetHandRotation() - .5*SGD_PI));
@@ -621,14 +640,22 @@ void CGame::MessageProc(CBaseMessage*	pMsg)
 			pFlame->SetWidth(206);
 			pFlame->SetHeight(68);
 			
-			CPoint ptStartingPos = pCR->GetOwnerPointer()->GetBulletStartPos();
-
+			CPoint ptStartingPos;
+			if(pCR->GetOwnerPointer()->GetType() == OBJ_PLAYER)
+			{
+				ptStartingPos = pCR->GetOwnerPointer()->GetBulletStartPos();
+			}
+			else if(pCR->GetOwnerPointer()->GetType() == OBJ_ENEMY)
+			{
+				CBaseEnemy* pEnemy = (CBaseEnemy*)pCR->GetOwnerPointer();
+				ptStartingPos = (*pEnemy).GetBulletStartPos();
+			}
+	
 			pFlame->SetPosX((float)ptStartingPos.m_nX);
 			pFlame->SetPosY((float)ptStartingPos.m_nY);
 			pFlame->SetOwner(pCR->GetOwnerPointer());		
 
 			
-
 			tVector2D bOwnerPos;
 			if(pCR->GetOwnerPointer()->GetType() == OBJ_PLAYER)
 			{
@@ -637,9 +664,8 @@ void CGame::MessageProc(CBaseMessage*	pMsg)
 			}
 			else if(pCR->GetOwnerPointer()->GetType() == OBJ_ENEMY)
 			{
-				CBaseEnemy* pEnemy = (CBaseEnemy*)pCR->GetOwnerPointer();
-				bOwnerPos.fX = pEnemy->GetPosX() + pEnemy->GetWidth();
-				bOwnerPos.fY = pEnemy->GetPosY();
+				bOwnerPos.fX = (float)ptStartingPos.m_nX;
+				bOwnerPos.fY = (float)ptStartingPos.m_nY;
 			}
 
 
@@ -714,14 +740,23 @@ void CGame::MessageProc(CBaseMessage*	pMsg)
 			pPlasma->SetWidth(42);
 			pPlasma->SetHeight(48);
 			
-			CPoint ptStartingPos = pCR->GetOwnerPointer()->GetBulletStartPos();
-
+				
+			CPoint ptStartingPos;
+			if(pCR->GetOwnerPointer()->GetType() == OBJ_PLAYER)
+			{
+				ptStartingPos = pCR->GetOwnerPointer()->GetBulletStartPos();
+			}
+			else if(pCR->GetOwnerPointer()->GetType() == OBJ_ENEMY)
+			{
+				CBaseEnemy* pEnemy = (CBaseEnemy*)pCR->GetOwnerPointer();
+				ptStartingPos = (*pEnemy).GetBulletStartPos();
+			}
+	
 			pPlasma->SetPosX((float)ptStartingPos.m_nX);
 			pPlasma->SetPosY((float)ptStartingPos.m_nY);
 			pPlasma->SetOwner(pCR->GetOwnerPointer());		
 
 			
-
 			tVector2D bOwnerPos;
 			if(pCR->GetOwnerPointer()->GetType() == OBJ_PLAYER)
 			{
@@ -730,9 +765,8 @@ void CGame::MessageProc(CBaseMessage*	pMsg)
 			}
 			else if(pCR->GetOwnerPointer()->GetType() == OBJ_ENEMY)
 			{
-				CBaseEnemy* pEnemy = (CBaseEnemy*)pCR->GetOwnerPointer();
-				bOwnerPos.fX = pEnemy->GetPosX() + pEnemy->GetWidth();
-				bOwnerPos.fY = pEnemy->GetPosY();
+				bOwnerPos.fX = (float)ptStartingPos.m_nX;
+				bOwnerPos.fY = (float)ptStartingPos.m_nY;
 			}
 			
 			pPlasma->SetRotation( (float)(CSinglePlayerState::GetInstance()->GetPlayerPointer()->GetHandRotation() - .5*SGD_PI));
@@ -792,8 +826,19 @@ void CGame::MessageProc(CBaseMessage*	pMsg)
 			pGrenade = (CGrenade*)CObjectFactory<std::string, CBase>::GetInstance()->CreateObject("CGrenade");
 			pGrenade->SetWidth(25);
 			pGrenade->SetHeight(24);
+
 			
-			CPoint ptStartingPos = pCR->GetOwnerPointer()->GetBulletStartPos();
+			CPoint ptStartingPos;
+			if(pCR->GetOwnerPointer()->GetType() == OBJ_PLAYER)
+			{
+				ptStartingPos = pCR->GetOwnerPointer()->GetBulletStartPos();
+			}
+			else if(pCR->GetOwnerPointer()->GetType() == OBJ_ENEMY)
+			{
+				CBaseEnemy* pEnemy = (CBaseEnemy*)pCR->GetOwnerPointer();
+				ptStartingPos = (*pEnemy).GetBulletStartPos();
+			}
+
 			pGrenade->SetPosX((float)ptStartingPos.m_nX);
 			pGrenade->SetPosY((float)ptStartingPos.m_nY);
 			pGrenade->SetOwner(pCR->GetOwnerPointer());		
@@ -817,9 +862,8 @@ void CGame::MessageProc(CBaseMessage*	pMsg)
 			}
 			else if(pCR->GetOwnerPointer()->GetType() == OBJ_ENEMY)
 			{
-				CBaseEnemy* pEnemy = (CBaseEnemy*)pCR->GetOwnerPointer();
-				bOwnerPos.fX = pEnemy->GetPosX() + pEnemy->GetWidth();
-				bOwnerPos.fY = pEnemy->GetPosY();
+				bOwnerPos.fX = (float)ptStartingPos.m_nX;
+				bOwnerPos.fY = (float)ptStartingPos.m_nY;
 			}
 
 			pGrenade->SetRotation( (float)(CSinglePlayerState::GetInstance()->GetPlayerPointer()->GetHandRotation() - .5*SGD_PI));
@@ -881,8 +925,17 @@ void CGame::MessageProc(CBaseMessage*	pMsg)
 			pShock->SetWidth(45);
 			pShock->SetHeight(112);
 			
-			CPoint ptStartingPos = pCR->GetOwnerPointer()->GetBulletStartPos();
-
+			CPoint ptStartingPos;
+			if(pCR->GetOwnerPointer()->GetType() == OBJ_PLAYER)
+			{
+				ptStartingPos = pCR->GetOwnerPointer()->GetBulletStartPos();
+			}
+			else if(pCR->GetOwnerPointer()->GetType() == OBJ_ENEMY)
+			{
+				CBaseEnemy* pEnemy = (CBaseEnemy*)pCR->GetOwnerPointer();
+				ptStartingPos = (*pEnemy).GetBulletStartPos();
+			}
+	
 			pShock->SetPosX((float)ptStartingPos.m_nX);
 			pShock->SetPosY((float)ptStartingPos.m_nY);
 			pShock->SetOwner(pCR->GetOwnerPointer());		
@@ -896,9 +949,8 @@ void CGame::MessageProc(CBaseMessage*	pMsg)
 			}
 			else if(pCR->GetOwnerPointer()->GetType() == OBJ_ENEMY)
 			{
-				CBaseEnemy* pEnemy = (CBaseEnemy*)pCR->GetOwnerPointer();
-				bOwnerPos.fX = pEnemy->GetPosX() + pEnemy->GetWidth();
-				bOwnerPos.fY = pEnemy->GetPosY();
+				bOwnerPos.fX = (float)ptStartingPos.m_nX;
+				bOwnerPos.fY = (float)ptStartingPos.m_nY;
 			}
 
 			tVector2D vShotPos;
@@ -960,17 +1012,18 @@ void CGame::MessageProc(CBaseMessage*	pMsg)
 			pFire = (CFire*)CObjectFactory<std::string, CBase>::GetInstance()->CreateObject("CFire");
 			pFire->SetWidth(50);
 			pFire->SetHeight(32);
+		
+			CPoint ptStartingPos;
 			
-			CPoint ptStartingPos = pCR->GetOwnerPointer()->GetBulletStartPos();
-			ptStartingPos.m_nX-=(pFire->GetWidth()/2);
-			ptStartingPos.m_nY-=(pFire->GetHeight()/2);
-
+			CBaseEnemy* pEnemy = (CBaseEnemy*)pCR->GetOwnerPointer();
+			ptStartingPos = (*pEnemy).GetBulletStartPos();
+			
 			pFire->SetPosX((float)ptStartingPos.m_nX);
 			pFire->SetPosY((float)ptStartingPos.m_nY);
 			
 			tVector2D vOwnerPos;
-			vOwnerPos.fX = (float)pCR->GetOwnerPointer()->GetPosX();
-			vOwnerPos.fY = (float)pCR->GetOwnerPointer()->GetPosY();
+			vOwnerPos.fX = (float)ptStartingPos.m_nX;
+			vOwnerPos.fY = (float)ptStartingPos.m_nY;
 
 			tVector2D vPlayerPos;
 			vPlayerPos.fX = pCR->GetPlayerPointer()->GetPosX() + (float)pCR->GetPlayerPointer()->GetWidth();
@@ -1013,14 +1066,17 @@ void CGame::MessageProc(CBaseMessage*	pMsg)
 			pIce->SetWidth(49);
 			pIce->SetHeight(27);
 			
-			CPoint ptStartingPos = pCR->GetOwnerPointer()->GetBulletStartPos();
+			CPoint ptStartingPos;
+			
+			CBaseEnemy* pEnemy = (CBaseEnemy*)pCR->GetOwnerPointer();
+			ptStartingPos = (*pEnemy).GetBulletStartPos();
 
 			pIce->SetPosX((float)ptStartingPos.m_nX);
 			pIce->SetPosY((float)ptStartingPos.m_nY);
 			
 			tVector2D vOwnerPos;
-			vOwnerPos.fX = (float)pCR->GetOwnerPointer()->GetPosX();
-			vOwnerPos.fY = (float)pCR->GetOwnerPointer()->GetPosY();
+			vOwnerPos.fX = (float)ptStartingPos.m_nX;
+			vOwnerPos.fY = (float)ptStartingPos.m_nY;
 
 			tVector2D vPlayerPos;
 			vPlayerPos.fX = pCR->GetPlayerPointer()->GetPosX() + (float)pCR->GetPlayerPointer()->GetWidth();

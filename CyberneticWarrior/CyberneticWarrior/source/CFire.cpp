@@ -29,6 +29,15 @@ bool CFire::CheckCollision(CBase *pBase)
 	{				
 		// Destroy the bullet
 		//CGame::GetInstance()->GetMessageSystemPointer()->SendMsg( new CDestroyFireMessage( this, CSinglePlayerState::GetInstance()->GetPlayerPointer()) );
+		if(this->GetOwner()->GetType() == OBJ_ENEMY)
+		{
+			if(pBase->GetType() != OBJ_ENEMY)
+				CGame::GetInstance()->GetMessageSystemPointer()->SendMsg( new CDestroyFireMessage( this, this->GetOwner()) );
+		}
+		else
+		{
+			CGame::GetInstance()->GetMessageSystemPointer()->SendMsg( new CDestroyFireMessage( this, this->GetOwner()) );
+		}
 		return true;
 	}
 	else

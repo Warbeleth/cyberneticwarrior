@@ -18,7 +18,7 @@ CGrapplingHook::CGrapplingHook(void)
 
 CGrapplingHook::~CGrapplingHook(void) 
 {
-	CSGD_TextureManager::GetInstance()->UnloadTexture(this->GetImageID());
+	//CSGD_TextureManager::GetInstance()->UnloadTexture(this->GetImageID());
 	CSinglePlayerState::GetInstance()->GetPlayerPointer()->SetHookPointer(NULL);
 	CSinglePlayerState::GetInstance()->GetPlayerPointer()->SetHookShot(false);
 }

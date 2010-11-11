@@ -89,7 +89,15 @@ bool CRocket::CheckCollision( CBase* pBase )
 	if(CBaseProjectile::CheckCollision( pBase ))
 	{				
 		// Destroy the rocket
-		CGame::GetInstance()->GetMessageSystemPointer()->SendMsg( new CDestroyRocketMessage( this, this->GetOwner()) );
+		if(this->GetOwner()->GetType() == OBJ_ENEMY)
+		{
+			if(pBase->GetType() != OBJ_ENEMY)
+				CGame::GetInstance()->GetMessageSystemPointer()->SendMsg( new CDestroyRocketMessage( this, this->GetOwner()) );
+		}
+		else
+		{
+			CGame::GetInstance()->GetMessageSystemPointer()->SendMsg( new CDestroyRocketMessage( this, this->GetOwner()) );
+		}
 		return true;
 	}
 	else

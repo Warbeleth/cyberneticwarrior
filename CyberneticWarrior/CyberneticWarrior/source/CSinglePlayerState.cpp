@@ -169,6 +169,7 @@ void CSinglePlayerState::Enter(void)
 	this->m_nBGMusic = this->m_pWM->LoadWave("resource/sounds/Jak2_Haven_City.wav");
 	this->m_nSelectedWeaponID		= m_pTM->LoadTexture("resource/graphics/EquipmentWeaponIcons.png");
 	this->m_nWeaponID = m_pTM->LoadTexture("resource/graphics/Weapons.png");
+	this->m_nHookID = CSGD_TextureManager::GetInstance()->LoadTexture("resource/graphics/hook.png");
 
 	this->m_TempPlayer = (CPlayer*)m_pOF->CreateObject("CPlayer");
 	this->m_TempPlayer->SetImageID(this->m_pTM->LoadTexture("resource/graphics/Running1.bmp"));

@@ -70,8 +70,10 @@ private:
 
 	int			m_nSelectedWeaponID;
 	int			m_nWeaponID;
+	int			m_nHookID;
 	int			m_nCurrentLevel;
 	int			m_nPreviousLevel;
+	
 
 	CObjectFactory<string, CBase>*			m_pOF;
 	CObjectManager*							m_pOM;
@@ -99,6 +101,7 @@ public:
 	tProfile*	GetProfileValues(void);
 
 	inline int GetWeaponID( void ) { return this->m_nWeaponID; }
+	inline int GetHookID(void) {return this->m_nHookID;}
 	
 	
 	

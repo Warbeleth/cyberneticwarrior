@@ -18,6 +18,7 @@ CHeavyAttackDrone::CHeavyAttackDrone(int nImageID, float PosX, float PosY,int Wi
 {
 	SetAnimations(CMapLoad::GetInstance()->CreateAnimation(Drone_Heavy));
 	GetAnimations()->SetCurrentAnimation(1);
+	this->SetShotDelay(0.0f);
 }
 CHeavyAttackDrone::~CHeavyAttackDrone()
 {
@@ -35,6 +36,11 @@ void CHeavyAttackDrone::Update(float fElapsedTime)
 		break;
 	case pActive:
 		GetAnimations()->SetCurrentAnimation(0);
+		if(this->GetShotDelay() > this->GetRateOfFire())
+		{
+			this->SetShotDelay(0.0f);	
+			CGame::GetInstance()->GetMessageSystemPointer()->SendMsg(new CCreatePlasmaMessage(this));
+		}
 		break;
 	case pDead:
 		CGame::GetInstance()->GetMessageSystemPointer()->SendMsg(new CDestroyEnemyMessage((CBaseEnemy*)this));

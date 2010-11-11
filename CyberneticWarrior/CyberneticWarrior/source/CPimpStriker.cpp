@@ -16,6 +16,7 @@ CPimpStriker::CPimpStriker(int nImageID, float PosX, float PosY,int Width, int H
 {
 	SetAnimations(CMapLoad::GetInstance()->CreateAnimation(Boss_Pimp));
 	GetAnimations()->SetCurrentAnimation(1);
+	this->SetShotDelay(0.0f);
 }
 CPimpStriker::~CPimpStriker()
 {
@@ -25,6 +26,7 @@ CPimpStriker::~CPimpStriker()
 void CPimpStriker::Update(float fElapsedTime)
 {
 	CIdleEnemy::Update(fElapsedTime);
+	SetShotDelay(this->GetShotDelay() + fElapsedTime);
 
 	switch(ReturnAIState())
 	{
@@ -33,6 +35,11 @@ void CPimpStriker::Update(float fElapsedTime)
 		break;
 	case iActive:
 		GetAnimations()->SetCurrentAnimation(0);
+		if(this->GetShotDelay() > this->GetRateOfFire())
+		{
+			this->SetShotDelay(0.0f);	
+			CGame::GetInstance()->GetMessageSystemPointer()->SendMsg(new CCreatePlasmaMessage(this));
+		}
 		break;
 	case iDead:
 		CGame::GetInstance()->GetMessageSystemPointer()->SendMsg(new CDestroyEnemyMessage((CBaseEnemy*)this));
