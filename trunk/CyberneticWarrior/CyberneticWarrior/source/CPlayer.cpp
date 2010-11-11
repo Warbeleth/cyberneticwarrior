@@ -24,6 +24,8 @@ CPlayer::CPlayer(void)
 	// Offsets
 	m_ptArmOffsets[HG].m_nX = -20;
 	m_ptArmOffsets[HG].m_nY = -80;
+	// Radius
+	m_nStartPosRadius[HG] = -80;
 
 	this->m_rWeapons[this->RL].top		 = 264;
 	this->m_rWeapons[this->RL].left		 = 138;
@@ -35,6 +37,8 @@ CPlayer::CPlayer(void)
 	// Offsets
 	m_ptArmOffsets[RL].m_nX = -30;
 	m_ptArmOffsets[RL].m_nY = -80;
+	// Radius
+	m_nStartPosRadius[RL] = -80;
 
 	this->m_rWeapons[this->FT].top		 = 11;
 	this->m_rWeapons[this->FT].left		 = 132;
@@ -46,6 +50,8 @@ CPlayer::CPlayer(void)
 	// Offsets
 	m_ptArmOffsets[FT].m_nX = -18;
 	m_ptArmOffsets[FT].m_nY = -110;
+	// Radius
+	m_nStartPosRadius[FT] = -200;
 
 	this->m_rWeapons[this->PR].top		 = 12;
 	this->m_rWeapons[this->PR].left		 = 244;
@@ -57,6 +63,8 @@ CPlayer::CPlayer(void)
 	// Offsets
 	m_ptArmOffsets[PR].m_nX = -18;
 	m_ptArmOffsets[PR].m_nY = -115;
+	// Radius
+	m_nStartPosRadius[PR] = -115;
 
 	this->m_rWeapons[this->SR].top		 = 249;
 	this->m_rWeapons[this->SR].left		 = 25;
@@ -68,6 +76,8 @@ CPlayer::CPlayer(void)
 	// Offsets
 	m_ptArmOffsets[SR].m_nX = -18;
 	m_ptArmOffsets[SR].m_nY = -115;
+	// Radius
+	m_nStartPosRadius[SR] = -115;
 
 	this->m_rWeapons[this->SG].top		 = 266;
 	this->m_rWeapons[this->SG].left		 = 252;
@@ -79,6 +89,8 @@ CPlayer::CPlayer(void)
 	// Offsets
 	m_ptArmOffsets[SG].m_nX = -30;
 	m_ptArmOffsets[SG].m_nY = - 30;
+	// Radius
+	m_nStartPosRadius[SG] = -30;
 
 	this->m_fInputTime = 0.0f;
 
@@ -1485,7 +1497,7 @@ CPoint CPlayer::GetBulletStartPos( void )
 	RECT _currentFrame = GetAnimations()->GetCollisionFrame((int)GetPosX(), (int)GetPosY());
 
 	vecStartingPoint.fX = 0;
-	vecStartingPoint.fY = m_ptArmOffsets[m_nWeaponIndex].m_nY;
+	vecStartingPoint.fY = m_nStartPosRadius[m_nWeaponIndex];
 
 	vecStartingPoint = Vector2DRotate( vecStartingPoint, m_fHandRotation );
 

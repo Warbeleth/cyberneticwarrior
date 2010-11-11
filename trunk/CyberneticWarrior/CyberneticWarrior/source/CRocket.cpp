@@ -5,8 +5,6 @@
 #include "CSinglePlayerState.h"
 #include "CPlayer.h"
 
-//	RocketStates { ROCKET_DIRECTIONAL, ROCKET_HOMING, ROCKET_MAX };
-
 CRocket::CRocket( void )
 {
 	m_fDeathTimer	= 0.0f;
@@ -34,25 +32,6 @@ void CRocket::Update( float fElapsedTime)
 
 	if( m_fDeathTimer > DEATH_TIME )
 		CGame::GetInstance()->GetMessageSystemPointer()->SendMsg( new CDestroyRocketMessage( this, CSinglePlayerState::GetInstance()->GetPlayerPointer()) );
-
-	
-
-	/*tVector2D vecHandRotation;
-	vecHandRotation.fX = 0;
-	vecHandRotation.fY = -1;
-
-	//vecHandRotation = Vector2DRotate( vecHandRotation,)
-
-	tVector2D vecMouseVector;
-	vecMouseVector.fX = CSGD_DirectInput::GetInstance()->MouseGetPosX() - GetPosX() + CCamera::GetInstance()->GetOffsetX();
-	vecMouseVector.fY = CSGD_DirectInput::GetInstance()->MouseGetPosY() - GetPosY() + CCamera::GetInstance()->GetOffsetY();
-
-
-
-	this->m_fRotation = AngleBetweenVectors( vecHandRotation, vecMouseVector );
-	
-	if( CSGD_DirectInput::GetInstance()->MouseGetPosX() < GetPosX()  - CCamera::GetInstance()->GetOffsetX() )
-		this->m_fRotation = SGD_PI + (SGD_PI - this->m_fRotation);*/
 
 	switch(m_nRocketState)
 	{
@@ -103,17 +82,20 @@ void CRocket::Render( void )
 {
 	static RECT rRender;
 	
-	rRender.top = 370;
-	rRender.left = 532;
-	rRender.bottom = 420;
-	rRender.right = 640;
+	rRender.top = 372;
+	rRender.left = 538;
+	rRender.bottom = 402;
+	rRender.right = 638;
 	CSGD_TextureManager::GetInstance()->Draw( GetImageID(), 
-		(int)(((GetPosX() + (GetWidth()/2.0f) ) - CCamera::GetInstance()->GetOffsetX()) * CCamera::GetInstance()->GetScale()), 
+		(int)(((GetPosX() - (GetWidth()/2.0f) ) - CCamera::GetInstance()->GetOffsetX()) * CCamera::GetInstance()->GetScale()), 
 		(int)(((GetPosY() - (GetHeight()/2.0f)) - CCamera::GetInstance()->GetOffsetY()) * CCamera::GetInstance()->GetScale()), 
 		CCamera::GetInstance()->GetScale(), 
 		CCamera::GetInstance()->GetScale(), 
 		&rRender, (GetWidth()/2.0f), (GetHeight()/2.0f),
 		this->GetRotation() );
+	
+	CSGD_Direct3D::GetInstance()->DrawLine( GetPosX()-4, GetPosY()-4, GetPosX()+4, GetPosY()+4, 255, 0, 0 );
+	CSGD_Direct3D::GetInstance()->DrawLine( GetPosX()-4, GetPosY()+4, GetPosX()+4, GetPosY()-4, 255, 0, 0 );
 }
 
 RECT CRocket::GetRect( void ) const

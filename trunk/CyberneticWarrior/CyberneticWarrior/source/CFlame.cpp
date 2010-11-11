@@ -35,26 +35,21 @@ void CFlame::Update(float fElapsedTime)
 void CFlame::Render(void)
 {
 	RECT rRender;
-	rRender.top = 464;
-	rRender.left = 550;
-	rRender.bottom = 545;
-	rRender.right = 765;
+	rRender.top = 472;
+	rRender.left = 556;
+	rRender.bottom = 540;
+	rRender.right = 762;
 
 	CSGD_TextureManager::GetInstance()->Draw( GetImageID(), 
-	(int)(((GetPosX() + (GetWidth()/2.0f) ) - CCamera::GetInstance()->GetOffsetX()) * CCamera::GetInstance()->GetScale()), 
-	(int)(((GetPosY() - (GetHeight()/2.0f)) - CCamera::GetInstance()->GetOffsetY()) * CCamera::GetInstance()->GetScale()), 
-	CCamera::GetInstance()->GetScale(),
-	CCamera::GetInstance()->GetScale(), 
-	&rRender, (GetWidth()/2.0f), (GetHeight()/2.0f),
-	this->GetRotation() );
+		(int)(((GetPosX() - (GetWidth()/2.0f) ) - CCamera::GetInstance()->GetOffsetX()) * CCamera::GetInstance()->GetScale()), 
+		(int)(((GetPosY() - (GetHeight()/2.0f)) - CCamera::GetInstance()->GetOffsetY()) * CCamera::GetInstance()->GetScale()), 
+		CCamera::GetInstance()->GetScale(), 
+		CCamera::GetInstance()->GetScale(), 
+		&rRender, (GetWidth()/2.0f), (GetHeight()/2.0f),
+		this->GetRotation() );
 
-	/*RECT rLALA;
-	rLALA.top = (LONG)GetPosY()- CCamera::GetInstance()->GetOffsetY();
-	rLALA.left = (LONG)GetPosX()- CCamera::GetInstance()->GetOffsetX();
-	rLALA.bottom = rLALA.top + GetHeight();
-	rLALA.right = rLALA.left + GetWidth();
-	CSGD_Direct3D::GetInstance()->GetSprite()->Flush();
-	CSGD_Direct3D::GetInstance()->DrawRect(rLALA,255,255,255);*/
+	CSGD_Direct3D::GetInstance()->DrawLine( GetPosX()-4, GetPosY()-4, GetPosX()+4, GetPosY()+4, 255, 0, 0 );
+	CSGD_Direct3D::GetInstance()->DrawLine( GetPosX()-4, GetPosY()+4, GetPosX()+4, GetPosY()-4, 255, 0, 0 );
 }
 
 RECT CFlame::GetRect(void) const
