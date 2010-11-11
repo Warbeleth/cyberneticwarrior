@@ -90,10 +90,8 @@ void CFLCLMech::Render()
 bool CFLCLMech::CheckCollision(CBase* pBase)
 {
 	CBase::CheckCollision( pBase );
-
-	bool m_bAttacking = true;
 	
-	if( pBase->GetType() == OBJ_PLAYER && m_bAttacking )
+	if( pBase->GetType() == OBJ_PLAYER && ReturnAIState() == pActive )
 	{
 		if(GetAnimations())
 		{

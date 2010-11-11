@@ -52,8 +52,8 @@ CPlayer::CPlayer(void)
 	m_ptPivots[FT].m_nX = 18;
 	m_ptPivots[FT].m_nY = 173;
 	// Offsets
-	m_ptArmOffsets[FT].m_nX = -18;
-	m_ptArmOffsets[FT].m_nY = -110;
+	m_ptArmOffsets[FT].m_nX = -15;
+	m_ptArmOffsets[FT].m_nY = -120;
 	// Radius
 	m_nStartPosRadius[FT] = -200;
 
@@ -65,8 +65,8 @@ CPlayer::CPlayer(void)
 	m_ptPivots[PR].m_nX = 14;
 	m_ptPivots[PR].m_nY = 180;
 	// Offsets
-	m_ptArmOffsets[PR].m_nX = -18;
-	m_ptArmOffsets[PR].m_nY = -115;
+	m_ptArmOffsets[PR].m_nX = -15;
+	m_ptArmOffsets[PR].m_nY = -125;
 	// Radius
 	m_nStartPosRadius[PR] = -115;
 
@@ -78,8 +78,8 @@ CPlayer::CPlayer(void)
 	m_ptPivots[SR].m_nX = 21;
 	m_ptPivots[SR].m_nY = 184;
 	// Offsets
-	m_ptArmOffsets[SR].m_nX = -18;
-	m_ptArmOffsets[SR].m_nY = -115;
+	m_ptArmOffsets[SR].m_nX = -15;
+	m_ptArmOffsets[SR].m_nY = -125;
 	// Radius
 	m_nStartPosRadius[SR] = -115;
 
@@ -92,7 +92,7 @@ CPlayer::CPlayer(void)
 	m_ptPivots[SG].m_nY = 58;
 	// Offsets
 	m_ptArmOffsets[SG].m_nX = -30;
-	m_ptArmOffsets[SG].m_nY = - 30;
+	m_ptArmOffsets[SG].m_nY = -40;
 	// Radius
 	m_nStartPosRadius[SG] = -30;
 
