@@ -39,17 +39,20 @@ void CPlasma::Update(float fElapsedTime)
 void CPlasma::Render(void)
 {
 	RECT rRender;
-	rRender.top = 48;
-	rRender.left = 660;
-	rRender.right = 720;
-	rRender.bottom = 105;
+	rRender.top = 52;
+	rRender.left = 671;
+	rRender.right = 713;
+	rRender.bottom = 100;
 	CSGD_TextureManager::GetInstance()->Draw( GetImageID(), 
-		(int)(((GetPosX() + (GetWidth()/2.0f) ) - CCamera::GetInstance()->GetOffsetX()) * CCamera::GetInstance()->GetScale()), 
+		(int)(((GetPosX() - (GetWidth()/2.0f) ) - CCamera::GetInstance()->GetOffsetX()) * CCamera::GetInstance()->GetScale()), 
 		(int)(((GetPosY() - (GetHeight()/2.0f)) - CCamera::GetInstance()->GetOffsetY()) * CCamera::GetInstance()->GetScale()), 
 		CCamera::GetInstance()->GetScale(), 
 		CCamera::GetInstance()->GetScale(), 
 		&rRender, (GetWidth()/2.0f), (GetHeight()/2.0f),
 		this->GetRotation() );
+		
+	CSGD_Direct3D::GetInstance()->DrawLine( GetPosX()-4, GetPosY()-4, GetPosX()+4, GetPosY()+4, 255, 0, 0 );
+	CSGD_Direct3D::GetInstance()->DrawLine( GetPosX()-4, GetPosY()+4, GetPosX()+4, GetPosY()-4, 255, 0, 0 );
 }
 
 RECT CPlasma::GetRect(void) const

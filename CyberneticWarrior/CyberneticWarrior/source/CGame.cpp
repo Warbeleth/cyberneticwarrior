@@ -457,12 +457,10 @@ void CGame::MessageProc(CBaseMessage*	pMsg)
 			float fRocketVelocity = 300;
 
 			pBullet = (CBullet*)CObjectFactory<std::string, CBase>::GetInstance()->CreateObject("CBullet");
-			pBullet->SetWidth(16);
-			pBullet->SetHeight(16);
+			pBullet->SetWidth(9);
+			pBullet->SetHeight(6);
 			
 			CPoint ptStartingPos = pCR->GetOwnerPointer()->GetBulletStartPos();
-			ptStartingPos.m_nX-=(pBullet->GetWidth()/2);
-			ptStartingPos.m_nY-=(pBullet->GetHeight()/2);
 
 			pBullet->SetPosX((float)ptStartingPos.m_nX);
 			pBullet->SetPosY((float)ptStartingPos.m_nY);
@@ -538,14 +536,11 @@ void CGame::MessageProc(CBaseMessage*	pMsg)
 			float fRocketVelocity = 300;
 
 			pRocket = (CRocket*)CObjectFactory<std::string, CBase>::GetInstance()->CreateObject("CRocket");
-			pRocket->SetWidth(16);
-			pRocket->SetHeight(16);
-
+			pRocket->SetWidth(100);
+			pRocket->SetHeight(30);
 
 			CPoint ptStartingPos = pCR->GetOwnerPointer()->GetBulletStartPos();
-			ptStartingPos.m_nX-=(pRocket->GetWidth()/2);
-			ptStartingPos.m_nY-=(pRocket->GetHeight()/2);
-
+	
 			pRocket->SetPosX((float)ptStartingPos.m_nX);
 			pRocket->SetPosY((float)ptStartingPos.m_nY);
 			pRocket->SetOwner(pCR->GetOwnerPointer());		
@@ -621,12 +616,10 @@ void CGame::MessageProc(CBaseMessage*	pMsg)
 			float fFlameVelocity = 300;
 
 			pFlame = (CFlame*)CObjectFactory<std::string, CBase>::GetInstance()->CreateObject("CFlame");
-			pFlame->SetWidth(200);
-			pFlame->SetHeight(90);
+			pFlame->SetWidth(206);
+			pFlame->SetHeight(68);
 			
 			CPoint ptStartingPos = pCR->GetOwnerPointer()->GetBulletStartPos();
-			ptStartingPos.m_nX-=(pFlame->GetWidth()/2);
-			ptStartingPos.m_nY-=(pFlame->GetHeight()/2);
 
 			pFlame->SetPosX((float)ptStartingPos.m_nX);
 			pFlame->SetPosY((float)ptStartingPos.m_nY);
@@ -716,12 +709,10 @@ void CGame::MessageProc(CBaseMessage*	pMsg)
 			float fFlameVelocity = 300;
 
 			pPlasma = (CPlasma*)CObjectFactory<std::string, CBase>::GetInstance()->CreateObject("CPlasma");
-			pPlasma->SetWidth(45);
-			pPlasma->SetHeight(45);
+			pPlasma->SetWidth(42);
+			pPlasma->SetHeight(48);
 			
 			CPoint ptStartingPos = pCR->GetOwnerPointer()->GetBulletStartPos();
-			ptStartingPos.m_nX-=(pPlasma->GetWidth()/2);
-			ptStartingPos.m_nY-=(pPlasma->GetHeight()/2);
 
 			pPlasma->SetPosX((float)ptStartingPos.m_nX);
 			pPlasma->SetPosY((float)ptStartingPos.m_nY);
@@ -797,13 +788,10 @@ void CGame::MessageProc(CBaseMessage*	pMsg)
 			float fFlameVelocity = 300;
 
 			pGrenade = (CGrenade*)CObjectFactory<std::string, CBase>::GetInstance()->CreateObject("CGrenade");
-			pGrenade->SetWidth(30);
-			pGrenade->SetHeight(30);
+			pGrenade->SetWidth(25);
+			pGrenade->SetHeight(24);
 			
 			CPoint ptStartingPos = pCR->GetOwnerPointer()->GetBulletStartPos();
-			ptStartingPos.m_nX-=(pGrenade->GetWidth()/2);
-			ptStartingPos.m_nY-=(pGrenade->GetHeight()/2);
-
 			pGrenade->SetPosX((float)ptStartingPos.m_nX);
 			pGrenade->SetPosY((float)ptStartingPos.m_nY);
 			pGrenade->SetOwner(pCR->GetOwnerPointer());		
@@ -888,12 +876,10 @@ void CGame::MessageProc(CBaseMessage*	pMsg)
 			float fFlameVelocity = 300;
 
 			pShock = (CShock*)CObjectFactory<std::string, CBase>::GetInstance()->CreateObject("CShock");
-			pShock->SetWidth(40);
-			pShock->SetHeight(90);
+			pShock->SetWidth(45);
+			pShock->SetHeight(112);
 			
 			CPoint ptStartingPos = pCR->GetOwnerPointer()->GetBulletStartPos();
-			ptStartingPos.m_nX-=(pShock->GetWidth()/2);
-			ptStartingPos.m_nY-=(pShock->GetHeight()/2);
 
 			pShock->SetPosX((float)ptStartingPos.m_nX);
 			pShock->SetPosY((float)ptStartingPos.m_nY);
@@ -1022,12 +1008,10 @@ void CGame::MessageProc(CBaseMessage*	pMsg)
 			float fFireVelocity = 400;
 
 			pIce = (CIce*)CObjectFactory<std::string, CBase>::GetInstance()->CreateObject("CIce");
-			pIce->SetWidth(50);
-			pIce->SetHeight(32);
+			pIce->SetWidth(49);
+			pIce->SetHeight(27);
 			
 			CPoint ptStartingPos = pCR->GetOwnerPointer()->GetBulletStartPos();
-			ptStartingPos.m_nX-=(pIce->GetWidth()/2);
-			ptStartingPos.m_nY-=(pIce->GetHeight()/2);
 
 			pIce->SetPosX((float)ptStartingPos.m_nX);
 			pIce->SetPosY((float)ptStartingPos.m_nY);
