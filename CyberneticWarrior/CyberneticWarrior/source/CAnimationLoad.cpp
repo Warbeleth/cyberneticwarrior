@@ -436,7 +436,8 @@ bool CFrame::CheckCollision( CBase* pBase, int nPosX, int nPosY )
 	}
 	else
 	{		
-		RECT rCollision;			
+		RECT rCollision;
+		RECT rBaseRect = pBase->GetRect();
 
 		for( int i = 0; i < m_nTotalCollisionRects; ++i )
 		{
@@ -451,7 +452,8 @@ bool CFrame::CheckCollision( CBase* pBase, int nPosX, int nPosY )
 			rThisRect.top += nPosY;
 			rThisRect.bottom += nPosY;
 
-			if(IntersectRect(&rCollision, &rThisRect, &pBase->GetRect()))
+
+			if(IntersectRect(&rCollision, &rThisRect, &rBaseRect ))
 				return true;
 		}
 	}

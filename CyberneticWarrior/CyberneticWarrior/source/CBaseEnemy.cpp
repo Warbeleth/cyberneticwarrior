@@ -183,7 +183,7 @@ void CBaseEnemy::Render(void)
 
 bool CBaseEnemy::CheckCollision(CBase* pBase)
 {
-	if(pBase->GetType() != OBJ_ENEMY)
+	if(pBase->GetType() != OBJ_ENEMY && pBase->GetType() != OBJ_SPAWNER )
 	{
 		if(GetAnimations())
 		{

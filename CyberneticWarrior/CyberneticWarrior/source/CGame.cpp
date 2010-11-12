@@ -512,8 +512,29 @@ void CGame::MessageProc(CBaseMessage*	pMsg)
 				vShotPos.fY = CSinglePlayerState::GetInstance()->GetPlayerPointer()->GetPosY();
 			}
 
-			
-			pBullet->SetRotation( (float)(CSinglePlayerState::GetInstance()->GetPlayerPointer()->GetHandRotation() - .5*SGD_PI));
+			if(pBullet->GetOwner()->GetType() == OBJ_PLAYER)
+				pBullet->SetRotation( (float)(CSinglePlayerState::GetInstance()->GetPlayerPointer()->GetHandRotation() - .5*SGD_PI));
+			else if(pCR->GetOwnerPointer()->GetType() == OBJ_ENEMY)
+			{
+				tVector2D vecRocketRotation;
+				vecRocketRotation.fX = 0.0f;
+				vecRocketRotation.fY = -1.0f;
+
+				tVector2D vecPosition;
+				vecPosition.fX = CSinglePlayerState::GetInstance()->GetPlayerPointer()->GetPosX() - pBullet->GetPosX();
+				vecPosition.fY = CSinglePlayerState::GetInstance()->GetPlayerPointer()->GetPosY() - pBullet->GetPosY();
+
+				// Find Initial rotation
+				float fAngle = AngleBetweenVectors( vecRocketRotation, vecPosition ) - SGD_PI/2;
+
+				// Calculate final rotation
+				if( CSGD_DirectInput::GetInstance()->MouseGetPosX() < pBullet->GetPosX() - CCamera::GetInstance()->GetOffsetX() )
+					fAngle = SGD_PI - fAngle;
+
+				pBullet->SetRotation(fAngle);
+				pBullet->SetBaseVelX( vecPosition.fX);
+				pBullet->SetBaseVelY( vecPosition.fY);
+			}
 
 			tVector2D vShot;
 
@@ -602,8 +623,29 @@ void CGame::MessageProc(CBaseMessage*	pMsg)
 				vShotPos.fY = CSinglePlayerState::GetInstance()->GetPlayerPointer()->GetPosY();
 			}
 
-			pRocket->SetRotation( (float)(CSinglePlayerState::GetInstance()->GetPlayerPointer()->GetHandRotation() - .5*SGD_PI));
+			if(pRocket->GetOwner()->GetType() == OBJ_PLAYER)
+				pRocket->SetRotation( (float)(CSinglePlayerState::GetInstance()->GetPlayerPointer()->GetHandRotation() - .5*SGD_PI));
+			else if(pCR->GetOwnerPointer()->GetType() == OBJ_ENEMY)
+			{
+				tVector2D vecRocketRotation;
+				vecRocketRotation.fX = 0.0f;
+				vecRocketRotation.fY = -1.0f;
 
+				tVector2D vecPosition;
+				vecPosition.fX = CSinglePlayerState::GetInstance()->GetPlayerPointer()->GetPosX() - pRocket->GetPosX();
+				vecPosition.fY = CSinglePlayerState::GetInstance()->GetPlayerPointer()->GetPosY() - pRocket->GetPosY();
+
+				// Find Initial rotation
+				float fAngle = AngleBetweenVectors( vecRocketRotation, vecPosition ) - SGD_PI/2;
+
+				// Calculate final rotation
+				if( CSGD_DirectInput::GetInstance()->MouseGetPosX() < pRocket->GetPosX() - CCamera::GetInstance()->GetOffsetX() )
+					fAngle = SGD_PI - fAngle;
+
+				pRocket->SetRotation(fAngle);
+				pRocket->SetBaseVelX( vecPosition.fX);
+				pRocket->SetBaseVelY( vecPosition.fY);
+			}
 
 			tVector2D vShot;
 
@@ -701,7 +743,29 @@ void CGame::MessageProc(CBaseMessage*	pMsg)
 			pFlame->SetRotation( SGD_PI + (SGD_PI - AngleBetweenVectors(vFlameRot, vMousePos)));
 */
 			
-			pFlame->SetRotation( (float)(CSinglePlayerState::GetInstance()->GetPlayerPointer()->GetHandRotation() - .5*SGD_PI));
+			if(pFlame->GetOwner()->GetType() == OBJ_PLAYER)
+				pFlame->SetRotation( (float)(CSinglePlayerState::GetInstance()->GetPlayerPointer()->GetHandRotation() - .5*SGD_PI));
+			else if(pCR->GetOwnerPointer()->GetType() == OBJ_ENEMY)
+			{
+				tVector2D vecRocketRotation;
+				vecRocketRotation.fX = 0.0f;
+				vecRocketRotation.fY = -1.0f;
+
+				tVector2D vecPosition;
+				vecPosition.fX = CSinglePlayerState::GetInstance()->GetPlayerPointer()->GetPosX() - pFlame->GetPosX();
+				vecPosition.fY = CSinglePlayerState::GetInstance()->GetPlayerPointer()->GetPosY() - pFlame->GetPosY();
+
+				// Find Initial rotation
+				float fAngle = AngleBetweenVectors( vecRocketRotation, vecPosition ) - SGD_PI/2;
+
+				// Calculate final rotation
+				if( CSGD_DirectInput::GetInstance()->MouseGetPosX() < pFlame->GetPosX() - CCamera::GetInstance()->GetOffsetX() )
+					fAngle = SGD_PI - fAngle;
+
+				pFlame->SetRotation(fAngle);
+				pFlame->SetBaseVelX( vecPosition.fX);
+				pFlame->SetBaseVelY( vecPosition.fY);
+			}
 
 			tVector2D vShot;
 
@@ -769,7 +833,29 @@ void CGame::MessageProc(CBaseMessage*	pMsg)
 				bOwnerPos.fY = (float)ptStartingPos.m_nY;
 			}
 			
-			pPlasma->SetRotation( (float)(CSinglePlayerState::GetInstance()->GetPlayerPointer()->GetHandRotation() - .5*SGD_PI));
+			if(pPlasma->GetOwner()->GetType() == OBJ_PLAYER)
+				pPlasma->SetRotation( (float)(CSinglePlayerState::GetInstance()->GetPlayerPointer()->GetHandRotation() - .5*SGD_PI));
+			else if(pCR->GetOwnerPointer()->GetType() == OBJ_ENEMY)
+			{
+				tVector2D vecRocketRotation;
+				vecRocketRotation.fX = 0.0f;
+				vecRocketRotation.fY = -1.0f;
+
+				tVector2D vecPosition;
+				vecPosition.fX = CSinglePlayerState::GetInstance()->GetPlayerPointer()->GetPosX() - pPlasma->GetPosX();
+				vecPosition.fY = CSinglePlayerState::GetInstance()->GetPlayerPointer()->GetPosY() - pPlasma->GetPosY();
+
+				// Find Initial rotation
+				float fAngle = AngleBetweenVectors( vecRocketRotation, vecPosition ) - SGD_PI/2;
+
+				// Calculate final rotation
+				if( CSGD_DirectInput::GetInstance()->MouseGetPosX() < pPlasma->GetPosX() - CCamera::GetInstance()->GetOffsetX() )
+					fAngle = SGD_PI - fAngle;
+
+				pPlasma->SetRotation(fAngle);
+				pPlasma->SetBaseVelX( vecPosition.fX);
+				pPlasma->SetBaseVelY( vecPosition.fY);
+			}
 
 			tVector2D vShotPos;
 			if(pCR->GetOwnerPointer()->GetType() == OBJ_PLAYER)
@@ -866,8 +952,29 @@ void CGame::MessageProc(CBaseMessage*	pMsg)
 				bOwnerPos.fY = (float)ptStartingPos.m_nY;
 			}
 
-			pGrenade->SetRotation( (float)(CSinglePlayerState::GetInstance()->GetPlayerPointer()->GetHandRotation() - .5*SGD_PI));
+			if( pGrenade->GetOwner()->GetType() == OBJ_PLAYER )
+				pGrenade->SetRotation( (float)(CSinglePlayerState::GetInstance()->GetPlayerPointer()->GetHandRotation() - .5*SGD_PI));
+			else if(pCR->GetOwnerPointer()->GetType() == OBJ_ENEMY)
+			{
+				tVector2D vecRocketRotation;
+				vecRocketRotation.fX = 0.0f;
+				vecRocketRotation.fY = -1.0f;
 
+				tVector2D vecPosition;
+				vecPosition.fX = CSinglePlayerState::GetInstance()->GetPlayerPointer()->GetPosX() - pGrenade->GetPosX();
+				vecPosition.fY = CSinglePlayerState::GetInstance()->GetPlayerPointer()->GetPosY() - pGrenade->GetPosY();
+
+				// Find Initial rotation
+				float fAngle = AngleBetweenVectors( vecRocketRotation, vecPosition ) - SGD_PI/2;
+
+				// Calculate final rotation
+				if( CSGD_DirectInput::GetInstance()->MouseGetPosX() < pGrenade->GetPosX() - CCamera::GetInstance()->GetOffsetX() )
+					fAngle = SGD_PI - fAngle;
+
+				pGrenade->SetRotation(fAngle);
+				pGrenade->SetBaseVelX( vecPosition.fX);
+				pGrenade->SetBaseVelY( vecPosition.fY);
+			}
 
 			tVector2D vShotPos;
 			if(pCR->GetOwnerPointer()->GetType() == OBJ_PLAYER)
@@ -974,8 +1081,29 @@ void CGame::MessageProc(CBaseMessage*	pMsg)
 				vShotPos.fY = CSinglePlayerState::GetInstance()->GetPlayerPointer()->GetPosY();
 			}
 			
-			pShock->SetRotation( (float)(CSinglePlayerState::GetInstance()->GetPlayerPointer()->GetHandRotation() - .5*SGD_PI));
+			if(pCR->GetOwnerPointer()->GetType() == OBJ_PLAYER)
+				pShock->SetRotation( (float)(CSinglePlayerState::GetInstance()->GetPlayerPointer()->GetHandRotation() - .5*SGD_PI));
+			else if(pCR->GetOwnerPointer()->GetType() == OBJ_ENEMY)
+			{
+				tVector2D vecRocketRotation;
+				vecRocketRotation.fX = 0.0f;
+				vecRocketRotation.fY = -1.0f;
 
+				tVector2D vecPosition;
+				vecPosition.fX = CSinglePlayerState::GetInstance()->GetPlayerPointer()->GetPosX() - pShock->GetPosX();
+				vecPosition.fY = CSinglePlayerState::GetInstance()->GetPlayerPointer()->GetPosY() - pShock->GetPosY();
+
+				// Find Initial rotation
+				float fAngle = AngleBetweenVectors( vecRocketRotation, vecPosition ) - SGD_PI/2;
+
+				// Calculate final rotation
+				if( CSGD_DirectInput::GetInstance()->MouseGetPosX() < pShock->GetPosX() - CCamera::GetInstance()->GetOffsetX() )
+					fAngle = SGD_PI - fAngle;
+
+				pShock->SetRotation(fAngle);
+				pShock->SetBaseVelX( vecPosition.fX);
+				pShock->SetBaseVelY( vecPosition.fY);
+			}
 
 
 			tVector2D vShot;
@@ -1029,11 +1157,24 @@ void CGame::MessageProc(CBaseMessage*	pMsg)
 			vPlayerPos.fX = pCR->GetPlayerPointer()->GetPosX() + (float)pCR->GetPlayerPointer()->GetWidth();
 			vPlayerPos.fY = pCR->GetPlayerPointer()->GetPosY();
 
-			pFire->SetRotation( (float)(CSinglePlayerState::GetInstance()->GetPlayerPointer()->GetHandRotation() - .5*SGD_PI));
-
 			tVector2D vShot;
 
 			vShot = vPlayerPos - vOwnerPos;
+
+			tVector2D vecUpVector;
+			vecUpVector.fX = 0.0f;
+			vecUpVector.fY = -1.0f;
+
+			tVector2D vRotate = vShot;
+	
+			// Find Initial rotation
+			float fAngle = AngleBetweenVectors( vecUpVector, vRotate ) - SGD_PI/2;
+
+			// Calculate final rotation
+			if( CSGD_DirectInput::GetInstance()->MouseGetPosX() < pFire->GetPosX() - CCamera::GetInstance()->GetOffsetX() )
+				fAngle = SGD_PI - fAngle;
+
+			pFire->SetRotation( fAngle );
 
 			vShot = Vector2DNormalize(vShot);
 
@@ -1082,20 +1223,29 @@ void CGame::MessageProc(CBaseMessage*	pMsg)
 			vPlayerPos.fX = pCR->GetPlayerPointer()->GetPosX() + (float)pCR->GetPlayerPointer()->GetWidth();
 			vPlayerPos.fY = pCR->GetPlayerPointer()->GetPosY();
 			
-			pIce->SetRotation( (float)(CSinglePlayerState::GetInstance()->GetPlayerPointer()->GetHandRotation() - .5*SGD_PI));
-
 			tVector2D vShot;
-
 			vShot = vPlayerPos - vOwnerPos;
 
+			tVector2D vecUpVector;
+			vecUpVector.fX = 0.0f;
+			vecUpVector.fY = -1.0f;
+
+			tVector2D vRotate = vShot;
+	
+			// Find Initial rotation
+			float fAngle = AngleBetweenVectors( vecUpVector, vRotate ) - SGD_PI/2;
+
+			// Calculate final rotation
+			if( CSGD_DirectInput::GetInstance()->MouseGetPosX() < pIce->GetPosX() - CCamera::GetInstance()->GetOffsetX() )
+				fAngle = SGD_PI - fAngle;
+
+			pIce->SetRotation( fAngle );						
+
 			vShot = Vector2DNormalize(vShot);
-
-
 			pIce->SetBaseVelX(vShot.fX * fFireVelocity);
 			pIce->SetBaseVelY(vShot.fY * fFireVelocity);
 
 			CObjectManager::GetInstance()->AddObject(pIce);
-
 			pIce->Release();
 
 		}
