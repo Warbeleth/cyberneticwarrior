@@ -1267,7 +1267,7 @@ RECT CPlayer::GetRect(void) const
 }
 
 bool CPlayer::CheckCollision(CBase* pBase)
-{	
+{
 	static RECT rPrevRect;
 	static CPoint Offset;
 	
@@ -1280,10 +1280,6 @@ bool CPlayer::CheckCollision(CBase* pBase)
 		Offset.m_nX = rPlayerFrame.right - rPrevRect.right;
 
 		rPrevRect = rPlayerFrame;
-
-
-		//m_bOnPlatform = false;
-		//m_bOnGround = false;
 	}
 
 	if(pBase->GetType() == OBJ_BLOCK)

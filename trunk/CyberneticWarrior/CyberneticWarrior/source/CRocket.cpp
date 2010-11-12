@@ -60,7 +60,7 @@ void CRocket::Update( float fElapsedTime)
 
 			// Calculate final rotation
 			if( CSGD_DirectInput::GetInstance()->MouseGetPosX() < GetPosX() - CCamera::GetInstance()->GetOffsetX() )
-				fAngle = SGD_PI - fAngle ;
+				fAngle = SGD_PI - fAngle;
 
 			SetRotation(fAngle);
 			SetBaseVelX( vecMousePosition.fX);

@@ -275,12 +275,6 @@ bool CSinglePlayerState::Input(void)
 		//CStackStateMachine::GetInstance()->Push_Back(CGameOverState::GetInstance());
 	}
 
-	//if(this->m_pDI->KeyPressed(DIK_SPACE))
-	//	m_TempPlayer->DecrementEnergy(20);
-
-	if(this->m_pDI->MouseButtonPressed(MOUSE_RIGHT))
-		m_TempPlayer->DecrementHealth(20);
-
 	return 1;
 }
 
