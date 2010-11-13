@@ -271,7 +271,7 @@ public:
 	//
 	//			THIS FUNCTION NEEDS A SCROLLING ID
 	//////////////////////////////////////////////////////////////////////////////////////////////////////
-	void DrawScrolling( const char* szText, int nX, int nY, float fScale, DWORD dwColor,
+	bool DrawScrolling( const char* szText, int nX, int nY, float fScale, DWORD dwColor,
 		int nMinDrawHeight, int nMaxDrawHeight, int nMinDrawWidth, int nMaxDrawWidth, 
 		int nScrollingID );
 
@@ -302,7 +302,7 @@ public:
 	//
 	//			THIS FUNCTION NEEDS A DELAY ID AND SCROLLING ID
 	//////////////////////////////////////////////////////////////////////////////////////////////////////
-	void DrawScrollingWithDelay( const char* szText, int nX, int nY, float fScale, DWORD dwColor,
+	bool DrawScrollingWithDelay( const char* szText, int nX, int nY, float fScale, DWORD dwColor,
 		int nMinDrawHeight, int nMaxDrawHeight, int nMinDrawWidth, int nMaxDrawWidth, float fDelayTime,
 		int nScrollingID, int nDelayID);
 };

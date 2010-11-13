@@ -33,6 +33,10 @@ void CDeathPirate::Update(float fElapsedTime)
 		break;
 	case iActive:
 		GetAnimations()->SetCurrentAnimation(1);
+		if(!GetAnimations()->SameFrame() && GetAnimations()->GetTrigger() != 0)
+		{
+			CGame::GetInstance()->GetMessageSystemPointer()->SendMsg(new CCreateBulletMessage(this));
+		}
 		break;
 	case iDead:
 		CGame::GetInstance()->GetMessageSystemPointer()->SendMsg(new CDestroyEnemyMessage((CBaseEnemy*)this));

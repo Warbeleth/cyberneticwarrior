@@ -36,9 +36,8 @@ void CHeavyAttackDrone::Update(float fElapsedTime)
 		break;
 	case pActive:
 		GetAnimations()->SetCurrentAnimation(0);
-		if(this->GetShotDelay() > this->GetRateOfFire())
+		if(!GetAnimations()->SameFrame() && GetAnimations()->GetTrigger() != 0)
 		{
-			this->SetShotDelay(0.0f);	
 			CGame::GetInstance()->GetMessageSystemPointer()->SendMsg(new CCreatePlasmaMessage(this));
 		}
 		break;

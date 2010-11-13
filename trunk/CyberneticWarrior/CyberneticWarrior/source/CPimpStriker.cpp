@@ -26,7 +26,6 @@ CPimpStriker::~CPimpStriker()
 void CPimpStriker::Update(float fElapsedTime)
 {
 	CIdleEnemy::Update(fElapsedTime);
-	SetShotDelay(this->GetShotDelay() + fElapsedTime);
 
 	switch(ReturnAIState())
 	{
@@ -35,9 +34,8 @@ void CPimpStriker::Update(float fElapsedTime)
 		break;
 	case iActive:
 		GetAnimations()->SetCurrentAnimation(0);
-		if(this->GetShotDelay() > this->GetRateOfFire())
-		{
-			this->SetShotDelay(0.0f);	
+		if(!GetAnimations()->SameFrame() && GetAnimations()->GetTrigger() != 0)
+		{	
 			CGame::GetInstance()->GetMessageSystemPointer()->SendMsg(new CCreatePlasmaMessage(this));
 		}
 		break;
