@@ -29,7 +29,6 @@ CAttackDrone::~CAttackDrone()
 void CAttackDrone::Update(float fElapsedTime)
 {
 	CPatrolEnemy::Update(fElapsedTime);
-	SetShotDelay(this->GetShotDelay() + fElapsedTime);
 
 	switch(ReturnAIState())
 	{
@@ -39,9 +38,8 @@ void CAttackDrone::Update(float fElapsedTime)
 	case pActive:
 		{
 			GetAnimations()->SetCurrentAnimation(0);
-			if(GetShotDelay() >= GetRateOfFire())
-			{
-				this->SetShotDelay(0.0f);	
+			if(!GetAnimations()->SameFrame() && GetAnimations()->GetTrigger() != 0 )
+			{	
 				CGame::GetInstance()->GetMessageSystemPointer()->SendMsg(new CCreateBulletMessage(this));
 			}
 		}
@@ -59,14 +57,4 @@ void CAttackDrone::Render()
 	int OffsetX = CCamera::GetInstance()->GetOffsetX();
 	int OffsetY = CCamera::GetInstance()->GetOffsetY();
 
-}
-
-CPoint CAttackDrone::GetBulletStartPos( void )
-{
-	CPoint ptStartPos;
-	RECT rFrame = GetAnimations()->GetCollisionFrame( (int)GetPosX(), (int)GetPosY() );
-	ptStartPos.m_nX = rFrame.left + GetAnimations()->GetPivotPoint().m_nX;
-	ptStartPos.m_nY = rFrame.top + GetAnimations()->GetPivotPoint().m_nY;
-
-	return ptStartPos;
 }

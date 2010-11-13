@@ -38,8 +38,7 @@ void CTurretCore::Update(float fElapsedTime)
 		break;
 	case iActive:
 		GetAnimations()->SetCurrentAnimation(1);
-		
-		if(GetShotDelay() >= GetRateOfFire())
+		if(!GetAnimations()->SameFrame() && GetAnimations()->GetTrigger() != 0)
 		{
 			if(this->GetEnemyType() ==Turret_Gun )
 			{
@@ -57,9 +56,7 @@ void CTurretCore::Update(float fElapsedTime)
 			{
 				CGame::GetInstance()->GetMessageSystemPointer()->SendMsg(new CCreateRocketMessage(this));
 			}
-			this->SetShotDelay(0.0f);
 		}
-
 		break;
 	case iDead:
 		CGame::GetInstance()->GetMessageSystemPointer()->SendMsg(new CDestroyEnemyMessage((CBaseEnemy*)this));

@@ -299,10 +299,13 @@ void CFont::DrawWithDelay( const char* szText,  int nX, int nY, float fScale, DW
 //////////////////////////////////////////////////////////////////////////////////////////////////////
 // Function: “DrawScrolling”
 //////////////////////////////////////////////////////////////////////////////////////////////////////
-void CFont::DrawScrolling( const char* szText, int nX, int nY, float fScale, DWORD dwColor,
+bool CFont::DrawScrolling( const char* szText, int nX, int nY, float fScale, DWORD dwColor,
 						  int nMinDrawHeight, int nMaxDrawHeight, int nMinDrawWidth, int nMaxDrawWidth,
 						  int nScrollingID )
 {
+	// Bool to check if there is a character being displayed
+	bool bCharactersBeingDisplayed = false;
+
 	// The starting position of each line
 	int nOrigX = nX;
 
@@ -340,21 +343,30 @@ void CFont::DrawScrolling( const char* szText, int nX, int nY, float fScale, DWO
 		int nXPosition =  nX + m_vScrolling[nScrollingID].m_nXOffset;
 		int nYPosition =  nY + m_vScrolling[nScrollingID].m_nYOffset;
 		if( nXPosition > nMinDrawWidth && nXPosition < nMaxDrawWidth && nYPosition > nMinDrawHeight && nYPosition < nMaxDrawHeight )		
+		{
 			CSGD_TextureManager::GetInstance()->Draw( m_nImageID, nX + m_vScrolling[nScrollingID].m_nXOffset, nY + m_vScrolling[nScrollingID].m_nYOffset,
 				fScale, fScale, &rLetter, 0, 0, 0, dwColor );
+			bCharactersBeingDisplayed = true;
+		}
 
 		// Increment the x position for the next letter
 		nX += (int)( (m_cLetters[nId].m_nWidth + 3) * fScale );
 	}
+
+	// Return false if there are any characters being rendered
+	return bCharactersBeingDisplayed;
 }
 
 //////////////////////////////////////////////////////////////////////////////////////////////////////
 // Function: “DrawScrollingWithDelay” 
 //////////////////////////////////////////////////////////////////////////////////////////////////////
-void CFont::DrawScrollingWithDelay( const char* szText, int nX, int nY, float fScale, DWORD dwColor,
+bool CFont::DrawScrollingWithDelay( const char* szText, int nX, int nY, float fScale, DWORD dwColor,
 								   int nMinDrawHeight, int nMaxDrawHeight, int nMinDrawWidth, int nMaxDrawWidth, float fDelayTime,
 								   int nScrollingID, int nDelayID )
 {
+	// Bool to check if there is a character being displayed
+	bool bCharactersBeingDisplayed = false;
+
 	// If the timer has reached its delay time, increment the counter
 	if( m_vElapsedTime[nDelayID].m_fTimer >= fDelayTime )
 	{
@@ -404,10 +416,15 @@ void CFont::DrawScrollingWithDelay( const char* szText, int nX, int nY, float fS
 		int nXPosition =  nX + m_vScrolling[nScrollingID].m_nXOffset;
 		int nYPosition =  nY + m_vScrolling[nScrollingID].m_nYOffset;
 		if( nXPosition > nMinDrawWidth && nXPosition < nMaxDrawWidth && nYPosition > nMinDrawHeight && nYPosition < nMaxDrawHeight )
+		{
 			CSGD_TextureManager::GetInstance()->Draw( m_nImageID, nXPosition, nYPosition,
 				fScale, fScale, &rLetter, 0, 0, 0, dwColor );
+			bCharactersBeingDisplayed = true;
+		}
 
 		// Increment the x position for the next letter
 		nX += (int)( (m_cLetters[nId].m_nWidth + 3) * fScale );
 	}
+	// Return true if there are any characters being rendered
+	return bCharactersBeingDisplayed;
 }

@@ -18,14 +18,14 @@ CCreditsState::~CCreditsState( void )
 
 bool CCreditsState::Input( void )
 {
+	if(CSGD_DirectInput::GetInstance()->KeyPressed(DIK_ESCAPE))
+		CStackStateMachine::GetInstance()->Pop_back();
+
 	return true;
 }
 
 void CCreditsState::Update( float fElapsedTime )
 {	
-	if(CSGD_DirectInput::GetInstance()->KeyPressed(DIK_ESCAPE))
-		CStackStateMachine::GetInstance()->Pop_back();
-		
 	m_CreditsFont.Update( fElapsedTime );
 }
 
@@ -34,8 +34,9 @@ void CCreditsState::Render( void )
 	CSGD_TextureManager::GetInstance()->Draw( m_nCreditsBGId, 0, 0 );
 
 	m_CreditsFont.Draw("Credits", 300, 40, 1.5f,-1 );
-	m_CreditsFont.DrawScrolling("ASSOCIATE PRODUCER:\n          Sean Hathaway\n\n\n\nPROGRAMMERS:\n          Patrick Alvarez\n          Anthony Muccio\n          Corey Ringer\n\n\n\nASSISTANCE WITH TOOLS \nPROGRAMMING:\n\nMAP EDITOR:\n          Jamison Fullerton\n          Desiree Bard\n\n\n\nGAME LOGIC:\n          Jason Ditz\n          Bryan Evans\n          Scott Leierer\n          Mario Sanchez\n",
-		250, 600, 0.6f, -1, 99, 540, 240, 560, m_nScrollingId );
+	if(!m_CreditsFont.DrawScrolling("ASSOCIATE PRODUCER:\n          Sean Hathaway\n\n\n\nPROGRAMMERS:\n          Patrick Alvarez\n          Anthony Muccio\n          Corey Ringer\n\n\n\nASSISTANCE WITH TOOLS \nPROGRAMMING:\n\nMAP EDITOR:\n          Jamison Fullerton\n          Desiree Bard\n\n\n\nGAME LOGIC:\n          Jason Ditz\n          Bryan Evans\n          Scott Leierer\n          Mario Sanchez",
+		250, 530, 0.6f, -1, 100, 540, 240, 560, m_nScrollingId ))
+		CStackStateMachine::GetInstance()->Pop_back();
 }
 
 void CCreditsState::Enter( void )

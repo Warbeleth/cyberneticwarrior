@@ -101,6 +101,7 @@ public:
 	CPoint GetPivot( void ) { return m_ptPivotPoint; }
 	RECT GetFrame( void ) { return m_rFrame; }
 	vector<RECT>* GetCollisionRects( void ) { return &m_vCollisionRects; }
+	int GetTrigger( void ) { return m_nTrigger; }
 
 	///////////////////////////////////////////////////////////////////////////////////////////////////////
 	// Function: Modifiers 
@@ -132,6 +133,7 @@ private:
 	vector<CFrame>		m_vFrames;			// The actual frames, their Hit Rects, etc.
 	string				m_szAnimationName;		// The animation name, can be used in future builds to
 												// select an animation
+	int					m_nPrevFrame;
 
 	// Friends with CAnimations as well as CFrame
 	friend class CFrame;
@@ -144,6 +146,7 @@ public:
 	// Purpose: The default constructor for CAnimaiton. Will initialize values.
 	//////////////////////////////////////////////////////////////////////////////////////////////////////
 	CAnimation(  );
+	bool SameFrame( void );
 };
 
 //////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -219,6 +222,7 @@ public:
 	int GetFrameHeight( void ) ;
 	RECT GetFrameOffset( void ) { return (m_vAnimations[m_nCurrentAnimation].m_vFrames[m_vAnimations[m_nCurrentAnimation].m_nCurrentFrame].GetFrame()); }
 	CPoint GetPivotPoint( void ) { return (m_vAnimations[m_nCurrentAnimation].m_vFrames[m_vAnimations[m_nCurrentAnimation].m_nCurrentFrame].GetPivot()); }
-	
+	int GetTrigger( void ) { return (m_vAnimations[m_nCurrentAnimation].m_vFrames[m_vAnimations[m_nCurrentAnimation].m_nCurrentFrame].GetTrigger()); }
+	bool SameFrame( void ) { return (m_vAnimations[m_nCurrentAnimation].SameFrame()); }
 };
 #endif

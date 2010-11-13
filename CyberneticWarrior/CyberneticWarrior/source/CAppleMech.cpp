@@ -26,7 +26,6 @@ CAppleMech::~CAppleMech()
 void CAppleMech::Update(float fElapsedTime)
 {
 	CIdleEnemy::Update(fElapsedTime);
-	SetShotDelay(this->GetShotDelay() + fElapsedTime);
 
 	switch(ReturnAIState())
 	{
@@ -35,9 +34,8 @@ void CAppleMech::Update(float fElapsedTime)
 		break;
 	case iActive:
 		GetAnimations()->SetCurrentAnimation(0);
-		if(this->GetShotDelay() > this->GetRateOfFire())
+		if(!GetAnimations()->SameFrame() > GetAnimations()->GetTrigger() != 0)
 		{
-			this->SetShotDelay(0.0f);	
 			CGame::GetInstance()->GetMessageSystemPointer()->SendMsg(new CCreatePlasmaMessage(this));
 		}
 		break;

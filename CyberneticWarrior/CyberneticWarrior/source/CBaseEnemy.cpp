@@ -222,12 +222,12 @@ void CBaseEnemy::CheckCulling()
 		SetCulling(true);
 }
 
-
 CPoint CBaseEnemy::GetBulletStartPos( void )
 {
-	CPoint ptStartingPos;
-	ptStartingPos.m_nX = (int)this->GetPosX();
-	ptStartingPos.m_nY = (int)this->GetPosY();
+	CPoint ptStartPos;
+	RECT rFrame = GetAnimations()->GetCollisionFrame( (int)GetPosX(), (int)GetPosY() );
+	ptStartPos.m_nX = rFrame.left + GetAnimations()->GetPivotPoint().m_nX;
+	ptStartPos.m_nY = rFrame.top + GetAnimations()->GetPivotPoint().m_nY;
 
-	return ptStartingPos;
+	return ptStartPos;
 }

@@ -49,9 +49,7 @@ public:
 	//
 	//	Purpose : To Render CBaseEnemy Objects to the Screen.
 	////////////////////////////////////////////////////////////////////////////////////
-	void Render(void);
-
-	CPoint GetBulletStartPos( void );	
+	void Render(void);	
 };
 
 
