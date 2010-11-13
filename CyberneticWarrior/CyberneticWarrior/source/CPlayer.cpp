@@ -1292,16 +1292,16 @@ bool CPlayer::CheckCollision(CBase* pBase)
 		float hisRight = hisX + BLOCK->GetWidth();
 		float hisBottom = hisY + BLOCK->GetHeight();
 
-		if(GetAnimations())
-		{
-			RECT rPlayerRect = GetAnimations()->GetCollisionFrame( (int)(GetPosX()), (int)(GetPosY()) );			
+		//if(GetAnimations())
+		//{
+		//	RECT rPlayerRect = GetAnimations()->GetCollisionFrame( (int)(GetPosX()), (int)(GetPosY()) );			
 
-			myX = (float)rPlayerRect.left;
-			myY = (float)rPlayerRect.top;
-			myRight = (float)rPlayerRect.right;
-			myBottom = (float)rPlayerRect.bottom;
-		}
-		else
+		//	myX = (float)rPlayerRect.left;
+		//	myY = (float)rPlayerRect.top;
+		//	myRight = (float)rPlayerRect.right;
+		//	myBottom = (float)rPlayerRect.bottom;
+		//}
+		//else
 		{
 			myX = GetPosX();
 			myY = GetPosY();
@@ -1316,11 +1316,6 @@ bool CPlayer::CheckCollision(CBase* pBase)
 
 		if(BLOCK->GetBlock() == BLOCK_SOLID || BLOCK->GetBlock() == BLOCK_MOVING || BLOCK->GetBlock() == BLOCK_PARTIAL)
 		{
-
-			/*if(myBottom > hisY && myRight > hisX && myRight < hisRight && myX < hisX )
-			{
-				this->SetPosX(this->GetPosX()-1);
-			}*/
 			if(myBottom >= hisY  
 				&& (myBottom) < (hisBottom)
 				&& (myRight) > hisX
@@ -1368,7 +1363,6 @@ bool CPlayer::CheckCollision(CBase* pBase)
 			{
 				SetPosX(hisX - (myRight - myX));
 				m_vSpeed.fX = 0.0;
-				SetPosX(GetPosX() - Offset.m_nX);
 			}
 			else if(myX < hisRight
 				&& RightDifference < 64
