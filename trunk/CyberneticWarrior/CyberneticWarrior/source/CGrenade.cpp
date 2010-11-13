@@ -8,16 +8,19 @@
 
 CGrenade::CGrenade(void)
 {
-	this->SetType(OBJ_GRENADE);
-	this->SetImageID(CSinglePlayerState::GetInstance()->GetWeaponID());
-	this->m_nBounceCount = 0;
-	this->m_fBoomTime = 5.0f;
-	this->m_vVelocity.fY = 500.0f;
-	
-	rRender.top = 161;
-	rRender.left = 970;
-	rRender.right = 995;
-	rRender.bottom = 186;
+	SetType(OBJ_GRENADE);
+	SetImageID(CSinglePlayerState::GetInstance()->GetWeaponID());
+	m_nBounceCount = 0;
+	m_fBounceCooldownTimer = 0.0f;
+	m_bJustBounced = false;
+	m_bStuckToTarget = false;
+	m_pTarget = NULL;
+	SetDamage( 25 );
+
+	m_rRender.top = 161;
+	m_rRender.left = 970;
+	m_rRender.right = 995;
+	m_rRender.bottom = 186;
 }
 
 CGrenade::~CGrenade(void)
@@ -28,91 +31,93 @@ void CGrenade::Update(float fElapsedTime)
 {
 	CBaseProjectile::Update( fElapsedTime );
 
-	static float fAge = 0.0f;
-	fAge += fElapsedTime;
+	if( m_bDead )
+	{		
+		if( m_pTarget )
+		{
+			if(m_pTarget->GetType() == OBJ_PLAYER)
+			{
+				CPlayer*  pPlayer = (CPlayer*)m_pTarget;
+				(*pPlayer).DecrementHealth(GetDamage());
+			}
+			else if(m_pTarget->GetType() == OBJ_ENEMY)
+			{
+				CBaseEnemy*  pEnemy = (CBaseEnemy*)m_pTarget;
+				(*pEnemy).SetCurrentHP( pEnemy->GetCurrentHP()-GetDamage() );
+			}
+		}
 
-
-	if(fAge > this->m_fBoomTime)
-	{
 		CGame::GetInstance()->GetMessageSystemPointer()->SendMsg( new CDestroyGrenadeMessage( this, this->GetOwner()) );
-		fAge = 0.0f;
 	}
 	
-	if(this->m_vVelocity.fY != 0.0f)
+	if(!m_bStuckToTarget)
 	{
-		this->m_vVelocity.fY += 300*fElapsedTime;
-		this->SetBaseVelY(this->m_vVelocity.fY);
-	}
+		SetBaseVelY( GetBaseVelY() + 300*fElapsedTime );
 
-	static tVector2D vScreenDimensions;
-	vScreenDimensions.fX = (float)CGame::GetInstance()->GetScreenWidth();
-	vScreenDimensions.fY = (float)CGame::GetInstance()->GetScreenHeight();
-	if(((this->GetPosX() + this->GetWidth()/2.0f) <= -20 
-		|| ((this->GetPosX() - this->GetWidth()/2.0f) >= (CCamera::GetInstance()->GetOffsetX() + vScreenDimensions.fX + 20))
-		|| (this->GetPosY() + (this->GetHeight()/2.0f)) <= -20)
-		)//|| (this->GetPosY() - (this->GetHeight()/2.0f) >= (vScreenDimensions.fY+20)))
+		if(m_bJustBounced)
+			m_fBounceCooldownTimer += fElapsedTime;
+
+		if(m_fBounceCooldownTimer >= BOUNCE_COOLDOWN)
+		{
+			m_bJustBounced = false;
+			m_fBounceCooldownTimer = 0.0f;
+		}
+		
+	}
+	else
 	{
-		// destroy
-		CGame::GetInstance()->GetMessageSystemPointer()->SendMsg(new CDestroyGrenadeMessage(this, this->GetOwner()));
+			if(m_pTarget->GetType() == OBJ_PLAYER)
+			{
+				CPlayer*  pPlayer = (CPlayer*)m_pTarget;
+				
+				if(pPlayer->GetHealth() <= 0)
+					CGame::GetInstance()->GetMessageSystemPointer()->SendMsg( new CDestroyGrenadeMessage( this, this->GetOwner()) );
+
+				SetBaseVelX( (*pPlayer).GetBaseVelX() );
+				SetBaseVelY( (*pPlayer).GetBaseVelY() );
+			}
+			else if(m_pTarget->GetType() == OBJ_ENEMY)
+			{
+				CBaseEnemy*  pEnemy = (CBaseEnemy*)m_pTarget;
+				
+				if(pEnemy->GetCurrentHP() <= 0)
+					CGame::GetInstance()->GetMessageSystemPointer()->SendMsg( new CDestroyGrenadeMessage( this, this->GetOwner()) );
+
+				SetBaseVelX( (*pEnemy).GetSpeed() );
+				SetBaseVelY( 0 );
+			}
 	}
 }
 
 
 bool CGrenade::CheckCollision(CBase *pBase)
 {
-	RECT rIntersect;
-	if( IntersectRect(&rIntersect, &GetRect(), &pBase->GetRect()) )
+	if( GetType() == pBase->GetType() || pBase->GetType() == GetOwner()->GetType() )
+		return false;
+
+	if(!m_bJustBounced && !m_bStuckToTarget)
 	{
-		if( pBase->GetType() == OBJ_BLOCK )
+		RECT rIntersect;
+		if( IntersectRect(&rIntersect, &GetRect(), &pBase->GetRect()) )
 		{
-			CBlock* BLOCK = (CBlock*)pBase;
-			this->m_nBounceCount++;
-			if(this->GetPosY() < BLOCK->GetPosY())
+			if( pBase->GetType() == OBJ_BLOCK )
 			{
-				this->SetPosY(BLOCK->GetPosY()-this->GetHeight()-0.1f);
-			}
-			if(this->GetPosY() > BLOCK->GetPosY())
-			{
-				this->SetPosY(this->GetPosY()+this->GetHeight()+0.1f);
-			}
+				m_nBounceCount++;
+				m_bJustBounced = true;
 
-			this->m_vVelocity.fY = -this->m_vVelocity.fY;
+				SetBaseVelY( -GetBaseVelY() );
 
-			// Destroy the bullet
-			if(this->m_nBounceCount > 2)
-			{
-				CGame::GetInstance()->GetMessageSystemPointer()->SendMsg( new CDestroyGrenadeMessage( this, this->GetOwner()) );
-				this->m_nBounceCount = 0;
+				// Destroy the bullet
+				if(this->m_nBounceCount > 3)
+					CGame::GetInstance()->GetMessageSystemPointer()->SendMsg( new CDestroyGrenadeMessage( this, this->GetOwner()) );
 			}
-		}
-		if(this->GetOwner()->GetType() == OBJ_PLAYER)
-		{
-			if(pBase->GetType() == OBJ_ENEMY && pBase->GetType() != OBJ_SPAWNER)
+			else if( pBase->GetType() != OBJ_SPAWNER)
 			{
-				CBaseEnemy* pEnemy = (CBaseEnemy*)pBase; 
-				this->SetPosX(pEnemy->GetPosX());
-				this->SetPosY(pEnemy->GetPosY());
-				this->SetBaseVelX(0.0f);
-				this->SetBaseVelY(0.0f);
-				this->m_vVelocity.fY = 0.0f;
+				m_pTarget = pBase;
+				m_bStuckToTarget = true;
 			}
+			return true;
 		}
-		else if(this->GetOwner()->GetType() == OBJ_ENEMY)
-		{
-			if(pBase->GetType() == OBJ_PLAYER 
-				&& pBase->GetType() != OBJ_SPAWNER 
-				&& pBase->GetType() != OBJ_ENEMY)
-			{
-				this->SetPosX(pBase->GetPosX());
-				this->SetPosY(pBase->GetPosY());
-				this->SetBaseVelX(0.0f);
-				this->SetBaseVelY(0.0f);
-				this->m_vVelocity.fY = 0.0f;
-			}
-		}
-
-		return 1;
 	}
-	else
-		return 0;
+	return false;
 }

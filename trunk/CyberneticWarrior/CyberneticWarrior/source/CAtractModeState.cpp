@@ -61,13 +61,13 @@ void CAtractModeState::Enter( void )
 	m_nImageIds[1] = CSGD_TextureManager::GetInstance()->LoadTexture("resource/graphics/AtractMode2.png");
 
 	m_nImageIds[2] = -1; 
-	m_nImageIds[2] = CSGD_TextureManager::GetInstance()->LoadTexture("resource/graphics/Tile.png");
+	m_nImageIds[2] = CSGD_TextureManager::GetInstance()->LoadTexture("resource/graphics/AtractMode3.png");
 
 	m_nImageIds[3] = -1; 
-	m_nImageIds[3] = CSGD_TextureManager::GetInstance()->LoadTexture("resource/graphics/bgGame.png");
+	m_nImageIds[3] = CSGD_TextureManager::GetInstance()->LoadTexture("resource/graphics/AtractMode4.png");
 
 	m_nImageIds[4] = -1; 	
-	m_nImageIds[4] = CSGD_TextureManager::GetInstance()->LoadTexture("resource/graphics/MainMenu2.png");
+	m_nImageIds[4] = CSGD_TextureManager::GetInstance()->LoadTexture("resource/graphics/AtractMode5.png");
 
 	m_nBGMusicId   = -1;
 	m_nBGMusicId   = CSGD_WaveManager::GetInstance()->LoadWave("resource/sounds/Jak2_Haven_City.wav");

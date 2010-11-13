@@ -10,6 +10,9 @@ CBaseProjectile::CBaseProjectile( void )
 	m_nDamage = 0;
 	m_pOwner = NULL;
 	SetAnimations(NULL);
+	m_fAge = 0.0f;
+	m_fDeathTime = 7.0f;
+	m_bDead = false;
 }
 
 CBaseProjectile::~CBaseProjectile( void )
@@ -19,6 +22,11 @@ CBaseProjectile::~CBaseProjectile( void )
 void CBaseProjectile::Update( float fElapsedTime )
 {
 	CBase::Update( fElapsedTime );
+	
+	m_fAge += fElapsedTime;
+
+	if( m_fAge > m_fDeathTime )
+		m_bDead = true;
 }
 
 void CBaseProjectile::Render( void )
@@ -28,7 +36,7 @@ void CBaseProjectile::Render( void )
 		(int)(((GetPosY() - (GetHeight()/2.0f)) - CCamera::GetInstance()->GetOffsetY()) * CCamera::GetInstance()->GetScale()), 
 		CCamera::GetInstance()->GetScale(),
 		CCamera::GetInstance()->GetScale(), 
-		&rRender, (GetWidth()/2.0f), (GetHeight()/2.0f),
+		&m_rRender, (GetWidth()/2.0f), (GetHeight()/2.0f),
 		GetRotation() );
 }
 

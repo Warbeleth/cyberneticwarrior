@@ -9,10 +9,10 @@ CBullet::CBullet(void)
 	this->SetType(OBJ_BULLET);
 	this->SetImageID(CSinglePlayerState::GetInstance()->GetWeaponID());
 	this->SetDamage(100);
-	rRender.top = 239;
-	rRender.left = 976;
-	rRender.right = 985;
-	rRender.bottom = 245;
+	m_rRender.top = 239;
+	m_rRender.left = 976;
+	m_rRender.right = 985;
+	m_rRender.bottom = 245;
 }
 
 CBullet::~CBullet(void)

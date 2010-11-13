@@ -9,10 +9,10 @@ CFlame::CFlame(void)
 	this->SetType(OBJ_FLAME);
 	this->SetImageID(CSinglePlayerState::GetInstance()->GetWeaponID());
 	this->m_fLifeTime = 0.1f;
-	rRender.top = 472;
-	rRender.left = 556;
-	rRender.bottom = 540;
-	rRender.right = 762;
+	m_rRender.top = 472;
+	m_rRender.left = 556;
+	m_rRender.bottom = 540;
+	m_rRender.right = 762;
 }
 
 CFlame::~CFlame(void)
@@ -23,13 +23,9 @@ void CFlame::Update(float fElapsedTime)
 {
 	CBaseProjectile::Update( fElapsedTime );
 
-	static float fAge = 0.0f;
-	fAge += fElapsedTime;
-	if(fAge > this->m_fLifeTime)
-	{
+	if( m_bDead )
 		CGame::GetInstance()->GetMessageSystemPointer()->SendMsg( new CDestroyFlameMessage( this, this->GetOwner()) );
-		fAge = 0.0f;
-	}
+		
 }
 
 bool CFlame::CheckCollision(CBase *pBase)
