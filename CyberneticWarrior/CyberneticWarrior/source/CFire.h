@@ -13,5 +13,6 @@ public:
 
 	void Update(float fElapsedTime);
 	bool CheckCollision(CBase* pBase);
+
 };
 #endif

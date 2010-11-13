@@ -43,3 +43,4 @@ bool CFire::CheckCollision(CBase *pBase)
 	else
 		return false;
 }
+
