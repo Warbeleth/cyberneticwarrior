@@ -197,7 +197,7 @@ void CSinglePlayerState::Enter(void)
 
 
 	this->m_TempPlayer->SetWidth(64);
-	this->m_TempPlayer->SetHeight(143);
+	this->m_TempPlayer->SetHeight(128);
 	this->m_TempPlayer->SetBaseVelX(0);
 	this->m_TempPlayer->SetBaseVelY(0);
 	this->m_TempPlayer->SetSpeedX(0.0f);
@@ -271,9 +271,9 @@ bool CSinglePlayerState::Input(void)
 	
 	if(m_TempPlayer->GetHealth() == 0)
 	{
-		//this->GetPlayerPointer()->SetShutDown(true);
-		//CStackStateMachine::GetInstance()->UpdateState(0.0f);
-		//CStackStateMachine::GetInstance()->Push_Back(CGameOverState::GetInstance());
+		this->GetPlayerPointer()->SetShutDown(true);
+		CStackStateMachine::GetInstance()->UpdateState(0.0f);
+		CStackStateMachine::GetInstance()->Push_Back(CGameOverState::GetInstance());
 	}
 
 	return 1;
