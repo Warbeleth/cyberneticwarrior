@@ -11,7 +11,7 @@ CBaseProjectile::CBaseProjectile( void )
 	m_pOwner = NULL;
 	SetAnimations(NULL);
 	m_fAge = 0.0f;
-	m_fDeathTime = 7.0f;
+	m_fLifeTime = 7.0f;
 	m_bDead = false;
 }
 
@@ -25,7 +25,7 @@ void CBaseProjectile::Update( float fElapsedTime )
 	
 	m_fAge += fElapsedTime;
 
-	if( m_fAge > m_fDeathTime )
+	if( m_fAge > m_fLifeTime )
 		m_bDead = true;
 }
 
@@ -53,7 +53,7 @@ RECT CBaseProjectile::GetRect( void )
 
 bool CBaseProjectile::CheckCollision(CBase *pBase)
 {
-	if( GetType() == pBase->GetType() || GetOwner()->GetType() == pBase->GetType() )
+	if( (this->GetType() != OBJ_ROCKET && GetType() == pBase->GetType()) || GetOwner()->GetType() == pBase->GetType() )
 		return false;
 
 	/*if( pBase->GetType() == OBJ_ENEMY)

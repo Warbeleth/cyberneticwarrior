@@ -6,7 +6,6 @@
 class CFlame : public CBaseProjectile
 {
 private:
-	float	m_fLifeTime;
 public:
 	CFlame(void);
 	~CFlame(void);

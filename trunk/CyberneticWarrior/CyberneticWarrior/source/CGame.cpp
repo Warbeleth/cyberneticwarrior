@@ -467,8 +467,8 @@ void CGame::MessageProc(CBaseMessage*	pMsg)
 
 			// Set firing position vector 
 			tVector2D bOwnerPos;
-			bOwnerPos.fX = (float)ptStartingPos.m_nX;
-			bOwnerPos.fY = (float)ptStartingPos.m_nY;
+			bOwnerPos.fX = pCR->GetOwnerPointer()->GetPosX(); 
+			bOwnerPos.fY = pCR->GetOwnerPointer()->GetPosY();
 
 			// Set the target position vector
 			tVector2D vShotPos;
@@ -552,8 +552,8 @@ void CGame::MessageProc(CBaseMessage*	pMsg)
 
 			// Set the starting position vector
 			tVector2D bOwnerPos;
-			bOwnerPos.fX = (float)ptStartingPos.m_nX;
-			bOwnerPos.fY = (float)ptStartingPos.m_nY;
+			bOwnerPos.fX = pCR->GetOwnerPointer()->GetPosX(); 
+			bOwnerPos.fY = pCR->GetOwnerPointer()->GetPosY();
 
 			// Set the target position vector
 			tVector2D vShotPos;
@@ -637,8 +637,8 @@ void CGame::MessageProc(CBaseMessage*	pMsg)
 			
 			// Get the firing position vector
 			tVector2D bOwnerPos;
-			bOwnerPos.fX = (float)ptStartingPos.m_nX;
-			bOwnerPos.fY = (float)ptStartingPos.m_nY;
+			bOwnerPos.fX = pCR->GetOwnerPointer()->GetPosX(); 
+			bOwnerPos.fY = pCR->GetOwnerPointer()->GetPosY();
 
 			// Get target position vector
 			tVector2D vShotPos;
@@ -721,8 +721,8 @@ void CGame::MessageProc(CBaseMessage*	pMsg)
 
 			// Set the firing position vector			
 			tVector2D bOwnerPos;
-			bOwnerPos.fX = (float)ptStartingPos.m_nX;
-			bOwnerPos.fY = (float)ptStartingPos.m_nY;
+			bOwnerPos.fX = pCR->GetOwnerPointer()->GetPosX(); 
+			bOwnerPos.fY = pCR->GetOwnerPointer()->GetPosY();
 			
 			// Set target vector
 			tVector2D vShotPos;
@@ -815,16 +815,9 @@ void CGame::MessageProc(CBaseMessage*	pMsg)
 			
 
 			tVector2D bOwnerPos;
-			if(pCR->GetOwnerPointer()->GetType() == OBJ_PLAYER)
-			{
-				bOwnerPos.fX = pCR->GetOwnerPointer()->GetPosX() + (float)pCR->GetOwnerPointer()->GetWidth();
-				bOwnerPos.fY = pCR->GetOwnerPointer()->GetPosY();
-			}
-			else if(pCR->GetOwnerPointer()->GetType() == OBJ_ENEMY)
-			{
-				bOwnerPos.fX = (float)ptStartingPos.m_nX;
-				bOwnerPos.fY = (float)ptStartingPos.m_nY;
-			}
+			bOwnerPos.fX = pCR->GetOwnerPointer()->GetPosX(); 
+			bOwnerPos.fY = pCR->GetOwnerPointer()->GetPosY();
+
 
 			if( pGrenade->GetOwner()->GetType() == OBJ_PLAYER )
 				pGrenade->SetRotation( (float)(CSinglePlayerState::GetInstance()->GetPlayerPointer()->GetHandRotation() - .5*SGD_PI));
@@ -910,8 +903,8 @@ void CGame::MessageProc(CBaseMessage*	pMsg)
 
 			// Set firing position vector
 			tVector2D bOwnerPos;
-			bOwnerPos.fX = (float)ptStartingPos.m_nX;
-			bOwnerPos.fY = (float)ptStartingPos.m_nY;
+			bOwnerPos.fX = pCR->GetOwnerPointer()->GetPosX(); 
+			bOwnerPos.fY = pCR->GetOwnerPointer()->GetPosY();
 
 			// Set the target position vector
 			tVector2D vShotPos;
