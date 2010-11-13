@@ -18,7 +18,11 @@ CHowToPlayState::CHowToPlayState(void)
 	m_fAtractModeTimer = 0.0f;
 	m_bInput = false;
 
+	m_bVisual = false;
+	m_nScrollingID = -1;
+
 	this->m_nBackgroundID		= -1;
+	m_nVisualID = -1;
 }
 
 CHowToPlayState::~CHowToPlayState(void)
@@ -42,6 +46,16 @@ bool	CHowToPlayState::Input(void)
 		m_bInput = true;
 	}
 
+	if(m_pDI->GetInstance()->KeyDown(DIK_UP))
+		m_OptionsFont.ChangeScrolling(0, -100, m_nScrollingID);
+	else if(m_pDI->GetInstance()->KeyDown(DIK_DOWN))
+		m_OptionsFont.ChangeScrolling(0, 100, m_nScrollingID);
+	else
+		m_OptionsFont.ChangeScrolling(0, 0, m_nScrollingID);
+
+	if(m_pDI->GetInstance()->KeyPressed(DIK_SPACE))
+		m_bVisual = !m_bVisual;
+
 	return 1;
 }
 void	CHowToPlayState::Enter(void)
@@ -53,103 +67,27 @@ void	CHowToPlayState::Enter(void)
 	this->m_pDS		=		CSGD_DirectSound::GetInstance();
 
 	this->m_OptionsFont.InitFont("resource/fonts/example.png", "resource/fonts/Example.fnt");
+	m_nScrollingID = m_OptionsFont.AddScrolling( 0, 0 );
 
 	this->m_nBackgroundID		= this->m_pTM->LoadTexture("resource/graphics/ControlsBG.png");
+	m_nVisualID = m_pTM->LoadTexture("resource/graphics/HowToPlayVisual.png");
 }
 void	CHowToPlayState::Update(float fElapsedTime)
 {
-	if(m_pDI->KeyPressed(DIK_UP))
-	{
-		m_nSelection--;
-		if(m_nSelection < 0)
-			m_nSelection = 10;
-	}
-	else if(m_pDI->KeyPressed(DIK_DOWN))
-	{
-		m_nSelection++;
-		if(m_nSelection > 10)
-			m_nSelection = 0;
-	}/*
-	else if((m_pDI->CheckKeys() && !m_pDI->KeyPressed(DIK_RETURN) && !m_pDI->KeyPressed(DIK_ESCAPE)) || m_pDI->MouseButtonPressed(MOUSE_LEFT) || m_pDI->MouseButtonPressed(MOUSE_RIGHT))
-	{
-		if(m_nSelection != AIM_WEAPON && m_nSelection != SECONDARY_FIRE && m_nSelection != FIRE_WEAPON )
-		{
-			CGame::GetInstance()->SetPlayerOneControls(m_nSelection, m_pDI->GetBufferedDIKCodeEx());
-		}
-		else if( m_nSelection == FIRE_WEAPON )
-		{
-			if(m_pDI->MouseButtonDown(MOUSE_LEFT))
-				CGame::GetInstance()->SetPlayerOneControls(m_nSelection, MOUSE_LEFT);
-			else if(m_pDI->MouseButtonDown(MOUSE_RIGHT))
-				CGame::GetInstance()->SetPlayerOneControls(m_nSelection, MOUSE_RIGHT);
-
-		}
-		else if( m_nSelection == SECONDARY_FIRE )
-		{	
-			if(m_pDI->MouseButtonDown(MOUSE_LEFT))
-				CGame::GetInstance()->SetPlayerOneControls(m_nSelection, MOUSE_LEFT);
-			else if(m_pDI->MouseButtonDown(MOUSE_RIGHT))
-				CGame::GetInstance()->SetPlayerOneControls(m_nSelection, MOUSE_RIGHT);
-		}
-
-		m_nSelection = -1;
-	}*/
-
+	m_OptionsFont.Update( fElapsedTime );
 	AtractMode( fElapsedTime );
 }
 void	CHowToPlayState::Render(void)
 {
-	this->m_pTM->Draw(this->m_nBackgroundID, 0, 0);
+	m_pTM->Draw(m_nBackgroundID, 0, 0);
 	
-	this->m_OptionsFont.Draw("-HOW TO PLAY-"	, 50, 25, 1.0f, D3DXCOLOR(1.0f, 0.0f, 1.0f, 1.0f));
-	this->m_OptionsFont.Draw("-KEYBOARD-"		, 50, 100, 1.0f, D3DXCOLOR(0.0f, 1.0f, 1.0f, 1.0f));
-	
-	m_OptionsFont.Draw("Player One - JUMP", 50, (JUMP * MENU_SPACE) + MMENU_START, 
-		(m_nSelection == JUMP ? .75f : .5f) ,
-		(m_nSelection == JUMP ? D3DXCOLOR(0.0f, 1.0f, 0.0f, 1.0f) : D3DXCOLOR(1.0f, 1.0f, 0.0f, 1.0f)));
+	m_OptionsFont.Draw("HOW TO PLAY" , 280, 45, 1.0f, D3DXCOLOR(1.0f, 1.0f, 1.0f, 1.0f));
+	m_OptionsFont.DrawScrolling("KEYBOARD:\n     Jump - Space\n     Move Left - A\n     Move Right - D\n     Primary Weapon - Left Mouse Button\n     Secondary Weapon - Right Mouse Button\n     Swap Weapons - Tab\n     Head Slot(toggle) - Left Shift\n     Boot Slots:\n          No Boots - 1\n          Hover Boots - 2\n          Rocket Boots - 3\n     Climb Grapple Rope - W\n     Repel Grapple Rope - D\n\n\nGAMEPAD:\n     Movement - D-Pad / Left Joystick\n     Jumping - 2\n     Primary Weapon - 5\n     Secondary Weapon - 8",
+		140, 100, .7f, D3DXCOLOR(0.7f, 0.7f, 1.0f, 1.0f), 99, 530, 139, 700, m_nScrollingID );
+	m_OptionsFont.Draw("(Space) Visual Controls Map     (Up Arrow) Scroll Up / (Down Arrow) Scroll Down" , 50, 580, .5f, D3DXCOLOR(1.0f, 1.0f, 1.0f, 1.0f));
 
-	m_OptionsFont.Draw("Player One - LEFT", 50, (LEFT * MENU_SPACE) + MMENU_START, 
-		(m_nSelection == LEFT ? .75f : .5f), 
-		(m_nSelection == LEFT ? D3DXCOLOR(0.0f, 1.0f, 0.0f, 1.0f) : D3DXCOLOR(1.0f, 1.0f, 0.0f, 1.0f)));
-	
-	m_OptionsFont.Draw("Player One - RIGHT", 50, (RIGHT * MENU_SPACE) + MMENU_START, 
-		(m_nSelection == RIGHT ? .75f : .5f),
-		(m_nSelection == RIGHT ? D3DXCOLOR(0.0f, 1.0f, 0.0f, 1.0f) : D3DXCOLOR(1.0f, 1.0f, 0.0f, 1.0f)));
-	
-	m_OptionsFont.Draw("Player One - FIRE WEAPON", 50, (FIRE_WEAPON * MENU_SPACE) + MMENU_START,
-		(m_nSelection == FIRE_WEAPON ? .75f : .5f),
-		(m_nSelection == FIRE_WEAPON ? D3DXCOLOR(0.0f, 1.0f, 0.0f, 1.0f) : D3DXCOLOR(1.0f, 1.0f, 0.0f, 1.0f)));
-	
-	m_OptionsFont.Draw("Player One - SECONDARY FIRE", 50, (SECONDARY_FIRE * MENU_SPACE) + MMENU_START, 
-		(m_nSelection == SECONDARY_FIRE ? .75f : .5f), 
-		(m_nSelection == SECONDARY_FIRE ? D3DXCOLOR(0.0f, 1.0f, 0.0f, 1.0f) : D3DXCOLOR(1.0f, 1.0f, 0.0f, 1.0f)));
-	
-	m_OptionsFont.Draw("Player One - SWAP WEAPON", 50, ((SWAP_WEAPON-1) * MENU_SPACE) + MMENU_START, 
-		(m_nSelection == SWAP_WEAPON ? .75f : .5f),
-		(m_nSelection == SWAP_WEAPON ? D3DXCOLOR(0.0f, 1.0f, 0.0f, 1.0f) : D3DXCOLOR(1.0f, 1.0f, 0.0f, 1.0f)));
-	
-	m_OptionsFont.Draw("Player One - HEAD SLOT", 50, ((HEAD_SLOT-1) * MENU_SPACE) + MMENU_START, 
-		(m_nSelection == HEAD_SLOT ? .75f : .5f),
-		(m_nSelection == HEAD_SLOT ? D3DXCOLOR(0.0f, 1.0f, 0.0f, 1.0f) : D3DXCOLOR(1.0f, 1.0f, 0.0f, 1.0f)));
-	
-	m_OptionsFont.Draw("Player One - BOOT SLOT", 50, ((BOOT_SLOT-1) * MENU_SPACE) + MMENU_START, 
-		(m_nSelection == BOOT_SLOT ? .75f : .5f),
-		(m_nSelection == BOOT_SLOT ? D3DXCOLOR(0.0f, 1.0f, 0.0f, 1.0f) : D3DXCOLOR(1.0f, 1.0f, 0.0f, 1.0f)));
-	
-	m_OptionsFont.Draw("Player One - CLIMB ROPE", 50, ((CLIMB-1) * MENU_SPACE) + MMENU_START, 
-		(m_nSelection == CLIMB ? .75f : .5f),
-		(m_nSelection == CLIMB ? D3DXCOLOR(0.0f, 1.0f, 0.0f, 1.0f) : D3DXCOLOR(1.0f, 1.0f, 0.0f, 1.0f)));
-	
-	m_OptionsFont.Draw("Player One - REPEL ROPE", 50, ((REPEL-1) * MENU_SPACE) + MMENU_START, 
-		(m_nSelection == REPEL ? .75f : .5f),
-		(m_nSelection == REPEL ? D3DXCOLOR(0.0f, 1.0f, 0.0f, 1.0f) : D3DXCOLOR(1.0f, 1.0f, 0.0f, 1.0f)));
-	
-	this->m_OptionsFont.Draw("-Game Pad-"		, 50, 11*MENU_SPACE + MMENU_START, 1.0f, D3DXCOLOR(0.0f, 1.0f, 1.0f, 1.0f));
-	this->m_OptionsFont.Draw("D-Pad/Left JoyStick - Movement", 50, 121*MENU_SPACE + MMENU_START, 1.0f, D3DXCOLOR(0.0f, 0.0f, 1.0f, 1.0f));
-	this->m_OptionsFont.Draw("(2) - Jump"		, 50, 13*MENU_SPACE + MMENU_START, 1.0f, D3DXCOLOR(0.0f, 0.0f, 1.0f, 1.0f));
-	this->m_OptionsFont.Draw("[ 5 ] - Primary Shot", 50, 14*MENU_SPACE + MMENU_START, 1.0f, D3DXCOLOR(0.0f, 0.0f, 1.0f, 1.0f));
-	this->m_OptionsFont.Draw("[ 8 ] - Secondary Shot", 50, 15*MENU_SPACE + MMENU_START, 1.0f, D3DXCOLOR(0.0f, 0.0f, 1.0f, 1.0f));
-
+	if(m_bVisual)
+		m_pTM->Draw(m_nVisualID, 0, 0);
 }
 void	CHowToPlayState::Exit(void)
 {
