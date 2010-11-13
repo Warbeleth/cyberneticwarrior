@@ -7,14 +7,13 @@
 
 CRocket::CRocket( void )
 {
-	m_fDeathTimer	= 0.0f;
 	m_nRocketState	= ROCKET_DIRECTIONAL;
 	SetType( OBJ_ROCKET );
 	SetImageID(CSinglePlayerState::GetInstance()->GetWeaponID());
-	rRender.top = 372;
-	rRender.left = 538;
-	rRender.bottom = 402;
-	rRender.right = 638;
+	m_rRender.top = 372;
+	m_rRender.left = 538;
+	m_rRender.bottom = 402;
+	m_rRender.right = 638;
 }
 
 CRocket::~CRocket( void )
@@ -32,9 +31,7 @@ void CRocket::Update( float fElapsedTime)
 	else
 		m_nRocketState = ROCKET_DIRECTIONAL;
 
-	m_fDeathTimer += fElapsedTime;
-
-	if( m_fDeathTimer > DEATH_TIME )
+	if( m_bDead )
 		CGame::GetInstance()->GetMessageSystemPointer()->SendMsg( new CDestroyRocketMessage( this, CSinglePlayerState::GetInstance()->GetPlayerPointer()) );
 
 	switch(m_nRocketState)
@@ -68,19 +65,6 @@ void CRocket::Update( float fElapsedTime)
 
 			break;
 		}
-	}
-
-
-	static tVector2D vScreenDimensions;
-	vScreenDimensions.fX = (float)CGame::GetInstance()->GetScreenWidth();
-	vScreenDimensions.fY = (float)CGame::GetInstance()->GetScreenHeight();
-	if(((this->GetPosX() + this->GetWidth()/2.0f) <= -20 
-		|| ((this->GetPosX() - this->GetWidth()/2.0f) >= (CCamera::GetInstance()->GetOffsetX() + vScreenDimensions.fX + 20))
-		|| (this->GetPosY() + (this->GetHeight()/2.0f)) <= -20)
-		)//|| (this->GetPosY() - (this->GetHeight()/2.0f) >= (vScreenDimensions.fY+20)))
-	{
-		// destroy
-		CGame::GetInstance()->GetMessageSystemPointer()->SendMsg(new CDestroyRocketMessage(this, this->GetOwner()));
 	}
 }
 

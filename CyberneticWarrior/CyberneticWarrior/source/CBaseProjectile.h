@@ -3,14 +3,16 @@
 
 #include "CBase.h"
 //OBJ_GRENADE, OBJ_SHOCK, OBJ_ROCKET, OBJ_FLAME, OBJ_FIRE, OBJ_ICE, OBJ_BULLET, OBJ_PLASMA
+
 class CBaseProjectile : public CBase
 {
 	CBase*  m_pOwner;
-	//float	m_fDirection;
+	float m_fAge;
 	int	m_nDamage;
-
+	float m_fDeathTime;
 protected:
-	RECT	rRender;
+	RECT	m_rRender;
+	bool	m_bDead;
 
 public:
 	CBaseProjectile( void );
@@ -22,6 +24,7 @@ public:
 	virtual inline CBase* GetOwner(void) {return this->m_pOwner;}
 	virtual	void SetOwner(CBase* pOwner) {this->m_pOwner = pOwner;}
 	inline void SetDamage( int nDamage ) { m_nDamage = nDamage; }
+	inline int GetDamage( void ) { return m_nDamage; }
 };
 
 #endif

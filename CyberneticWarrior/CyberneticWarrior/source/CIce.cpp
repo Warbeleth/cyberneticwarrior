@@ -9,10 +9,10 @@ CIce::CIce(void)
 	this->SetType(OBJ_ICE);
 	this->SetImageID(CSinglePlayerState::GetInstance()->GetWeaponID());
 	this->m_fLifeTime = 1.0f;
-	rRender.top = 621;
-	rRender.left = 819;
-	rRender.right = 868;
-	rRender.bottom = 648;
+	m_rRender.top = 621;
+	m_rRender.left = 819;
+	m_rRender.right = 868;
+	m_rRender.bottom = 648;
 }
 
 CIce::~CIce(void)
@@ -23,12 +23,9 @@ void CIce::Update(float fElapsedTime)
 {
 	CBaseProjectile::Update( fElapsedTime );
 
-	static float fAge = 0.0f;
-	if(fAge > this->m_fLifeTime)
-	{
-		//CGame::GetInstance()->GetMessageSystemPointer()->SendMsg( new CDestroyIceMessage( this, CSinglePlayerState::GetInstance()->GetPlayerPointer()) );
-		fAge = 0.0f;
-	}
+	if( m_bDead )
+		CGame::GetInstance()->GetMessageSystemPointer()->SendMsg( new CDestroyIceMessage( this, this->GetOwner()) );
+		
 }
 
 bool CIce::CheckCollision(CBase *pBase)

@@ -1274,9 +1274,6 @@ bool CPlayer::CheckCollision(CBase* pBase)
 	RECT rPlayerFrame = GetAnimations()->GetFrame();
 	if(rPrevRect.bottom != rPlayerFrame.bottom)
 	{
-		Offset.m_nY = rPlayerFrame.bottom - rPrevRect.bottom;
-		SetPosY(GetPosY()-Offset.m_nY);
-
 		Offset.m_nX = rPlayerFrame.right - rPrevRect.right;
 
 		rPrevRect = rPlayerFrame;

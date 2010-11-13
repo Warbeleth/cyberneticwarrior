@@ -8,10 +8,10 @@ CFire::CFire(void)
 {
 	this->SetType(OBJ_FIRE);
 	this->SetImageID(CSinglePlayerState::GetInstance()->GetWeaponID());
-	rRender.top = 610;
-	rRender.left = 550;
-	rRender.right = 610;
-	rRender.bottom = 550;
+	m_rRender.top = 610;
+	m_rRender.left = 550;
+	m_rRender.right = 610;
+	m_rRender.bottom = 550;
 }
 
 CFire::~CFire(void)
@@ -21,6 +21,9 @@ CFire::~CFire(void)
 void CFire::Update(float fElapsedTime)
 {
 	CBaseProjectile::Update( fElapsedTime );
+	
+	if( m_bDead )
+		CGame::GetInstance()->GetMessageSystemPointer()->SendMsg( new CDestroyFireMessage( this, this->GetOwner()) );
 }
 
 bool CFire::CheckCollision(CBase *pBase)

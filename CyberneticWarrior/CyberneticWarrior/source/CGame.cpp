@@ -802,7 +802,7 @@ void CGame::MessageProc(CBaseMessage*	pMsg)
 			CPoint ptStartingPos = pCR->GetOwnerPointer()->GetBulletStartPos();
 			pGrenade->SetPosX((float)ptStartingPos.m_nX);
 			pGrenade->SetPosY((float)ptStartingPos.m_nY);
-
+/*
 			if((CSGD_DirectInput::GetInstance()->MouseGetPosY() + CCamera::GetInstance()->GetOffsetY())>pCR->GetOwnerPointer()->GetPosY())
 			{
 				pGrenade->SetYVelocity(350.0f);
@@ -811,7 +811,7 @@ void CGame::MessageProc(CBaseMessage*	pMsg)
 			{
 				pGrenade->SetYVelocity(-350.0f);
 			}
-
+*/
 			
 
 			tVector2D bOwnerPos;
@@ -873,7 +873,6 @@ void CGame::MessageProc(CBaseMessage*	pMsg)
 			vShot = vShotPos - bOwnerPos;
 
 			vShot = Vector2DNormalize(vShot);
-
 
 			pGrenade->SetBaseVelX(vShot.fX * fFlameVelocity);
 			pGrenade->SetBaseVelY(vShot.fY * fFlameVelocity);
