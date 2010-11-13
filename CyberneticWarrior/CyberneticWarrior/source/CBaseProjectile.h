@@ -9,7 +9,7 @@ class CBaseProjectile : public CBase
 	CBase*  m_pOwner;
 	float m_fAge;
 	int	m_nDamage;
-	float m_fDeathTime;
+	float m_fLifeTime;
 protected:
 	RECT	m_rRender;
 	bool	m_bDead;
@@ -23,6 +23,8 @@ public:
 	virtual bool CheckCollision(CBase *pBase);
 	virtual inline CBase* GetOwner(void) {return this->m_pOwner;}
 	virtual	void SetOwner(CBase* pOwner) {this->m_pOwner = pOwner;}
+	inline void SetLife(float fLife) {this->m_fLifeTime = fLife;}
+	inline int  GetLife(void) {return this->m_fLifeTime;}
 	inline void SetDamage( int nDamage ) { m_nDamage = nDamage; }
 	inline int GetDamage( void ) { return m_nDamage; }
 };
