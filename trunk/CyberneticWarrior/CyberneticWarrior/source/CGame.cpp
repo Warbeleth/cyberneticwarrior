@@ -353,7 +353,7 @@ void CGame::Update(float fElapsedTime)
 	
 	this->m_pWM->Update();
 	this->m_pSSM->UpdateState(fElapsedTime);
-	this->m_pES->ProcessEvents();
+	//this->m_pES->ProcessEvents();
 	this->m_pMS->ProcessMessages();
 
 }

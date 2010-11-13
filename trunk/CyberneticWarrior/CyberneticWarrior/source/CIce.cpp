@@ -50,3 +50,6 @@ bool CIce::CheckCollision(CBase *pBase)
 	else
 		return false;
 }
+
+
+

@@ -266,6 +266,7 @@ bool CSinglePlayerState::Input(void)
 		CStackStateMachine::GetInstance()->UpdateState(0.0f);
 		CStackStateMachine::GetInstance()->Push_Back(CPauseMenuState::GetInstance());
 		//CStackStateMachine::GetInstance()->Pop_back();
+	
 	}
 	
 	if(m_TempPlayer->GetHealth() == 0)

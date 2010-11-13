@@ -92,8 +92,10 @@ bool	CControlSelectState::Input(void)
 		switch(this->m_nSelection)
 		{
 		case this->GAMEPAD:
-			CSinglePlayerState::GetInstance()->SetInputType(1);
-		//	CStackStateMachine::GetInstance()->ChangeState(CLoadingState::GetInstance());
+			if(!this->m_pDI->JoystickIsUnplugged())
+			{
+				CSinglePlayerState::GetInstance()->SetInputType(1);
+			}//	CStackStateMachine::GetInstance()->ChangeState(CLoadingState::GetInstance());
 			return 1;
 			break;
 		case this->KEYBOARD:

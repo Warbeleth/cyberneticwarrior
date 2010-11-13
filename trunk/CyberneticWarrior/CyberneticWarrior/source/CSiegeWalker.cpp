@@ -34,7 +34,6 @@ void CSiegeWalker::Update(float fElapsedTime)
 		GetAnimations()->SetCurrentAnimation(0);
 		break;
 	case iActive:
-
 		GetAnimations()->SetCurrentAnimation(1);
 		if(this->GetShotDelay() > this->GetRateOfFire())
 		{

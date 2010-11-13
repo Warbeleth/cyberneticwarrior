@@ -39,7 +39,6 @@ void CAttackDrone::Update(float fElapsedTime)
 	case pActive:
 		{
 			GetAnimations()->SetCurrentAnimation(0);
-			int n = GetShotDelay();
 			if(GetShotDelay() >= GetRateOfFire())
 			{
 				this->SetShotDelay(0.0f);	
