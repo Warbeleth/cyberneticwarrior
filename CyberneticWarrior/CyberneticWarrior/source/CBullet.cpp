@@ -8,7 +8,7 @@ CBullet::CBullet(void)
 {
 	this->SetType(OBJ_BULLET);
 	this->SetImageID(CSinglePlayerState::GetInstance()->GetWeaponID());
-	this->SetDamage(100);
+	this->SetDamage(15);
 	m_rRender.top = 239;
 	m_rRender.left = 976;
 	m_rRender.right = 985;

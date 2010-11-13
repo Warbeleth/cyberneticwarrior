@@ -32,7 +32,7 @@ void CSpawner::Update(float fElapsedTime)
 {
 	m_fTimeWaited += fElapsedTime;
 
-	if(m_fTimeWaited >= 30.0f)
+	if(m_fTimeWaited >= 30.0f && GetCulling())
 	{
 		m_fTimeWaited = 0.0f;
 		CGame::GetInstance()->GetMessageSystemPointer()->SendMsg(new CCreateEnemyMessage(m_nTypeToSpawn, (int)GetPosX(), (int)GetPosY()));
