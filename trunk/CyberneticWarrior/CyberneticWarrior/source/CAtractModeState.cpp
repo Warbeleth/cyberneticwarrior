@@ -12,8 +12,6 @@ CAtractModeState::CAtractModeState( void )
 	m_nImageIds[0] = -1;
 	m_nImageIds[1] = -1;
 	m_nImageIds[2] = -1;
-	m_nImageIds[3] = -1;
-	m_nImageIds[4] = -1;
 	m_nBGMusicId   = -1;
 }
 
@@ -38,7 +36,7 @@ void CAtractModeState::Update( float fElapsedTime )
 		++m_nCurrentImage;
 		m_fTotalTime = 0;
 
-		if( m_nCurrentImage >= 5 )
+		if( m_nCurrentImage >= 3 )
 			m_nCurrentImage = 0;
 	}
 }
@@ -63,12 +61,6 @@ void CAtractModeState::Enter( void )
 	m_nImageIds[2] = -1; 
 	m_nImageIds[2] = CSGD_TextureManager::GetInstance()->LoadTexture("resource/graphics/AtractMode3.png");
 
-	m_nImageIds[3] = -1; 
-	m_nImageIds[3] = CSGD_TextureManager::GetInstance()->LoadTexture("resource/graphics/AtractMode4.png");
-
-	m_nImageIds[4] = -1; 	
-	m_nImageIds[4] = CSGD_TextureManager::GetInstance()->LoadTexture("resource/graphics/AtractMode5.png");
-
 	m_nBGMusicId   = -1;
 	m_nBGMusicId   = CSGD_WaveManager::GetInstance()->LoadWave("resource/sounds/Jak2_Haven_City.wav");
 	CSGD_WaveManager::GetInstance()->Play(m_nBGMusicId, DSBPLAY_LOOPING);
@@ -79,8 +71,6 @@ void CAtractModeState::Exit( void )
 	CSGD_TextureManager::GetInstance()->UnloadTexture(m_nImageIds[0]);
 	CSGD_TextureManager::GetInstance()->UnloadTexture(m_nImageIds[1]);
 	CSGD_TextureManager::GetInstance()->UnloadTexture(m_nImageIds[2]);
-	CSGD_TextureManager::GetInstance()->UnloadTexture(m_nImageIds[3]);
-	CSGD_TextureManager::GetInstance()->UnloadTexture(m_nImageIds[4]);
 
 	CSGD_WaveManager::GetInstance()->Stop(m_nBGMusicId);
 	CSGD_WaveManager::GetInstance()->UnloadWave(m_nBGMusicId);

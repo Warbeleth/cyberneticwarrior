@@ -8,7 +8,7 @@ class CAtractModeState : public IGameState
 	float m_fTotalTime;
 	int m_nCurrentImage;
 	// Image Ids
-	int m_nImageIds[5];
+	int m_nImageIds[3];
 	// Sound ID
 	int m_nBGMusicId;
 

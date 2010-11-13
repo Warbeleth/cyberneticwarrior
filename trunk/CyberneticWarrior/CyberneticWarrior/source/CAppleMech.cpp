@@ -34,7 +34,7 @@ void CAppleMech::Update(float fElapsedTime)
 		break;
 	case iActive:
 		GetAnimations()->SetCurrentAnimation(0);
-		if(!GetAnimations()->SameFrame() > GetAnimations()->GetTrigger() != 0)
+		if(!GetAnimations()->SameFrame() && GetAnimations()->GetTrigger() != 0)
 		{
 			CGame::GetInstance()->GetMessageSystemPointer()->SendMsg(new CCreatePlasmaMessage(this));
 		}

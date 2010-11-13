@@ -15,9 +15,14 @@ class CHowToPlayState : public IGameState
 {
 private:
 	enum Height { JUMP = 0, LEFT, RIGHT, FIRE_WEAPON, SECONDARY_FIRE, AIM_WEAPON, SWAP_WEAPON, HEAD_SLOT, BOOT_SLOT, CLIMB, REPEL, MENU_SPACE = 25, MMENU_START = 150 };
+	
+	int m_nScrollingID;
 	CFont	m_OptionsFont;
+
+	bool m_bVisual;
 	
 	// Texture IDs
+	int m_nVisualID;
 	int	m_nBackgroundID;
 	// Selection IDs
 	int m_nSelectionPos;
