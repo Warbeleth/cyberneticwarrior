@@ -521,15 +521,24 @@ void CPlayer::Update(float fElapsedTime)
 	////////////////////////////////////////
 	CCamera::GetInstance()->SetCameraOffsetX(int(this->GetPosX()-400));
 
+	int temp_Width = (CMapLoad::GetInstance()->m_gTileMap.m_nColumns * CMapLoad::GetInstance()->m_gTileMap.m_nWidth) - 800;
+	int temp_Height = (CMapLoad::GetInstance()->m_gTileMap.m_nRows * CMapLoad::GetInstance()->m_gTileMap.m_nHeight) - 600;
+
 	if(CCamera::GetInstance()->GetOffsetX() < 0)
 		CCamera::GetInstance()->SetCameraOffsetX(0);
-	
-	CCamera::GetInstance()->SetCameraOffsetY(int(this->GetPosY()-(430)));
+	else if(CCamera::GetInstance()->GetOffsetX() > temp_Width)
+		CCamera::GetInstance()->SetCameraOffsetX(temp_Width);
+
+	if( fabs(CCamera::GetInstance()->GetOffsetY()-(GetPosY()-300)) >= 6 || m_bJumped)
+		CCamera::GetInstance()->SetCameraOffsetY(int(this->GetPosY()-(300)));
 
 	if(CCamera::GetInstance()->GetOffsetY() < 0)
 		CCamera::GetInstance()->SetCameraOffsetY(0);
+	else if(CCamera::GetInstance()->GetOffsetY() > temp_Height)
+		CCamera::GetInstance()->SetCameraOffsetY(temp_Height);
 
-	this->m_pHud->Update( fElapsedTime );
+
+	this->m_pHud->Update( fElapsedTime ); 
 	////////////////////////////////////////
 
 
@@ -784,8 +793,8 @@ void CPlayer::Input(float fElapsedTime)
 			this->SetBaseVelY(this->m_vSpeed.fY);
 			this->m_bJumped = true;
 
-			if(this->m_fRemainingEnergy > -29.0f)
-				this->DecrementEnergy(5.0f);
+			//if(this->m_fRemainingEnergy > -29.0f)
+				//this->DecrementEnergy(5.0f);
 		}
 		
 		
@@ -1282,217 +1291,123 @@ bool CPlayer::CheckCollision(CBase* pBase)
 	if(pBase->GetType() == OBJ_BLOCK)
 	{
 		CBlock* BLOCK = (CBlock*)pBase;
+
+		RECT rIntersect;
+
 		//Descriptive replacement variables
-		float myX;
-		float myY;
-		float myRight;
-		float myBottom;
-		float hisX = BLOCK->GetPosX();
-		float hisY = BLOCK->GetPosY();
-		float hisRight = hisX + BLOCK->GetWidth();
-		float hisBottom = hisY + BLOCK->GetHeight();
+		RECT rMyRect = { (LONG)GetPosX(), (LONG)GetPosY(), 0, 0 };
+		rMyRect.right = rMyRect.left + GetWidth();
+		rMyRect.bottom = rMyRect.top + GetHeight();
 
-		//if(GetAnimations())
-		//{
-		//	RECT rPlayerRect = GetAnimations()->GetCollisionFrame( (int)(GetPosX()), (int)(GetPosY()) );			
+		RECT rHisRect = { (LONG)BLOCK->GetPosX(), (LONG)BLOCK->GetPosY(), 0, 0 };
+		rHisRect.right = rHisRect.left + BLOCK->GetWidth();
+		rHisRect.bottom = rHisRect.top + BLOCK->GetHeight();
 
-		//	myX = (float)rPlayerRect.left;
-		//	myY = (float)rPlayerRect.top;
-		//	myRight = (float)rPlayerRect.right;
-		//	myBottom = (float)rPlayerRect.bottom;
-		//}
-		//else
+		if( IntersectRect( &rIntersect, &rMyRect, &rHisRect ) )
 		{
-			myX = GetPosX();
-			myY = GetPosY();
-			myRight = myX + GetWidth();
-			myBottom = myY + GetHeight();
-		}
-
-		float LeftDifference = fabs(myX - hisX);
-		float RightDifference = fabs(myY - hisY);
-		float TopDifference = fabs(myRight - hisRight);
-		float BottomDifference = fabs(myBottom - hisBottom);
-
-		if(BLOCK->GetBlock() == BLOCK_SOLID || BLOCK->GetBlock() == BLOCK_MOVING || BLOCK->GetBlock() == BLOCK_PARTIAL)
-		{
-			if(myBottom >= hisY  
-				&& (myBottom) < (hisBottom)
-				&& (myRight) > hisX
-				&& (myX) < (hisRight)
-				&& !this->m_bOnGround
-				&& this->m_vSpeed.fY >= 0.0f)
+			if( (rIntersect.right-rIntersect.left) > (rIntersect.bottom-rIntersect.top) )
 			{
-				this->m_bOnGround = 1;
-				this->m_bJumped = false;
-				this->m_bOnPlatform = 1;
-				this->SetPosY(hisY - (myBottom - myY));
-				if( BLOCK->GetBlock() == BLOCK_MOVING)
+				if(BLOCK->GetBlock() == BLOCK_SOLID || BLOCK->GetBlock() == BLOCK_MOVING || BLOCK->GetBlock() == BLOCK_PARTIAL)
 				{
-					if(!this->m_bOnMovingPlatform)
+					if(rMyRect.bottom > rHisRect.top && rMyRect.top < rHisRect.top)
 					{
-						this->m_fMovingPlatformPosX = hisX;
-						this->m_pMovingBlock = BLOCK;
-						this->m_bOnMovingPlatform = true;
+						SetPosY( (float)rHisRect.top - GetHeight() );
+						m_bOnGround = true;
+						m_bJumped = false;
+						m_bOnPlatform = true;
+							
+						if( BLOCK->GetBlock() == BLOCK_MOVING)
+						{
+							if(!m_bOnMovingPlatform)
+							{
+								m_fMovingPlatformPosX = (float)rHisRect.left;
+								m_pMovingBlock = BLOCK;
+								m_bOnMovingPlatform = true;
+							}
+						}
+						CMapLoad::GetInstance()->m_bCollisionCheck = true;
 
+					}
+					else if(rMyRect.top < rHisRect.bottom && rMyRect.bottom > rHisRect.top)
+						SetPosY((float)rHisRect.bottom);
+
+				}
+				else if(BLOCK->GetBlock() == BLOCK_TRAP)
+				{
+					this->m_bOnGround = true;
+					this->m_bJumped = false;
+					this->m_bOnPlatform = true;
+					this->DecrementHealth(20);
+				}
+				else if(BLOCK->GetBlock() == BLOCK_UNSTABLE)
+				{
+					this->m_bOnGround = true;
+					this->m_bJumped = false;
+					this->m_bOnPlatform = true;
+					SetPosY((float)rHisRect.top-GetHeight());
+					CMapLoad::GetInstance()->m_bCollisionCheck = true;
+					BLOCK->SetStable(false);
+				}
+
+				RECT rEmpty = rMyRect;
+				rEmpty.top += 1;
+				rEmpty.bottom +=1;
+			
+				if( IntersectRect( &rIntersect, &rEmpty, &rHisRect ) )
+				{
+					if(BLOCK->GetBlock() == BLOCK_SOLID || BLOCK->GetBlock() == BLOCK_MOVING || BLOCK->GetBlock() == BLOCK_PARTIAL)
+					{
+						if(rMyRect.bottom > rHisRect.top && rMyRect.top < rHisRect.top)
+						{
+							CMapLoad::GetInstance()->m_bCollisionCheck = true;
+						}
 					}
 				}
 
-				CMapLoad::GetInstance()->m_bCollisionCheck = true;
-				return true;
 			}
-			else if(myY < hisBottom
-				&& RightDifference < 64
-				&& LeftDifference < 64
-				&& TopDifference < 128
-				&& BottomDifference < 128
-				&& myBottom > hisBottom
-				&& m_vSpeed.fY < 0.0f
-				&& (myX >= hisX || myRight <= hisRight))
+			else if((rIntersect.right-rIntersect.left) < (rIntersect.bottom-rIntersect.top))
 			{
-				SetPosY(hisBottom);
-				m_vSpeed.fY = 0.0;
+				if(BLOCK->GetBlock() == BLOCK_SOLID || BLOCK->GetBlock() == BLOCK_MOVING || BLOCK->GetBlock() == BLOCK_PARTIAL)
+				{
+					if(rMyRect.right > rHisRect.left && rMyRect.left < rHisRect.left)
+						SetPosX( (float)rHisRect.left - GetWidth() );
+					else if(rMyRect.left < rHisRect.right && rMyRect.right > rHisRect.left)
+						SetPosX( (float)rHisRect.right);
+				}
+				else if(BLOCK->GetBlock() == BLOCK_TRAP)
+				{
+					m_bOnGround = true;
+					m_bJumped = false;
+					m_bOnPlatform = true;
+					DecrementHealth(20);
+				}
 			}
-			else if(myRight > hisX
-				&& RightDifference < 64
-				&& LeftDifference < 64
-				&& TopDifference < 128
-				&& BottomDifference < 128
-				&&	myX < hisX
-				&&	(myY >= hisY || myBottom <= hisBottom))
-			{
-				SetPosX(hisX - (myRight - myX));
-				m_vSpeed.fX = 0.0;
-			}
-			else if(myX < hisRight
-				&& RightDifference < 64
-				&& LeftDifference < 64
-				&& TopDifference < 128
-				&& BottomDifference < 128
-				&& myRight > hisRight
-				&& (myY >= hisY || myBottom <= hisBottom))
-			{
-				SetPosX(hisRight);
-				m_vSpeed.fX = 0.0;
-			}
-			else if(this->m_bOnPlatform && CMapLoad::GetInstance()->m_bCollisionCheck == false)
-			{
-				this->m_bOnGround = 0;
-				this->m_bOnPlatform = 0;
-				this->m_bOnMovingPlatform = false;
-			
-				return false;
-			}
-
-			
-		}
-		//else if(BLOCK->GetBlock() == BLOCK_PARTIAL)
-		//{
-		//	if((myBottom*0.5f) >= hisY  
-		//		&& (myBottom*0.5f) < (hisBottom)
-		//		&& (myRight) > hisX
-		//		&& (myX) < (hisRight)
-		//		&& !this->m_bOnGround
-		//		&& this->m_vSpeed.fY >= 0.0f)
-		//	{
-		//		this->m_bOnGround = 1;
-		//		this->m_bJumped = false;
-		//		this->m_bOnPlatform = 1;
-		//		this->SetPosY(hisY - (myBottom - myY));
-		//		CMapLoad::GetInstance()->m_bCollisionCheck = true;
-		//		return true;
-		//	}
-		//	else if(this->m_bOnPlatform && CMapLoad::GetInstance()->m_bCollisionCheck == false)
-		//	{
-		//		this->m_bOnGround = 0;
-		//		this->m_bOnPlatform = 0;
-		//		
-		//		return false;
-		//	}
-		//}
-		else if(BLOCK->GetBlock() == BLOCK_TRAP)
-		{
-			if(myBottom >= hisY  
-				&& (myBottom) <= (hisBottom)
-				&& (myRight) > hisX
-				&& (myX) < (hisRight)
-				&& this->m_vSpeed.fY >= 0.0f)
-			{
-				this->m_bOnGround = 1;
-				this->m_bJumped = false;
-				this->m_bOnPlatform = 1;
-				this->SetPosY(hisBottom - (myBottom - myY));
-				this->DecrementHealth(20);
-				CMapLoad::GetInstance()->m_bCollisionCheck = true;
-				return true;
-			}
-			else if(this->m_bOnPlatform && CMapLoad::GetInstance()->m_bCollisionCheck == false)
-			{
-				this->m_bOnGround = 0;
-				this->m_bOnPlatform = 0;
-				
-				return false;
-			}
-		}
-		else if(BLOCK->GetBlock() == BLOCK_UNSTABLE)
-		{
-			if(myBottom >= hisY  
-				&& (myBottom) < (hisBottom)
-				&& (myRight) > hisX
-				&& (myX) < (hisRight)
-				&& !this->m_bOnGround
-				&& this->m_vSpeed.fY >= 0.0f)
-			{
-				this->m_bOnGround = 1;
-				this->m_bJumped = false;
-				this->m_bOnPlatform = 1;
-				BLOCK->SetStable(false);
-				this->SetPosY(hisY - (myBottom - myY));
-				CMapLoad::GetInstance()->m_bCollisionCheck = true;
-				return true;
-			}
-			else if(this->m_bOnPlatform && CMapLoad::GetInstance()->m_bCollisionCheck == false)
-			{
-				this->m_bOnGround = 0;
-				this->m_bOnPlatform = 0;
-				
-				return false;
-			}
+			return true;
 		}
 	}
-
-	//if(GetAnimations()->CheckCollision( pBase ) )
-	//	return true;
-
-	RECT rIntersect;
-	if(IntersectRect(&rIntersect, &this->GetRect(), &(pBase->GetRect())))
-	{ 
-		if(pBase->GetType() == OBJ_PICKUP)// && !this->m_bOnGround && this->m_vSpeed.fY > 0.0f)
+	else if(pBase->GetType() == OBJ_PICKUP) 
+	{
+		RECT rIntersect;
+		if(IntersectRect(&rIntersect, &GetRect(), &(pBase->GetRect())))
 		{
 			CSinglePlayerState::GetInstance()->SetProfileValues(1);
+			return true;
 		}
-
-
-		return true;
 	}
-	/*else
+	
+	if(m_bOnPlatform && CMapLoad::GetInstance()->m_bCollisionCheck == false)
 	{
-	if(this->GetPosX() < (480 - this->GetHeight()) && this->m_bOnPlatform)
-	{
-	this->m_bOnGround = 0;
-	this->m_bOnPlatform = 0;
+		m_bOnGround = false;
+		m_bOnPlatform = false;
+		m_bOnMovingPlatform = false;
 	}
-	return false;
-	}*/
 
 	return false;
 }
 
 void CPlayer::HandleEvent(CEvent* pEvent)
 {
-	/*if(pEvent->GetEventID() == )
-	{
-	}*/
+
 }
 
 /////////
