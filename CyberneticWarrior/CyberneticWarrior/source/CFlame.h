@@ -5,7 +5,6 @@
 
 class CFlame : public CBaseProjectile
 {
-private:
 public:
 	CFlame(void);
 	~CFlame(void);

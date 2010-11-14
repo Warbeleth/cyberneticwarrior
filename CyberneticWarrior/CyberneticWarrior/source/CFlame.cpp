@@ -8,7 +8,7 @@ CFlame::CFlame(void)
 {
 	this->SetType(OBJ_FLAME);
 	this->SetImageID(CSinglePlayerState::GetInstance()->GetWeaponID());
-	this->SetLife(0.1f);
+	SetTime(0.25f);
 	m_rRender.top = 472;
 	m_rRender.left = 556;
 	m_rRender.bottom = 540;
@@ -25,7 +25,7 @@ void CFlame::Update(float fElapsedTime)
 
 	if( m_bDead )
 		CGame::GetInstance()->GetMessageSystemPointer()->SendMsg( new CDestroyFlameMessage( this, this->GetOwner()) );
-		
+
 }
 
 bool CFlame::CheckCollision(CBase *pBase)

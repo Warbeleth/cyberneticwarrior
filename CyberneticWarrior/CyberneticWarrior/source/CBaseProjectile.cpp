@@ -121,7 +121,7 @@ bool CBaseProjectile::CheckCollision(CBase *pBase)
 					if(pBase->GetType() == OBJ_PLAYER)
 					{
 						CPlayer* pPlayer= (CPlayer*)pBase;
-						(*pPlayer).DecrementHealth(m_nDamage);
+						(*pPlayer).DecrementHealth((float)m_nDamage);
 					}
 				}
 

@@ -38,7 +38,7 @@ void CGrenade::Update(float fElapsedTime)
 			if(m_pTarget->GetType() == OBJ_PLAYER)
 			{
 				CPlayer*  pPlayer = (CPlayer*)m_pTarget;
-				(*pPlayer).DecrementHealth(GetDamage());
+				(*pPlayer).DecrementHealth((float)GetDamage());
 			}
 			else if(m_pTarget->GetType() == OBJ_ENEMY)
 			{
