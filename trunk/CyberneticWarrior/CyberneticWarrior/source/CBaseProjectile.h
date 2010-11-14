@@ -27,6 +27,7 @@ public:
 	inline int  GetLife(void) {return this->m_fLifeTime;}
 	inline void SetDamage( int nDamage ) { m_nDamage = nDamage; }
 	inline int GetDamage( void ) { return m_nDamage; }
+	inline void SetTime( float fDeathTime ) { m_fDeathTime = fDeathTime; }
 };
 
 #endif
