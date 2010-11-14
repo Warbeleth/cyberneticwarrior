@@ -26,6 +26,7 @@
 #include "CAtractModeState.h"
 #include "CLoadingState.h"
 #include "CGameOverState.h"
+#include "CHowToPlayState.h"
 
 #include "CMapLoad.h"
 #include "CGameProfiler.h"
@@ -258,6 +259,7 @@ void CGame::ShutDown(void)
 	CAtractModeState::GetInstance()->DeleteInstance();
 	CLoadingState::GetInstance()->DeleteInstance();
 	CGameOverState::GetInstance()->DeleteInstance();
+	CHowToPlayState::GetInstance()->DeleteInstance();
 
 	if(this->m_pDI)
 	{
@@ -467,8 +469,8 @@ void CGame::MessageProc(CBaseMessage*	pMsg)
 
 			// Set firing position vector 
 			tVector2D bOwnerPos;
-			bOwnerPos.fX = pCR->GetOwnerPointer()->GetPosX(); 
-			bOwnerPos.fY = pCR->GetOwnerPointer()->GetPosY();
+			bOwnerPos.fX = pCR->GetOwnerPointer()->GetPosX() + pCR->GetOwnerPointer()->GetAnimations()->GetPivotPoint().m_nX; 
+			bOwnerPos.fY = pCR->GetOwnerPointer()->GetPosY() + pCR->GetOwnerPointer()->GetAnimations()->GetPivotPoint().m_nY;
 
 			// Set the target position vector
 			tVector2D vShotPos;
@@ -552,8 +554,8 @@ void CGame::MessageProc(CBaseMessage*	pMsg)
 
 			// Set the starting position vector
 			tVector2D bOwnerPos;
-			bOwnerPos.fX = pCR->GetOwnerPointer()->GetPosX(); 
-			bOwnerPos.fY = pCR->GetOwnerPointer()->GetPosY();
+			bOwnerPos.fX = pCR->GetOwnerPointer()->GetPosX() + pCR->GetOwnerPointer()->GetAnimations()->GetPivotPoint().m_nX; 
+			bOwnerPos.fY = pCR->GetOwnerPointer()->GetPosY() + pCR->GetOwnerPointer()->GetAnimations()->GetPivotPoint().m_nY;
 
 			// Set the target position vector
 			tVector2D vShotPos;
@@ -637,8 +639,8 @@ void CGame::MessageProc(CBaseMessage*	pMsg)
 			
 			// Get the firing position vector
 			tVector2D bOwnerPos;
-			bOwnerPos.fX = pCR->GetOwnerPointer()->GetPosX(); 
-			bOwnerPos.fY = pCR->GetOwnerPointer()->GetPosY();
+			bOwnerPos.fX = pCR->GetOwnerPointer()->GetPosX() + pCR->GetOwnerPointer()->GetAnimations()->GetPivotPoint().m_nX; 
+			bOwnerPos.fY = pCR->GetOwnerPointer()->GetPosY() + pCR->GetOwnerPointer()->GetAnimations()->GetPivotPoint().m_nY;
 
 			// Get target position vector
 			tVector2D vShotPos;
@@ -721,8 +723,8 @@ void CGame::MessageProc(CBaseMessage*	pMsg)
 
 			// Set the firing position vector			
 			tVector2D bOwnerPos;
-			bOwnerPos.fX = pCR->GetOwnerPointer()->GetPosX(); 
-			bOwnerPos.fY = pCR->GetOwnerPointer()->GetPosY();
+			bOwnerPos.fX = pCR->GetOwnerPointer()->GetPosX() + pCR->GetOwnerPointer()->GetAnimations()->GetPivotPoint().m_nX; 
+			bOwnerPos.fY = pCR->GetOwnerPointer()->GetPosY() + pCR->GetOwnerPointer()->GetAnimations()->GetPivotPoint().m_nY;
 			
 			// Set target vector
 			tVector2D vShotPos;
@@ -802,21 +804,10 @@ void CGame::MessageProc(CBaseMessage*	pMsg)
 			CPoint ptStartingPos = pCR->GetOwnerPointer()->GetBulletStartPos();
 			pGrenade->SetPosX((float)ptStartingPos.m_nX);
 			pGrenade->SetPosY((float)ptStartingPos.m_nY);
-/*
-			if((CSGD_DirectInput::GetInstance()->MouseGetPosY() + CCamera::GetInstance()->GetOffsetY())>pCR->GetOwnerPointer()->GetPosY())
-			{
-				pGrenade->SetYVelocity(350.0f);
-			}
-			else
-			{
-				pGrenade->SetYVelocity(-350.0f);
-			}
-*/
-			
 
 			tVector2D bOwnerPos;
-			bOwnerPos.fX = pCR->GetOwnerPointer()->GetPosX(); 
-			bOwnerPos.fY = pCR->GetOwnerPointer()->GetPosY();
+			bOwnerPos.fX = pCR->GetOwnerPointer()->GetPosX() + pCR->GetOwnerPointer()->GetAnimations()->GetPivotPoint().m_nX; 
+			bOwnerPos.fY = pCR->GetOwnerPointer()->GetPosY() + pCR->GetOwnerPointer()->GetAnimations()->GetPivotPoint().m_nY;
 
 
 			if( pGrenade->GetOwner()->GetType() == OBJ_PLAYER )
@@ -903,8 +894,8 @@ void CGame::MessageProc(CBaseMessage*	pMsg)
 
 			// Set firing position vector
 			tVector2D bOwnerPos;
-			bOwnerPos.fX = pCR->GetOwnerPointer()->GetPosX(); 
-			bOwnerPos.fY = pCR->GetOwnerPointer()->GetPosY();
+			bOwnerPos.fX = pCR->GetOwnerPointer()->GetPosX() + pCR->GetOwnerPointer()->GetAnimations()->GetPivotPoint().m_nX; 
+			bOwnerPos.fY = pCR->GetOwnerPointer()->GetPosY() + pCR->GetOwnerPointer()->GetAnimations()->GetPivotPoint().m_nY;
 
 			// Set the target position vector
 			tVector2D vShotPos;
