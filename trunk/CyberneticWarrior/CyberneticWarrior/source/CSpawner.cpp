@@ -37,7 +37,7 @@ void CSpawner::Update(float fElapsedTime)
 	if(m_fTimeWaited >= 30.0f && GetCulling() && m_nTotalCurrentlySpawned < m_nMaxSpawn )
 	{
 		m_fTimeWaited = 0.0f;
-		CGame::GetInstance()->GetMessageSystemPointer()->SendMsg(new CCreateEnemyMessage(m_nTypeToSpawn, (int)GetPosX(), (int)GetPosY()));
+		CGame::GetInstance()->GetMessageSystemPointer()->SendMsg(new CCreateEnemyMessage(m_nTypeToSpawn, (int)GetPosX(), (int)GetPosY(), this));
 		m_nTypeToSpawn++;
 
 		if(m_nSpawnerType == SPAWNER_TURRET)
