@@ -1316,7 +1316,7 @@ bool CPlayer::CheckCollision(CBase* pBase)
 		{
 			if( (rIntersect.right-rIntersect.left) > (rIntersect.bottom-rIntersect.top) )
 			{
-				if(BLOCK->GetBlock() == BLOCK_SOLID || BLOCK->GetBlock() == BLOCK_MOVING || BLOCK->GetBlock() == BLOCK_PARTIAL)
+				if(BLOCK->GetBlock() == BLOCK_SOLID || BLOCK->GetBlock() == BLOCK_MOVING || BLOCK->GetBlock() == BLOCK_PARTIAL || BLOCK->GetBlock() == BLOCK_UNSTABLE)
 				{
 					if(rMyRect.bottom > rHisRect.top && rMyRect.top < rHisRect.top)
 					{
@@ -1334,6 +1334,10 @@ bool CPlayer::CheckCollision(CBase* pBase)
 								m_bOnMovingPlatform = true;
 							}
 						}
+						else if(BLOCK->GetBlock() == BLOCK_UNSTABLE)
+						{
+							BLOCK->SetStable(false);
+						}
 						CMapLoad::GetInstance()->m_bCollisionCheck = true;
 
 					}
@@ -1347,30 +1351,6 @@ bool CPlayer::CheckCollision(CBase* pBase)
 					this->m_bJumped = false;
 					this->m_bOnPlatform = true;
 					this->DecrementHealth(20);
-				}
-				else if(BLOCK->GetBlock() == BLOCK_UNSTABLE)
-				{
-					this->m_bOnGround = true;
-					this->m_bJumped = false;
-					this->m_bOnPlatform = true;
-					SetPosY((float)rHisRect.top-GetHeight());
-					CMapLoad::GetInstance()->m_bCollisionCheck = true;
-					BLOCK->SetStable(false);
-				}
-
-				RECT rEmpty = rMyRect;
-				rEmpty.top += 1;
-				rEmpty.bottom +=1;
-			
-				if( IntersectRect( &rIntersect, &rEmpty, &rHisRect ) )
-				{
-					if(BLOCK->GetBlock() == BLOCK_SOLID || BLOCK->GetBlock() == BLOCK_MOVING || BLOCK->GetBlock() == BLOCK_PARTIAL)
-					{
-						if(rMyRect.bottom > rHisRect.top && rMyRect.top < rHisRect.top)
-						{
-							CMapLoad::GetInstance()->m_bCollisionCheck = true;
-						}
-					}
 				}
 
 			}
