@@ -10,6 +10,7 @@
 #include "CBaseEnemy.h"
 #include "CSinglePlayerState.h"
 #include "CMapLoad.h"
+#include "CSPawner.h"
 
 CBaseEnemy::CBaseEnemy()
 {
@@ -26,6 +27,7 @@ CBaseEnemy::CBaseEnemy()
 	m_nHeight = 1;
 	m_fRateOfFire = 0.0f;
 	m_fSpeed = 0.0f;
+	m_pHostSpawner = NULL;
 	m_bSinglePlayer = true;	//Will be a CGame::GetInstance() call to check for game state when creating enemies
 }
 
@@ -98,6 +100,9 @@ CBaseEnemy::~CBaseEnemy()
 {
 	delete GetAnimations();
 	SetAnimations(NULL);
+
+	if( m_pHostSpawner )
+		m_pHostSpawner->DecrementTotalCurrentlySpawned( );
 }
 
 RECT CBaseEnemy::GetRect()

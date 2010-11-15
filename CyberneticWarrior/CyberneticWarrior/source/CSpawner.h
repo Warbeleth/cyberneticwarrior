@@ -15,6 +15,8 @@ private:
 	float m_fPosY;
 	float m_fTimeWaited;
 	int m_nTypeToSpawn;
+	int m_nTotalCurrentlySpawned;
+	int m_nMaxSpawn;
 
 public:
 	CSpawner(int nSpawnerType = 1, float fPosX = 0, float fPosY = 0, int nWidth = 32, int nHeight = 32);
@@ -30,12 +32,16 @@ public:
 	int GetWidth() { return m_nWidth; }
 	int GetHeight() { return m_nHeight; }
 	int GetSpawner() { return m_nSpawnerType; }
+	int GetTotalCurrentlySpawned( void ) { return m_nTotalCurrentlySpawned; }
+	int GetMaxSpawn( void ) { return m_nMaxSpawn; }
 
 	void SetPosX(float fPosX) { m_fPosX = fPosX; }
 	void SetPosY(float fPosY) { m_fPosY = fPosY; }
 	void SetWidth(int nWidth) { m_nWidth = nWidth; }
 	void SetHeight(int nHeight) { m_nHeight = nHeight; }
 	void SetSpawner(int nType) { m_nSpawnerType = nType; }
+	void SetSpawn( int nMaxSpawn ) { m_nMaxSpawn = nMaxSpawn; }
+	void DecrementTotalCurrentlySpawned( void ) { --m_nTotalCurrentlySpawned; }
 
 
 	bool CheckCollision(CBase* pBase);

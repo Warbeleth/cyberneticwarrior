@@ -12,6 +12,8 @@ CSpawner::CSpawner(int nSpawnerType, float fPosX, float fPosY, int nWidth, int n
 	m_fPosX = fPosX;
 	m_fPosY = fPosY;
 	m_fTimeWaited = 0.0f;
+	m_nTotalCurrentlySpawned = 0;
+	m_nMaxSpawn = 1;
 
 	if(m_nSpawnerType == SPAWNER_TURRET)
 		m_nTypeToSpawn = 0;
@@ -58,6 +60,8 @@ void CSpawner::Update(float fElapsedTime)
 			if(m_nTypeToSpawn > 12)
 				m_nTypeToSpawn = 10;
 		}
+
+		++m_nTotalCurrentlySpawned;
 	}
 }
 

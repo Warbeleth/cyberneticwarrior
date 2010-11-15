@@ -15,6 +15,7 @@ class CSGD_Direct3D;
 #include "SGD Wrappers\CSGD_Direct3D.h"
 //class CPlayer;
 class CSinglePlayerState;
+class CSpawner;
 //Remaining includes
 class CSGD_TextureManager;
 
@@ -45,6 +46,7 @@ class CBaseEnemy : /*public IBaseInterface, */public CBase
 	float m_fSpeed;
 	bool m_bSinglePlayer;
 	tVector2D m_vTargetPosition;
+	CSpawner* m_pHostSpawner;
 
 	//unsigned int m_uiRefCount;
 protected:
