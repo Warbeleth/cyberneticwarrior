@@ -467,10 +467,20 @@ void CGame::MessageProc(CBaseMessage*	pMsg)
 			pBullet->SetPosX((float)ptStartingPos.m_nX);
 			pBullet->SetPosY((float)ptStartingPos.m_nY);	
 
-			// Set firing position vector 
+			// Set firing position vector
 			tVector2D bOwnerPos;
-			bOwnerPos.fX = pCR->GetOwnerPointer()->GetPosX() + pCR->GetOwnerPointer()->GetAnimations()->GetPivotPoint().m_nX; 
-			bOwnerPos.fY = pCR->GetOwnerPointer()->GetPosY() + pCR->GetOwnerPointer()->GetAnimations()->GetPivotPoint().m_nY;
+			if(pCR->GetOwnerPointer()->GetType() == OBJ_PLAYER)
+			{
+				CPlayer* pPlayer = (CPlayer*)(pCR->GetOwnerPointer());
+				bOwnerPos.fX = pPlayer->GetPosX() + pPlayer->GetAnimations()->GetPivotPoint().m_nX; 
+				bOwnerPos.fY = pPlayer->GetPosY() + pPlayer->GetAnimations()->GetPivotPoint().m_nY;
+			}
+			if(pCR->GetOwnerPointer()->GetType() == OBJ_ENEMY)
+			{
+				CBaseEnemy* pEnemy = (CBaseEnemy*)(pCR->GetOwnerPointer());
+				bOwnerPos.fX = pEnemy->GetPosX() + pEnemy->GetAnimations()->GetPivotPoint().m_nX; 
+				bOwnerPos.fY = pEnemy->GetPosY() + pEnemy->GetAnimations()->GetPivotPoint().m_nY;
+			}
 
 			// Set the target position vector
 			tVector2D vShotPos;
@@ -554,8 +564,18 @@ void CGame::MessageProc(CBaseMessage*	pMsg)
 
 			// Set the starting position vector
 			tVector2D bOwnerPos;
-			bOwnerPos.fX = pCR->GetOwnerPointer()->GetPosX() + pCR->GetOwnerPointer()->GetAnimations()->GetPivotPoint().m_nX; 
-			bOwnerPos.fY = pCR->GetOwnerPointer()->GetPosY() + pCR->GetOwnerPointer()->GetAnimations()->GetPivotPoint().m_nY;
+			if(pCR->GetOwnerPointer()->GetType() == OBJ_PLAYER)
+			{
+				CPlayer* pPlayer = (CPlayer*)(pCR->GetOwnerPointer());
+				bOwnerPos.fX = pPlayer->GetPosX() + pPlayer->GetAnimations()->GetPivotPoint().m_nX; 
+				bOwnerPos.fY = pPlayer->GetPosY() + pPlayer->GetAnimations()->GetPivotPoint().m_nY;
+			}
+			if(pCR->GetOwnerPointer()->GetType() == OBJ_ENEMY)
+			{
+				CBaseEnemy* pEnemy = (CBaseEnemy*)(pCR->GetOwnerPointer());
+				bOwnerPos.fX = pEnemy->GetPosX() + pEnemy->GetAnimations()->GetPivotPoint().m_nX; 
+				bOwnerPos.fY = pEnemy->GetPosY() + pEnemy->GetAnimations()->GetPivotPoint().m_nY;
+			}
 
 			// Set the target position vector
 			tVector2D vShotPos;
@@ -639,8 +659,18 @@ void CGame::MessageProc(CBaseMessage*	pMsg)
 			
 			// Get the firing position vector
 			tVector2D bOwnerPos;
-			bOwnerPos.fX = pCR->GetOwnerPointer()->GetPosX() + pCR->GetOwnerPointer()->GetAnimations()->GetPivotPoint().m_nX; 
-			bOwnerPos.fY = pCR->GetOwnerPointer()->GetPosY() + pCR->GetOwnerPointer()->GetAnimations()->GetPivotPoint().m_nY;
+			if(pCR->GetOwnerPointer()->GetType() == OBJ_PLAYER)
+			{
+				CPlayer* pPlayer = (CPlayer*)(pCR->GetOwnerPointer());
+				bOwnerPos.fX = pPlayer->GetPosX() + pPlayer->GetAnimations()->GetPivotPoint().m_nX; 
+				bOwnerPos.fY = pPlayer->GetPosY() + pPlayer->GetAnimations()->GetPivotPoint().m_nY;
+			}
+			if(pCR->GetOwnerPointer()->GetType() == OBJ_ENEMY)
+			{
+				CBaseEnemy* pEnemy = (CBaseEnemy*)(pCR->GetOwnerPointer());
+				bOwnerPos.fX = pEnemy->GetPosX() + pEnemy->GetAnimations()->GetPivotPoint().m_nX; 
+				bOwnerPos.fY = pEnemy->GetPosY() + pEnemy->GetAnimations()->GetPivotPoint().m_nY;
+			}
 
 			// Get target position vector
 			tVector2D vShotPos;
@@ -723,8 +753,18 @@ void CGame::MessageProc(CBaseMessage*	pMsg)
 
 			// Set the firing position vector			
 			tVector2D bOwnerPos;
-			bOwnerPos.fX = pCR->GetOwnerPointer()->GetPosX() + pCR->GetOwnerPointer()->GetAnimations()->GetPivotPoint().m_nX; 
-			bOwnerPos.fY = pCR->GetOwnerPointer()->GetPosY() + pCR->GetOwnerPointer()->GetAnimations()->GetPivotPoint().m_nY;
+			if(pCR->GetOwnerPointer()->GetType() == OBJ_PLAYER)
+			{
+				CPlayer* pPlayer = (CPlayer*)(pCR->GetOwnerPointer());
+				bOwnerPos.fX = pPlayer->GetPosX() + pPlayer->GetAnimations()->GetPivotPoint().m_nX; 
+				bOwnerPos.fY = pPlayer->GetPosY() + pPlayer->GetAnimations()->GetPivotPoint().m_nY;
+			}
+			if(pCR->GetOwnerPointer()->GetType() == OBJ_ENEMY)
+			{
+				CBaseEnemy* pEnemy = (CBaseEnemy*)(pCR->GetOwnerPointer());
+				bOwnerPos.fX = pEnemy->GetPosX() + pEnemy->GetAnimations()->GetPivotPoint().m_nX; 
+				bOwnerPos.fY = pEnemy->GetPosY() + pEnemy->GetAnimations()->GetPivotPoint().m_nY;
+			}
 			
 			// Set target vector
 			tVector2D vShotPos;
@@ -806,8 +846,18 @@ void CGame::MessageProc(CBaseMessage*	pMsg)
 			pGrenade->SetPosY((float)ptStartingPos.m_nY);
 
 			tVector2D bOwnerPos;
-			bOwnerPos.fX = pCR->GetOwnerPointer()->GetPosX() + pCR->GetOwnerPointer()->GetAnimations()->GetPivotPoint().m_nX; 
-			bOwnerPos.fY = pCR->GetOwnerPointer()->GetPosY() + pCR->GetOwnerPointer()->GetAnimations()->GetPivotPoint().m_nY;
+			if(pCR->GetOwnerPointer()->GetType() == OBJ_PLAYER)
+			{
+				CPlayer* pPlayer = (CPlayer*)(pCR->GetOwnerPointer());
+				bOwnerPos.fX = pPlayer->GetPosX() + pPlayer->GetAnimations()->GetPivotPoint().m_nX; 
+				bOwnerPos.fY = pPlayer->GetPosY() + pPlayer->GetAnimations()->GetPivotPoint().m_nY;
+			}
+			if(pCR->GetOwnerPointer()->GetType() == OBJ_ENEMY)
+			{
+				CBaseEnemy* pEnemy = (CBaseEnemy*)(pCR->GetOwnerPointer());
+				bOwnerPos.fX = pEnemy->GetPosX() + pEnemy->GetAnimations()->GetPivotPoint().m_nX; 
+				bOwnerPos.fY = pEnemy->GetPosY() + pEnemy->GetAnimations()->GetPivotPoint().m_nY;
+			}
 
 
 			if( pGrenade->GetOwner()->GetType() == OBJ_PLAYER )
@@ -894,8 +944,18 @@ void CGame::MessageProc(CBaseMessage*	pMsg)
 
 			// Set firing position vector
 			tVector2D bOwnerPos;
-			bOwnerPos.fX = pCR->GetOwnerPointer()->GetPosX() + pCR->GetOwnerPointer()->GetAnimations()->GetPivotPoint().m_nX; 
-			bOwnerPos.fY = pCR->GetOwnerPointer()->GetPosY() + pCR->GetOwnerPointer()->GetAnimations()->GetPivotPoint().m_nY;
+			if(pCR->GetOwnerPointer()->GetType() == OBJ_PLAYER)
+			{
+				CPlayer* pPlayer = (CPlayer*)(pCR->GetOwnerPointer());
+				bOwnerPos.fX = pPlayer->GetPosX() + pPlayer->GetAnimations()->GetPivotPoint().m_nX; 
+				bOwnerPos.fY = pPlayer->GetPosY() + pPlayer->GetAnimations()->GetPivotPoint().m_nY;
+			}
+			if(pCR->GetOwnerPointer()->GetType() == OBJ_ENEMY)
+			{
+				CBaseEnemy* pEnemy = (CBaseEnemy*)(pCR->GetOwnerPointer());
+				bOwnerPos.fX = pEnemy->GetPosX() + pEnemy->GetAnimations()->GetPivotPoint().m_nX; 
+				bOwnerPos.fY = pEnemy->GetPosY() + pEnemy->GetAnimations()->GetPivotPoint().m_nY;
+			}
 
 			// Set the target position vector
 			tVector2D vShotPos;
