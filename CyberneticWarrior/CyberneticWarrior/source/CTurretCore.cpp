@@ -29,6 +29,21 @@ CTurretCore::~CTurretCore()
 void CTurretCore::Update(float fElapsedTime)
 {
 	CIdleEnemy::Update(fElapsedTime);
+
+	if(GetGround())
+	{
+		SetBaseVelY(0);
+	}
+	else
+	{
+		SetBaseVelY(GetBaseVelY() + 25*fElapsedTime);
+
+		if(GetBaseVelY() > 25)
+			SetBaseVelY(25);
+
+		SetPosY(GetPosY() + GetBaseVelY() *fElapsedTime);
+	}
+
 	SetShotDelay(this->GetShotDelay() + fElapsedTime);
 
 	switch(ReturnAIState())
@@ -77,4 +92,73 @@ CPoint CTurretCore::GetBulletStartPos( void )
 	ptStartPos.m_nY = rFrame.top + GetAnimations()->GetPivotPoint().m_nY;
 
 	return ptStartPos;
+}
+
+bool CTurretCore::CheckCollision(CBase* pBase)
+{
+	CBase::CheckCollision( pBase );
+	
+	if(pBase->GetType() == OBJ_BLOCK)
+	{
+		CBlock* BLOCK = (CBlock*)pBase;
+
+		RECT rIntersect;
+
+		//Descriptive replacement variables
+		RECT rMyRect = { (LONG)GetPosX(), (LONG)GetPosY(), 0, 0 };
+		rMyRect.right = rMyRect.left + GetWidth();
+		rMyRect.bottom = rMyRect.top + GetHeight();
+
+		RECT rHisRect = { (LONG)BLOCK->GetPosX(), (LONG)BLOCK->GetPosY(), 0, 0 };
+		rHisRect.right = rHisRect.left + BLOCK->GetWidth();
+		rHisRect.bottom = rHisRect.top + BLOCK->GetHeight();
+
+		if( IntersectRect( &rIntersect, &rMyRect, &rHisRect ) )
+		{
+			if( (rIntersect.right-rIntersect.left) > (rIntersect.bottom-rIntersect.top) )
+			{
+				if(BLOCK->GetBlock() == BLOCK_SOLID || BLOCK->GetBlock() == BLOCK_MOVING || BLOCK->GetBlock() == BLOCK_PARTIAL || BLOCK->GetBlock() == BLOCK_UNSTABLE)
+				{
+					if(rMyRect.bottom > rHisRect.top && rMyRect.top < rHisRect.top)
+					{
+						SetPosY( (float)rHisRect.top - GetHeight() );
+						SetGround(true);
+						SetBaseVelY(0);
+						SetCollision(true);
+					}
+					else if(rMyRect.top < rHisRect.bottom && rMyRect.bottom > rHisRect.top)
+						SetPosY((float)rHisRect.bottom);
+
+				}
+				else if(BLOCK->GetBlock() == BLOCK_TRAP)
+				{
+					SetGround(true);
+					SetCollision(true);
+					SetBaseVelY(0);
+				}
+
+			}
+			else if((rIntersect.right-rIntersect.left) < (rIntersect.bottom-rIntersect.top))
+			{
+				if(BLOCK->GetBlock() == BLOCK_SOLID || BLOCK->GetBlock() == BLOCK_MOVING || BLOCK->GetBlock() == BLOCK_PARTIAL)
+				{
+					SetSpeed(-1*GetSpeed());
+				}
+				else if(BLOCK->GetBlock() == BLOCK_TRAP)
+				{
+					SetGround(true);
+					SetCollision(true);
+					SetBaseVelY(0);
+				}
+			}
+			return true;
+		}
+	}
+
+	if(GetGround() && GetCollision() == false)
+	{
+		SetGround(false);
+	}
+
+	return false;
 }

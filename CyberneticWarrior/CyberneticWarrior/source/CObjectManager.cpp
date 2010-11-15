@@ -37,6 +37,13 @@ void CObjectManager::UpdateObjects(float fElapsedTime)
 	{
 		(*iter)->Update(fElapsedTime);
 		(*iter)->CheckCulling();
+
+		if((*iter)->GetType() == OBJ_ENEMY)
+		{
+			CBaseEnemy* tmp= (CBaseEnemy*)(*iter);
+			tmp->SetCollision(false);
+		}
+
 		iter++;
 	}
 }
