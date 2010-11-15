@@ -49,6 +49,8 @@ public:
 	//	Purpose : To Render CBaseEnemy Objects to the Screen.
 	////////////////////////////////////////////////////////////////////////////////////
 	void Render(void);	
+
+	bool CheckCollision(CBase* pBase);
 };
 
 

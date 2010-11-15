@@ -92,6 +92,10 @@ CBaseEnemy::CBaseEnemy(int nGlobalType, int nImageID, int nMaxHP, int nCurrentHP
 		break;
 	}
 	m_pHostSpawner = NULL;
+
+	SetCollision(false);
+	SetGround(false);
+
 	m_bSinglePlayer = true; //Will be a CGame::GetInstance() call to check for game state when creating enemies
 }
 

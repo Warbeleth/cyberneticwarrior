@@ -45,6 +45,10 @@ class CBaseEnemy : /*public IBaseInterface, */public CBase
 	float m_fShotDelay;
 	float m_fSpeed;
 	bool m_bSinglePlayer;
+
+	bool m_bCollision;
+	bool m_bOnGround;
+
 	tVector2D m_vTargetPosition;
 	
 	//unsigned int m_uiRefCount;
@@ -105,6 +109,8 @@ public:
 	tVector2D GetTargetPosition() { return m_vTargetPosition; };
 	bool GetGameType() { return m_bSinglePlayer; };
 	virtual RECT GetRect();
+	bool GetCollision() { return m_bCollision; }
+	bool GetGround() { return m_bOnGround; }
 
 	///////////////////////////////////////////////////////////////////////////////////////////////////////
 	// Function: Modifiers 
@@ -126,6 +132,8 @@ public:
 	void SetRateOfFire(float Value) { m_fRateOfFire = Value; };
 	void SetSpeed(float Value) { m_fSpeed = Value; };
 	void SetSpawner( CSpawner* pHostSpawner ) { m_pHostSpawner = pHostSpawner; }
+	void SetCollision(bool Value) { m_bCollision = Value; }
+	void SetGround(bool Value) { m_bOnGround = Value; }
 
 	////////////////////////////////////////////////////////////////////////////////////
 	//	Function : Update
