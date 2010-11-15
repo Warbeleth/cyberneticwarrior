@@ -10,6 +10,9 @@ CBlock::CBlock(int nBlockType, float fPosX, float fPosY, int nWidth, int nHeight
 	m_nBlockType = nBlockType;
 	SetPosX(fPosX);
 	SetPosY(fPosY);
+	m_fBasePosX = fPosX;
+	m_fBasePosY = fPosY;
+
 	SetWidth(nWidth);
 	SetHeight(nHeight);
 	m_fTimeWaited = 0;
@@ -41,10 +44,11 @@ void CBlock::Update(float fElapsedTime)
 	{
 		SetPosY(GetPosY() + m_fSpeed*fElapsedTime);
 
-		if(GetPosY() > CCamera::GetInstance()->GetOffsetY()+2000)
+		if(GetPosY() > m_fBasePosY+500)
 		{
-			CGame::GetInstance()->GetMessageSystemPointer()->SendMsg(new CDestroyBlockMessage(this));
-			//CObjectManager::GetInstance()->RemoveObject(this);
+			SetPosY(m_fBasePosY);
+			SetStable(true);
+			//CGame::GetInstance()->GetMessageSystemPointer()->SendMsg(new CDestroyBlockMessage(this));
 		}
 	}
 }

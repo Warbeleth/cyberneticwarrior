@@ -529,7 +529,7 @@ void CPlayer::Update(float fElapsedTime)
 	else if(CCamera::GetInstance()->GetOffsetX() > temp_Width)
 		CCamera::GetInstance()->SetCameraOffsetX(temp_Width);
 
-	if( fabs(CCamera::GetInstance()->GetOffsetY()-(GetPosY()-300)) >= 6 || m_bJumped)
+	if( fabs(CCamera::GetInstance()->GetOffsetY()-(GetPosY()-300)) >= 6 || m_bJumped || m_bBoosting)
 		CCamera::GetInstance()->SetCameraOffsetY(int(this->GetPosY()-(300)));
 
 	if(CCamera::GetInstance()->GetOffsetY() < 0)
