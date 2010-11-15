@@ -27,7 +27,6 @@ CBaseEnemy::CBaseEnemy()
 	m_nHeight = 1;
 	m_fRateOfFire = 0.0f;
 	m_fSpeed = 0.0f;
-	m_pHostSpawner = NULL;
 	m_bSinglePlayer = true;	//Will be a CGame::GetInstance() call to check for game state when creating enemies
 }
 
@@ -93,6 +92,7 @@ CBaseEnemy::CBaseEnemy(int nGlobalType, int nImageID, int nMaxHP, int nCurrentHP
 		m_nImageID = CMapLoad::GetInstance()->m_sEnemyImage.BossPirate; 
 		break;
 	}
+	m_pHostSpawner = NULL;
 	m_bSinglePlayer = true; //Will be a CGame::GetInstance() call to check for game state when creating enemies
 }
 

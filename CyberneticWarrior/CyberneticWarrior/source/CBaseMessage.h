@@ -14,6 +14,7 @@ class CGrenade;
 class CIce;
 class CFire;
 class CBlock;
+class CSpawner;
 
 typedef  int MSGID;
 
@@ -302,10 +303,12 @@ private:
 	int m_nEnemyType;
 	int m_nPosX;
 	int m_nPosY;
+	CSpawner* m_pHostSpawner;
 public:
-	CCreateEnemyMessage(int nEnemyType, int nPosX, int nPosY);
+	CCreateEnemyMessage(int nEnemyType, int nPosX, int nPosY, CSpawner* pHostSpawner = 0 );
 	~CCreateEnemyMessage(void);
 
+	CSpawner* GetSpawner( void ) { return m_pHostSpawner; }
 	int GetEnemyType(void) { return m_nEnemyType; }
 	int GetPosX(void) { return m_nPosX; }
 	int GetPosY(void) { return m_nPosY; }
