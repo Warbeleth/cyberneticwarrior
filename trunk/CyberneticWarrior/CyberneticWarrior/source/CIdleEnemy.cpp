@@ -10,6 +10,7 @@
 
 #include "CIdleEnemy.h"
 #include "CCamera.h"
+#include "CSPawner.h"
 
 CIdleEnemy::CIdleEnemy(void)
 {
@@ -49,6 +50,11 @@ void CIdleEnemy::Update(float fElapsedTime)
 		}
 		else
 			ChangeAIState(Idle);
+	}
+	if( ReturnAIState() == iDead )
+	{
+		if( m_pHostSpawner )
+			m_pHostSpawner->DecrementTotalCurrentlySpawned( );
 	}
 }
 

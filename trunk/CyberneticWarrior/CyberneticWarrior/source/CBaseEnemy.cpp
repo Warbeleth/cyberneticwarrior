@@ -10,7 +10,6 @@
 #include "CBaseEnemy.h"
 #include "CSinglePlayerState.h"
 #include "CMapLoad.h"
-#include "CSPawner.h"
 
 CBaseEnemy::CBaseEnemy()
 {
@@ -100,9 +99,6 @@ CBaseEnemy::~CBaseEnemy()
 {
 	delete GetAnimations();
 	SetAnimations(NULL);
-
-	if( m_pHostSpawner )
-		m_pHostSpawner->DecrementTotalCurrentlySpawned( );
 }
 
 RECT CBaseEnemy::GetRect()

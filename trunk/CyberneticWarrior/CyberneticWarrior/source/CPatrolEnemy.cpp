@@ -10,6 +10,7 @@
 
 #include "CPatrolEnemy.h"
 #include "CCamera.h"
+#include "CSPawner.h"
 
 CPatrolEnemy::CPatrolEnemy(void)
 {
@@ -53,27 +54,35 @@ void CPatrolEnemy::Update(float fElapsedTime)
 		else
 			ChangeAIState(Patrol);
 
-		if(ReturnAIState() == Patrol)
-
+		switch(ReturnAIState())
 		{
-			SetPosX((GetPosX() + GetSpeed() * fElapsedTime));
-
-			if(GetPosX() <= 0)
+		case Patrol:
 			{
-				SetPosX(0);
-				SetCurrentDist(0);
-				SetSpeed(-1*GetSpeed());
+				SetPosX((GetPosX() + GetSpeed() * fElapsedTime));
+
+				if(GetPosX() <= 0)
+				{
+					SetPosX(0);
+					SetCurrentDist(0);
+					SetSpeed(-1*GetSpeed());
+				}
+
+				SetCurrentDist(GetCurrentDist() + (fabs(GetSpeed()) * fElapsedTime));
+
+				if(GetCurrentDist() >= GetMaxDist())
+				{
+					SetCurrentDist(0);
+					SetSpeed(-1*GetSpeed());
+				}
 			}
-
-			SetCurrentDist(GetCurrentDist() + (fabs(GetSpeed()) * fElapsedTime));
-
-			if(GetCurrentDist() >= GetMaxDist())
+			break;
+		case pDead:
 			{
-				SetCurrentDist(0);
-				SetSpeed(-1*GetSpeed());
+			if( m_pHostSpawner )
+				m_pHostSpawner->DecrementTotalCurrentlySpawned( );
 			}
-
-		}
+			break;
+		};
 	}
 }
 
