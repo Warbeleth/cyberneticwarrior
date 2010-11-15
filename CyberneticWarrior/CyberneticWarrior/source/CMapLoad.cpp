@@ -281,12 +281,12 @@ bool CMapLoad::LoadMap(const char* szFilename)
 
 			m_lMap[Index] = NewNode;
 
-			CBlock* newPlatform = (CBlock*)m_pOF->CreateObject("CBlock");
-			newPlatform->SetPosX((float)NewNode.m_cCollision.m_rWorldPos.left);
-			newPlatform->SetPosY((float)NewNode.m_cCollision.m_rWorldPos.top);
+			CBlock* newPlatform = new CBlock(NewNode.m_cCollision.m_nType, 
+				(float)NewNode.m_cCollision.m_rWorldPos.left,
+				(float)NewNode.m_cCollision.m_rWorldPos.top,
+				NewNode.m_cCollision.m_rWorldPos.right - NewNode.m_cCollision.m_rWorldPos.left,
+				NewNode.m_cCollision.m_rWorldPos.bottom - NewNode.m_cCollision.m_rWorldPos.top);
 
-			newPlatform->SetWidth(NewNode.m_cCollision.m_rWorldPos.right - NewNode.m_cCollision.m_rWorldPos.left);
-			newPlatform->SetHeight(NewNode.m_cCollision.m_rWorldPos.bottom - NewNode.m_cCollision.m_rWorldPos.top);
 			newPlatform->SetBlock(NewNode.m_cCollision.m_nType);
 			newPlatform->SetType(OBJ_BLOCK);
 

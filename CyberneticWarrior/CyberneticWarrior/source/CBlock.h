@@ -11,6 +11,8 @@ private:
 	int	m_nBlockType;
 	float m_fPosX;
 	float m_fPosY;
+	float m_fBasePosX;
+	float m_fBasePosY;
 	float m_fTimeWaited;
 	float m_fSpeed;
 	float m_fScaleX;
