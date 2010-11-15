@@ -62,6 +62,7 @@ void CSpawner::Update(float fElapsedTime)
 		}
 
 		++m_nTotalCurrentlySpawned;
+
 	}
 }
 

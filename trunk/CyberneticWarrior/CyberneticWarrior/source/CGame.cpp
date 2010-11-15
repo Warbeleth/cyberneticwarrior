@@ -1103,12 +1103,13 @@ void CGame::MessageProc(CBaseMessage*	pMsg)
 			//if(pEnemy->GetEnemyType())
 			int EnemyType = pEnemy->GetEnemyType();
 
-
 			switch(EnemyType)
 			{
 			case Turret_Gun:
 				{
 					CTurretCore* CEnemy = new CTurretCore(-1, (float)pEnemy->GetPosX(), (float)pEnemy->GetPosY(), Turret_Gun);
+					if(pEnemy->GetSpawner())
+						CEnemy->SetSpawner(pEnemy->GetSpawner());
 					CObjectManager::GetInstance()->AddObject(CEnemy);
 					CEnemy->Release();
 				}  
@@ -1116,6 +1117,8 @@ void CGame::MessageProc(CBaseMessage*	pMsg)
 			case Turret_Frost:
 				{
 					CTurretCore* CEnemy = new CTurretCore(-1, (float)pEnemy->GetPosX(), (float)pEnemy->GetPosY(), Turret_Frost);
+					if(pEnemy->GetSpawner())
+						CEnemy->SetSpawner(pEnemy->GetSpawner());
 					CObjectManager::GetInstance()->AddObject(CEnemy);
 					CEnemy->Release();
 				}  
@@ -1123,6 +1126,8 @@ void CGame::MessageProc(CBaseMessage*	pMsg)
 			case Turret_Fire:
 				{
 					CTurretCore* CEnemy = new CTurretCore(-1, (float)pEnemy->GetPosX(), (float)pEnemy->GetPosY(), Turret_Fire);
+					if(pEnemy->GetSpawner())
+						CEnemy->SetSpawner(pEnemy->GetSpawner());
 					CObjectManager::GetInstance()->AddObject(CEnemy);
 					CEnemy->Release();
 				}   
@@ -1130,6 +1135,8 @@ void CGame::MessageProc(CBaseMessage*	pMsg)
 			case Turret_Multi:
 				{
 					CTurretCore* CEnemy = new CTurretCore(-1, (float)pEnemy->GetPosX(), (float)pEnemy->GetPosY(), Turret_Multi);
+					if(pEnemy->GetSpawner())
+						CEnemy->SetSpawner(pEnemy->GetSpawner());
 					CObjectManager::GetInstance()->AddObject(CEnemy);
 					CEnemy->Release();
 				}  
@@ -1137,6 +1144,8 @@ void CGame::MessageProc(CBaseMessage*	pMsg)
 			case Drone_Attack:
 				{
 					CAttackDrone* CEnemy = new CAttackDrone(-1, (float)pEnemy->GetPosX(), (float)pEnemy->GetPosY());
+					if(pEnemy->GetSpawner())
+						CEnemy->SetSpawner(pEnemy->GetSpawner());
 					CObjectManager::GetInstance()->AddObject(CEnemy);
 					CEnemy->Release();
 				}  
@@ -1144,6 +1153,8 @@ void CGame::MessageProc(CBaseMessage*	pMsg)
 			case Drone_Seeker:
 				{
 					CSeekerDrone* CEnemy = new CSeekerDrone(-1, (float)pEnemy->GetPosX(), (float)pEnemy->GetPosY());
+					if(pEnemy->GetSpawner())
+						CEnemy->SetSpawner(pEnemy->GetSpawner());
 					CObjectManager::GetInstance()->AddObject(CEnemy);
 					CEnemy->Release();
 				} 
@@ -1151,6 +1162,8 @@ void CGame::MessageProc(CBaseMessage*	pMsg)
 			case Drone_Heavy:
 				{
 					CHeavyAttackDrone* CEnemy = new CHeavyAttackDrone(-1, (float)pEnemy->GetPosX(), (float)pEnemy->GetPosY());
+					if(pEnemy->GetSpawner())
+						CEnemy->SetSpawner(pEnemy->GetSpawner());
 					CObjectManager::GetInstance()->AddObject(CEnemy);
 					CEnemy->Release();
 				} 
@@ -1158,6 +1171,8 @@ void CGame::MessageProc(CBaseMessage*	pMsg)
 			case Ground_Mech:
 				{
 					CMech* CEnemy = new CMech(-1, (float)pEnemy->GetPosX(), (float)pEnemy->GetPosY());
+					if(pEnemy->GetSpawner())
+						CEnemy->SetSpawner(pEnemy->GetSpawner());
 					CObjectManager::GetInstance()->AddObject(CEnemy);
 					CEnemy->Release();
 				}
@@ -1165,6 +1180,8 @@ void CGame::MessageProc(CBaseMessage*	pMsg)
 			case Ground_Siege:
 				{
 					CSiegeWalker* CEnemy = new CSiegeWalker(-1, (float)pEnemy->GetPosX(), (float)pEnemy->GetPosY());
+					if(pEnemy->GetSpawner())
+						CEnemy->SetSpawner(pEnemy->GetSpawner());
 					CObjectManager::GetInstance()->AddObject(CEnemy);
 					CEnemy->Release();
 				}
@@ -1172,6 +1189,8 @@ void CGame::MessageProc(CBaseMessage*	pMsg)
 			case Ground_FLCL:
 				{
 					CFLCLMech* CEnemy = new CFLCLMech(-1, (float)pEnemy->GetPosX(), (float)pEnemy->GetPosY());
+					if(pEnemy->GetSpawner())
+						CEnemy->SetSpawner(pEnemy->GetSpawner());
 					CObjectManager::GetInstance()->AddObject(CEnemy);
 					CEnemy->Release();
 				}
@@ -1179,6 +1198,8 @@ void CGame::MessageProc(CBaseMessage*	pMsg)
 			case Boss_Apple:
 				{
 					CAppleMech* CEnemy = new CAppleMech(-1, (float)pEnemy->GetPosX(), (float)pEnemy->GetPosY());
+					if(pEnemy->GetSpawner())
+						CEnemy->SetSpawner(pEnemy->GetSpawner());
 					CObjectManager::GetInstance()->AddObject(CEnemy);
 					CEnemy->Release();
 				}  
@@ -1186,6 +1207,8 @@ void CGame::MessageProc(CBaseMessage*	pMsg)
 			case Boss_Pimp:
 				{
 					CPimpStriker* CEnemy = new CPimpStriker(-1, (float)pEnemy->GetPosX(), (float)pEnemy->GetPosY());
+					if(pEnemy->GetSpawner())
+						CEnemy->SetSpawner(pEnemy->GetSpawner());
 					CObjectManager::GetInstance()->AddObject(CEnemy);
 					CEnemy->Release();
 				}   
@@ -1193,6 +1216,8 @@ void CGame::MessageProc(CBaseMessage*	pMsg)
 			case Boss_Pirate:
 				{
 					CDeathPirate* CEnemy = new CDeathPirate(-1, (float)pEnemy->GetPosX(), (float)pEnemy->GetPosY());
+					if(pEnemy->GetSpawner())
+						CEnemy->SetSpawner(pEnemy->GetSpawner());
 					CObjectManager::GetInstance()->AddObject(CEnemy);
 					CEnemy->Release();
 				}   

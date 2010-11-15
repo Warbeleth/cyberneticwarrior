@@ -467,11 +467,12 @@ CDestroyEnemyMessage::~CDestroyEnemyMessage(void)
 {
 }
 
-CCreateEnemyMessage::CCreateEnemyMessage(int nEnemyType, int nPosX, int nPosY) : CBaseMessage(MSG_CREATE_ENEMY)
+CCreateEnemyMessage::CCreateEnemyMessage(int nEnemyType, int nPosX, int nPosY, CSpawner* pHostSpawner ) : CBaseMessage(MSG_CREATE_ENEMY)
 {
 	m_nEnemyType = nEnemyType;
 	m_nPosX = nPosX;
 	m_nPosY = nPosY;
+	m_pHostSpawner = pHostSpawner;
 }
 
 CCreateEnemyMessage::~CCreateEnemyMessage(void)

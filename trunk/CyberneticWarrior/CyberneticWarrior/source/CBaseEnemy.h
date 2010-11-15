@@ -125,6 +125,7 @@ public:
 	void SetHeight(int Value) { m_nHeight = Value; };
 	void SetRateOfFire(float Value) { m_fRateOfFire = Value; };
 	void SetSpeed(float Value) { m_fSpeed = Value; };
+	void SetSpawner( CSpawner* pHostSpawner ) { m_pHostSpawner = pHostSpawner; }
 
 	////////////////////////////////////////////////////////////////////////////////////
 	//	Function : Update
