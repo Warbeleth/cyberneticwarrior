@@ -46,8 +46,7 @@ class CBaseEnemy : /*public IBaseInterface, */public CBase
 	float m_fSpeed;
 	bool m_bSinglePlayer;
 	tVector2D m_vTargetPosition;
-	CSpawner* m_pHostSpawner;
-
+	
 	//unsigned int m_uiRefCount;
 protected:
 	enum Enemies { Turret_Gun = 0, Turret_Frost, Turret_Fire, Turret_Multi,
@@ -55,6 +54,7 @@ protected:
 		Ground_Mech, Ground_Siege, Ground_FLCL,
 		Boss_Apple, Boss_Pimp, Boss_Pirate      
 	};
+	CSpawner* m_pHostSpawner;
 
 public:
 	////////////////////////////////////////////////////////////////////////////////////
