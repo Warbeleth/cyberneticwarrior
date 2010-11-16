@@ -752,7 +752,7 @@ void CPlayer::Input(float fElapsedTime)
 	// Check Input for Jumping
 	//////////////////////////////////////////////////////////////////////////////
 
-	static float fJumpSpeed = -595.0f;
+	static float fJumpSpeed = -600.0f;
 
 	//static float fJumpSpeed = 0;//-550.0f;
 
@@ -799,7 +799,7 @@ void CPlayer::Input(float fElapsedTime)
 		else if(this->m_nSelectedBootSlot == this->ROCKET_BOOTS && this->m_bBoosting && this->m_fRemainingEnergy <= 0.0f)
 		{
 
-			fJumpSpeed = -595.0f;
+			fJumpSpeed = -600.0f;
 
 			this->m_bHovering = false;
 			this->m_bBoosting = false;
@@ -813,7 +813,7 @@ void CPlayer::Input(float fElapsedTime)
  			this->m_pMovingBlock = NULL;
 			this->m_bOnGround = false;
 			this->m_bOnMovingPlatform = false;
-			this->m_vSpeed.fY = -550;
+			this->m_vSpeed.fY = fJumpSpeed;
 			this->SetBaseVelY(this->m_vSpeed.fY);
 			this->m_bJumped = true;
 		}
@@ -825,7 +825,7 @@ void CPlayer::Input(float fElapsedTime)
 		|| CSGD_DirectInput::GetInstance()->JoystickButtonReleased(1)))
 	{
 
-			fJumpSpeed = -595.0f;
+			fJumpSpeed = -600.0f;
 
 			this->m_bHovering = false;
 			this->m_bBoosting = false;
@@ -869,6 +869,7 @@ void CPlayer::Input(float fElapsedTime)
 				}
 				this->m_bRotBackward = true;
 				this->m_pHook->SetRotation(this->m_pHook->GetRotation() + (this->m_pHook->GetRotationRate()*fElapsedTime));
+
 				/*if(this->m_bFirstSwing == true && 
 					(this->GetPosX() > (this->m_pHook->GetPosX() + 100) || this->GetPosX() < this->m_pHook->GetPosX() - 100))
 				{
@@ -876,6 +877,7 @@ void CPlayer::Input(float fElapsedTime)
 					this->m_bFirstSwing = false;
 					this->m_bAllowSwing = false;
 				}*/
+
 				if( this->GetPosY() < (this->m_pHook->GetPosY() + 15.0f))
 				{
 					this->m_pHook->SetRotation(0.0f);
@@ -1126,7 +1128,7 @@ void CPlayer::Input(float fElapsedTime)
 	//////////////////////////////////////////////////////////////////////////////
 	if(CSGD_DirectInput::GetInstance()->KeyPressed(CGame::GetInstance()->GetPlayerOneControls(7)))
 	{
-		m_bHomingOn = !m_bHomingOn;
+		this->m_bHomingOn = !this->m_bHomingOn;
 	}
 	//////////////////////////////////////////////////////////////////////////////
 

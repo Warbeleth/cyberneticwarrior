@@ -11,7 +11,7 @@ class CSGD_WaveManager;
 class CSGD_DirectSound;
 class CEvent;
 
-#define MMENU_SPACE 45
+#define MMENU_SPACE 50
 
 class CMainMenuState : public IGameState
 {

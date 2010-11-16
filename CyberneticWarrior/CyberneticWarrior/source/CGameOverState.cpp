@@ -78,7 +78,7 @@ bool CGameOverState::Input(void)
 	if(m_pDI->GetInstance()->KeyPressed(DIK_LEFT) || m_pDI->JoystickDPadPressed(DIR_LEFT))
 	{
 		m_nSelection--;
-		if(this->m_nSelection > this->CONTINUE)
+		if(this->m_nSelection < this->CONTINUE)
 		{
 			this->m_nSelection = this->EXIT;
 		}

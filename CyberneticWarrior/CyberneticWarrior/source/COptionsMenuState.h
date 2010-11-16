@@ -17,20 +17,23 @@ class COptionsMenuState : public IGameState
 {
 private:
 
-	enum selections { CONTROL_SELECT = 0, MUSIC_VOLUME, SFX_VOLUME, MUTE, EXIT_OMENU,
+	enum selections { MUSIC_VOLUME = 0, SFX_VOLUME, MUTE, CONTROL_SELECT, EXIT_OMENU,
 		OMENU_START = 150, OM_CURSOR_POS = 130, MENUX = 125};
 
 	CFont	m_OptionsFont;
 	
 	float m_fWaitTime;
+	
 	// Texture IDs
 	int	m_nBackgroundID;
 	int m_nCursorID;
 	int m_nMuteOnID;
 	int m_nMuteOffID;
+	
 	// Music IDs
 	int m_nMusicID;
 	int m_nSFXID;
+
 	// Selection IDs
 	int m_nSelectionPos;
 	int	m_nSelection;

@@ -189,17 +189,18 @@ void	CMainMenuState::Render(void)
 	
 	this->m_MenuFont.Draw("Options", 225, (this->MM_OPTIONS * MMENU_SPACE) + this->MMENU_START, 
 		(this->m_nSelection == this->MM_OPTIONS? 1.5f : 1.0f), 
-		(this->m_nSelection == this->MM_OPTIONS? D3DXCOLOR(0.0f, 1.0f, 1.0f, 1.0f) : D3DXCOLOR(0.6f, 0.6f, 1.0f, 1.0f)));
+		(this->m_nSelection == this->MM_OPTIONS? D3DXCOLOR(0.0f, 1.0f, 1.0f, 1.0f) : D3DXCOLOR(0.7f, 0.7f, 1.0f, 1.0f)));
 	
 	this->m_MenuFont.Draw("Controls", 225, (this->MM_CONTROLS * MMENU_SPACE) + this->MMENU_START, 
 		(this->m_nSelection == this->MM_CONTROLS? 1.5f : 1.0f),
-		(this->m_nSelection == this->MM_CONTROLS? D3DXCOLOR(0.0f, 1.0f, 1.0f, 1.0f) : D3DXCOLOR(0.6f, 0.6f, 1.0f, 1.0f)));
+		(this->m_nSelection == this->MM_CONTROLS? D3DXCOLOR(0.0f, 1.0f, 1.0f, 1.0f) : D3DXCOLOR(0.7f, 0.7f, 1.0f, 1.0f)));
 	
 	this->m_MenuFont.Draw("Credits", 225, (this->CREDITS * MMENU_SPACE) + this->MMENU_START, 
 		(this->m_nSelection == this->CREDITS? 1.5f : 1.0f),
-		(this->m_nSelection == this->CREDITS? D3DXCOLOR(0.0f, 1.0f, 1.0f, 1.0f) : D3DXCOLOR(0.6f, 0.6f, 1.0f, 1.0f)));
+		(this->m_nSelection == this->CREDITS? D3DXCOLOR(0.0f, 1.0f, 1.0f, 1.0f) : D3DXCOLOR(0.7f, 0.7f, 1.0f, 1.0f)));
 	
-	this->m_MenuFont.Draw("Exit Game", 300, (this->EXIT_GAME * MMENU_SPACE) + this->MMENU_START, 
+	this->m_MenuFont.Draw("Exit Game", (this->m_nSelection == this->EXIT_GAME? 275 : 300), 
+		(this->EXIT_GAME * MMENU_SPACE) + this->MMENU_START - (this->m_nSelection == this->EXIT_GAME? 30 : 20), 
 		(this->m_nSelection == this->EXIT_GAME? 1.5f : 1.0f),
 		(this->m_nSelection == this->EXIT_GAME? D3DXCOLOR(0.0f, 1.0f, 1.0f, 1.0f) : D3DXCOLOR(0.6f, 0.6f, 1.0f, 1.0f)));
 	
