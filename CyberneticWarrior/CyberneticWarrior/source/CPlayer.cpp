@@ -379,13 +379,7 @@ void CPlayer::Update(float fElapsedTime)
 			//////////////////////////////////////////////////////////////////////////////
 			// Rotate hooks vector by either player input or players update
 			//////////////////////////////////////////////////////////////////////////////
-			//D3DXToDegree(
-			//this->SetRotation(/*this->GetRotation() + */AngleBetweenVectors(vHook, this->m_vVectorVelocity));
-			//this->SetRotation(SGD_PI +(SGD_PI - this->GetRotation()));
-			//this->m_vVectorVelocity = this->m_vVectorVelocity * 500.0f;// this->m_vSpeed.fX;
 			this->m_vVectorVelocity = Vector2DRotate(this->m_vVectorVelocity, this->GetRotation());
-			//this->SetBaseVelX(0.0f);
-			//this->SetBaseVelY(0.0f);
 			//////////////////////////////////////////////////////////////////////////////
 
 
@@ -405,9 +399,6 @@ void CPlayer::Update(float fElapsedTime)
 		}
 		else
 		{
-			//this->m_vVectorVelocity.fX = 0.0f;
-
-			//this->m_vVectorVelocity.fY = 0.0f;
 			//////////////////////////////////////////////////////////////////////////////
 			// If player isnt swinging just update him like a real boy
 			//////////////////////////////////////////////////////////////////////////////
@@ -422,7 +413,7 @@ void CPlayer::Update(float fElapsedTime)
 		//////////////////////////////////////////////////////////////////////////////
 		// If no Hook even exists reset players rotation and update regularly
 		//////////////////////////////////////////////////////////////////////////////
-		this->SetRotation(0.0f);
+		//this->SetRotation(0.0f);
 		this->SetBaseVelX(this->m_vSpeed.fX);
 		//////////////////////////////////////////////////////////////////////////////
 	}
@@ -442,6 +433,7 @@ void CPlayer::Update(float fElapsedTime)
 		this->m_vSpeed.fY = 0.0f;
 		this->SetBaseVelY(this->m_vSpeed.fY);
 		this->m_bJumped = false;
+		this->SetRotation(0.0f);
 		//////////////////////////////////////////////////////////////////////////////
 	}
 	else
@@ -476,16 +468,6 @@ void CPlayer::Update(float fElapsedTime)
 	}
 
 
-	//////////////////////////////////////////////////////////////////////////////
-	// If player is lower that screen height clamp with to above ground
-	// Notes: WILL HAVE TO BE REMOVED!@!#)!@
-	//////////////////////////////////////////////////////////////////////////////
-	//if(this->GetPosY() > 600 - this->GetHeight())
-	//{
-	//	this->m_bOnGround = 1;
-	//	this->SetPosY(600 - (float)this->GetHeight());
-	//}
-	//////////////////////////////////////////////////////////////////////////////
 
 	
 	
@@ -717,11 +699,20 @@ void CPlayer::Input(float fElapsedTime)
 	//////////////////////////////////////////////////////////////////////////////
 	// Check input for grappling hook grapple towards or away from hook
 	//////////////////////////////////////////////////////////////////////////////
+	if(this->m_pHook)
+	{
+		if(this->GetPosY() < (this->m_pHook->GetPosY() + 30)
+					&& this->m_pHook->GetIfHooked() && !this->GetOnGround())
+		{
+			this->SetPosY(this->GetPosY() + 0.5f);
+		}
+	}
+	//////////////////////////////////////////////////////////////////////////////
 	if(CSGD_DirectInput::GetInstance()->KeyDown(CGame::GetInstance()->GetPlayerOneControls(9)))
 	{
 		if(this->m_pHook)
 		{
-			if(this->GetPosY() > (this->m_pHook->GetPosY() + 30) && this->GetPosY() < (this->m_pHook->GetPosY() + 500)
+			if(this->GetPosY() > (this->m_pHook->GetPosY() + 30) 
 				&& this->m_pHook->GetIfHooked() && !this->GetOnGround())
 			{
 				if(this->GetPosX() < this->m_pHook->GetPosX()  && this->m_pHook->GetIfHooked() && !this->GetOnGround())
@@ -737,6 +728,7 @@ void CPlayer::Input(float fElapsedTime)
 					this->SetPosY(this->GetPosY() - 0.5f);
 				}
 			}
+			
 		}
 	}
 	//////////////////////////////////////////////////////////////////////////////
@@ -744,7 +736,7 @@ void CPlayer::Input(float fElapsedTime)
 	{
 		if(this->m_pHook)
 		{
-			if(this->GetPosY() > (this->m_pHook->GetPosY() + 30) && this->GetPosY() < (this->m_pHook->GetPosY() + 500)
+			if( this->GetPosY() < (this->m_pHook->GetPosY() + 500)
 				&& this->m_pHook->GetIfHooked() && !this->GetOnGround())
 			{
 				if(this->GetPosX() > this->m_pHook->GetPosX()  && this->m_pHook->GetIfHooked() && !this->GetOnGround())
@@ -776,8 +768,7 @@ void CPlayer::Input(float fElapsedTime)
 
 	if((CSGD_DirectInput::GetInstance()->KeyPressed(CGame::GetInstance()->GetPlayerOneControls(0))
 		|| CSGD_DirectInput::GetInstance()->JoystickButtonPressed(1)))
-	{
-		
+	{		
 		if(this->m_nSelectedBootSlot == this->ROCKET_BOOTS && !this->m_bBoosting && this->m_fRemainingEnergy > 0.0f)
 		{
 			this->DecrementEnergy(5.0f);
