@@ -841,7 +841,6 @@ void CPlayer::Input(float fElapsedTime)
 	if((CSGD_DirectInput::GetInstance()->KeyReleased(DIK_SPACE)
 		|| CSGD_DirectInput::GetInstance()->JoystickButtonReleased(1)))
 	{
-
 			fJumpSpeed = -600.0f;
 
 			this->m_bHovering = false;
@@ -871,8 +870,7 @@ void CPlayer::Input(float fElapsedTime)
 		}
 
 		this->m_pMovingBlock = NULL;
-
-			//this->m_bJoyMove = true;
+		//this->m_bJoyMove = true;
 		this->m_bOnMovingPlatform = false;
 
 		if(this->m_pHook)
@@ -885,8 +883,11 @@ void CPlayer::Input(float fElapsedTime)
 					this->m_bRotFoward = false;
 				}
 				this->m_bRotBackward = true;
-				this->m_pHook->SetRotation(this->m_pHook->GetRotation() + (this->m_pHook->GetRotationRate()*fElapsedTime));
-
+				
+				if(this->GetRotation() < 0.003f)
+				{
+					this->m_pHook->SetRotation(this->m_pHook->GetRotation() + (this->m_pHook->GetRotationRate()*fElapsedTime));
+				}
 				/*if(this->m_bFirstSwing == true && 
 					(this->GetPosX() > (this->m_pHook->GetPosX() + 100) || this->GetPosX() < this->m_pHook->GetPosX() - 100))
 				{
@@ -937,7 +938,10 @@ void CPlayer::Input(float fElapsedTime)
 					this->m_bRotBackward = false;
 				}
 				this->m_bRotFoward = true;
-				this->m_pHook->SetRotation(this->m_pHook->GetRotation() - (this->m_pHook->GetRotationRate()*fElapsedTime));
+				if(this->GetRotation() > -0.003f)
+				{
+					this->m_pHook->SetRotation(this->m_pHook->GetRotation() - (this->m_pHook->GetRotationRate()*fElapsedTime));
+				}
 				/*if(this->m_bFirstSwing == true && 
 					(this->GetPosX() > (this->m_pHook->GetPosX() + 100) || this->GetPosX() < this->m_pHook->GetPosX() - 100))
 				{
