@@ -118,7 +118,10 @@ bool CAchievementsState::Input(void)
 //////////////////////////////////////////////////////////////////////////////////////////////////////
 void CAchievementsState::Update(float fElapsedTime)
 {
-
+	for(;;)
+	{
+		cout << "LOLOLOLOL";
+	}
 	m_OptionsFont.Update( fElapsedTime );
 
 	AtractMode( fElapsedTime );
