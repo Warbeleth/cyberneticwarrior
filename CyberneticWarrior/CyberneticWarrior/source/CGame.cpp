@@ -484,39 +484,26 @@ void CGame::MessageProc(CBaseMessage*	pMsg)
 
 			// Set the target position vector
 			tVector2D vShotPos;
-			if(pCR->GetOwnerPointer()->GetType() == OBJ_PLAYER)
-			{
-				CPlayer* pPlayer = (CPlayer*)pCR->GetOwnerPointer();
-				if(CSinglePlayerState::GetInstance()->GetInputType())
-				{
-					vShotPos.fX = bOwnerPos.fX + (float)pPlayer->GetJoyPos()->fX;
-					vShotPos.fY = bOwnerPos.fY +(float)pPlayer->GetJoyPos()->fY;
-				}
-				else if(!CSinglePlayerState::GetInstance()->GetInputType())
-				{
-					vShotPos.fX = (float)CSGD_DirectInput::GetInstance()->MouseGetPosX() + CCamera::GetInstance()->GetOffsetX();
-					vShotPos.fY = (float)CSGD_DirectInput::GetInstance()->MouseGetPosY() + CCamera::GetInstance()->GetOffsetY();
-				}
-			}
-			else if(pCR->GetOwnerPointer()->GetType() == OBJ_ENEMY)
-			{
-				vShotPos.fX = CSinglePlayerState::GetInstance()->GetPlayerPointer()->GetPosX() + CSinglePlayerState::GetInstance()->GetPlayerPointer()->GetWidth();
-				vShotPos.fY = CSinglePlayerState::GetInstance()->GetPlayerPointer()->GetPosY();
-			}
+			vShotPos.fX = CSinglePlayerState::GetInstance()->GetPlayerPointer()->GetPosX() + CSinglePlayerState::GetInstance()->GetPlayerPointer()->GetWidth();
+			vShotPos.fY = CSinglePlayerState::GetInstance()->GetPlayerPointer()->GetPosY();
 
 			// Get the firing direction
 			tVector2D vShot;
 			vShot = vShotPos - bOwnerPos;
+		
+			// Default vector
+			tVector2D vecRocketRotation;
+			vecRocketRotation.fX = 0.0f;
+			vecRocketRotation.fY = -1.0f;
 
 			// Set the rotation
 			if(pBullet->GetOwner()->GetType() == OBJ_PLAYER)
+			{
 				pBullet->SetRotation( (float)(CSinglePlayerState::GetInstance()->GetPlayerPointer()->GetHandRotation() - .5*SGD_PI));
+				vecRocketRotation = Vector2DRotate( vecRocketRotation, CSinglePlayerState::GetInstance()->GetPlayerPointer()->GetHandRotation() );
+			}
 			else if(pCR->GetOwnerPointer()->GetType() == OBJ_ENEMY)
 			{
-				tVector2D vecRocketRotation;
-				vecRocketRotation.fX = 0.0f;
-				vecRocketRotation.fY = -1.0f;
-
 				// Find Initial rotation
 				float fAngle = AngleBetweenVectors( vecRocketRotation, vShot ) - SGD_PI/2;
 
@@ -528,7 +515,11 @@ void CGame::MessageProc(CBaseMessage*	pMsg)
 			}
 			
 			// Fire the bullet
-			vShot = Vector2DNormalize(vShot);
+			if( pBullet->GetOwner()->GetType() == OBJ_ENEMY )
+				vShot = Vector2DNormalize(vShot);
+			else if( pBullet->GetOwner()->GetType() == OBJ_PLAYER )
+				vShot = vecRocketRotation;
+
 			pBullet->SetBaseVelX(vShot.fX * fRocketVelocity);
 			pBullet->SetBaseVelY(vShot.fY * fRocketVelocity);
 
@@ -579,39 +570,26 @@ void CGame::MessageProc(CBaseMessage*	pMsg)
 
 			// Set the target position vector
 			tVector2D vShotPos;
-			if(pCR->GetOwnerPointer()->GetType() == OBJ_PLAYER)
-			{
-				CPlayer* pPlayer = (CPlayer*)pCR->GetOwnerPointer();
-				if(CSinglePlayerState::GetInstance()->GetInputType())
-				{
-					vShotPos.fX = bOwnerPos.fX + (float)pPlayer->GetJoyPos()->fX;
-					vShotPos.fY = bOwnerPos.fY +(float)pPlayer->GetJoyPos()->fY;
-				}
-				else if(!CSinglePlayerState::GetInstance()->GetInputType())
-				{
-					vShotPos.fX = (float)CSGD_DirectInput::GetInstance()->MouseGetPosX() + CCamera::GetInstance()->GetOffsetX();
-					vShotPos.fY = (float)CSGD_DirectInput::GetInstance()->MouseGetPosY() + CCamera::GetInstance()->GetOffsetY();
-				}
-			}
-			else if(pCR->GetOwnerPointer()->GetType() == OBJ_ENEMY)
-			{
-				vShotPos.fX = CSinglePlayerState::GetInstance()->GetPlayerPointer()->GetPosX() + CSinglePlayerState::GetInstance()->GetPlayerPointer()->GetWidth();
-				vShotPos.fY = CSinglePlayerState::GetInstance()->GetPlayerPointer()->GetPosY();
-			}
+			vShotPos.fX = CSinglePlayerState::GetInstance()->GetPlayerPointer()->GetPosX() + CSinglePlayerState::GetInstance()->GetPlayerPointer()->GetWidth();
+			vShotPos.fY = CSinglePlayerState::GetInstance()->GetPlayerPointer()->GetPosY();
 
 			// Get the firing direction
 			tVector2D vShot;
 			vShot = vShotPos - bOwnerPos;
 
+			// Default vector
+			tVector2D vecRocketRotation;
+			vecRocketRotation.fX = 0.0f;
+			vecRocketRotation.fY = -1.0f;
+
 			// Set the rotation
 			if(pRocket->GetOwner()->GetType() == OBJ_PLAYER)
+			{
 				pRocket->SetRotation( (float)(CSinglePlayerState::GetInstance()->GetPlayerPointer()->GetHandRotation() - .5*SGD_PI));
+				vecRocketRotation = Vector2DRotate( vecRocketRotation, CSinglePlayerState::GetInstance()->GetPlayerPointer()->GetHandRotation() );
+			}
 			else if(pCR->GetOwnerPointer()->GetType() == OBJ_ENEMY)
 			{
-				tVector2D vecRocketRotation;
-				vecRocketRotation.fX = 0.0f;
-				vecRocketRotation.fY = -1.0f;
-
 				// Find Initial rotation
 				float fAngle = AngleBetweenVectors( vecRocketRotation, vShot ) - SGD_PI/2;
 
@@ -623,7 +601,11 @@ void CGame::MessageProc(CBaseMessage*	pMsg)
 			}
 
 			// Fire the bullet
-			vShot = Vector2DNormalize(vShot);
+			if( pRocket->GetOwner()->GetType() == OBJ_ENEMY )
+				vShot = Vector2DNormalize(vShot);
+			else if( pRocket->GetOwner()->GetType() == OBJ_PLAYER )
+				vShot = vecRocketRotation;
+
 			pRocket->SetBaseVelX(vShot.fX * fRocketVelocity);
 			pRocket->SetBaseVelY(vShot.fY * fRocketVelocity);
 
@@ -674,38 +656,26 @@ void CGame::MessageProc(CBaseMessage*	pMsg)
 
 			// Get target position vector
 			tVector2D vShotPos;
-			if(pCR->GetOwnerPointer()->GetType() == OBJ_PLAYER)
-			{
-				CPlayer* pPlayer = (CPlayer*)pCR->GetOwnerPointer();
-				if(CSinglePlayerState::GetInstance()->GetInputType())
-				{
-					vShotPos.fX = bOwnerPos.fX + (float)pPlayer->GetJoyPos()->fX;
-					vShotPos.fY = bOwnerPos.fY +(float)pPlayer->GetJoyPos()->fY;
-				}
-				else if(!CSinglePlayerState::GetInstance()->GetInputType())
-				{
-					vShotPos.fX = (float)CSGD_DirectInput::GetInstance()->MouseGetPosX() + CCamera::GetInstance()->GetOffsetX();
-					vShotPos.fY = (float)CSGD_DirectInput::GetInstance()->MouseGetPosY() + CCamera::GetInstance()->GetOffsetY();
-				}
-			}
-			else if(pCR->GetOwnerPointer()->GetType() == OBJ_ENEMY)
-			{
-				vShotPos.fX = CSinglePlayerState::GetInstance()->GetPlayerPointer()->GetPosX() + CSinglePlayerState::GetInstance()->GetPlayerPointer()->GetWidth();
-				vShotPos.fY = CSinglePlayerState::GetInstance()->GetPlayerPointer()->GetPosY();
-			}
+			vShotPos.fX = CSinglePlayerState::GetInstance()->GetPlayerPointer()->GetPosX() + CSinglePlayerState::GetInstance()->GetPlayerPointer()->GetWidth();
+			vShotPos.fY = CSinglePlayerState::GetInstance()->GetPlayerPointer()->GetPosY();
 
 			// Get the firing direction
 			tVector2D vShot;
 			vShot = vShotPos - bOwnerPos;
 
+			// Default vector
+			tVector2D vecRocketRotation;
+			vecRocketRotation.fX = 0.0f;
+			vecRocketRotation.fY = -1.0f;
+
 			// Set the rotation
 			if(pFlame->GetOwner()->GetType() == OBJ_PLAYER)
+			{
 				pFlame->SetRotation( (float)(CSinglePlayerState::GetInstance()->GetPlayerPointer()->GetHandRotation() - .5*SGD_PI));
+				vecRocketRotation = Vector2DRotate( vecRocketRotation, CSinglePlayerState::GetInstance()->GetPlayerPointer()->GetHandRotation() );
+			}
 			else if(pCR->GetOwnerPointer()->GetType() == OBJ_ENEMY)
 			{
-				tVector2D vecRocketRotation;
-				vecRocketRotation.fX = 0.0f;
-				vecRocketRotation.fY = -1.0f;
 				// Find Initial rotation
 				float fAngle = AngleBetweenVectors( vecRocketRotation, vShot ) - SGD_PI/2;
 
@@ -717,7 +687,11 @@ void CGame::MessageProc(CBaseMessage*	pMsg)
 			}
 
 			// Fire the bullet
-			vShot = Vector2DNormalize(vShot);
+			if(pFlame->GetOwner()->GetType() == OBJ_ENEMY)
+				vShot = Vector2DNormalize(vShot);
+			else if(pFlame->GetOwner()->GetType() == OBJ_PLAYER )
+				vShot = vecRocketRotation;
+
 			pFlame->SetBaseVelX(vShot.fX * fFlameVelocity);
 			pFlame->SetBaseVelY(vShot.fY * fFlameVelocity);
 
@@ -768,39 +742,26 @@ void CGame::MessageProc(CBaseMessage*	pMsg)
 			
 			// Set target vector
 			tVector2D vShotPos;
-			if(pCR->GetOwnerPointer()->GetType() == OBJ_PLAYER)
-			{
-				CPlayer* pPlayer = (CPlayer*)pCR->GetOwnerPointer();
-				if(CSinglePlayerState::GetInstance()->GetInputType())
-				{
-					vShotPos.fX = bOwnerPos.fX + (float)pPlayer->GetJoyPos()->fX;
-					vShotPos.fY = bOwnerPos.fY +(float)pPlayer->GetJoyPos()->fY;
-				}
-				else if(!CSinglePlayerState::GetInstance()->GetInputType())
-				{
-					vShotPos.fX = (float)CSGD_DirectInput::GetInstance()->MouseGetPosX() + CCamera::GetInstance()->GetOffsetX();
-					vShotPos.fY = (float)CSGD_DirectInput::GetInstance()->MouseGetPosY() + CCamera::GetInstance()->GetOffsetY();
-				}
-			}
-			else if(pCR->GetOwnerPointer()->GetType() == OBJ_ENEMY)
-			{
-				vShotPos.fX = CSinglePlayerState::GetInstance()->GetPlayerPointer()->GetPosX() + CSinglePlayerState::GetInstance()->GetPlayerPointer()->GetWidth();
-				vShotPos.fY = CSinglePlayerState::GetInstance()->GetPlayerPointer()->GetPosY();
-			}
+			vShotPos.fX = CSinglePlayerState::GetInstance()->GetPlayerPointer()->GetPosX() + CSinglePlayerState::GetInstance()->GetPlayerPointer()->GetWidth();
+			vShotPos.fY = CSinglePlayerState::GetInstance()->GetPlayerPointer()->GetPosY();
 
 			// Get firing direction
 			tVector2D vShot;
 			vShot = vShotPos - bOwnerPos;
 
+			// Default vector
+			tVector2D vecRocketRotation;
+			vecRocketRotation.fX = 0.0f;
+			vecRocketRotation.fY = -1.0f;
+
 			// Set the rotation
 			if(pPlasma->GetOwner()->GetType() == OBJ_PLAYER)
+			{
 				pPlasma->SetRotation( (float)(CSinglePlayerState::GetInstance()->GetPlayerPointer()->GetHandRotation() - .5*SGD_PI));
+				vecRocketRotation = Vector2DRotate(vecRocketRotation, CSinglePlayerState::GetInstance()->GetPlayerPointer()->GetHandRotation());
+			}
 			else if(pCR->GetOwnerPointer()->GetType() == OBJ_ENEMY)
 			{
-				tVector2D vecRocketRotation;
-				vecRocketRotation.fX = 0.0f;
-				vecRocketRotation.fY = -1.0f;
-
 				// Find Initial rotation
 				float fAngle = AngleBetweenVectors( vecRocketRotation, vShot ) - SGD_PI/2;
 
@@ -812,7 +773,11 @@ void CGame::MessageProc(CBaseMessage*	pMsg)
 			}
 
 			// Fire the bullet
-			vShot = Vector2DNormalize(vShot);
+			if( pPlasma->GetOwner()->GetType() == OBJ_ENEMY)
+				vShot = Vector2DNormalize(vShot);
+			else if( pPlasma->GetOwner()->GetType() == OBJ_PLAYER )
+				vShot = vecRocketRotation;
+
 			pPlasma->SetBaseVelX(vShot.fX * fFlameVelocity);
 			pPlasma->SetBaseVelY(vShot.fY * fFlameVelocity);
 
@@ -845,6 +810,7 @@ void CGame::MessageProc(CBaseMessage*	pMsg)
 			pGrenade->SetPosX((float)ptStartingPos.m_nX);
 			pGrenade->SetPosY((float)ptStartingPos.m_nY);
 
+			// Firing position vector
 			tVector2D bOwnerPos;
 			if(pCR->GetOwnerPointer()->GetType() == OBJ_PLAYER)
 			{
@@ -859,15 +825,28 @@ void CGame::MessageProc(CBaseMessage*	pMsg)
 				bOwnerPos.fY = pEnemy->GetPosY() + pEnemy->GetAnimations()->GetPivotPoint().m_nY;
 			}
 
+			// Firing Target
+			tVector2D vShotPos;
+			vShotPos.fX = CSinglePlayerState::GetInstance()->GetPlayerPointer()->GetPosX();
+			vShotPos.fY = CSinglePlayerState::GetInstance()->GetPlayerPointer()->GetPosY();
 
+			// Find the direction
+			tVector2D vShot;
+			vShot = vShotPos - bOwnerPos;
+
+			// Default vector
+			tVector2D vecRocketRotation;
+			vecRocketRotation.fX = 0.0f;
+			vecRocketRotation.fY = -1.0f;
+
+			// Set Rotation
 			if( pGrenade->GetOwner()->GetType() == OBJ_PLAYER )
+			{
 				pGrenade->SetRotation( (float)(CSinglePlayerState::GetInstance()->GetPlayerPointer()->GetHandRotation() - .5*SGD_PI));
+				vecRocketRotation = Vector2DRotate( vecRocketRotation, CSinglePlayerState::GetInstance()->GetPlayerPointer()->GetHandRotation() );
+			}
 			else if(pCR->GetOwnerPointer()->GetType() == OBJ_ENEMY)
 			{
-				tVector2D vecRocketRotation;
-				vecRocketRotation.fX = 0.0f;
-				vecRocketRotation.fY = -1.0f;
-
 				tVector2D vecPosition;
 				vecPosition.fX = CSinglePlayerState::GetInstance()->GetPlayerPointer()->GetPosX() - pGrenade->GetPosX();
 				vecPosition.fY = CSinglePlayerState::GetInstance()->GetPlayerPointer()->GetPosY() - pGrenade->GetPosY();
@@ -882,40 +861,18 @@ void CGame::MessageProc(CBaseMessage*	pMsg)
 				pGrenade->SetRotation(fAngle);
 			}
 
-			tVector2D vShotPos;
-			if(pCR->GetOwnerPointer()->GetType() == OBJ_PLAYER)
-			{
-				CPlayer* pPlayer = (CPlayer*)pCR->GetOwnerPointer();
-				if(CSinglePlayerState::GetInstance()->GetInputType())
-				{
-					vShotPos.fX = bOwnerPos.fX + (float)pPlayer->GetJoyPos()->fX;
-					vShotPos.fY = bOwnerPos.fY +(float)pPlayer->GetJoyPos()->fY;
-				}
-				else if(!CSinglePlayerState::GetInstance()->GetInputType())
-				{
-					vShotPos.fX = (float)CSGD_DirectInput::GetInstance()->MouseGetPosX() + CCamera::GetInstance()->GetOffsetX();
-					vShotPos.fY = (float)CSGD_DirectInput::GetInstance()->MouseGetPosY() + CCamera::GetInstance()->GetOffsetY();
-				}
-			}
-			else if(pCR->GetOwnerPointer()->GetType() == OBJ_ENEMY)
-			{
-				vShotPos.fX = CSinglePlayerState::GetInstance()->GetPlayerPointer()->GetPosX();
-				vShotPos.fY = CSinglePlayerState::GetInstance()->GetPlayerPointer()->GetPosY();
-			}
-			tVector2D vShot;
-
-			vShot = vShotPos - bOwnerPos;
-
-			vShot = Vector2DNormalize(vShot);
+			// Fire the bullet
+			if( pGrenade->GetOwner()->GetType() == OBJ_ENEMY )
+				vShot = Vector2DNormalize(vShot);
+			else if( pGrenade->GetOwner()->GetType() == OBJ_PLAYER )
+				vShot = vecRocketRotation;
 
 			pGrenade->SetBaseVelX(vShot.fX * fFlameVelocity);
 			pGrenade->SetBaseVelY(vShot.fY * fFlameVelocity);
 
+			// Add the bullet
 			CObjectManager::GetInstance()->AddObject(pGrenade);
-
-
 			pGrenade->Release();
-
 		}
 		break;
 	case MSG_DESTROY_GRENADE:
@@ -959,40 +916,26 @@ void CGame::MessageProc(CBaseMessage*	pMsg)
 
 			// Set the target position vector
 			tVector2D vShotPos;
-			if(pCR->GetOwnerPointer()->GetType() == OBJ_PLAYER)
-			{
-				CPlayer* pPlayer = (CPlayer*)pCR->GetOwnerPointer();
-				if(CSinglePlayerState::GetInstance()->GetInputType())
-				{
-					vShotPos.fX = bOwnerPos.fX + (float)pPlayer->GetJoyPos()->fX;
-					vShotPos.fY = bOwnerPos.fY +(float)pPlayer->GetJoyPos()->fY;
-				}
-				else if(!CSinglePlayerState::GetInstance()->GetInputType())
-				{
-					vShotPos.fX = (float)CSGD_DirectInput::GetInstance()->MouseGetPosX() + CCamera::GetInstance()->GetOffsetX();
-					vShotPos.fY = (float)CSGD_DirectInput::GetInstance()->MouseGetPosY() + CCamera::GetInstance()->GetOffsetY();
-				}
-			}
-			else if(pCR->GetOwnerPointer()->GetType() == OBJ_ENEMY)
-			{
-				vShotPos.fX = CSinglePlayerState::GetInstance()->GetPlayerPointer()->GetPosX() + CSinglePlayerState::GetInstance()->GetPlayerPointer()->GetWidth();
-				vShotPos.fY = CSinglePlayerState::GetInstance()->GetPlayerPointer()->GetPosY();
-			}
-			
+			vShotPos.fX = CSinglePlayerState::GetInstance()->GetPlayerPointer()->GetPosX() + CSinglePlayerState::GetInstance()->GetPlayerPointer()->GetWidth();
+			vShotPos.fY = CSinglePlayerState::GetInstance()->GetPlayerPointer()->GetPosY();
 
 			// Get the firing direction
 			tVector2D vShot;
 			vShot = vShotPos - bOwnerPos;
 			
+			// Set the vector to find the angle
+			tVector2D vecRocketRotation;
+			vecRocketRotation.fX = 0.0f;
+			vecRocketRotation.fY = -1.0f;
+
 			// If its the player then don't calculate else calculate
 			if(pCR->GetOwnerPointer()->GetType() == OBJ_PLAYER)
+			{
 				pShock->SetRotation( (float)(CSinglePlayerState::GetInstance()->GetPlayerPointer()->GetHandRotation() - .5*SGD_PI));
+				vecRocketRotation = Vector2DRotate( vecRocketRotation,  CSinglePlayerState::GetInstance()->GetPlayerPointer()->GetHandRotation() );
+			}
 			else if(pCR->GetOwnerPointer()->GetType() == OBJ_ENEMY)
 			{
-				// Set the vector to find the angle
-				tVector2D vecRocketRotation;
-				vecRocketRotation.fX = 0.0f;
-				vecRocketRotation.fY = -1.0f;
 
 				// Find Initial rotation
 				float fAngle = AngleBetweenVectors( vecRocketRotation, vShot ) - SGD_PI/2;
@@ -1005,7 +948,11 @@ void CGame::MessageProc(CBaseMessage*	pMsg)
 			}
 
 			// Fire the bullet
-			vShot = Vector2DNormalize(vShot);
+			if( pShock->GetOwner()->GetType() == OBJ_ENEMY )
+				vShot = Vector2DNormalize(vShot);
+			else if( pShock->GetOwner()->GetType() == OBJ_PLAYER )
+				vShot = vecRocketRotation;
+				
 			pShock->SetBaseVelX(vShot.fX * fFlameVelocity);
 			pShock->SetBaseVelY(vShot.fY * fFlameVelocity);
 
