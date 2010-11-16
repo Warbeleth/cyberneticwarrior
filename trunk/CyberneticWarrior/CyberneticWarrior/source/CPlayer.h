@@ -238,6 +238,5 @@ public:
 	inline void DecrementEnergy( float fRemainingEnergy ) { m_fRemainingEnergy -= fRemainingEnergy; (m_fRemainingEnergy < 0.0f) ? m_fRemainingEnergy = 0.0f : m_fRemainingEnergy = m_fRemainingEnergy; }
 	float GetHealth( void ) { return m_fRemainingHealth; };
 	CPoint GetBulletStartPos( void );
-	bool CircleToPoint( void );
 };
 #endif

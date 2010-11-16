@@ -1054,8 +1054,6 @@ void CPlayer::Input(float fElapsedTime)
 	//////////////////////////////////////////////////////////////////////////////
 	// Check for primary fire
 	//////////////////////////////////////////////////////////////////////////////
-	if(CircleToPoint())
-	{
 		if((CSGD_DirectInput::GetInstance()->MouseButtonPressed(CGame::GetInstance()->GetPlayerOneControls(3)) || CSGD_DirectInput::GetInstance()->JoystickButtonPressed(7)))
 		{
 			switch(this->m_nSelectedWeapon)
@@ -1075,10 +1073,7 @@ void CPlayer::Input(float fElapsedTime)
 			
 			};
 		}
-	}
 	//////////////////////////////////////////////////////////////////////////////
-	if(CircleToPoint())
-	{
 		if((CSGD_DirectInput::GetInstance()->MouseButtonDown(CGame::GetInstance()->GetPlayerOneControls(3)) || CSGD_DirectInput::GetInstance()->JoystickButtonDown(7)))
 		{
 			if(this->m_nSelectedWeapon == this->FLAME_THROWER)
@@ -1093,17 +1088,13 @@ void CPlayer::Input(float fElapsedTime)
 				}
 			}
 		}
-	}
 	//////////////////////////////////////////////////////////////////////////////
-	if(CircleToPoint())
-	{
 		if((CSGD_DirectInput::GetInstance()->MouseButtonReleased(CGame::GetInstance()->GetPlayerOneControls(3)) || CSGD_DirectInput::GetInstance()->JoystickButtonReleased(7)))
 		{
 			this->m_nCharge = 0;
 			if(this->m_nSelectedWeapon == this->SONIC_RIFLE)
 				CGame::GetInstance()->GetMessageSystemPointer()->SendMsg(new CCreateShockMessage(this));
 		}
-	}
 	//////////////////////////////////////////////////////////////////////////////
 
 
@@ -1470,24 +1461,3 @@ CPoint CPlayer::GetBulletStartPos( void )
 
 	return ptStartingPos;
 }
-
-bool CPlayer::CircleToPoint( void )
- {
-	RECT _currentFrame = GetAnimations()->GetCollisionFrame((int)GetPosX(), (int)GetPosY());
-
-	float nRadius = m_fStartPosRadius[m_nWeaponIndex];
-
-	tVector2D vecStartingPos;
-	vecStartingPos.fX = (float)((_currentFrame.left + GetAnimations()->GetPivotPoint().m_nX ) * CCamera::GetInstance()->GetScale());
-	vecStartingPos.fY = (float)((_currentFrame.top + GetAnimations()->GetPivotPoint().m_nY ) * CCamera::GetInstance()->GetScale());
-
-	tVector2D vecPoint;
-	vecPoint.fX = (float)CSGD_DirectInput::GetInstance()->MouseGetPosX() + CCamera::GetInstance()->GetOffsetX();
-	vecPoint.fY = (float)CSGD_DirectInput::GetInstance()->MouseGetPosY() + CCamera::GetInstance()->GetOffsetY();
-
-	vecStartingPos = vecStartingPos - vecPoint;
-
-	float fLength = (vecStartingPos.fX*vecStartingPos.fX) + (vecStartingPos.fY*vecStartingPos.fY);
-
-     return fLength > nRadius*nRadius;
- }
