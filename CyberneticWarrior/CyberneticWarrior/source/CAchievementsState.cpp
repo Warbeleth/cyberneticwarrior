@@ -92,9 +92,7 @@ bool CAchievementsState::Input(void)
 	else
 	{
 		this->m_OptionsFont.ChangeScrolling( 0, 0, this->m_nScrollingID );
-		m_nScrollingID = 10;
 	}
-
 
 	if(m_pDI->GetInstance()->KeyDown(DIK_UP))
 	{
