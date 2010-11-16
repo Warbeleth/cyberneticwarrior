@@ -166,7 +166,7 @@ void CSinglePlayerState::Enter(void)
 	this->m_pOF->RegisterClassType<CIce>("CIce");
 
 
-	this->m_nBackgroundImageID = this->m_pTM->LoadTexture("resource/graphics/3d_city.png");
+	this->m_nBackgroundImageID = this->m_pTM->LoadTexture("resource/graphics/Level1.png");
 	this->m_nCrossHairID = this->m_pTM->LoadTexture("resource/graphics/CrossHairs.png");
 	this->m_nBGMusic = this->m_pWM->LoadWave("resource/sounds/JTM_LevelMusic.wav");
 	this->m_nSelectedWeaponID		= m_pTM->LoadTexture("resource/graphics/EquipmentWeaponIcons.png");
