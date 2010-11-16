@@ -229,6 +229,10 @@ CPlayer::~CPlayer(void)
 void CPlayer::Update(float fElapsedTime)
 {
 	// Check to see if game was paused if so destroy dynamic Items (example: Grappling hook)
+	if(this->GetHealth() <= 0.0f)
+	{
+		this->m_bShutDown = true;
+	}
 	if(this->m_pHook && this->m_bShutDown)
 	{
 		CGame::GetInstance()->GetMessageSystemPointer()->SendMsg(new CDestroyHookMessage(this->m_pHook, this));
@@ -554,7 +558,7 @@ void CPlayer::Update(float fElapsedTime)
 	//////////////////////////////////////////////////////////////////////////////
 	// Check for when player has progressed to a new level or area
 	//////////////////////////////////////////////////////////////////////////////
-	if(CSinglePlayerState::GetInstance()->GetCurrentLevel() == TUTORIAL)
+	/*if(CSinglePlayerState::GetInstance()->GetCurrentLevel() == TUTORIAL)
 	{
 		if(this->GetPosX() > 2490 && this->GetPosY() > 638 && this->GetPosY() < 900)
 		{
@@ -586,7 +590,7 @@ void CPlayer::Update(float fElapsedTime)
 			CSinglePlayerState::GetInstance()->SetPreviousLevel(LEVEL1);
 			CSinglePlayerState::GetInstance()->SetChangeLevel(true);
 		}
-	}
+	}*/
 	//////////////////////////////////////////////////////////////////////////////
 }
 
@@ -747,15 +751,24 @@ void CPlayer::Input(float fElapsedTime)
 	//////////////////////////////////////////////////////////////////////////////
 	// Check Input for Jumping
 	//////////////////////////////////////////////////////////////////////////////
+
+	static float fJumpSpeed = -595.0f;
+
 	//static float fJumpSpeed = 0;//-550.0f;
+
 
 	if((CSGD_DirectInput::GetInstance()->KeyPressed(CGame::GetInstance()->GetPlayerOneControls(0))
 		|| CSGD_DirectInput::GetInstance()->JoystickButtonPressed(1)))
 	{
+		
+		if(this->m_nSelectedBootSlot == this->ROCKET_BOOTS && !this->m_bBoosting && this->m_fRemainingEnergy > 0.0f)
+		{
+			this->DecrementEnergy(5.0f);
+		}
 		if((this->m_nSelectedBootSlot == this->HOVER_BOOTS || this->m_nSelectedBootSlot == this->ROCKET_BOOTS) && this->m_bJumped)
 		{
-  			this->m_bHovering = true;
 			this->m_bBoosting = true;
+  			this->m_bHovering = true;
 		}
 		
 		
@@ -765,19 +778,29 @@ void CPlayer::Input(float fElapsedTime)
 	if((CSGD_DirectInput::GetInstance()->KeyDown(DIK_SPACE)
 		|| CSGD_DirectInput::GetInstance()->JoystickButtonDown(1)))
 	{
-		if(this->m_nSelectedBootSlot == this->HOVER_BOOTS&& this->m_bHovering && !this->m_bOnGround && m_fRemainingEnergy != 0.0f)
+		if(this->m_nSelectedBootSlot == this->HOVER_BOOTS&& this->m_bHovering && this->m_vSpeed.fY >= 0.0f 
+			&& !this->m_bOnGround && m_fRemainingEnergy != 0.0f)
 		{
             this->m_fGravity = 50;
 			this->DecrementEnergy(10*fElapsedTime);
 		}
 		
-		if(this->m_nSelectedBootSlot == this->ROCKET_BOOTS && this->m_bBoosting && this->m_fRemainingEnergy != 0.0f)
+		if(this->m_nSelectedBootSlot == this->ROCKET_BOOTS && this->m_bBoosting && this->m_fRemainingEnergy > 0.0f)
 		{
 			this->m_fGravity = 0.0f;
-			this->DecrementEnergy(100*fElapsedTime);
+
+			fJumpSpeed = -100.0f;
+			this->m_vSpeed.fY = fJumpSpeed;
+			this->SetBaseVelY(this->m_vSpeed.fY);
+
+			this->m_fRemainingEnergy -= 25.0f * fElapsedTime;
+
 		}
-		else if(m_fRemainingEnergy == 0.0f)
+		else if(this->m_nSelectedBootSlot == this->ROCKET_BOOTS && this->m_bBoosting && this->m_fRemainingEnergy <= 0.0f)
 		{
+
+			fJumpSpeed = -595.0f;
+
 			this->m_bHovering = false;
 			this->m_bBoosting = false;
 			this->m_fGravity = 900.0f;
@@ -787,7 +810,7 @@ void CPlayer::Input(float fElapsedTime)
 		if(this->m_bOnGround && !this->m_bHovering && !this->m_bBoosting && this->m_fRemainingEnergy > 1.0f)
 		{
 			this->m_fGravity = 900.0f;
-			this->m_pMovingBlock = NULL;
+ 			this->m_pMovingBlock = NULL;
 			this->m_bOnGround = false;
 			this->m_bOnMovingPlatform = false;
 			this->m_vSpeed.fY = -550;
@@ -801,6 +824,9 @@ void CPlayer::Input(float fElapsedTime)
 	if((CSGD_DirectInput::GetInstance()->KeyReleased(DIK_SPACE)
 		|| CSGD_DirectInput::GetInstance()->JoystickButtonReleased(1)))
 	{
+
+			fJumpSpeed = -595.0f;
+
 			this->m_bHovering = false;
 			this->m_bBoosting = false;
 			this->m_fGravity = 900.0f;
@@ -928,7 +954,7 @@ void CPlayer::Input(float fElapsedTime)
 	
 	//////////////////////////////////////////////////////////////////////////////
 	//if(CSGD_DirectInput::GetInstance()->KeyReleased(CGame::GetInstance()->GetPlayerOneControls(2)))
-	if((this->m_fBoostTime > 0.05f && (this->m_bFDash||this->m_bBDash))|| this->m_fWaitTime > 0.5f) 
+	if((this->m_fBoostTime > 0.05f && (this->m_bFDash||this->m_bBDash))|| this->m_fWaitTime > 0.25f) 
 	{
 		this->m_bFDash = false;
 		this->m_bBDash = false;

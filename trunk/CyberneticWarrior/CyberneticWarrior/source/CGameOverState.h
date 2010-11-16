@@ -25,13 +25,15 @@ class CEvent;
 class CGameOverState : public IGameState
 {
 private:
+	enum options{CONTINUE = 0, EXIT};
 	// Font
 	CFont	m_GameOverFont;
 		
 	int		m_nScrollingID;
 	// Texture IDs
 	int	m_nBackgroundID;
-	
+	int m_nSelection;
+	int m_nStinger;
 	//////////////////////////////////////////////////////////////////////////////////////////////////////
 	// Function: “CGameOverState”
 	//

@@ -55,21 +55,25 @@ void CTurretCore::Update(float fElapsedTime)
 		GetAnimations()->SetCurrentAnimation(1);
 		if(!GetAnimations()->SameFrame() && GetAnimations()->GetTrigger() != 0)
 		{
-			if(this->GetEnemyType() ==Turret_Gun )
+			if(this->GetRateOfFire() < this->GetShotDelay())
 			{
-				CGame::GetInstance()->GetMessageSystemPointer()->SendMsg(new CCreateBulletMessage(this));
-			}
-			else if(this->GetEnemyType() ==Turret_Frost )
-			{
-				//CGame::GetInstance()->GetMessageSystemPointer()->SendMsg(new CCreateIceMessage(CSinglePlayerState::GetInstance()->GetPlayerPointer(), this));
-			}
-			else if(this->GetEnemyType() ==Turret_Fire )
-			{
-				//CGame::GetInstance()->GetMessageSystemPointer()->SendMsg(new CCreateFireMessage(CSinglePlayerState::GetInstance()->GetPlayerPointer(), this));
-			}
-			else if(this->GetEnemyType() ==Turret_Multi )
-			{
-				CGame::GetInstance()->GetMessageSystemPointer()->SendMsg(new CCreateRocketMessage(this));
+				if(this->GetEnemyType() ==Turret_Gun )
+				{
+					CGame::GetInstance()->GetMessageSystemPointer()->SendMsg(new CCreateBulletMessage(this));
+				}
+				else if(this->GetEnemyType() ==Turret_Frost )
+				{
+					//CGame::GetInstance()->GetMessageSystemPointer()->SendMsg(new CCreateIceMessage(CSinglePlayerState::GetInstance()->GetPlayerPointer(), this));
+				}
+				else if(this->GetEnemyType() ==Turret_Fire )
+				{
+					//CGame::GetInstance()->GetMessageSystemPointer()->SendMsg(new CCreateFireMessage(CSinglePlayerState::GetInstance()->GetPlayerPointer(), this));
+				}
+				else if(this->GetEnemyType() ==Turret_Multi )
+				{
+					CGame::GetInstance()->GetMessageSystemPointer()->SendMsg(new CCreateRocketMessage(this));
+				}
+				this->SetShotDelay(0.0f);
 			}
 		}
 		break;
