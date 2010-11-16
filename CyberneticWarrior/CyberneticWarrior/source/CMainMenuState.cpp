@@ -152,7 +152,6 @@ bool	CMainMenuState::Input(void)
 	}
 
 
-
 	return 1;
 }
 
