@@ -26,46 +26,38 @@ CGrapplingHook::~CGrapplingHook(void)
 
 void CGrapplingHook::Update(float fElapsedTime)
 {
-//	static bool bOnGround = 1;
-	if(this->m_bHooked && !CSinglePlayerState::GetInstance()->GetPlayerPointer()->GetOnGround())
-	{
-		this->SetPosX(this->GetPosX() + this->GetBaseVelX() * fElapsedTime);
-		this->SetPosY(this->GetPosY() + this->GetBaseVelY() * fElapsedTime);
-		//tVector2D vHook, vPlayer;
-		//vHook.fX = this->GetPosX();
-		//vHook.fY = this->GetPosY();
+	//	static bool bOnGround = 1;
+	//if(this->m_bHooked && !CSinglePlayerState::GetInstance()->GetPlayerPointer()->GetOnGround())
+	//{
+	//	this->SetPosX(this->GetPosX() + this->GetBaseVelX() * fElapsedTime);
+	//	this->SetPosY(this->GetPosY() + this->GetBaseVelY() * fElapsedTime);
+	//	//tVector2D vHook, vPlayer;
+	//	//vHook.fX = this->GetPosX();
+	//	//vHook.fY = this->GetPosY();
 
-		//vPlayer.fX = CSinglePlayerState::GetInstance()->GetPlayerPointer()->GetPosX();
-		//vPlayer.fY = CSinglePlayerState::GetInstance()->GetPlayerPointer()->GetPosY();
+	//	//vPlayer.fX = CSinglePlayerState::GetInstance()->GetPlayerPointer()->GetPosX();
+	//	//vPlayer.fY = CSinglePlayerState::GetInstance()->GetPlayerPointer()->GetPosY();
 
-		//static bool one = 1;
+	//	//static bool one = 1;
 
-		//if(one)
-		//{
-		//CSinglePlayerState::GetInstance()->GetPlayerPointer()->SetRotation(AngleBetweenVectors(vHook, vPlayer));
-		//float test = AngleBetweenVectors(vHook, vPlayer);
-		//one = 0;
-		//}
-		//CSinglePlayerState::GetInstance()->GetPlayerPointer()->SetRotation(-this->GetRotation());
-		//bOnGround = CSinglePlayerState::GetInstance()->GetPlayerPointer()->GetOnGround();
-	}
-	else
-	{
+	//	//if(one)
+	//	//{
+	//	//CSinglePlayerState::GetInstance()->GetPlayerPointer()->SetRotation(AngleBetweenVectors(vHook, vPlayer));
+	//	//float test = AngleBetweenVectors(vHook, vPlayer);
+	//	//one = 0;
+	//	//}
+	//	//CSinglePlayerState::GetInstance()->GetPlayerPointer()->SetRotation(-this->GetRotation());
+	//	//bOnGround = CSinglePlayerState::GetInstance()->GetPlayerPointer()->GetOnGround();
+	//}
+	//else
+	//{
 		/*if(!bOnGround)
 		{
 			this->SetBaseVelX(0.0f);
 			this->SetBaseVelY(0.0f);
 		}*/
-		CBase::Update(fElapsedTime);
-	}
-
-	
-
-	
-
-
-
-
+	CBase::Update(fElapsedTime);
+	//}
 
 	static tVector2D vScreenDimensions;
 	vScreenDimensions.fX = (float)CGame::GetInstance()->GetScreenWidth();
@@ -94,6 +86,7 @@ void CGrapplingHook::Render(void)
 		1.0f * CCamera::GetInstance()->GetScale(), 1.0f * CCamera::GetInstance()->GetScale(), 
 		0, (this->GetWidth()/2.0f), (this->GetHeight()/2.0f),
 		this->GetRotation());
+
 	CSGD_Direct3D::GetInstance()->GetSprite()->Flush();
 
 	CSGD_Direct3D::GetInstance()->DrawLine((int)((this->GetPosX() + this->GetWidth()/2 - CCamera::GetInstance()->GetOffsetX()) * CCamera::GetInstance()->GetScale()), 

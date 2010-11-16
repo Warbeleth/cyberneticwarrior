@@ -392,6 +392,7 @@ void CGame::MessageProc(CBaseMessage*	pMsg)
 			pHook->SetHeight(32);
 			pHook->SetPosX(pGH->GetPlayerPointer()->GetPosX() + (float)pGH->GetPlayerPointer()->GetWidth());
 			pHook->SetPosY(pGH->GetPlayerPointer()->GetPosY());// - pGH->GetPlayerPointer()->GetHeight()/2);
+			pHook->SetRotation(pGH->GetPlayerPointer()->GetRotation());
 
 			pHook->SetHooked(0);
 			/*tVector2D vWorldPos;
