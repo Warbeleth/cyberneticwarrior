@@ -126,8 +126,8 @@ void CSinglePlayerState::Enter(void)
 	switch(this->m_nCurrentLevel)
 	{
 	case TUTORIAL:
-		m_TempMap->LoadMap("swingaway.CWM"); // leave here to test grappling hook
-		//m_TempMap->LoadMap("Tutorial_v1.5.CWM");
+		//m_TempMap->LoadMap("swingaway.CWM"); // leave here to test grappling hook
+		m_TempMap->LoadMap("Tutorial_v1.5.CWM");
 		break;
 	case LEVEL1:
 		m_TempMap->LoadMap("CW-Map_02.CWM");
