@@ -102,11 +102,10 @@ void	COptionsMenuState::Enter(void)
 	this->m_nSelectionPos		= this->OMENU_START;
 }
 
-bool	COptionsMenuState::Input(void)
+bool COptionsMenuState::Input(void)
 {
 	m_bInput = false;
 
-	if(this->m_pDI->KeyPressed(DIK_UP) || this->m_pDI->JoystickDPadPressed(DIR_UP,0))
 	if(this->m_pDI->KeyPressed(DIK_UP) || this->m_pDI->JoystickDPadPressed(DIR_UP,0)
 		|| (this->m_pDI->JoystickGetLStickYAmount(0) < 0.0f && this->m_fWaitTime > 0.3f))
 	{
@@ -115,6 +114,7 @@ bool	COptionsMenuState::Input(void)
 		{
 			this->m_bSelection = 0;
 		}
+
 		--this->m_nSelection;
 		this->m_fWaitTime = 0.0f;
 		if(this->m_nSelection < this->CONTROL_SELECT)// && !this->m_bSelection)
@@ -130,6 +130,7 @@ bool	COptionsMenuState::Input(void)
 		{
 			this->m_bSelection = 0;
 		}
+
 		m_bInput = true;
 		++this->m_nSelection;
 		this->m_fWaitTime = 0.0f;
@@ -243,6 +244,9 @@ bool	COptionsMenuState::Input(void)
 		case this->MUTE:
 			this->m_bMute = !this->m_bMute;
 			break;
+		case FULL_SCREEN:
+			CSGD_Direct3D::GetInstance()->ChangeDisplayParam(800, 600, !CSGD_Direct3D::GetInstance()->GetPresentParams()->Windowed);
+			break;
 		case this->EXIT_OMENU:
 			CStackStateMachine::GetInstance()->Pop_back();
 			return 1;
@@ -319,6 +323,10 @@ void	COptionsMenuState::Render(void)
 	this->m_OptionsFont.Draw("Mute", this->MENUX, (this->MUTE * OMENU_SPACE) + this->OMENU_START, 
 		(this->m_nSelection == this->MUTE? 1.2f : 1.0f),
 		(this->m_nSelection == this->MUTE? D3DXCOLOR(0.0f, 1.0f, 1.0f, 1.0f) : D3DXCOLOR(0.7f, 0.7f, 1.0f, 1.0f)));
+		
+	this->m_OptionsFont.Draw("Full Screen", this->MENUX, (this->FULL_SCREEN * OMENU_SPACE) + this->OMENU_START, 
+		(this->m_nSelection == this->FULL_SCREEN? 1.2f : 1.0f),
+		(this->m_nSelection == this->FULL_SCREEN? D3DXCOLOR(0.0f, 1.0f, 1.0f, 1.0f) : D3DXCOLOR(0.7f, 0.7f, 1.0f, 1.0f)));
 	
 	this->m_OptionsFont.Draw("Exit", this->MENUX + 225, (this->EXIT_OMENU * OMENU_SPACE) + this->OMENU_START,
 		(this->m_nSelection == this->EXIT_OMENU? 1.2f : 1.0f),
