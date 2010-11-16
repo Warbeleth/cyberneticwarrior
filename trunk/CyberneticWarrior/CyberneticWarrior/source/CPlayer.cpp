@@ -1356,7 +1356,11 @@ bool CPlayer::CheckCollision(CBase* pBase)
 
 					}
 					else if(rMyRect.top < rHisRect.bottom && rMyRect.bottom > rHisRect.top)
+					{
+						this->m_vSpeed.fY = 0.0f;
+						this->SetBaseVelY(0.0f);
 						SetPosY((float)rHisRect.bottom);
+					}
 
 				}
 				else if(BLOCK->GetBlock() == BLOCK_TRAP)
