@@ -49,6 +49,8 @@ private:
 	CBlock*	m_TempPlatform2;
 	//////////////////////////
 
+	tVector2D	m_tBGOffset;
+
 	struct tProfile
 	{
 		bool m_bHaveHook;
@@ -58,11 +60,11 @@ private:
 	bool m_bMusic;
 	bool m_bInput;
 	bool m_bLevelChange;
+	bool m_bDeath;
 
 	int			m_nMusicVolume;
 	int			m_nSFXVolume;
 
-	tVector2D	m_tBGOffset;
 	
 	int			m_nBackgroundImageID;
 	int			m_nCrossHairID;
@@ -110,6 +112,8 @@ public:
 	inline int		GetWeaponSelectionID(void) {return this->m_nSelectedWeaponID;}
 	inline bool		GetNewGame(void) { return this->m_bNewGame;}
 	inline void		SetNewGame(bool bNewGame) {this->m_bNewGame = bNewGame;}
+	inline void		SetDeath(bool bDeath) {this->m_bDeath = bDeath;}
+	inline bool		GetDeath(void)	{return this->m_bDeath;}
 	inline bool		GetChangeLevel(void)	{return this->m_bLevelChange;}
 	inline void		SetChangeLevel(bool bChange) {this->m_bLevelChange = bChange;}
 	inline bool		GetInputType(void) { return this->m_bInput;}
