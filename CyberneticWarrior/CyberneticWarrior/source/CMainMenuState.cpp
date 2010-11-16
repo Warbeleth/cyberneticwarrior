@@ -76,11 +76,11 @@ void	CMainMenuState::Enter(void)
 	
 	this->m_nBackgroundID		= this->m_pTM->LoadTexture("resource/graphics/MainMenuBG.png");
 	this->m_nCursorID			= this->m_pTM->LoadTexture("resource/graphics/MainMenuCursor.png");
-	this->m_nBGMusic			= this->m_pWM->LoadWave("resource/sounds/SO3_Victory_Bell.wav");
+	this->m_nBGMusic			= this->m_pWM->LoadWave("resource/sounds/JTM_MainTheme.wav");
 
 	this->m_MenuFont.InitFont("resource/fonts/Example.png", "resource/fonts/Example.fnt");
 	
-	//this->m_pWM->Play(this->m_nBGMusic, DSBPLAY_LOOPING);
+	this->m_pWM->Play(this->m_nBGMusic, DSBPLAY_LOOPING);
 
 	this->m_nSelectionPos		= this->MMENU_START;
 	this->m_nSelection			= this->SINGLE_PLAYER;
@@ -124,11 +124,11 @@ bool	CMainMenuState::Input(void)
 		switch(this->m_nSelection)
 		{
 		case this->SINGLE_PLAYER:
-			this->m_pWM->Stop(this->m_nBGMusic);
+			//this->m_pWM->Stop(this->m_nBGMusic);
 			CStackStateMachine::GetInstance()->Push_Back(CSinglePlayerMenuState::GetInstance());
 			break;
 		case this->ACHIEVEMENTS:
-			this->m_pWM->Stop(this->m_nBGMusic);
+			//this->m_pWM->Stop(this->m_nBGMusic);
 			CStackStateMachine::GetInstance()->Push_Back(CAchievementsState::GetInstance());
 			break;
 		case this->MM_OPTIONS:
@@ -136,12 +136,12 @@ bool	CMainMenuState::Input(void)
 			CStackStateMachine::GetInstance()->Push_Back(COptionsMenuState::GetInstance());
 			break;
 		case this->MM_CONTROLS:
-			this->m_pWM->Stop(this->m_nBGMusic);
+			//this->m_pWM->Stop(this->m_nBGMusic);
 			CStackStateMachine::GetInstance()->Push_Back(CHowToPlayState::GetInstance());
 			break;
 		case this->CREDITS:
-			this->m_pWM->Stop(this->m_nBGMusic);
-			CStackStateMachine::GetInstance()->Push_Back(CCreditsState::GetInstance());
+			//this->m_pWM->Stop(this->m_nBGMusic);
+			CStackStateMachine::GetInstance()->ChangeState(CCreditsState::GetInstance());
 			break;
 		case this->EXIT_GAME:
 			PostQuitMessage(0);
@@ -216,7 +216,7 @@ void	CMainMenuState::Exit(void)
 
 	if(this->m_nBGMusic > -1)
 	{
-		//this->m_pWM->Stop(this->m_nBGMusic);
+		this->m_pWM->Stop(this->m_nBGMusic);
 		this->m_pWM->UnloadWave(this->m_nBGMusic);
 		this->m_nBGMusic = -1;
 	}

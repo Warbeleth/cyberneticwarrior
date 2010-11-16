@@ -52,7 +52,7 @@ void CGrenade::Update(float fElapsedTime)
 	
 	if(!m_bStuckToTarget)
 	{
-		SetBaseVelY( GetBaseVelY() + 300*fElapsedTime );
+		SetBaseVelY( GetBaseVelY() + 350*fElapsedTime );
 
 		if(m_bJustBounced)
 			m_fBounceCooldownTimer += fElapsedTime;

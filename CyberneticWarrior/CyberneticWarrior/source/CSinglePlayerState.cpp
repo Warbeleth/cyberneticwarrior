@@ -166,7 +166,7 @@ void CSinglePlayerState::Enter(void)
 
 	this->m_nBackgroundImageID = this->m_pTM->LoadTexture("resource/graphics/3d_city.png");
 	this->m_nCrossHairID = this->m_pTM->LoadTexture("resource/graphics/CrossHairs.png");
-	this->m_nBGMusic = this->m_pWM->LoadWave("resource/sounds/Jak2_Haven_City.wav");
+	this->m_nBGMusic = this->m_pWM->LoadWave("resource/sounds/JTM_LevelMusic.wav");
 	this->m_nSelectedWeaponID		= m_pTM->LoadTexture("resource/graphics/EquipmentWeaponIcons.png");
 	this->m_nWeaponID = m_pTM->LoadTexture("resource/graphics/Weapons.png");
 	this->m_nHookID = CSGD_TextureManager::GetInstance()->LoadTexture("resource/graphics/hook.png");
@@ -269,12 +269,7 @@ bool CSinglePlayerState::Input(void)
 	
 	}
 	
-	if(m_TempPlayer->GetHealth() == 0)
-	{
-		this->GetPlayerPointer()->SetShutDown(true);
-		CStackStateMachine::GetInstance()->UpdateState(0.0f);
-		CStackStateMachine::GetInstance()->Push_Back(CGameOverState::GetInstance());
-	}
+
 
 	return 1;
 }
@@ -283,7 +278,7 @@ void CSinglePlayerState::Update(float fElapsedTime)
 {	
 	if(this->m_bMusic)
 	{
-		//this->m_pWM->Play(this->m_nBGMusic, DSBPLAY_LOOPING);
+		this->m_pWM->Play(this->m_nBGMusic, DSBPLAY_LOOPING);
 		this->m_bMusic = 0;
 	}
 
@@ -323,6 +318,17 @@ void CSinglePlayerState::Update(float fElapsedTime)
 		CLoadingState::GetInstance()->SetLoad(false);
 		CStackStateMachine::GetInstance()->ChangeState(CLoadingState::GetInstance());
 		//CStackStateMachine::GetInstance()->RemoveState(GAMEPLAY);
+	}
+
+	if(m_TempPlayer->GetHealth() == 0)
+	{
+		/*this->GetPlayerPointer()->SetShutDown(true);
+		if(this->m_nBGMusic)
+		{
+			this->m_pWM->Stop(this->m_nBGMusic);
+		}
+		CStackStateMachine::GetInstance()->UpdateState(0.0f);*/
+		CStackStateMachine::GetInstance()->ChangeState(CGameOverState::GetInstance());
 	}
 
 }

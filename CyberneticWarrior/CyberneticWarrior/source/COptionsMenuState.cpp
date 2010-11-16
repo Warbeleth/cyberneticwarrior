@@ -90,7 +90,7 @@ void	COptionsMenuState::Enter(void)
 	this->m_nMuteOffID			= this->m_pTM->LoadTexture("resource/graphics/SoundOn.png");
 	this->m_nCursorID			= this->m_pTM->LoadTexture("resource/graphics/shield.png");
 
-	this->m_nMusicID			= this->m_pWM->LoadWave("resource/sounds/SO3_Victory_Bell.wav");
+	this->m_nMusicID			= this->m_pWM->LoadWave("resource/sounds/JTM_MainTheme.wav");
 	//this->m_nSFXID				= this->m_pWM->LoadWave("resource/sounds/multiShots.wav");
 
 

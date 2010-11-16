@@ -10,6 +10,7 @@ class CCreditsState : public IGameState
 	int		m_nScrollingId;
 
 	int m_nCreditsBGId;
+	int m_nBGMusic;
 
 	CCreditsState( void );
 	~CCreditsState( void );
