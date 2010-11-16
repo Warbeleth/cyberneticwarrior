@@ -332,7 +332,6 @@ bool CGame::Main(void)
 bool CGame::Input(void)
 {
 	this->m_pDI->ReadDevices();
-//	bool turn = ;
 
 	///////////////////////////////////
 	// Temp
@@ -356,7 +355,6 @@ void CGame::Update(float fElapsedTime)
 	this->m_pSSM->UpdateState(fElapsedTime);
 	//this->m_pES->ProcessEvents();
 	this->m_pMS->ProcessMessages();
-
 }
 
 ////////////////////////////////////////////////////////////////////////////////////

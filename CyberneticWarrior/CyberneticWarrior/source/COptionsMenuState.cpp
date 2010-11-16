@@ -98,7 +98,7 @@ void	COptionsMenuState::Enter(void)
 
 	this->m_pWM->SetVolume(this->m_nMusicID, this->m_nMusicVolume);
 
-	this->m_nSelection			= this->CONTROL_SELECT;
+	this->m_nSelection			= this->MUSIC_VOLUME;
 	this->m_nSelectionPos		= this->OMENU_START;
 }
 
@@ -117,7 +117,7 @@ bool COptionsMenuState::Input(void)
 
 		--this->m_nSelection;
 		this->m_fWaitTime = 0.0f;
-		if(this->m_nSelection < this->CONTROL_SELECT)// && !this->m_bSelection)
+		if(this->m_nSelection < this->MUSIC_VOLUME)// && !this->m_bSelection)
 		{
 			this->m_nSelection = this->EXIT_OMENU;
 		}
@@ -136,7 +136,7 @@ bool COptionsMenuState::Input(void)
 		this->m_fWaitTime = 0.0f;
 		if(this->m_nSelection > this->EXIT_OMENU)// && !this->m_bSelection)
 		{
-			this->m_nSelection = this->CONTROL_SELECT;
+			this->m_nSelection = this->MUSIC_VOLUME;
 		}
 	}
 

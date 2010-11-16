@@ -229,10 +229,6 @@ CPlayer::~CPlayer(void)
 void CPlayer::Update(float fElapsedTime)
 {
 	// Check to see if game was paused if so destroy dynamic Items (example: Grappling hook)
-	if(this->GetHealth() <= 0.0f)
-	{
-		this->m_bShutDown = true;
-	}
 	if(this->m_pHook && this->m_bShutDown)
 	{
 		CGame::GetInstance()->GetMessageSystemPointer()->SendMsg(new CDestroyHookMessage(this->m_pHook, this));
@@ -552,6 +548,27 @@ void CPlayer::Update(float fElapsedTime)
 	//////////////////////////////////////////////////////////////////////////////
 	GetAnimations()->Update( fElapsedTime );
 	//////////////////////////////////////////////////////////////////////////////
+
+
+	static bool bEnd = false;
+ 	if(this->GetHealth() <= 0.0f)
+	{
+		if(bEnd)
+		{
+			CSinglePlayerState::GetInstance()->SetDeath(true);
+		}
+
+		if(this->m_pHook)
+		{
+			CGame::GetInstance()->GetMessageSystemPointer()->SendMsg(new CDestroyHookMessage(this->m_pHook, this));
+		}
+		bEnd = true;
+	}
+	else
+	{
+		bEnd = false;
+	}
+
 
 
 	
