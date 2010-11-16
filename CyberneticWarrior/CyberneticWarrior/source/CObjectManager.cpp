@@ -98,15 +98,15 @@ bool CObjectManager::CheckCollisions(void)
 
 	for(unsigned int i = 0; i < this->m_vObjectList.size(); i++)
 	{
-		for(unsigned int j = 0; j < this->m_vObjectList.size(); j++)
+		if( m_vObjectList[i]->GetType() != OBJ_BLOCK )
 		{
-			if(j != i)
+			for(unsigned int j = 0; j < this->m_vObjectList.size(); j++)
 			{
-				if(!m_vObjectList[i]->GetCulling() && !m_vObjectList[j]->GetCulling())
-					if(this->m_vObjectList[i]->CheckCollision(this->m_vObjectList[j]))
-					{
-						//break;
-					}
+				if(j != i )
+				{
+					if((!m_vObjectList[i]->GetCulling() && !m_vObjectList[j]->GetCulling()))
+						this->m_vObjectList[i]->CheckCollision(this->m_vObjectList[j]);
+				}
 			}
 		}
 	}
