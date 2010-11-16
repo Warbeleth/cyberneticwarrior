@@ -126,16 +126,16 @@ void CHud::Render( void )
 	{
 	case 0:
 		{
-			m_pTM->Draw(m_nHealthAndEnergyBarId, m_rImageRects[TYPE_PORTRAIT].right, 0, 1, 1, &GetRect(TYPE_HEALTH) );
-			m_pTM->Draw(m_nHealthAndEnergyBarId, m_rImageRects[TYPE_PORTRAIT].right, m_rImageRects[0].bottom, 1, 1, &GetRect(TYPE_ENERGY));
-			m_pTM->Draw(m_nCharacterPortraitId, 0, 0, 1, 1, &GetRect(TYPE_PORTRAIT));
-			m_pTM->Draw(m_nWeaponEquipmentId, 100, 35, 0.5f, 0.5f, &GetRect(TYPE_EQUIPMENT, m_pPlayer->m_nSelectedBootSlot));
-			m_pTM->Draw(m_nWeaponEquipmentId, 140, 35, 0.5f, 0.5f, &GetRect(TYPE_EQUIPMENT, m_pPlayer->m_nSelectedHeadSlot));
-			m_pTM->Draw(m_nWeaponEquipmentId, 0, 600-m_rImageRects[TYPE_EQUIPMENT].bottom, 1.0f, 1.0f, &GetRect(TYPE_EQUIPMENT, m_pPlayer->m_nSelectedWeapon));
-			m_pTM->Draw(m_nWeaponEquipmentId, m_rImageRects[TYPE_EQUIPMENT].right, 600-m_rImageRects[TYPE_EQUIPMENT].bottom, 1.0f, 1.0f, &GetRect(TYPE_EQUIPMENT, 20));
+			m_pTM->Draw(m_nHealthAndEnergyBarId, m_rImageRects[TYPE_PORTRAIT].right + 80, 0 + 60, 1, 1, &GetRect(TYPE_HEALTH) );
+			m_pTM->Draw(m_nHealthAndEnergyBarId, m_rImageRects[TYPE_PORTRAIT].right + 80, m_rImageRects[0].bottom + 60, 1, 1, &GetRect(TYPE_ENERGY));
+			m_pTM->Draw(m_nCharacterPortraitId, 0 + 80, 0 + 60, 1, 1, &GetRect(TYPE_PORTRAIT));
+			m_pTM->Draw(m_nWeaponEquipmentId, 100 + 80, 35 + 60, 0.5f, 0.5f, &GetRect(TYPE_EQUIPMENT, m_pPlayer->m_nSelectedBootSlot));
+			m_pTM->Draw(m_nWeaponEquipmentId, 140 + 80, 35 + 60, 0.5f, 0.5f, &GetRect(TYPE_EQUIPMENT, m_pPlayer->m_nSelectedHeadSlot));
+			m_pTM->Draw(m_nWeaponEquipmentId, 0 + 80, 600-m_rImageRects[TYPE_EQUIPMENT].bottom - 60, 1.0f, 1.0f, &GetRect(TYPE_EQUIPMENT, m_pPlayer->m_nSelectedWeapon));
+			m_pTM->Draw(m_nWeaponEquipmentId, m_rImageRects[TYPE_EQUIPMENT].right + 80, 600-m_rImageRects[TYPE_EQUIPMENT].bottom - 60, 1.0f, 1.0f, &GetRect(TYPE_EQUIPMENT, 20));
 			
-			m_HudFont.Draw("Player 1", 5, 64, 0.55f, -1 );
-			m_HudFont.Draw(buffer, 110, 70, 0.75f, -1 );
+			m_HudFont.Draw("Player 1", 5 + 80, 64 + 60, 0.55f, -1 );
+			//m_HudFont.Draw(buffer, 110, 70 + 60, 0.75f, -1 );
 			break;
 		}
 	case 1:
