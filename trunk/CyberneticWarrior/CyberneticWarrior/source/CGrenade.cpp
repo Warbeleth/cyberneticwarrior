@@ -90,8 +90,8 @@ void CGrenade::Update(float fElapsedTime)
 					CGame::GetInstance()->GetMessageSystemPointer()->SendMsg( new CDestroyGrenadeMessage( this, this->GetOwner()) );
 				}
 
-				SetBaseVelX( (*pEnemy).GetSpeed() );
-				SetBaseVelY( 0 );
+				SetBaseVelX( (*pEnemy).GetBaseVelX() );
+				SetBaseVelY( (*pEnemy).GetBaseVelY() );
 			}
 	}
 }
