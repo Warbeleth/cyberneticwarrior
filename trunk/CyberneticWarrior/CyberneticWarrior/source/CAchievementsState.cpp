@@ -118,6 +118,22 @@ bool CAchievementsState::Input(void)
 //////////////////////////////////////////////////////////////////////////////////////////////////////
 void CAchievementsState::Update(float fElapsedTime)
 {
+// Inserting lines based on Request
+// Guest programmer: SetonAlandel
+
+int achievsEarned = 0;
+
+for(int i=0; i<10; i++)
+{
+	if(achievesEarned%2 == 0)
+		achievesEarned++;
+	else
+		achievesEarned= achievesEarned + 2;
+}
+
+//Ending guest lines
+//SA- 21:53
+
 
 	m_OptionsFont.Update( fElapsedTime );
 
