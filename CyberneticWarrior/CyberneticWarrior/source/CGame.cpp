@@ -44,6 +44,7 @@
 #include "CGrenade.h"
 #include "CFire.h"
 #include "CIce.h"
+#include "CExplosion.h"
 
 //Enemy includes
 #include "CBaseEnemy.h"
@@ -1331,6 +1332,25 @@ void CGame::MessageProc(CBaseMessage*	pMsg)
 						break;
 					}
 			pDestroyEnemy = NULL;
+		}
+		break;
+	case MSG_CREATE_EXPLOSION:
+		{
+			CCreateExplosionMessage* pCM = (CCreateExplosionMessage*)pMsg;
+
+			CExplosion* pExplosion = new CExplosion();
+			(*pExplosion).SetPosX(pCM->GetPosX());
+			(*pExplosion).SetPosY(pCM->GetPosY());
+
+			CObjectManager::GetInstance()->AddObject(pExplosion);
+			pExplosion->Release();
+		}
+		break;
+	case MSG_DESTROY_EXPLOSION:
+		{
+			CDestroyExplosionMessage* pDM = (CDestroyExplosionMessage*)pMsg;
+			CObjectManager::GetInstance()->RemoveObject(pDM->GetExplosionPointer());
+			pDM = NULL;
 		}
 		break;
 	};

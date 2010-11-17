@@ -32,7 +32,10 @@ void CRocket::Update( float fElapsedTime)
 		m_nRocketState = ROCKET_DIRECTIONAL;
 
 	if( m_bDead )
+	{
+		CGame::GetInstance()->GetMessageSystemPointer()->SendMsg( new CCreateExplosionMessage( GetPosX(), GetPosY()) );
 		CGame::GetInstance()->GetMessageSystemPointer()->SendMsg( new CDestroyRocketMessage( this, CSinglePlayerState::GetInstance()->GetPlayerPointer()) );
+	}
 
 	switch(m_nRocketState)
 	{
@@ -73,15 +76,8 @@ bool CRocket::CheckCollision( CBase* pBase )
 	if(CBaseProjectile::CheckCollision( pBase ))
 	{				
 		// Destroy the rocket
-		if(this->GetOwner()->GetType() == OBJ_ENEMY)
-		{
-			if(pBase->GetType() != OBJ_ENEMY)
-				CGame::GetInstance()->GetMessageSystemPointer()->SendMsg( new CDestroyRocketMessage( this, this->GetOwner()) );
-		}
-		else
-		{
-			CGame::GetInstance()->GetMessageSystemPointer()->SendMsg( new CDestroyRocketMessage( this, this->GetOwner()) );
-		}
+		CGame::GetInstance()->GetMessageSystemPointer()->SendMsg( new CCreateExplosionMessage(GetPosX(), GetPosY()));
+		CGame::GetInstance()->GetMessageSystemPointer()->SendMsg( new CDestroyRocketMessage( this, this->GetOwner()));
 		return true;
 	}
 	else

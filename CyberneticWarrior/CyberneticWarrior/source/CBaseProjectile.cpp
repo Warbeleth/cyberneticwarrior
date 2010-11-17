@@ -51,8 +51,8 @@ void CBaseProjectile::Render( void )
 RECT CBaseProjectile::GetRect( void )
 {
 	RECT rCollision;
-	rCollision.top = (LONG)( GetPosY() );
-	rCollision.left = (LONG)( GetPosX() );
+	rCollision.top = (LONG)( GetPosY() - GetHeight()/2 );
+	rCollision.left = (LONG)( GetPosX() - GetWidth()/2 );
 	rCollision.bottom = (LONG)( rCollision.top + GetHeight() );
 	rCollision.right = rCollision.left + GetWidth();
 

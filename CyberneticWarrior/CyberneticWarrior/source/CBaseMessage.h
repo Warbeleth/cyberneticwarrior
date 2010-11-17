@@ -15,6 +15,7 @@ class CIce;
 class CFire;
 class CBlock;
 class CSpawner;
+class CExplosion;
 
 typedef  int MSGID;
 
@@ -30,6 +31,7 @@ enum eMsgTypes	{ MSG_NULL = 0,
 					MSG_CREATE_FIRE, MSG_DESTROY_FIRE,
 					MSG_CREATE_ICE, MSG_DESTROY_ICE,
 					MSG_CREATE_ENEMY, MSG_DESTROY_ENEMY,
+					MSG_CREATE_EXPLOSION, MSG_DESTROY_EXPLOSION,
 					MSG_DESTROY_BLOCK,
 					/*MSG_CREATE_PICKUP,*/ MSG_MAX };
 
@@ -284,6 +286,30 @@ public:
 	~CDestroyBlockMessage(void);
 
 	CBlock*	GetBlockPointer(void) { return m_pBlock; }
+};
+
+class CDestroyExplosionMessage : public CBaseMessage
+{
+private:
+	CExplosion* m_pExplosion;
+public:
+	CDestroyExplosionMessage(CExplosion* pExplosion);
+	~CDestroyExplosionMessage(void);
+
+	CExplosion*	GetExplosionPointer(void) { return m_pExplosion; }
+};
+
+class CCreateExplosionMessage : public CBaseMessage
+{
+private:
+	float m_nPosX;
+	float m_nPosY;
+public:
+	CCreateExplosionMessage(float nPosX, float nPosY );
+	~CCreateExplosionMessage(void);
+
+	float GetPosX(void) { return m_nPosX; }
+	float GetPosY(void) { return m_nPosY; }
 };
 
 class CDestroyEnemyMessage : public CBaseMessage
