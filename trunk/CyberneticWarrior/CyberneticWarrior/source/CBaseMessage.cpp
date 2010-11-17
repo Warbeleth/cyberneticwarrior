@@ -458,6 +458,25 @@ CDestroyBlockMessage::~CDestroyBlockMessage(void)
 {
 }
 
+CDestroyExplosionMessage::CDestroyExplosionMessage(CExplosion* pExplosion) : CBaseMessage(MSG_DESTROY_EXPLOSION)
+{
+	m_pExplosion = pExplosion;
+}
+
+CDestroyExplosionMessage::~CDestroyExplosionMessage(void)
+{
+}
+
+CCreateExplosionMessage::CCreateExplosionMessage(float nPosX, float nPosY ) : CBaseMessage(MSG_CREATE_EXPLOSION)
+{
+	m_nPosX = nPosX;
+	m_nPosY = nPosY;
+}
+
+CCreateExplosionMessage::~CCreateExplosionMessage(void)
+{
+}
+
 CDestroyEnemyMessage::CDestroyEnemyMessage(CBaseEnemy* pEnemy) : CBaseMessage(MSG_DESTROY_ENEMY)
 {
 	this->m_pEnemy = pEnemy;
