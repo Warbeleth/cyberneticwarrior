@@ -146,7 +146,6 @@ bool CTurretCore::CheckCollision(CBase* pBase)
 			{
 				if(BLOCK->GetBlock() == BLOCK_SOLID || BLOCK->GetBlock() == BLOCK_MOVING || BLOCK->GetBlock() == BLOCK_PARTIAL)
 				{
-					SetSpeed(-1*GetSpeed());
 				}
 				else if(BLOCK->GetBlock() == BLOCK_TRAP)
 				{
