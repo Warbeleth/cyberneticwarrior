@@ -264,6 +264,9 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine
 			DispatchMessage(&msg);
 		}		
 		
+		if(GetFocus() == NULL)
+			continue;
+
 		if(pGame->Main() == false)
 		{
 			PostQuitMessage(0);
