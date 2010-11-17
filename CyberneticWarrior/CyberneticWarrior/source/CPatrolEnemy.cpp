@@ -58,7 +58,7 @@ void CPatrolEnemy::Update(float fElapsedTime)
 		{
 		case Patrol:
 			{
-				SetPosX((GetPosX() + GetSpeed() * fElapsedTime));
+				SetPosX((GetPosX() + GetBaseVelX() * fElapsedTime));
 
 				if(GetPosX() <= 0)
 				{
@@ -67,13 +67,15 @@ void CPatrolEnemy::Update(float fElapsedTime)
 					SetSpeed(-1*GetSpeed());
 				}
 
-				SetCurrentDist(GetCurrentDist() + (fabs(GetSpeed()) * fElapsedTime));
+				SetCurrentDist(GetCurrentDist() + (fabs(GetBaseVelX()) * fElapsedTime));
 
 				if(GetCurrentDist() >= GetMaxDist())
 				{
 					SetCurrentDist(0);
 					SetSpeed(-1*GetSpeed());
 				}
+
+				SetBaseVelX(GetBaseVelX() + GetSpeed() * fElapsedTime);
 			}
 			break;
 		case pDead:
