@@ -41,15 +41,7 @@ bool CBullet::CheckCollision(CBase *pBase)
 	if(CBaseProjectile::CheckCollision( pBase ))
 	{				
 		// Destroy the bullet
-		if(this->GetOwner()->GetType() == OBJ_ENEMY)
-		{
-			if(pBase->GetType() != OBJ_ENEMY)
-				CGame::GetInstance()->GetMessageSystemPointer()->SendMsg( new CDestroyBulletMessage( this, this->GetOwner()) );
-		}
-		else
-		{
-			CGame::GetInstance()->GetMessageSystemPointer()->SendMsg( new CDestroyBulletMessage( this, this->GetOwner()) );
-		}
+		CGame::GetInstance()->GetMessageSystemPointer()->SendMsg( new CDestroyBulletMessage( this, this->GetOwner()) );
 		return true;
 	}
 	else

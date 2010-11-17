@@ -162,6 +162,7 @@ class CAnimations
 	bool					m_bJustLoaded;
 	string					m_szFilename;			// Filename of the spritesheet for this character
 	vector<CAnimation>		m_vAnimations;		// Animations, their frames, etc.
+	bool					m_bDone; // Animation over?
 
 	// Friends with CAnimation
 	friend class CAnimation;
@@ -224,5 +225,6 @@ public:
 	CPoint GetPivotPoint( void ) { return (m_vAnimations[m_nCurrentAnimation].m_vFrames[m_vAnimations[m_nCurrentAnimation].m_nCurrentFrame].GetPivot()); }
 	int GetTrigger( void ) { return (m_vAnimations[m_nCurrentAnimation].m_vFrames[m_vAnimations[m_nCurrentAnimation].m_nCurrentFrame].GetTrigger()); }
 	bool SameFrame( void ) { return (m_vAnimations[m_nCurrentAnimation].SameFrame()); }
+	bool GetDone( void ) { return m_bDone; }
 };
 #endif

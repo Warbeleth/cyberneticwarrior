@@ -30,6 +30,8 @@ namespace SGP_Map_Editor
 		Boss_Apple, Boss_Pimp, Boss_Pirate, Enemies_Total      
 	};
 
+	enum Animations { Anim_Explosion = Enemies_Total, Anim_Total };
+
 	enum Spawners { Turret_Spawner = 0,
 		Drone_Spawner,
 		Ground_Spawner,
@@ -153,7 +155,7 @@ public:
 
 	int m_nImageID;
 
-	CAnimations m_Animations[13];
+	CAnimations m_Animations[Anim_Total];
 
 	////////////////////////////////////////////////////////////////////////////////////
 	//	Function : GetInstance()
