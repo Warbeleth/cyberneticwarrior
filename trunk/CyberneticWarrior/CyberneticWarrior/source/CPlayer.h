@@ -60,6 +60,9 @@ private:
 
 	float m_fDash;
 
+	// hook offset
+	float m_fHookOffset;
+
 	// Score
 	int m_nScore;
 
