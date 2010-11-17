@@ -38,12 +38,6 @@ void CObjectManager::UpdateObjects(float fElapsedTime)
 		(*iter)->Update(fElapsedTime);
 		(*iter)->CheckCulling();
 
-		if((*iter)->GetType() == OBJ_ENEMY)
-		{
-			CBaseEnemy* tmp= (CBaseEnemy*)(*iter);
-			tmp->SetCollision(false);
-		}
-
 		iter++;
 	}
 }
@@ -100,6 +94,12 @@ bool CObjectManager::CheckCollisions(void)
 	{
 		if( m_vObjectList[i]->GetType() != OBJ_BLOCK )
 		{
+			if(m_vObjectList[i]->GetType() == OBJ_ENEMY)
+			{
+				CBaseEnemy* Enemy = (CBaseEnemy*)m_vObjectList[i];
+				Enemy->SetCollision(false);
+			}
+
 			for(unsigned int j = 0; j < this->m_vObjectList.size(); j++)
 			{
 				if(j != i )
