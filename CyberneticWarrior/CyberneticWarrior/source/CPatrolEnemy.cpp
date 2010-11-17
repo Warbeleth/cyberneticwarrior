@@ -76,6 +76,17 @@ void CPatrolEnemy::Update(float fElapsedTime)
 				}
 
 				SetBaseVelX(GetBaseVelX() + GetSpeed() * fElapsedTime);
+
+				if(GetBaseVelX() > 50)
+					SetBaseVelX(50);
+				else if(GetBaseVelX() < -50)
+					SetBaseVelX(-50);
+			}
+			break;
+		case pActive:
+			{
+				SetSpeed(-1*GetSpeed());
+				SetBaseVelX(0);
 			}
 			break;
 		case pDead:

@@ -104,7 +104,7 @@ bool CObjectManager::CheckCollisions(void)
 			{
 				if(j != i )
 				{
-					if((!m_vObjectList[i]->GetCulling() && !m_vObjectList[j]->GetCulling()))
+					if((!m_vObjectList[i]->GetCulling() && !m_vObjectList[j]->GetCulling()) || m_vObjectList[i]->GetType() == OBJ_ENEMY)
 						this->m_vObjectList[i]->CheckCollision(this->m_vObjectList[j]);
 				}
 			}
