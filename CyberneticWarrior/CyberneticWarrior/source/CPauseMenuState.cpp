@@ -156,10 +156,6 @@ void	CPauseMenuState::Render(void)
 	this->m_OptionsFont.Draw("Controls", 275, (this->CONTROLS * PMENU_SPACE) + this->PMENU_START, 
 		(this->m_nSelection == this->CONTROLS? 1.1f : 1.0f), 
 		(this->m_nSelection == this->CONTROLS? D3DXCOLOR(1.0f, 1.0f, 0.7f, 1.0f) : D3DXCOLOR(0.7f, 1.0f, 1.0f, 1.0f)));
-	
-	this->m_OptionsFont.Draw("Achievements", 275, (this->ACHIEVEMENTS * PMENU_SPACE) + this->PMENU_START, 
-		(this->m_nSelection == this->ACHIEVEMENTS? 1.1f : 1.0f), 
-		(this->m_nSelection == this->ACHIEVEMENTS? D3DXCOLOR(1.0f, 1.0f, 0.7f, 1.0f) : D3DXCOLOR(0.7f, 1.0f, 1.0f, 1.0f)));
 
 	this->m_OptionsFont.Draw("Options", 275, (this->OPTIONS * PMENU_SPACE) + this->PMENU_START, 
 		(this->m_nSelection == this->OPTIONS? 1.1f : 1.0f),
