@@ -421,19 +421,6 @@
 				Name="Game States"
 				>
 				<File
-					RelativePath=".\source\CAchievementsState.cpp"
-					>
-					<FileConfiguration
-						Name="Debug|Win32"
-						>
-						<Tool
-							Name="VCCLCompilerTool"
-							UsePrecompiledHeader="2"
-							PrecompiledHeaderThrough="PrecompiledHeader.h"
-						/>
-					</FileConfiguration>
-				</File>
-				<File
 					RelativePath=".\source\CAtractModeState.cpp"
 					>
 					<FileConfiguration
@@ -853,10 +840,6 @@
 			<Filter
 				Name="Game States"
 				>
-				<File
-					RelativePath=".\source\CAchievementsState.h"
-					>
-				</File>
 				<File
 					RelativePath=".\source\CAtractModeState.h"
 					>

@@ -177,6 +177,7 @@ CAnimations::CAnimations()
 	m_fTotalElapsedTime		= 0.0f;
 	m_szFilename            = "\0";
 	m_bJustLoaded			= false;
+	m_bDone					= false; // Animation over?
 	m_vAnimations.clear();
 }
 
@@ -230,9 +231,13 @@ void CAnimations::Update( float fElapsedTime )
 	{
 		m_fTotalElapsedTime = 0.0f;
 		m_vAnimations[m_nCurrentAnimation].m_nCurrentFrame++;
+		m_bDone = false;
 
 		if( m_vAnimations[m_nCurrentAnimation].m_nCurrentFrame >= m_vAnimations[m_nCurrentAnimation].m_nTotalFrames )
+		{
 			m_vAnimations[m_nCurrentAnimation].m_nCurrentFrame = 0;
+			m_bDone = true;
+		}
 
 		m_nOffset.m_nX = m_vAnimations[m_nCurrentAnimation].m_vFrames[m_vAnimations[m_nCurrentAnimation].m_nCurrentFrame].GetAnchor().m_nX -
 			m_vAnimations[ m_nCurrentAnimation ].m_vFrames[ m_vAnimations[m_nCurrentAnimation].m_nCurrentFrame ].GetFrame().left;

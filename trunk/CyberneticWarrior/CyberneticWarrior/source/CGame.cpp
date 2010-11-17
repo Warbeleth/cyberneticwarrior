@@ -21,7 +21,6 @@
 #include "CControlSelectState.h"
 #include "CPauseMenuState.h"
 #include "COptionsMenuState.h"
-#include "CAchievementsState.h"
 #include "CCreditsState.h"
 #include "CAtractModeState.h"
 #include "CLoadingState.h"
@@ -253,7 +252,6 @@ void CGame::ShutDown(void)
 	CPauseMenuState::GetInstance()->DeleteInstance();
 	COptionsMenuState::GetInstance()->DeleteInstance();
 	CCodeProfiler::GetInstance()->DeleteInstance();
-	CAchievementsState::GetInstance()->DeleteInstance();
 	CControlSelectState::GetInstance()->DeleteInstance();
 	CCreditsState::GetInstance()->DeleteInstance();
 	CAtractModeState::GetInstance()->DeleteInstance();

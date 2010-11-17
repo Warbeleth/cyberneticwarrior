@@ -341,13 +341,14 @@ bool CMapLoad::LoadAnimations( void )
 	m_Animations[Boss_Apple].LoadBinary("resource/binary/AppleMech.bae");
 	m_Animations[Boss_Pimp].LoadBinary("resource/binary/PimpStriker.bae");
 	m_Animations[Boss_Pirate].LoadBinary("resource/binary/DeathPirate.bae");
+	m_Animations[Anim_Explosion].LoadBinary("resource/binary/ExplosionAnimation.bae");
 	return true;
 }
 	
 CAnimations* CMapLoad::CreateAnimation( int nAnimationNumber )
 {
 	CAnimations* Animation;
-	if(nAnimationNumber >= 0 && nAnimationNumber <= Enemies_Total )
+	if(nAnimationNumber >= 0 && nAnimationNumber <= Anim_Total )
 	{
 		Animation = new CAnimations( );
 		*Animation = m_Animations[nAnimationNumber];
