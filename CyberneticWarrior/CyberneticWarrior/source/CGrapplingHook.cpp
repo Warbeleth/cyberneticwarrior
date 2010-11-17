@@ -5,6 +5,7 @@
 #include "CGame.h"
 #include "CPlayer.h"
 #include "CSinglePlayerState.h"
+#include "CBlock.h"
 
 CGrapplingHook::CGrapplingHook(void)
 {
@@ -89,11 +90,11 @@ void CGrapplingHook::Render(void)
 
 	CSGD_Direct3D::GetInstance()->GetSprite()->Flush();
 
-	CSGD_Direct3D::GetInstance()->DrawLine((int)((this->GetPosX() + this->GetWidth()/2 - CCamera::GetInstance()->GetOffsetX()) * CCamera::GetInstance()->GetScale()), 
+	CSGD_Direct3D::GetInstance()->DrawLine((int)(((this->GetPosX() + this->GetWidth()) - CCamera::GetInstance()->GetOffsetX()) * CCamera::GetInstance()->GetScale()), 
 		(int)((this->GetPosY() - CCamera::GetInstance()->GetOffsetY()) * CCamera::GetInstance()->GetScale()),
-		(int)((CSinglePlayerState::GetInstance()->GetPlayerPointer()->GetPosX()+CSinglePlayerState::GetInstance()->GetPlayerPointer()->GetWidth() - CCamera::GetInstance()->GetOffsetX()) * CCamera::GetInstance()->GetScale()), 
+		(int)((CSinglePlayerState::GetInstance()->GetPlayerPointer()->GetPosX()+CSinglePlayerState::GetInstance()->GetPlayerPointer()->GetWidth()/2 - CCamera::GetInstance()->GetOffsetX()) * CCamera::GetInstance()->GetScale()), 
 		(int)((CSinglePlayerState::GetInstance()->GetPlayerPointer()->GetPosY() - CCamera::GetInstance()->GetOffsetY()) * CCamera::GetInstance()->GetScale()), 
-		255, 255, 0);
+		1, 1, 1);
 }
 
 RECT CGrapplingHook::GetRect(void) const
@@ -114,14 +115,24 @@ bool CGrapplingHook::CheckCollision(CBase *pBase)
 	{
 		if(pBase->GetType() == OBJ_BLOCK && !this->m_bHooked)
 		{
+			CBlock* pBlock = (CBlock*)pBase;
+
 			this->SetHooked(1);
 			this->SetBaseVelX(0.0f);
 			this->SetBaseVelY(0.0f);
+
+			float nOffSet = (pBlock->GetPosY() + pBlock->GetHeight()) - this->GetPosY() +3.0f;
+			float hi = pBlock->GetPosY();
+			float po = pBlock->GetHeight();
+			float pd = this->GetPosY();
+
+			this->SetSwingMax(nOffSet);
 			//CSinglePlayerState::GetInstance()->GetPlayerPointer()->SetRotationPosX(this->GetPosX());
 			//CSinglePlayerState::GetInstance()->GetPlayerPointer()->SetRotationPosY(this->GetPosY());
 		}
 		return 1;
-	}
+	}//mccaw
+	//Derek Bliss
 	else
 	{
 		return 0;

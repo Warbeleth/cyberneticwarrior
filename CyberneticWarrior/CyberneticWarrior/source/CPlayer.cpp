@@ -332,13 +332,15 @@ void CPlayer::Update(float fElapsedTime)
 				this->m_bFirstSwing = true;
 				this->m_bAllowSwing = true;
 			}
-			else if(this->GetPosX() < this->m_pHook->GetPosX() && this->m_bFixSwing)
+			else if(this->GetPosX() < this->m_pHook->GetPosX() 
+				&& this->m_bFixSwing && ((this->GetPosY() + this->GetHeight()) < this->m_fHookOffset - 10))
 			{
 				this->SetRotation(this->GetRotation() - (m_fRotationFixRate*fElapsedTime));
 				//if(this->m_fRotationFixRate != 0.0f)
 					//this->m_fRotationFixRate -= 0.001f;
 			}
-			else if(this->GetPosX() > this->m_pHook->GetPosX() && this->m_bFixSwing)
+			else if(this->GetPosX() > this->m_pHook->GetPosX() && this->m_bFixSwing
+				&& ((this->GetPosY() + this->GetHeight()) < this->m_fHookOffset - 10))
 			{
 				this->SetRotation(this->GetRotation() + (m_fRotationFixRate*fElapsedTime));
 				//if(this->m_fRotationFixRate != 0.0f)
@@ -433,7 +435,11 @@ void CPlayer::Update(float fElapsedTime)
 		this->m_vSpeed.fY = 0.0f;
 		this->SetBaseVelY(this->m_vSpeed.fY);
 		this->m_bJumped = false;
-		this->SetRotation(0.0f);
+	//	if(m_vSpeed.fX < 0.0f)
+			this->SetRotation(0.0);
+	/*	else if(m_vSpeed.fX > 0.0f)
+			this->SetRotation(-0.0f);*/
+
 		//////////////////////////////////////////////////////////////////////////////
 	}
 	else
@@ -701,7 +707,7 @@ void CPlayer::Input(float fElapsedTime)
 	//////////////////////////////////////////////////////////////////////////////
 	if(this->m_pHook)
 	{
-		if(this->GetPosY() < (this->m_pHook->GetPosY() + 30)
+		if(this->GetPosY() < (this->m_pHook->GetPosY() + 3)
 					&& this->m_pHook->GetIfHooked() && !this->GetOnGround())
 		{
 			this->SetPosY(this->GetPosY() + 0.5f);
@@ -712,20 +718,20 @@ void CPlayer::Input(float fElapsedTime)
 	{
 		if(this->m_pHook)
 		{
-			if(this->GetPosY() > (this->m_pHook->GetPosY() + 30) 
+			if(this->GetPosY() > (this->m_pHook->GetPosY() + 3) 
 				&& this->m_pHook->GetIfHooked() && !this->GetOnGround())
 			{
 				if(this->GetPosX() < this->m_pHook->GetPosX()  && this->m_pHook->GetIfHooked() && !this->GetOnGround())
 				{
 					this->m_bFixSwing = true;
-					this->SetPosX(this->GetPosX() + 0.5f);
-					this->SetPosY(this->GetPosY() - 0.5f);
+					this->SetPosX(this->GetPosX() + 75.0f * fElapsedTime);
+					this->SetPosY(this->GetPosY() - 75.0f * fElapsedTime);
 				}
 				if(this->GetPosX() > this->m_pHook->GetPosX() && this->m_pHook->GetIfHooked() && !this->GetOnGround())
 				{
 					this->m_bFixSwing = true;
-					this->SetPosX(this->GetPosX() - 0.5f);
-					this->SetPosY(this->GetPosY() - 0.5f);
+					this->SetPosX(this->GetPosX() - 75.0f * fElapsedTime);
+					this->SetPosY(this->GetPosY() - 75.0f * fElapsedTime);
 				}
 			}
 			
@@ -742,14 +748,14 @@ void CPlayer::Input(float fElapsedTime)
 				if(this->GetPosX() > this->m_pHook->GetPosX()  && this->m_pHook->GetIfHooked() && !this->GetOnGround())
 				{
 					this->m_bFixSwing = true;
-					this->SetPosX(this->GetPosX() - 0.5f);
-					this->SetPosY(this->GetPosY() + 0.5f);
+					this->SetPosX(this->GetPosX() - 75.0f * fElapsedTime);
+					this->SetPosY(this->GetPosY() + 75.0f * fElapsedTime);
 				}
 				if(this->GetPosX() < this->m_pHook->GetPosX() && this->m_pHook->GetIfHooked() && !this->GetOnGround())
 				{
 					this->m_bFixSwing = true;
-					this->SetPosX(this->GetPosX() + 0.5f);
-					this->SetPosY(this->GetPosY() + 0.5f);
+					this->SetPosX(this->GetPosX() + 75.0f * fElapsedTime);
+					this->SetPosY(this->GetPosY() + 75.0f * fElapsedTime);
 				}
 			}
 		}
@@ -779,6 +785,10 @@ void CPlayer::Input(float fElapsedTime)
   			this->m_bHovering = true;
 		}
 		
+		if(m_vSpeed.fX < 0.0f)
+			this->SetRotation(0.0005f);
+		else if(m_vSpeed.fX > 0.0f)
+			this->SetRotation(-0.0005f);
 		
 		this->m_bJumped = true;
 	}
@@ -873,12 +883,14 @@ void CPlayer::Input(float fElapsedTime)
 					this->m_pHook->SetRotation(-this->m_pHook->GetRotation());
 					this->m_bRotFoward = false;
 				}
+				
 				this->m_bRotBackward = true;
 				
 				if(this->GetRotation() < 0.003f)
 				{
 					this->m_pHook->SetRotation(this->m_pHook->GetRotation() + (this->m_pHook->GetRotationRate()*fElapsedTime));
 				}
+				
 				/*if(this->m_bFirstSwing == true && 
 					(this->GetPosX() > (this->m_pHook->GetPosX() + 100) || this->GetPosX() < this->m_pHook->GetPosX() - 100))
 				{
@@ -887,7 +899,7 @@ void CPlayer::Input(float fElapsedTime)
 					this->m_bAllowSwing = false;
 				}*/
 
-				if( this->GetPosY() < (this->m_pHook->GetPosY() + 15.0f))
+				if( this->GetPosY() < (this->m_pHook->GetPosY() + this->m_pHook->GetSwingMax()))
 				{
 					this->m_pHook->SetRotation(0.0f);
 					this->m_bAllowSwing = false;
@@ -940,7 +952,7 @@ void CPlayer::Input(float fElapsedTime)
 					this->m_bFirstSwing = false;
 					this->m_bAllowSwing = false;
 				}*/
-				if( this->GetPosY() < (this->m_pHook->GetPosY()+15.0f))
+				if( this->GetPosY() < (this->m_pHook->GetPosY() + this->m_pHook->GetSwingMax()))
 				{
 					this->m_pHook->SetRotation(0.0f);
 					this->m_bAllowSwing = false;
@@ -1295,7 +1307,7 @@ void CPlayer::Render(void)
 		rCharge.top  = (LONG)64;
 		rCharge.right = rCharge.left + 64;
 		rCharge.bottom = rCharge.top +(LONG)(70 *(this->m_fChargeRate*this->m_nCharge));
-		CSGD_TextureManager::GetInstance()->Draw(CSinglePlayerState::GetInstance()->GetWeaponSelectionID(), 0, (int)(600-(70 *(this->m_fChargeRate*this->m_nCharge))),
+		CSGD_TextureManager::GetInstance()->Draw(CSinglePlayerState::GetInstance()->GetWeaponSelectionID(), 80, (int)(600-(70 *(this->m_fChargeRate*this->m_nCharge))-60),
 			1.0f,1.0f,&rCharge);
 	}
 	//////////////////////////////////////////////////////////////////////////////
@@ -1352,6 +1364,8 @@ bool CPlayer::CheckCollision(CBase* pBase)
 						m_bOnGround = true;
 						m_bJumped = false;
 						m_bOnPlatform = true;
+
+						this->m_fHookOffset = (float)rMyRect.bottom;
 							
 						if( BLOCK->GetBlock() == BLOCK_MOVING)
 						{

@@ -12,6 +12,7 @@ private:
 
 	float m_fRotation;
 	float m_fRotationRate;
+	float m_fSwingMax;
 	bool m_bHooked;
 
 public:
@@ -24,6 +25,9 @@ public:
 
 	float	GetRotationRate(void)const;
 	inline void	SetRotationRate(float fRotationRate) {this->m_fRotationRate = fRotationRate;}
+
+	inline float	GetSwingMax(void) {return this->m_fSwingMax;}
+	inline void		SetSwingMax(float fSwingMax) {this->m_fSwingMax = fSwingMax;}
 
 	bool	GetIfHooked(void)const;
 	void	SetHooked(bool bHooked);
