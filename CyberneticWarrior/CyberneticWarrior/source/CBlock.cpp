@@ -123,13 +123,13 @@ void CBlock::CheckCulling()
 	float wPos = xPos+GetWidth();
 	float hPos = yPos+GetHeight();
 
-	if(wPos < CameraX-100)
+	if(wPos < CameraX)
 		SetCulling(true);
-	if(xPos > CameraX+900)
+	if(xPos > CameraX+1000)
 		SetCulling(true);
 
-	if(hPos < CameraY-100)
+	if(hPos < CameraY)
 		SetCulling(true);
-	if(yPos > CameraY+700)
+	if(yPos > CameraY+1000)
 		SetCulling(true);
 }

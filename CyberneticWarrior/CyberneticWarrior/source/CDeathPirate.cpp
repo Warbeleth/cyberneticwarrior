@@ -62,6 +62,19 @@ void CDeathPirate::Update(float fElapsedTime)
 void CDeathPirate::Render()
 {
 	CIdleEnemy::Render();
+	#ifdef DRAWRECT
+	int OffsetX = CCamera::GetInstance()->GetOffsetX();
+	int OffsetY = CCamera::GetInstance()->GetOffsetY();
+	int left = (int)GetPosX() - OffsetX;
+	int top = (int)GetPosY() - OffsetY;
+	int right = left + GetWidth();
+	int bottom = top + GetHeight();
+
+	CSGD_Direct3D::GetInstance()->DrawLine(left, top, right, top, 255, 0, 0);
+	CSGD_Direct3D::GetInstance()->DrawLine(left, bottom, right, bottom, 255, 0, 0);
+	CSGD_Direct3D::GetInstance()->DrawLine(left, top, left, bottom, 255, 0, 0);
+	CSGD_Direct3D::GetInstance()->DrawLine(right, top, right, bottom, 255, 0, 0);
+#endif
 }
 
 bool CDeathPirate::CheckCollision(CBase* pBase)
