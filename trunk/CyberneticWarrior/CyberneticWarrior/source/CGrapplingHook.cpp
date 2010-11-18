@@ -123,7 +123,7 @@ bool CGrapplingHook::CheckCollision(CBase *pBase)
 
 			float nOffSet = (pBlock->GetPosY() + pBlock->GetHeight()) - this->GetPosY() +3.0f;
 			float hi = pBlock->GetPosY();
-			float po = pBlock->GetHeight();
+			float po = (float)pBlock->GetHeight();
 			float pd = this->GetPosY();
 
 			this->SetSwingMax(nOffSet);
