@@ -416,6 +416,8 @@ void CSinglePlayerState::Render(void)
 void CSinglePlayerState::Exit(void)
 {
 	this->SetDeath(false);
+
+	m_TempPlayer = NULL;
 	
 	this->m_bMusic = 1;
 

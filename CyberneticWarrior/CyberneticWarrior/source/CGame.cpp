@@ -382,6 +382,9 @@ void CGame::Draw(void)
 
 void CGame::MessageProc(CBaseMessage*	pMsg)
 {
+	if(CSinglePlayerState::GetInstance()->GetPlayerPointer() == NULL)
+		return;
+
 	switch(pMsg->GetMsgID())
 	{
 	case MSG_CREATE_HOOK:
