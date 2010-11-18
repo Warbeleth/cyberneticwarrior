@@ -1433,7 +1433,7 @@ bool CPlayer::CheckCollision(CBase* pBase)
 			}
 			else if((rIntersect.right-rIntersect.left) < (rIntersect.bottom-rIntersect.top))
 			{
-				if(BLOCK->GetBlock() == BLOCK_SOLID || BLOCK->GetBlock() == BLOCK_MOVING || BLOCK->GetBlock() == BLOCK_PARTIAL)
+				if(BLOCK->GetBlock() == BLOCK_SOLID || BLOCK->GetBlock() == BLOCK_MOVING || BLOCK->GetBlock() == BLOCK_PARTIAL || BLOCK->GetBlock() == BLOCK_UNSTABLE)
 				{
 					if(rMyRect.right > rHisRect.left && rMyRect.left < rHisRect.left)
 						SetPosX( (float)rHisRect.left - GetWidth() );
