@@ -198,6 +198,11 @@ void CGame::Initialize(HWND hWnd, HINSTANCE hInstance,
 
 	this->m_pMS->InitMessageSystem( CGame::MessageProc );
 
+	if(!this->m_pDI->JoystickIsUnplugged())
+	{
+		CSinglePlayerState::GetInstance()->SetInputType(1);
+	}
+
 	this->m_nScreenWidth = nScreenWidth;
 	this->m_nScreenHeight = nScreenHeight;
 

@@ -2,6 +2,7 @@
 #include "COptionsMenuState.h"
 #include "CStackStateMachine.h"
 #include "CControlSelectState.h"
+#include "CMainMenuState.h"
 
 COptionsMenuState*	COptionsMenuState::sm_pOptionsMenuInstance = NULL;
 
@@ -249,6 +250,7 @@ bool COptionsMenuState::Input(void)
 			break;
 		case this->EXIT_OMENU:
 			CStackStateMachine::GetInstance()->Pop_back();
+			CMainMenuState::GetInstance()->SetJamming(true);
 			return 1;
 			//PostQuitMessage(0);
 			break;

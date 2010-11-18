@@ -62,6 +62,7 @@ private:
 	bool m_bLevelChange;
 	bool m_bDeath;
 
+
 	int			m_nMusicVolume;
 	int			m_nSFXVolume;
 
