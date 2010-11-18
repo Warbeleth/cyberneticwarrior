@@ -4,6 +4,7 @@
 #include "CMainMenuState.h"
 #include "COptionsMenuState.h"
 #include "CSinglePlayerState.h"
+#include "CHowToPlayState.h"
 #include "CLoadingState.h"
 #include "CPlayer.h"
 #include "CGame.h"
@@ -92,6 +93,7 @@ bool	CPauseMenuState::Input(void)
 			CStackStateMachine::GetInstance()->Push_Back(CGameProfiler::GetInstance());
 			break;
 		case this->CONTROLS:
+			CStackStateMachine::GetInstance()->Push_Back(CHowToPlayState::GetInstance());
 			break;
 		case this->OPTIONS:
 			CStackStateMachine::GetInstance()->Push_Back(COptionsMenuState::GetInstance());

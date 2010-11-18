@@ -298,7 +298,7 @@ void CPlayer::Update(float fElapsedTime)
 	// used for gamepad controls
 	// Notes: May be used later, probably not(Do not remove yet)
 
-	if(CSGD_DirectInput::GetInstance()->JoystickButtonDown(4))
+	if(CSGD_DirectInput::GetInstance()->JoystickButtonDown(4) || CSGD_DirectInput::GetInstance()->JoystickButtonDown(5))
 	{
 		this->m_fInputTime +=  fElapsedTime;
 	}
@@ -931,8 +931,8 @@ void CPlayer::Input(float fElapsedTime)
 	}
 	//////////////////////////////////////////////////////////////////////////////
 	if((CSGD_DirectInput::GetInstance()->KeyDown(CGame::GetInstance()->GetPlayerOneControls(2))  && CSinglePlayerState::GetInstance()->GetInputType() == 0)
-		|| (CSGD_DirectInput::GetInstance()->JoystickDPadDown(DIR_RIGHT)
-		|| CSGD_DirectInput::GetInstance()->JoystickGetLStickDirDown(DIR_RIGHT) && CSinglePlayerState::GetInstance()->GetInputType() == 1))
+		|| ((CSGD_DirectInput::GetInstance()->JoystickDPadDown(DIR_RIGHT)
+		|| CSGD_DirectInput::GetInstance()->JoystickGetLStickDirDown(DIR_RIGHT)) && CSinglePlayerState::GetInstance()->GetInputType() == 1))
 	{
 		if(this->m_vSpeed.fX < 300.0f)
 		{
