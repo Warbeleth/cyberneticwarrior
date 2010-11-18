@@ -29,6 +29,7 @@ bool CCreditsState::Input( void )
 void CCreditsState::Update( float fElapsedTime )
 {	
 	m_CreditsFont.Update( fElapsedTime );
+	m_CreditsFont.Input( DIK_SPACE, fElapsedTime, 0, 2 );
 }
 
 void CCreditsState::Render( void )
@@ -36,8 +37,8 @@ void CCreditsState::Render( void )
 	CSGD_TextureManager::GetInstance()->Draw( m_nCreditsBGId, 0, 0 );
 
 	m_CreditsFont.Draw("Credits", 300, 40, 1.5f,-1 );
-	if(!m_CreditsFont.DrawScrolling("ASSOCIATE PRODUCER:\n          Sean Hathaway\n\n\n\nPROGRAMMERS:\n          Patrick Alvarez\n          Anthony Muccio\n          Corey Ringer\n\n\n\nASSISTANCE WITH TOOLS \nPROGRAMMING:\n\nMAP EDITOR:\n          Jamison Fullerton\n          Desiree Bard\n\n\n\nGAME LOGIC:\n          Jason Ditz\n          Bryan Evans\n          Scott Leierer\n          Mario Sanchez",
-		250, 530, 0.6f, -1, 100, 540, 240, 560, m_nScrollingId ))
+	if(!m_CreditsFont.DrawScrolling("EXECUTIVE PRODUCERS:\n          John O'leske\n          Mike Wigand\n\n\n\nASSOCIATE PRODUCERS:\n          Sean Hathaway\n          Rob Martinez\n          Ron Powell\n\n\n\nPROGRAMMERS:\n          Patrick Alvarez\n          Anthony Muccio\n          Corey Ringer\n\n\n\nARTISTS:\n          Chris Jahosky\n          Anthony Muccio\n          Patrick Alvarez\n\n\n\nSOUND:\n          Robert Osborne\n          James Marantette\n\n\n\nDESIGN CONSULTANT:\n          Brian Arpidone\n\n\n\nASSISTANCE WITH TOOLS:\n\nMAP EDITOR:\n          Jamison Fullerton\n          Desiree Bard\n\n\n\nGAME LOGIC:\n          Jason Ditz\n          Bryan Evans\n          Scott Leierer\n          Mario Sanchez\n\n\n\n----------------------------------------------\n\nSPECIAL THANKS:\n          Tony Mcneil\n          Carlos Lugo\n          Barry Mccall\n          Tyler Berry\n          Patrick Stafford\n          Tyler Lamb\n          Jeremy Goodman\n          John Wileczeck\n\n\n\n\n\n\n          HOLY MELON STUDIOS",
+		200, 529, .8f, -1, 100, 530, 0, 600, m_nScrollingId ))
 		CStackStateMachine::GetInstance()->ChangeState(CMainMenuState::GetInstance());
 }
 
@@ -51,7 +52,7 @@ void CCreditsState::Enter( void )
 	
 	CSGD_WaveManager::GetInstance()->Play(this->m_nBGMusic);
 
-	m_nScrollingId = m_CreditsFont.AddScrolling( 0, -100 );
+	m_nScrollingId = m_CreditsFont.AddScrolling( 0, -150 );
 }
 
 void CCreditsState::Exit( void )
