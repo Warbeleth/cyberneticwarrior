@@ -216,14 +216,14 @@ void CBaseEnemy::CheckCulling()
 	float wPos = xPos+GetWidth();
 	float hPos = yPos+GetHeight();
 
-	if(wPos < CameraX)
+	if(wPos < CameraX-100)
 		SetCulling(true);
-	if(xPos > CameraX+800)
+	if(xPos > CameraX+900)
 		SetCulling(true);
 
-	if(hPos < CameraY)
+	if(hPos < CameraY-100)
 		SetCulling(true);
-	if(yPos > CameraY+600)
+	if(yPos > CameraY+700)
 		SetCulling(true);
 }
 

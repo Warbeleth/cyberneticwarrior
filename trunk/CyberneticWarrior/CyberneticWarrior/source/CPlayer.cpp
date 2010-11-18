@@ -600,6 +600,17 @@ void CPlayer::Update(float fElapsedTime)
 		}
 	}*/
 	//////////////////////////////////////////////////////////////////////////////
+
+	RECT rIntersect;
+	RECT rTeleport = { 63*64, 38*64, 64*64, 39*64 };
+
+	if(IntersectRect(&rIntersect, &rTeleport, &GetRect()))
+	{
+		SetPosX( 20*64 );
+		SetPosY( 55*64 );
+	}
+	
+	// 20 , 55
 }
 
 void CPlayer::Input(float fElapsedTime)
@@ -1256,7 +1267,7 @@ void CPlayer::Input(float fElapsedTime)
 }
 
 void CPlayer::Render(void)
-{		
+{
 	//////////////////////////////////////////////////////////////////////////////
 	// Access Camera Offset
 	//////////////////////////////////////////////////////////////////////////////
@@ -1273,6 +1284,7 @@ void CPlayer::Render(void)
 		int((CSGD_DirectInput::GetInstance()->MouseGetPosX()+8) * CCamera::GetInstance()->GetScale()), 
 		int((CSGD_DirectInput::GetInstance()->MouseGetPosY()+8) * CCamera::GetInstance()->GetScale()), 
 		255, 0, 0 );
+
 	//////////////////////////////////////////////////////////////////////////////
 
 	//////////////////////////////////////////////////////////////////////////////

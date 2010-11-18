@@ -11,6 +11,7 @@ class CObjectManager
 private:
 
 	vector<CBase*> m_vObjectList;
+	vector<CBase*> m_vCulledList;
 
 	CObjectManager(void);
 	~CObjectManager(void);
