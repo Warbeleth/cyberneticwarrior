@@ -13,7 +13,7 @@ CSpawner::CSpawner(int nSpawnerType, float fPosX, float fPosY, int nWidth, int n
 	m_nHeight = nHeight;
 	m_fPosX = fPosX;
 	m_fPosY = fPosY;
-	m_fTimeWaited = 0.0f;
+	m_fTimeWaited = 29.0f;
 	m_nTotalCurrentlySpawned = 0;
 	m_nMaxSpawn = 1;
 
