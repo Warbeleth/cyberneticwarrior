@@ -78,6 +78,7 @@ void CTurretCore::Update(float fElapsedTime)
 		}
 		break;
 	case iDead:
+		ReleaseSpawner();
 		CGame::GetInstance()->GetMessageSystemPointer()->SendMsg(new CDestroyEnemyMessage((CBaseEnemy*)this));
 		break;
 	};

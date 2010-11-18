@@ -1,6 +1,8 @@
 #include "PrecompiledHeader.h"
 
 #include "CSpawner.h"
+#include "CSinglePlayerState.h"
+#include "CPlayer.h"
 #include "CGame.h"
 
 CSpawner::CSpawner(int nSpawnerType, float fPosX, float fPosY, int nWidth, int nHeight)
@@ -33,8 +35,12 @@ CSpawner::~CSpawner()
 void CSpawner::Update(float fElapsedTime)
 {
 	m_fTimeWaited += fElapsedTime;
+	CPlayer* playerPos = CSinglePlayerState::GetInstance()->GetPlayerPointer();
 
-	if(m_fTimeWaited >= 30.0f && GetCulling() && m_nTotalCurrentlySpawned < m_nMaxSpawn )
+	if(m_fTimeWaited >= 30.0f && GetCulling() 
+		&& m_nTotalCurrentlySpawned < m_nMaxSpawn  
+		&& ((fabs(playerPos->GetPosX() - GetPosX()) < 1100) && (fabs(playerPos->GetPosY() - GetPosY()) < 1100))
+		)
 	{
 		m_fTimeWaited = 0.0f;
 		CGame::GetInstance()->GetMessageSystemPointer()->SendMsg(new CCreateEnemyMessage(m_nTypeToSpawn, (int)GetPosX(), (int)GetPosY(), this));

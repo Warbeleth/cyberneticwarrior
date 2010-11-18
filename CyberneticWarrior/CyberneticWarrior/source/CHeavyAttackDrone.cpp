@@ -42,6 +42,7 @@ void CHeavyAttackDrone::Update(float fElapsedTime)
 		}
 		break;
 	case pDead:
+		ReleaseSpawner();
 		CGame::GetInstance()->GetMessageSystemPointer()->SendMsg(new CDestroyEnemyMessage((CBaseEnemy*)this));
 		break;
 	};

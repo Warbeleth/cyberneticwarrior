@@ -177,5 +177,7 @@ public:
 	//	Purpose : To check for culling of objects to improve performance
 	////////////////////////////////////////////////////////////////////////////////////
 	virtual void CheckCulling();
+
+	virtual bool ReleaseSpawner();
 };
 #endif
