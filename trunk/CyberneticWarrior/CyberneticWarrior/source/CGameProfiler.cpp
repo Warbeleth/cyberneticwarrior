@@ -19,6 +19,8 @@ CGameProfiler::CGameProfiler(void)
 
 	this->m_fWaitTime = 0.0f;
 
+	this->m_bGetName = false;
+
 	this->m_nBackgroundID			= -1;
 	this->m_nProfileItemID			= -1;
 	//this->m_nCursorID				= -1;
@@ -27,10 +29,15 @@ CGameProfiler::CGameProfiler(void)
 	this->m_nSelection				= this->OP1;
 	this->m_nSelectionPos			= this->MENU_START;
 
-	this->m_nFileName[this->OP1] = "New Game";
-	this->m_nFileName[this->OP2] = "New Game";
-	this->m_nFileName[this->OP3] = "New Game";
+	this->m_szFileName[this->OP1] = "New Game";
+	this->m_szFileName[this->OP2] = "New Game";
+	this->m_szFileName[this->OP3] = "New Game";
 
+	this->m_sPlayerNames[this->OP1] = "No Saved File";
+	this->m_sPlayerNames[this->OP2] = "No Saved File";
+	this->m_sPlayerNames[this->OP3] = "No Saved File";
+
+	this->m_bReturn = false;
 
 	this->SetNewGame(0);
 	this->SetManagement(0);
@@ -57,6 +64,17 @@ CGameProfiler::~CGameProfiler(void)
 
 bool	CGameProfiler::Input(void)
 {
+	if(this->m_bGetName)
+	{
+		this->CreatePlayerName();
+	}
+	
+	if(this->m_bReturn)
+	{
+		this->m_bReturn = false;
+		return 1;
+	}
+
 	if(this->m_pDI->KeyPressed(DIK_UP) || this->m_pDI->JoystickDPadPressed(DIR_UP) || this->m_pDI->JoystickGetLStickYAmount(0) < 0.0f && this->m_fWaitTime > 0.3f)
 	{
 		--this->m_nSelection;
@@ -86,7 +104,7 @@ bool	CGameProfiler::Input(void)
 		CStackStateMachine::GetInstance()->Pop_back();
 		return 1;
 	}
-
+	
 	if(this->m_pDI->KeyPressed(DIK_RETURN) || this->m_pDI->JoystickButtonPressed(9, 0) || this->m_pDI->JoystickButtonPressed(1, 0))
 	{
 		std::fstream fManager;
@@ -97,6 +115,10 @@ bool	CGameProfiler::Input(void)
 		case this->OP1:
 			{
 				szFileName = "Profile-1.bin";
+				if(this->GetNewGame())
+				{
+					this->m_bGetName = true;
+				}
 			}
 			break;
 		case this->OP2:
@@ -131,6 +153,7 @@ bool	CGameProfiler::Input(void)
 				if(fManager.is_open() && !this->GetNewGame()
 					&& this->GetManagement() == SAVE_GAME)
 				{
+					
 					fManager.write((const char*)&this->m_bNewGame, sizeof(bool));				
 					fManager.write((const char*)&(CSinglePlayerState::GetInstance()->GetProfileValues()->m_bHaveHook), 
 						sizeof(CSinglePlayerState::GetInstance()->GetProfileValues()->m_bHaveHook));
@@ -161,11 +184,11 @@ bool	CGameProfiler::Input(void)
 				}
 				fManager.close();	
 			}
-			if(this->GetNewGame() && this->GetManagement() == SAVE_GAME)
+			/*if(this->GetNewGame() && this->GetManagement() == SAVE_GAME)
 			{
 				CSinglePlayerState::GetInstance()->SetProfileValues(0);
 				CStackStateMachine::GetInstance()->ChangeState(CLoadingState::GetInstance());
-			}
+			}*/
 		}
 	}
 
@@ -205,13 +228,13 @@ void	CGameProfiler::Render(void)
 	this->m_pTM->Draw(this->m_nBackgroundID, 0, 0);
 	this->m_pTM->Draw(this->m_nProfileItemID,150, (this->OP1 * GMENU_SPACE) + this->MENU_START,1.4f,
 		(this->m_nSelection == this->OP1? 0.75f : 0.7f),&Profiles,0.0f,0.0f,0.0f,
-		(this->m_nSelection == this->OP1? D3DXCOLOR(0.6f, 0.6f, 1.0f, 1.0f) : D3DXCOLOR(0.6f, 0.6f, 1.0f, 0.3f)));
+		(this->m_nSelection == this->OP1? D3DXCOLOR(0.7f, 0.7f, 1.0f, 1.0f) : D3DXCOLOR(0.7f, 0.7f, 1.0f, 0.3f)));
 	this->m_pTM->Draw(this->m_nProfileItemID,150, (this->OP2 * GMENU_SPACE) + this->MENU_START,1.4f,
 		(this->m_nSelection == this->OP2? 0.75f : 0.7f),&Profiles,0.0f,0.0f,0.0f,
-		(this->m_nSelection == this->OP2? D3DXCOLOR(0.6f, 0.6f, 1.0f, 1.0f) : D3DXCOLOR(0.6f, 0.6f, 1.0f, 0.3f)));
+		(this->m_nSelection == this->OP2? D3DXCOLOR(0.7f, 0.7f, 1.0f, 1.0f) : D3DXCOLOR(0.7f, 0.7f, 1.0f, 0.3f)));
 	this->m_pTM->Draw(this->m_nProfileItemID,150, (this->OP3 * GMENU_SPACE) + this->MENU_START,1.4f,
 		(this->m_nSelection == this->OP3? 0.75f : 0.7f),&Profiles,0.0f,0.0f,0.0f,
-		(this->m_nSelection == this->OP3? D3DXCOLOR(0.6f, 0.6f, 1.0f, 1.0f) : D3DXCOLOR(0.6f, 0.6f, 1.0f, 0.3f)));
+		(this->m_nSelection == this->OP3? D3DXCOLOR(0.7f, 0.7f, 1.0f, 1.0f) : D3DXCOLOR(0.7f, 0.7f, 1.0f, 0.3f)));
 
 	if(this->GetManagement() == SAVE_GAME)
 	{
@@ -225,21 +248,28 @@ void	CGameProfiler::Render(void)
 	{
 		this->m_OptionsFont.Draw("LOAD", 335, 40, 1.2f, D3DXCOLOR(1.0f, 1.0f, 1.0f, 1.0f));
 	}
-	this->m_OptionsFont.Draw(this->m_nFileName[this->OP1], 275, (this->OP1 * GMENU_SPACE) + this->MENU_START + 15, 
+	this->m_OptionsFont.Draw(this->m_szFileName[this->OP1], 275, (this->OP1 * GMENU_SPACE) + this->MENU_START + 15, 
 		(this->m_nSelection == this->OP1? 1.5f : 1.0f) ,
-		(this->m_nSelection == this->OP1? D3DXCOLOR(0.0f, 1.0f, 1.0f, 1.0f) : D3DXCOLOR(0.6f, 0.6f, 1.0f, 1.0f)));
+		(this->m_nSelection == this->OP1? D3DXCOLOR(0.0f, 1.0f, 1.0f, 1.0f) : D3DXCOLOR(0.7f, 0.7f, 1.0f, 1.0f)));
 
-	this->m_OptionsFont.Draw(this->m_nFileName[this->OP2], 275, (this->OP2 * GMENU_SPACE) + this->MENU_START + 15, 
+	this->m_OptionsFont.Draw(this->m_szFileName[this->OP2], 275, (this->OP2 * GMENU_SPACE) + this->MENU_START + 15, 
 		(this->m_nSelection == this->OP2? 1.5f : 1.0f), 
-		(this->m_nSelection == this->OP2? D3DXCOLOR(0.0f, 1.0f, 1.0f, 1.0f) : D3DXCOLOR(0.6f, 0.6f, 1.0f, 1.0f)));
+		(this->m_nSelection == this->OP2? D3DXCOLOR(0.0f, 1.0f, 1.0f, 1.0f) : D3DXCOLOR(0.7f, 0.7f, 1.0f, 1.0f)));
 
-	this->m_OptionsFont.Draw(this->m_nFileName[this->OP3], 275, (this->OP3 * GMENU_SPACE) + this->MENU_START + 15, 
+	this->m_OptionsFont.Draw(this->m_szFileName[this->OP3], 275, (this->OP3 * GMENU_SPACE) + this->MENU_START + 15, 
 		(this->m_nSelection == this->OP3? 1.5f : 1.0f), 
-		(this->m_nSelection == this->OP3? D3DXCOLOR(0.0f, 1.0f, 1.0f, 1.0f) : D3DXCOLOR(0.6f, 0.6f, 1.0f, 1.0f)));
+		(this->m_nSelection == this->OP3? D3DXCOLOR(0.0f, 1.0f, 1.0f, 1.0f) : D3DXCOLOR(0.7f, 0.7f, 1.0f, 1.0f)));
 
 	this->m_OptionsFont.Draw("Return", 325, (this->BACK * GMENU_SPACE) + this->MENU_START, 
 		(this->m_nSelection == this->BACK? 1.5f : 1.0f), 
-		(this->m_nSelection == this->BACK? D3DXCOLOR(0.0f, 1.0f, 1.0f, 1.0f) : D3DXCOLOR(0.6f, 0.6f, 1.0f, 1.0f)));
+		(this->m_nSelection == this->BACK? D3DXCOLOR(0.0f, 1.0f, 1.0f, 1.0f) : D3DXCOLOR(0.7f, 0.7f, 1.0f, 1.0f)));
+
+	if(this->m_bGetName)
+	{
+		this->m_pTM->Draw(this->m_nProfileItemID,150, (this->OP2 * GMENU_SPACE) + this->MENU_START,1.4f,
+		0.75f ,&Profiles,0.0f,0.0f,0.0f,D3DXCOLOR(0.7f, 0.7f, 1.0f, 1.0f));
+		this->m_OptionsFont.Draw(this->m_sPlayerNames[this->m_nSelection].c_str(), 250, 252, 1.0f, D3DXCOLOR(0.2f, 0.2f, 1.0f, 1.0f));
+	}
 }
 
 void	CGameProfiler::Exit(void)
@@ -314,4 +344,434 @@ void CGameProfiler::DeleteInstance(void)
 		delete sm_pGameProfilerInstance;
 		sm_pGameProfilerInstance = NULL;
 	}
+}
+
+void	CGameProfiler::CreatePlayerName(void)
+{
+	static bool bSaveName = false;
+	static int nCharCount = 0;
+	
+	if(!bSaveName)
+	{
+		switch(this->m_pDI->GetBufferedDIKCodeEx())
+		{
+		case DIK_RETURN:
+			bSaveName = true;
+			break;
+		case DIK_ESCAPE:
+			this->m_bGetName = false;
+			this->m_sPlayerNames[this->m_nSelection].clear();
+			nCharCount = 0;
+			break;
+		case DIK_BACKSPACE:
+			if(nCharCount>0)
+			{
+				this->m_sPlayerNames[this->m_nSelection].clear();
+				nCharCount = 0;		
+			}
+			break;
+		case DIK_A:
+			if(nCharCount<8)
+			{
+				if(nCharCount == 0)
+				{
+					this->m_sPlayerNames[this->m_nSelection].clear();
+					this->m_sPlayerNames[this->m_nSelection].append("A");
+				}
+				else
+				{				
+					this->m_sPlayerNames[this->m_nSelection].append("a");
+				}	
+				nCharCount++;
+			}
+			break;
+		case DIK_B:
+			if(nCharCount<8)
+			{
+				if(nCharCount == 0)
+				{
+					this->m_sPlayerNames[this->m_nSelection].clear();
+					this->m_sPlayerNames[this->m_nSelection].append("B");
+				}
+				else
+				{				
+					this->m_sPlayerNames[this->m_nSelection].append("b");
+				}	
+				nCharCount++;
+			}
+			break;
+		case DIK_C:
+			if(nCharCount<8)
+			{
+				if(nCharCount == 0)
+				{
+					this->m_sPlayerNames[this->m_nSelection].clear();
+					this->m_sPlayerNames[this->m_nSelection].append("C");
+				}
+				else
+				{				
+					this->m_sPlayerNames[this->m_nSelection].append("c");
+				}	
+				nCharCount++;
+			}
+			break;
+		case DIK_D:
+			if(nCharCount<8)
+			{
+				if(nCharCount == 0)
+				{
+					this->m_sPlayerNames[this->m_nSelection].clear();
+					this->m_sPlayerNames[this->m_nSelection].append("D");
+				}
+				else
+				{				
+					this->m_sPlayerNames[this->m_nSelection].append("c");
+				}	
+				nCharCount++;
+			}
+			break;
+		case DIK_E:
+			if(nCharCount<8)
+			{
+				if(nCharCount == 0)
+				{
+					this->m_sPlayerNames[this->m_nSelection].clear();
+					this->m_sPlayerNames[this->m_nSelection].append("E");
+				}
+				else
+				{				
+					this->m_sPlayerNames[this->m_nSelection].append("e");
+				}	
+				nCharCount++;
+			}
+			break;
+		case DIK_F:
+			if(nCharCount<8)
+			{
+				if(nCharCount == 0)
+				{
+					this->m_sPlayerNames[this->m_nSelection].clear();
+					this->m_sPlayerNames[this->m_nSelection].append("F");
+				}
+				else
+				{				
+					this->m_sPlayerNames[this->m_nSelection].append("f");
+				}	
+				nCharCount++;
+			}
+			break;
+		case DIK_G:
+			if(nCharCount<8)
+			{
+				if(nCharCount == 0)
+				{
+					this->m_sPlayerNames[this->m_nSelection].clear();
+					this->m_sPlayerNames[this->m_nSelection].append("G");
+				}
+				else
+				{				
+					this->m_sPlayerNames[this->m_nSelection].append("g");
+				}	
+				nCharCount++;
+			}
+			break;
+		case DIK_H:
+			if(nCharCount<8)
+			{
+				if(nCharCount == 0)
+				{
+					this->m_sPlayerNames[this->m_nSelection].clear();
+					this->m_sPlayerNames[this->m_nSelection].append("H");
+				}
+				else
+				{				
+					this->m_sPlayerNames[this->m_nSelection].append("h");
+				}	
+				nCharCount++;
+			}
+			break;
+		case DIK_I:
+			if(nCharCount<8)
+			{
+				if(nCharCount == 0)
+				{
+					this->m_sPlayerNames[this->m_nSelection].clear();
+					this->m_sPlayerNames[this->m_nSelection].append("I");
+				}
+				else
+				{				
+					this->m_sPlayerNames[this->m_nSelection].append("i");
+				}	
+				nCharCount++;
+			}
+			break;
+		case DIK_J:
+			if(nCharCount<8)
+			{
+				if(nCharCount == 0)
+				{
+					this->m_sPlayerNames[this->m_nSelection].clear();
+					this->m_sPlayerNames[this->m_nSelection].append("J");
+				}
+				else
+				{				
+					this->m_sPlayerNames[this->m_nSelection].append("j");
+				}	
+				nCharCount++;
+			}
+			break;
+		case DIK_K:
+			if(nCharCount<8)
+			{
+				if(nCharCount == 0)
+				{
+					this->m_sPlayerNames[this->m_nSelection].clear();
+					this->m_sPlayerNames[this->m_nSelection].append("K");
+				}
+				else
+				{				
+					this->m_sPlayerNames[this->m_nSelection].append("k");
+				}	
+				nCharCount++;
+			}
+			break;
+		case DIK_L:
+			if(nCharCount<8)
+			{
+				if(nCharCount == 0)
+				{
+					this->m_sPlayerNames[this->m_nSelection].clear();
+					this->m_sPlayerNames[this->m_nSelection].append("L");
+				}
+				else
+				{				
+					this->m_sPlayerNames[this->m_nSelection].append("l");
+				}	
+				nCharCount++;
+			}
+			break;
+		case DIK_M:
+			if(nCharCount<8)
+			{
+				if(nCharCount == 0)
+				{
+					this->m_sPlayerNames[this->m_nSelection].clear();
+					this->m_sPlayerNames[this->m_nSelection].append("M");
+				}
+				else
+				{				
+					this->m_sPlayerNames[this->m_nSelection].append("m");
+				}	
+				nCharCount++;
+			}
+			break;
+		case DIK_N:
+			if(nCharCount<8)
+			{
+				if(nCharCount == 0)
+				{
+					this->m_sPlayerNames[this->m_nSelection].clear();
+					this->m_sPlayerNames[this->m_nSelection].append("N");
+				}
+				else
+				{				
+					this->m_sPlayerNames[this->m_nSelection].append("n");
+				}	
+				nCharCount++;
+			}
+			break;
+		case DIK_O:
+			if(nCharCount<8)
+			{
+				if(nCharCount == 0)
+				{
+					this->m_sPlayerNames[this->m_nSelection].clear();
+					this->m_sPlayerNames[this->m_nSelection].append("O");
+				}
+				else
+				{				
+					this->m_sPlayerNames[this->m_nSelection].append("o");
+				}	
+				nCharCount++;
+			}
+			break;
+		case DIK_P:
+			if(nCharCount<8)
+			{
+				if(nCharCount == 0)
+				{
+					this->m_sPlayerNames[this->m_nSelection].clear();
+					this->m_sPlayerNames[this->m_nSelection].append("P");
+				}
+				else
+				{				
+					this->m_sPlayerNames[this->m_nSelection].append("p");
+				}	
+				nCharCount++;
+			}
+			break;
+		case DIK_Q:
+			if(nCharCount<8)
+			{
+				if(nCharCount == 0)
+				{
+					this->m_sPlayerNames[this->m_nSelection].clear();
+					this->m_sPlayerNames[this->m_nSelection].append("Q");
+				}
+				else
+				{				
+					this->m_sPlayerNames[this->m_nSelection].append("q");
+				}	
+				nCharCount++;
+			}
+			break;
+		case DIK_R:
+			if(nCharCount<8)
+			{
+				if(nCharCount == 0)
+				{
+					this->m_sPlayerNames[this->m_nSelection].clear();
+					this->m_sPlayerNames[this->m_nSelection].append("R");
+				}
+				else
+				{				
+					this->m_sPlayerNames[this->m_nSelection].append("r");
+				}	
+				nCharCount++;
+			}
+			break;
+		case DIK_S:
+			if(nCharCount<8)
+			{
+				if(nCharCount == 0)
+				{
+					this->m_sPlayerNames[this->m_nSelection].clear();
+					this->m_sPlayerNames[this->m_nSelection].append("S");
+				}
+				else
+				{				
+					this->m_sPlayerNames[this->m_nSelection].append("s");
+				}	
+				nCharCount++;
+			}
+			break;
+		case DIK_T:
+			if(nCharCount<8)
+			{
+				if(nCharCount == 0)
+				{
+					this->m_sPlayerNames[this->m_nSelection].clear();
+					this->m_sPlayerNames[this->m_nSelection].append("T");
+				}
+				else
+				{				
+					this->m_sPlayerNames[this->m_nSelection].append("t");
+				}	
+				nCharCount++;
+			}
+			break;
+		case DIK_U:
+			if(nCharCount<8)
+			{
+				if(nCharCount == 0)
+				{
+					this->m_sPlayerNames[this->m_nSelection].clear();
+					this->m_sPlayerNames[this->m_nSelection].append("U");
+				}
+				else
+				{				
+					this->m_sPlayerNames[this->m_nSelection].append("u");
+				}	
+				nCharCount++;
+			}
+			break;
+		case DIK_V:
+			if(nCharCount<8)
+			{
+				if(nCharCount == 0)
+				{
+					this->m_sPlayerNames[this->m_nSelection].clear();
+					this->m_sPlayerNames[this->m_nSelection].append("V");
+				}
+				else
+				{				
+					this->m_sPlayerNames[this->m_nSelection].append("v");
+				}	
+				nCharCount++;
+			}
+			break;
+		case DIK_W:
+			if(nCharCount<8)
+			{
+				if(nCharCount == 0)
+				{
+					this->m_sPlayerNames[this->m_nSelection].clear();
+					this->m_sPlayerNames[this->m_nSelection].append("W");
+				}
+				else
+				{				
+					this->m_sPlayerNames[this->m_nSelection].append("w");
+				}	
+				nCharCount++;
+			}
+			break;
+		case DIK_X:
+			if(nCharCount<8)
+			{
+				if(nCharCount == 0)
+				{
+					this->m_sPlayerNames[this->m_nSelection].clear();
+					this->m_sPlayerNames[this->m_nSelection].append("X");
+				}
+				else
+				{				
+					this->m_sPlayerNames[this->m_nSelection].append("x");
+				}	
+				nCharCount++;
+			}
+			break;
+		case DIK_Y:
+			if(nCharCount<8)
+			{
+				if(nCharCount == 0)
+				{
+					this->m_sPlayerNames[this->m_nSelection].clear();
+					this->m_sPlayerNames[this->m_nSelection].append("Y");
+				}
+				else
+				{				
+					this->m_sPlayerNames[this->m_nSelection].append("y");
+				}	
+				nCharCount++;
+			}
+			break;
+		case DIK_Z:
+			if(nCharCount<8)
+			{
+				if(nCharCount == 0)
+				{
+					this->m_sPlayerNames[this->m_nSelection].clear();
+					this->m_sPlayerNames[this->m_nSelection].append("Z");
+				}
+				else
+				{				
+					this->m_sPlayerNames[this->m_nSelection].append("z");
+				}	
+				nCharCount++;
+			}
+		break;
+		}
+
+	}
+	else
+	{
+
+		CStackStateMachine::GetInstance()->ChangeState(CLoadingState::GetInstance());
+		this->m_bGetName = false;
+		this->m_bReturn = true;
+		bSaveName = false;
+	}
+}
+void	CGameProfiler::SetPlayerName(void)
+{
 }

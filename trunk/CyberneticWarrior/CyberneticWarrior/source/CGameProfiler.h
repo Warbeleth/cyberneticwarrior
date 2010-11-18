@@ -25,7 +25,8 @@ private:
 
 	CFont	m_OptionsFont;
 
-	const char*	m_nFileName[3];
+	const char*	m_szFileName[3];
+	std::string m_sPlayerNames[3];
 
 	float m_fWaitTime;
 
@@ -39,6 +40,8 @@ private:
 	short	m_sManagement;
 	
 	bool	m_bNewGame;
+	bool	m_bGetName;
+	bool	m_bReturn;
 
 	CGameProfiler(void);
 	~CGameProfiler(void);
@@ -54,6 +57,9 @@ public:
 	void	Update(float fElapsedTime);
 	void	Render(void);
 	void	Exit(void);
+
+	void	CreatePlayerName(void);
+	void	SetPlayerName(void);
 
 	inline bool		GetNewGame(void) { return this->m_bNewGame;}
 	inline void		SetNewGame(bool bNewGame) { this->m_bNewGame = bNewGame;}
