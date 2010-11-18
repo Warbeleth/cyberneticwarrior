@@ -61,8 +61,21 @@ void CAppleMech::Update(float fElapsedTime)
 }
 
 void CAppleMech::Render()
-{
+{	
 	CIdleEnemy::Render();
+#ifdef DRAWRECT
+	int OffsetX = CCamera::GetInstance()->GetOffsetX();
+	int OffsetY = CCamera::GetInstance()->GetOffsetY();
+	int left = (int)GetPosX() - OffsetX;
+	int top = (int)GetPosY() - OffsetY;
+	int right = left + GetWidth();
+	int bottom = top + GetHeight();
+
+	CSGD_Direct3D::GetInstance()->DrawLine(left, top, right, top, 255, 0, 0);
+	CSGD_Direct3D::GetInstance()->DrawLine(left, bottom, right, bottom, 255, 0, 0);
+	CSGD_Direct3D::GetInstance()->DrawLine(left, top, left, bottom, 255, 0, 0);
+	CSGD_Direct3D::GetInstance()->DrawLine(right, top, right, bottom, 255, 0, 0);
+#endif
 }
 
 bool CAppleMech::CheckCollision(CBase* pBase)
@@ -111,7 +124,7 @@ bool CAppleMech::CheckCollision(CBase* pBase)
 			}
 			else if((rIntersect.right-rIntersect.left) < (rIntersect.bottom-rIntersect.top))
 			{
-				if(BLOCK->GetBlock() == BLOCK_SOLID || BLOCK->GetBlock() == BLOCK_MOVING || BLOCK->GetBlock() == BLOCK_PARTIAL)
+				if(BLOCK->GetBlock() == BLOCK_SOLID || BLOCK->GetBlock() == BLOCK_MOVING || BLOCK->GetBlock() == BLOCK_PARTIAL || BLOCK->GetBlock() == BLOCK_UNSTABLE)
 				{
 				}
 				else if(BLOCK->GetBlock() == BLOCK_TRAP)
