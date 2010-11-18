@@ -9,7 +9,7 @@ CShock::CShock(void)
 {
 	this->SetType(OBJ_SHOCK);
 	this->SetImageID(CSinglePlayerState::GetInstance()->GetWeaponID());
-	SetDamage((int)CSinglePlayerState::GetInstance()->GetPlayerPointer()->GetCharge()*500);
+	SetDamage(int(CSinglePlayerState::GetInstance()->GetPlayerPointer()->GetCharge()*500));
 	CSinglePlayerState::GetInstance()->GetPlayerPointer()->SetCharge(0);
 	m_rRender.top = 167;
 	m_rRender.left = 677;
