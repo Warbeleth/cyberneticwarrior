@@ -7,7 +7,7 @@
 ; (To generate a new GUID, click Tools | Generate GUID inside the IDE.)
 AppId={{259C057D-A1C8-496E-8497-61567622F533}
 AppName=Cybernetic Warrior
-AppVersion=QA Build 5
+AppVersion=1.0.0
 ;AppVerName=Cybernetic Warrior Pre-Alpha
 AppPublisher=Holy Melon Studios
 DefaultDirName={pf}\Cybernetic Warrior
