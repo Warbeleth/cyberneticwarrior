@@ -366,6 +366,7 @@ void CPlayer::Update(float fElapsedTime)
 			//////////////////////////////////////////////////////////////////////////////
 			// Create vectors necessary for swinging
 			//////////////////////////////////////////////////////////////////////////////
+
 			this->m_vVectorVelocity.fX = this->GetPosX();
 			this->m_vVectorVelocity.fY = this->GetPosY();
 			vHook.fX = this->m_pHook->GetPosX() + this->m_pHook->GetWidth()/2;
@@ -605,7 +606,8 @@ void CPlayer::Input(float fElapsedTime)
 	//////////////////////////////////////////////////////////////////////////////
 	// Check to see what weapon/equipment player changes too
 	//////////////////////////////////////////////////////////////////////////////
-	if(CSGD_DirectInput::GetInstance()->KeyPressed(CGame::GetInstance()->GetPlayerOneControls(6)) || (CSGD_DirectInput::GetInstance()->JoystickButtonDown(5) && this->m_fInputTime > 0.3f))
+	if((CSGD_DirectInput::GetInstance()->KeyPressed(CGame::GetInstance()->GetPlayerOneControls(6)) && CSinglePlayerState::GetInstance()->GetInputType() == 0)
+		|| (CSGD_DirectInput::GetInstance()->JoystickButtonDown(5) && this->m_fInputTime > 0.3f && CSinglePlayerState::GetInstance()->GetInputType() == 1))
 	{
 		this->m_fInputTime = 0.0f;
 		switch(m_nSelectedWeapon)
@@ -637,7 +639,8 @@ void CPlayer::Input(float fElapsedTime)
 		};
 	}
 
-	if(CSGD_DirectInput::GetInstance()->JoystickButtonDown(6) || CSGD_DirectInput::GetInstance()->KeyDown(DIK_L) && m_fInputTime > 0.3f)
+	if((CSGD_DirectInput::GetInstance()->JoystickButtonDown(6) && CSinglePlayerState::GetInstance()->GetInputType() == 1)
+		|| (CSGD_DirectInput::GetInstance()->KeyDown(DIK_L) && CSinglePlayerState::GetInstance()->GetInputType() == 0 && m_fInputTime > 0.3f))
 	{
 		this->m_fInputTime = 0.0f;
 		this->m_nSelectedBootSlot--;
@@ -710,11 +713,13 @@ void CPlayer::Input(float fElapsedTime)
 		if(this->GetPosY() < (this->m_pHook->GetPosY() + 3)
 					&& this->m_pHook->GetIfHooked() && !this->GetOnGround())
 		{
-			this->SetPosY(this->GetPosY() + 0.5f);
+			this->SetPosY(this->GetPosY() + (0.5f*fElapsedTime));
 		}
 	}
 	//////////////////////////////////////////////////////////////////////////////
-	if(CSGD_DirectInput::GetInstance()->KeyDown(CGame::GetInstance()->GetPlayerOneControls(9)))
+	if((CSGD_DirectInput::GetInstance()->KeyDown(CGame::GetInstance()->GetPlayerOneControls(9)) &&CSinglePlayerState::GetInstance()->GetInputType() == 0)
+		||((CSGD_DirectInput::GetInstance()->JoystickDPadDown(DIR_UP) || CSGD_DirectInput::GetInstance()->JoystickGetLStickDirDown(DIR_UP))
+		&&  CSinglePlayerState::GetInstance()->GetInputType() == 1))
 	{
 		if(this->m_pHook)
 		{
@@ -738,7 +743,9 @@ void CPlayer::Input(float fElapsedTime)
 		}
 	}
 	//////////////////////////////////////////////////////////////////////////////
-	if(CSGD_DirectInput::GetInstance()->KeyDown(CGame::GetInstance()->GetPlayerOneControls(10)))
+	if((CSGD_DirectInput::GetInstance()->KeyDown(CGame::GetInstance()->GetPlayerOneControls(10)) &&CSinglePlayerState::GetInstance()->GetInputType() == 0)
+		||((CSGD_DirectInput::GetInstance()->JoystickDPadDown(DIR_DOWN) || CSGD_DirectInput::GetInstance()->JoystickGetLStickDirDown(DIR_DOWN))
+		&&  CSinglePlayerState::GetInstance()->GetInputType() == 1))
 	{
 		if(this->m_pHook)
 		{
@@ -772,8 +779,9 @@ void CPlayer::Input(float fElapsedTime)
 	//static float fJumpSpeed = 0;//-550.0f;
 
 
-	if((CSGD_DirectInput::GetInstance()->KeyPressed(CGame::GetInstance()->GetPlayerOneControls(0))
-		|| CSGD_DirectInput::GetInstance()->JoystickButtonPressed(1)))
+	if((CSGD_DirectInput::GetInstance()->KeyPressed(CGame::GetInstance()->GetPlayerOneControls(0)) && 
+		CSinglePlayerState::GetInstance()->GetInputType() == 0)
+		|| (CSGD_DirectInput::GetInstance()->JoystickButtonPressed(1) && CSinglePlayerState::GetInstance()->GetInputType() == 1))
 	{		
 		if(this->m_nSelectedBootSlot == this->ROCKET_BOOTS && !this->m_bBoosting && this->m_fRemainingEnergy > 0.0f)
 		{
@@ -793,8 +801,8 @@ void CPlayer::Input(float fElapsedTime)
 		this->m_bJumped = true;
 	}
 	//////////////////////////////////////////////////////////////////////////////
-	if((CSGD_DirectInput::GetInstance()->KeyDown(DIK_SPACE)
-		|| CSGD_DirectInput::GetInstance()->JoystickButtonDown(1)))
+	if((CSGD_DirectInput::GetInstance()->KeyDown(DIK_SPACE) && CSinglePlayerState::GetInstance()->GetInputType() == 0)
+		|| (CSGD_DirectInput::GetInstance()->JoystickButtonDown(1) && CSinglePlayerState::GetInstance()->GetInputType() == 1))
 	{
 		if(this->m_nSelectedBootSlot == this->HOVER_BOOTS&& this->m_bHovering && this->m_vSpeed.fY >= 0.0f 
 			&& !this->m_bOnGround && m_fRemainingEnergy != 0.0f)
@@ -839,8 +847,8 @@ void CPlayer::Input(float fElapsedTime)
 		
 	}
 	//////////////////////////////////////////////////////////////////////////////
-	if((CSGD_DirectInput::GetInstance()->KeyReleased(DIK_SPACE)
-		|| CSGD_DirectInput::GetInstance()->JoystickButtonReleased(1)))
+	if((CSGD_DirectInput::GetInstance()->KeyReleased(DIK_SPACE) && CSinglePlayerState::GetInstance()->GetInputType() == 0)
+		|| (CSGD_DirectInput::GetInstance()->JoystickButtonReleased(1) && CSinglePlayerState::GetInstance()->GetInputType() == 1))
 	{
 			fJumpSpeed = -600.0f;
 
@@ -861,9 +869,9 @@ void CPlayer::Input(float fElapsedTime)
 		//this->m_bDash = false;
 	}
 		
-	if((CSGD_DirectInput::GetInstance()->KeyDown(DIK_A) 
-		|| CSGD_DirectInput::GetInstance()->JoystickDPadDown(DIR_LEFT)
-		|| CSGD_DirectInput::GetInstance()->JoystickGetLStickDirDown(DIR_LEFT)))
+	if((CSGD_DirectInput::GetInstance()->KeyDown(DIK_A)  && CSinglePlayerState::GetInstance()->GetInputType() == 0)
+		|| ((CSGD_DirectInput::GetInstance()->JoystickDPadDown(DIR_LEFT)
+		|| CSGD_DirectInput::GetInstance()->JoystickGetLStickDirDown(DIR_LEFT))&& CSinglePlayerState::GetInstance()->GetInputType() == 1))
 	{
 		if(this->m_vSpeed.fX > -300.0f)
 		{
@@ -886,7 +894,7 @@ void CPlayer::Input(float fElapsedTime)
 				
 				this->m_bRotBackward = true;
 				
-				if(this->GetRotation() < 0.003f)
+				if(this->GetRotation() < 0.0035f)
 				{
 					this->m_pHook->SetRotation(this->m_pHook->GetRotation() + (this->m_pHook->GetRotationRate()*fElapsedTime));
 				}
@@ -920,9 +928,9 @@ void CPlayer::Input(float fElapsedTime)
 		GetAnimations()->SetCurrentAnimation(0);
 	}
 	//////////////////////////////////////////////////////////////////////////////
-	if((CSGD_DirectInput::GetInstance()->KeyDown(CGame::GetInstance()->GetPlayerOneControls(2)) 
-		|| CSGD_DirectInput::GetInstance()->JoystickDPadDown(DIR_RIGHT)
-		|| CSGD_DirectInput::GetInstance()->JoystickGetLStickDirDown(DIR_RIGHT)))
+	if((CSGD_DirectInput::GetInstance()->KeyDown(CGame::GetInstance()->GetPlayerOneControls(2))  && CSinglePlayerState::GetInstance()->GetInputType() == 0)
+		|| (CSGD_DirectInput::GetInstance()->JoystickDPadDown(DIR_RIGHT)
+		|| CSGD_DirectInput::GetInstance()->JoystickGetLStickDirDown(DIR_RIGHT) && CSinglePlayerState::GetInstance()->GetInputType() == 1))
 	{
 		if(this->m_vSpeed.fX < 300.0f)
 		{
@@ -941,7 +949,7 @@ void CPlayer::Input(float fElapsedTime)
 					this->m_bRotBackward = false;
 				}
 				this->m_bRotFoward = true;
-				if(this->GetRotation() > -0.003f)
+				if(this->GetRotation() > -0.0035f)
 				{
 					this->m_pHook->SetRotation(this->m_pHook->GetRotation() - (this->m_pHook->GetRotationRate()*fElapsedTime));
 				}
@@ -973,7 +981,8 @@ void CPlayer::Input(float fElapsedTime)
 		GetAnimations()->SetCurrentAnimation(0);
 	}
 
-	if(CSGD_DirectInput::GetInstance()->JoystickGetLStickDirDown(DIR_RIGHT) || CSGD_DirectInput::GetInstance()->JoystickGetLStickDirDown(DIR_LEFT))
+	if((CSGD_DirectInput::GetInstance()->JoystickGetLStickDirDown(DIR_RIGHT) 
+		|| CSGD_DirectInput::GetInstance()->JoystickGetLStickDirDown(DIR_LEFT)) && CSinglePlayerState::GetInstance()->GetInputType() == 1)
 	{
 		this->m_bJoyMove = true;
 	}
@@ -989,9 +998,9 @@ void CPlayer::Input(float fElapsedTime)
 		//this->m_vSpeed.fX = 0.0f;
 	}
 	
-	if((CSGD_DirectInput::GetInstance()->KeyPressed(DIK_A) 
-		|| CSGD_DirectInput::GetInstance()->JoystickDPadPressed(DIR_LEFT)
-		|| CSGD_DirectInput::GetInstance()->JoystickGetLStickDirPressed(DIR_LEFT)))
+	if((CSGD_DirectInput::GetInstance()->KeyPressed(DIK_A)  && CSinglePlayerState::GetInstance()->GetInputType() == 0)
+		||( CSGD_DirectInput::GetInstance()->JoystickDPadPressed(DIR_LEFT)
+		|| CSGD_DirectInput::GetInstance()->JoystickGetLStickDirPressed(DIR_LEFT) && CSinglePlayerState::GetInstance()->GetInputType() == 1))
 	{
 		if(this->m_nSelectedBootSlot == this->ROCKET_BOOTS && this->m_bBDash && this->m_fRemainingEnergy > 20.0f)
 		{
@@ -1009,9 +1018,9 @@ void CPlayer::Input(float fElapsedTime)
 		}*/
 	}
 	//////////////////////////////////////////////////////////////////////////////
-	if((CSGD_DirectInput::GetInstance()->KeyPressed(DIK_D) 
-		|| CSGD_DirectInput::GetInstance()->JoystickDPadPressed(DIR_RIGHT)
-		|| CSGD_DirectInput::GetInstance()->JoystickGetLStickDirPressed(DIR_RIGHT)))
+	if((CSGD_DirectInput::GetInstance()->KeyPressed(DIK_D)  && CSinglePlayerState::GetInstance()->GetInputType() == 0)
+		|| ((CSGD_DirectInput::GetInstance()->JoystickDPadPressed(DIR_RIGHT)
+		|| CSGD_DirectInput::GetInstance()->JoystickGetLStickDirPressed(DIR_RIGHT)) && CSinglePlayerState::GetInstance()->GetInputType() == 1))
 	{
 		if(this->m_nSelectedBootSlot == this->ROCKET_BOOTS && this->m_bFDash && this->m_fRemainingEnergy > 20.0f)
 		{
@@ -1029,10 +1038,11 @@ void CPlayer::Input(float fElapsedTime)
 		}*/
 	}
 	//////////////////////////////////////////////////////////////////////////////
-	if(CSGD_DirectInput::GetInstance()->KeyReleased(DIK_D)
-		|| CSGD_DirectInput::GetInstance()->JoystickDPadReleased(DIR_RIGHT) || 
+	if((CSGD_DirectInput::GetInstance()->KeyReleased(DIK_D)  && CSinglePlayerState::GetInstance()->GetInputType() == 0)
+		|| (CSGD_DirectInput::GetInstance()->JoystickDPadReleased(DIR_RIGHT) || 
 		(CSGD_DirectInput::GetInstance()->JoystickGetLStickXAmount() > -15.0f 
-		&& CSGD_DirectInput::GetInstance()->JoystickGetLStickXAmount() < 15.0f && this->m_bJoyMove))
+		&& CSGD_DirectInput::GetInstance()->JoystickGetLStickXAmount() < 15.0f && this->m_bJoyMove) 
+		&& CSinglePlayerState::GetInstance()->GetInputType() == 1))
 	{
 		this->m_vSpeed.fX = 0.0f;
 		this->SetBaseVelX(0.0f);
@@ -1048,10 +1058,11 @@ void CPlayer::Input(float fElapsedTime)
 		}
 	}
 	//////////////////////////////////////////////////////////////////////////////
-	if(CSGD_DirectInput::GetInstance()->KeyReleased(CGame::GetInstance()->GetPlayerOneControls(1))
-		|| CSGD_DirectInput::GetInstance()->JoystickDPadReleased(DIR_LEFT) || 
+	if((CSGD_DirectInput::GetInstance()->KeyReleased(CGame::GetInstance()->GetPlayerOneControls(1)) && CSinglePlayerState::GetInstance()->GetInputType() == 0)
+		|| (CSGD_DirectInput::GetInstance()->JoystickDPadReleased(DIR_LEFT) || 
 		(CSGD_DirectInput::GetInstance()->JoystickGetLStickXAmount() > -15.0f 
-		&& CSGD_DirectInput::GetInstance()->JoystickGetLStickXAmount() < 15.0f && this->m_bJoyMove))
+		&& CSGD_DirectInput::GetInstance()->JoystickGetLStickXAmount() < 15.0f && this->m_bJoyMove) 
+		&& CSinglePlayerState::GetInstance()->GetInputType() == 1))
 	{
 		this->SetBaseVelX(0.0f);
 		this->m_vSpeed.fX = 0.0f;
@@ -1078,7 +1089,8 @@ void CPlayer::Input(float fElapsedTime)
 	//////////////////////////////////////////////////////////////////////////////
 	// Check for secondary fire
 	//////////////////////////////////////////////////////////////////////////////
-	if((CSGD_DirectInput::GetInstance()->MouseButtonPressed(CGame::GetInstance()->GetPlayerOneControls(4)) || CSGD_DirectInput::GetInstance()->JoystickButtonPressed(4)))
+	if((CSGD_DirectInput::GetInstance()->MouseButtonPressed(CGame::GetInstance()->GetPlayerOneControls(4))  && CSinglePlayerState::GetInstance()->GetInputType() == 0)
+		|| (CSGD_DirectInput::GetInstance()->JoystickButtonPressed(4) && CSinglePlayerState::GetInstance()->GetInputType() == 1))
 	{
 		this->SetMouseDown(1);
 		if(/*CSinglePlayerState::GetInstance()->GetProfileValues()->m_bHaveHook &&*/ !this->m_bHookShot)
@@ -1089,7 +1101,8 @@ void CPlayer::Input(float fElapsedTime)
 		}
 	}
 	//////////////////////////////////////////////////////////////////////////////
-	if((CSGD_DirectInput::GetInstance()->MouseButtonReleased(CGame::GetInstance()->GetPlayerOneControls(4)) || CSGD_DirectInput::GetInstance()->JoystickButtonReleased(4)))
+	if((CSGD_DirectInput::GetInstance()->MouseButtonReleased(CGame::GetInstance()->GetPlayerOneControls(4)) && CSinglePlayerState::GetInstance()->GetInputType() == 0) 
+		|| (CSGD_DirectInput::GetInstance()->JoystickButtonReleased(4) && CSinglePlayerState::GetInstance()->GetInputType() == 1))
 	{
 		this->SetMouseDown(0);
 		if(this->m_pHook)
@@ -1103,7 +1116,8 @@ void CPlayer::Input(float fElapsedTime)
 	//////////////////////////////////////////////////////////////////////////////
 	// Check for primary fire
 	//////////////////////////////////////////////////////////////////////////////
-		if((CSGD_DirectInput::GetInstance()->MouseButtonPressed(CGame::GetInstance()->GetPlayerOneControls(3)) || CSGD_DirectInput::GetInstance()->JoystickButtonPressed(7)))
+		if((CSGD_DirectInput::GetInstance()->MouseButtonPressed(CGame::GetInstance()->GetPlayerOneControls(3)) && CSinglePlayerState::GetInstance()->GetInputType() == 0) 
+			|| (CSGD_DirectInput::GetInstance()->JoystickButtonPressed(7) && CSinglePlayerState::GetInstance()->GetInputType() == 1))
 		{
 			switch(this->m_nSelectedWeapon)
 			{
@@ -1123,7 +1137,8 @@ void CPlayer::Input(float fElapsedTime)
 			};
 		}
 	//////////////////////////////////////////////////////////////////////////////
-		if((CSGD_DirectInput::GetInstance()->MouseButtonDown(CGame::GetInstance()->GetPlayerOneControls(3)) || CSGD_DirectInput::GetInstance()->JoystickButtonDown(7)))
+		if((CSGD_DirectInput::GetInstance()->MouseButtonDown(CGame::GetInstance()->GetPlayerOneControls(3))  && CSinglePlayerState::GetInstance()->GetInputType() == 0)
+			|| (CSGD_DirectInput::GetInstance()->JoystickButtonDown(7) && CSinglePlayerState::GetInstance()->GetInputType() == 1))
 		{
 			if(this->m_nSelectedWeapon == this->FLAME_THROWER)
 			{
@@ -1138,7 +1153,8 @@ void CPlayer::Input(float fElapsedTime)
 			}
 		}
 	//////////////////////////////////////////////////////////////////////////////
-		if((CSGD_DirectInput::GetInstance()->MouseButtonReleased(CGame::GetInstance()->GetPlayerOneControls(3)) || CSGD_DirectInput::GetInstance()->JoystickButtonReleased(7)))
+		if((CSGD_DirectInput::GetInstance()->MouseButtonReleased(CGame::GetInstance()->GetPlayerOneControls(3))  && CSinglePlayerState::GetInstance()->GetInputType() == 0)
+			|| (CSGD_DirectInput::GetInstance()->JoystickButtonReleased(7) && CSinglePlayerState::GetInstance()->GetInputType() == 1))
 		{
 			this->m_nCharge = 0;
 			if(this->m_nSelectedWeapon == this->SONIC_RIFLE)
@@ -1150,7 +1166,8 @@ void CPlayer::Input(float fElapsedTime)
 	//////////////////////////////////////////////////////////////////////////////
 	// Check to see if homing is turned on
 	//////////////////////////////////////////////////////////////////////////////
-	if(CSGD_DirectInput::GetInstance()->KeyPressed(CGame::GetInstance()->GetPlayerOneControls(7)))
+	if((CSGD_DirectInput::GetInstance()->KeyPressed(CGame::GetInstance()->GetPlayerOneControls(7)) && CSinglePlayerState::GetInstance()->GetInputType() == 0)
+		|| (CSGD_DirectInput::GetInstance()->JoystickButtonPressed(3) &&CSinglePlayerState::GetInstance()->GetInputType() == 1))
 	{
 		this->m_bHomingOn = !this->m_bHomingOn;
 	}
