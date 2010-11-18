@@ -166,14 +166,18 @@ bool	CGameProfiler::Input(void)
 					
 					fManager.write((const char*)&this->m_bNewGame, sizeof(bool));
 					
-					fManager.write((const char*)&(CSinglePlayerState::GetInstance()->GetProfileValues()->m_bHaveHook), 
-						sizeof(CSinglePlayerState::GetInstance()->GetProfileValues()->m_bHaveHook));
+					fManager.write((const char*)&this->m_sPlayerNames[this->m_nSelection], sizeof(string));
+					//fManager.write((const char*)&(CSinglePlayerState::GetInstance()->GetProfileValues()->m_bHaveHook), 
+					//	sizeof(CSinglePlayerState::GetInstance()->GetProfileValues()->m_bHaveHook));
 				}
 				// Deleting
 				if(fManager.is_open()
 					&& this->GetManagement() == DELETE_PROFILE)
 				{
+					this->m_bGetName = false;
 					fManager.write((const char*)&this->m_bNewGame, sizeof(bool));
+					this->m_sPlayerNames[this->m_nSelection] = "No Saved Name";
+					fManager.write((const char*)&this->m_sPlayerNames[this->m_nSelection], sizeof(string));
 				}
 				fManager.close();	
 			}
@@ -185,10 +189,14 @@ bool	CGameProfiler::Input(void)
 				if(fManager.is_open() && this->GetManagement() == LOAD_GAME)
 				{
 					bool thisBool = 0;
+					std::string sHello;
 					fManager.read((char*)&thisBool, sizeof(bool));
 					if(!thisBool)				
 					{
 						fManager.read((char*)&thisBool, sizeof(bool));
+						fManager.read((char*)&sHello, sizeof(string));
+						this->m_sPlayerNames[this->m_nSelection] = sHello;
+
 						CSinglePlayerState::GetInstance()->SetProfileValues(thisBool);
 						CStackStateMachine::GetInstance()->ChangeState(CLoadingState::GetInstance());
 					}
@@ -223,6 +231,58 @@ void	CGameProfiler::Enter(void)
 
 	//this->m_OptionsFont.InitFont("resource/fonts/example.png", "resource/fonts/Example.fnt");
 	this->m_OptionsFont.InitFont("resource/fonts/CyberneticWarriorArcadeFont.png", "resource/fonts/CyberneticWarriorArcadeFont.fnt");
+
+
+	//if(this->GetManagement() == LOAD_GAME)
+	//{
+	//	std::string szFileName;
+	//	std::fstream fManager;
+	//	szFileName = "Profile-1.bin";
+	//	fManager.clear();
+	//	fManager.open(szFileName.c_str(), std::ios_base::in | std::ios_base::binary);
+	//	// Loading
+	//	if(fManager.is_open() && this->GetManagement() == LOAD_GAME)
+	//	{
+	//		std::string sHello;	
+	//		bool thisBool = 0;
+	//		fManager.read((char*)&thisBool, sizeof(bool));
+	//		fManager.read((char*)&sHello, sizeof(string));
+	//		this->m_sPlayerNames[this->m_nSelection] = sHello;
+	//	}
+	//	fManager.close();	
+
+
+	//	szFileName = "Profile-2.bin";
+	//	fManager.clear();
+	//	fManager.open(szFileName.c_str(), std::ios_base::in | std::ios_base::binary);
+	//	// Loading
+	//	if(fManager.is_open() && this->GetManagement() == LOAD_GAME)
+	//	{
+	//		std::string sHello;	
+	//		bool thisBool = 0;
+	//		fManager.read((char*)&thisBool, sizeof(bool));
+	//		fManager.read((char*)&sHello, sizeof(string));
+	//		this->m_sPlayerNames[this->m_nSelection] = sHello;
+	//	}
+	//	fManager.close();
+
+
+
+	//	szFileName = "Profile-3.bin";
+	//	fManager.clear();
+	//	fManager.open(szFileName.c_str(), std::ios_base::in | std::ios_base::binary);
+	//	// Loading
+	//	if(fManager.is_open() && this->GetManagement() == LOAD_GAME)
+	//	{
+	//		std::string sHello;	
+	//		bool thisBool = 0;
+	//		fManager.read((char*)&thisBool, sizeof(bool));
+	//		fManager.read((char*)&sHello, sizeof(string));
+	//		this->m_sPlayerNames[this->m_nSelection] = sHello;
+	//	}
+	//	fManager.close();
+	//}
+
 
 	this->m_nSelection			= this->OP1;
 	this->m_nSelectionPos		= this->MENU_START;
@@ -363,6 +423,12 @@ void	CGameProfiler::CreatePlayerName(void)
 	static bool bSaveName = false;
 	static int nCharCount = 0;
 	
+
+	if(this->m_pDI->JoystickButtonPressed(9, 0) || this->m_pDI->JoystickButtonPressed(1, 0))
+	{
+		bSaveName = true;
+	}
+
 	if(!bSaveName)
 	{
 		switch(this->m_pDI->GetBufferedDIKCodeEx())
@@ -372,7 +438,7 @@ void	CGameProfiler::CreatePlayerName(void)
 			break;
 		case DIK_ESCAPE:
 			this->m_bGetName = false;
-			this->m_sPlayerNames[this->m_nSelection] = "No Saved File";
+			//this->m_sPlayerNames[this->m_nSelection] = "No Saved File";
 			nCharCount = 0;
 			break;
 		case DIK_BACKSPACE:
@@ -777,6 +843,23 @@ void	CGameProfiler::CreatePlayerName(void)
 	}
 	else
 	{
+		//std::string szFileName;
+		//std::fstream fManager;
+		//fManager.clear();
+		//fManager.open(szFileName.c_str(), std::ios_base::out | std::ios_base::binary);
+		//// Saving
+		//if(fManager.is_open() )/*&& !this->GetNewGame()
+		//	&& this->GetManagement() == SAVE_GAME)*/
+		//{
+		//
+		//	fManager.write((const char*)&this->m_bNewGame, sizeof(bool));
+		//	
+		//	fManager.write((const char*)&this->m_sPlayerNames[this->m_nSelection], sizeof(string));
+
+		//	//fManager.write((const char*)&(CSinglePlayerState::GetInstance()->GetProfileValues()->m_bHaveHook), 
+		//	//	sizeof(CSinglePlayerState::GetInstance()->GetProfileValues()->m_bHaveHook));
+		//}
+
 
 		CStackStateMachine::GetInstance()->ChangeState(CLoadingState::GetInstance());
 		this->m_bGetName = false;

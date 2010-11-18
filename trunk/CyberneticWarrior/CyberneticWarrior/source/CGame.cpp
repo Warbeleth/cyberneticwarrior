@@ -410,7 +410,7 @@ void CGame::MessageProc(CBaseMessage*	pMsg)
 			
 
 			static tVector2D vPlayerPos;
-			vPlayerPos.fX = pGH->GetPlayerPointer()->GetPosX() + (float)pGH->GetPlayerPointer()->GetWidth();
+			vPlayerPos.fX = pGH->GetPlayerPointer()->GetPosX() + (float)pGH->GetPlayerPointer()->GetWidth()/2;
 			vPlayerPos.fY = pGH->GetPlayerPointer()->GetPosY();//) - (float)pGH->GetPlayerPointer()->GetHeight()/2;
 
 			
