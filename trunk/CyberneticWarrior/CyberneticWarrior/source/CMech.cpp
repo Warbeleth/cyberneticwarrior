@@ -52,6 +52,7 @@ void CMech::Update(float fElapsedTime)
 		GetAnimations()->SetCurrentAnimation(0);
 		break;
 	case pDead:
+		ReleaseSpawner();
 		CGame::GetInstance()->GetMessageSystemPointer()->SendMsg(new CDestroyEnemyMessage((CBaseEnemy*)this));
 		break;
 	};

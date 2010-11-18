@@ -81,6 +81,7 @@ void CFLCLMech::Update(float fElapsedTime)
 			}
 			else
 			{
+				ReleaseSpawner();
 				CGame::GetInstance()->GetMessageSystemPointer()->SendMsg(new CDestroyEnemyMessage((CBaseEnemy*)this));
 			}
 		}

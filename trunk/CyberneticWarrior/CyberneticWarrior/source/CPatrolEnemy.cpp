@@ -91,8 +91,6 @@ void CPatrolEnemy::Update(float fElapsedTime)
 			break;
 		case pDead:
 			{
-			if( m_pHostSpawner )
-				m_pHostSpawner->DecrementTotalCurrentlySpawned( );
 			}
 			break;
 		};

@@ -236,3 +236,14 @@ CPoint CBaseEnemy::GetBulletStartPos( void )
 
 	return ptStartPos;
 }
+
+bool CBaseEnemy::ReleaseSpawner()
+{
+	if(m_pHostSpawner)
+	{
+		m_pHostSpawner->DecrementTotalCurrentlySpawned();
+		return true;
+	}
+	else
+		return false;
+}

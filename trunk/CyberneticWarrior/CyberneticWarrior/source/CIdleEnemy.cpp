@@ -53,8 +53,6 @@ void CIdleEnemy::Update(float fElapsedTime)
 	}
 	if( ReturnAIState() == iDead )
 	{
-		if( m_pHostSpawner )
-			m_pHostSpawner->DecrementTotalCurrentlySpawned( );
 	}
 }
 
