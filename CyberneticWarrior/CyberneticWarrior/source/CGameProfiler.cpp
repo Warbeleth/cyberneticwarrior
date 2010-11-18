@@ -164,7 +164,8 @@ bool	CGameProfiler::Input(void)
 					&& this->GetManagement() == SAVE_GAME)
 				{
 					
-					fManager.write((const char*)&this->m_bNewGame, sizeof(bool));				
+					fManager.write((const char*)&this->m_bNewGame, sizeof(bool));
+					
 					fManager.write((const char*)&(CSinglePlayerState::GetInstance()->GetProfileValues()->m_bHaveHook), 
 						sizeof(CSinglePlayerState::GetInstance()->GetProfileValues()->m_bHaveHook));
 				}

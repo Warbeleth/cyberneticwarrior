@@ -27,6 +27,7 @@ class CPatrolEnemy;
 class CFLCLMech;
 
 enum currentLevel {TUTORIAL = 0, LEVEL1, LEVEL2, LEVEL3, LEVEL4, LEVEL5, SECRET1, LEVEL_MAX};
+enum Sounds {HGUN = 0, FLYROCKET, EXPLOSION, RUNNING, PLASMA_SHOT, SHOCK_WAVE, FLAMETHROWER};
 
 class CSinglePlayerState : public IGameState
 {
@@ -66,6 +67,9 @@ private:
 
 	int			m_nMusicVolume;
 	int			m_nSFXVolume;
+	
+	
+	int			m_nGameSounds[7];
 
 	
 	int			m_nBackgroundImageID;
@@ -126,6 +130,10 @@ public:
 	inline int		GetPreviousLevel(void)	{return this->m_nPreviousLevel;}
 	inline void		SetJamming(bool bJam) {this->m_bJamming = bJam;}
 	inline bool		GetJamming(void) {return this->m_bJamming;}
+
+
+	void			SetSFX(int nId, int nSfx);
+	int				GetSFX(int nId);
 
 	bool	Input(void);
 	void	Enter(void);

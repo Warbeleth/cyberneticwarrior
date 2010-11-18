@@ -685,10 +685,6 @@
 				RelativePath=".\source\PrecompiledHeader.h"
 				>
 			</File>
-			<File
-				RelativePath=".\resource.h"
-				>
-			</File>
 			<Filter
 				Name="Base Classes"
 				>
@@ -1323,6 +1319,10 @@
 		<Filter
 			Name="Messaging and Event"
 			>
+			<File
+				RelativePath=".\resource.h"
+				>
+			</File>
 			<Filter
 				Name="Header"
 				>
