@@ -46,6 +46,8 @@ CSinglePlayerState::CSinglePlayerState(void)
 	this->m_nSelectedWeaponID		= -1;
 	this->m_nWeaponID				= -1;
 
+	this->m_bJamming = false;
+
 
 	this->m_tBGOffset.fX = 0;
 	this->m_tBGOffset.fY = 0;
@@ -268,6 +270,7 @@ bool CSinglePlayerState::Input(void)
 		CStackStateMachine::GetInstance()->UpdateState(0.0f);
 		CStackStateMachine::GetInstance()->Push_Back(CPauseMenuState::GetInstance());
 		//CStackStateMachine::GetInstance()->Pop_back();
+		this->m_pWM->Stop(this->m_nBGMusic);
 	
 	}
 	
@@ -278,10 +281,15 @@ bool CSinglePlayerState::Input(void)
 
 void CSinglePlayerState::Update(float fElapsedTime)
 {	
-	if(this->m_bMusic)
+	if(this->m_bMusic && !COptionsMenuState::GetInstance()->GetMute())
 	{
 		this->m_pWM->Play(this->m_nBGMusic, DSBPLAY_LOOPING);
 		this->m_bMusic = 0;
+	}
+	if(this->m_bJamming && !COptionsMenuState::GetInstance()->GetMute())
+	{
+		this->m_pWM->Play(this->m_nBGMusic, DSBPLAY_LOOPING);
+		this->m_bJamming = 0;
 	}
 
 	this->m_tBGOffset.fX = 0;

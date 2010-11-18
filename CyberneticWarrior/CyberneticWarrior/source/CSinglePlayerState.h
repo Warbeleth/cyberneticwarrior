@@ -61,6 +61,7 @@ private:
 	bool m_bInput;
 	bool m_bLevelChange;
 	bool m_bDeath;
+	bool m_bJamming;
 
 
 	int			m_nMusicVolume;
@@ -123,6 +124,8 @@ public:
 	inline int		GetCurrentLevel(void) {return this->m_nCurrentLevel;}
 	inline void		SetPreviousLevel(int nPLevel) {this->m_nPreviousLevel = nPLevel;}
 	inline int		GetPreviousLevel(void)	{return this->m_nPreviousLevel;}
+	inline void		SetJamming(bool bJam) {this->m_bJamming = bJam;}
+	inline bool		GetJamming(void) {return this->m_bJamming;}
 
 	bool	Input(void);
 	void	Enter(void);
