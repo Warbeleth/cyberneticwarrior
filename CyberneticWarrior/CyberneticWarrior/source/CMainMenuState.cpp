@@ -31,6 +31,8 @@ CMainMenuState::CMainMenuState(void)
 	m_fAtractModeTimer = 0.0f;
 	m_bInput = false;
 
+	this->m_bContinueJamming = false;
+
 }
 
 CMainMenuState::~CMainMenuState(void)
@@ -153,6 +155,11 @@ bool	CMainMenuState::Input(void)
 
 void	CMainMenuState::Update(float fElapsedTime)
 {
+	if(this->m_bContinueJamming)
+	{
+		this->m_pWM->Play(this->m_nBGMusic);
+		this->m_bContinueJamming = false;
+	}
 	this->m_fWaitTime += fElapsedTime;
 	this->m_nSelectionPos = (this->m_nSelection * MMENU_SPACE) + this->MMENU_START;
 	AtractMode( fElapsedTime );

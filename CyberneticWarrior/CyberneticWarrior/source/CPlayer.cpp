@@ -298,8 +298,10 @@ void CPlayer::Update(float fElapsedTime)
 	// used for gamepad controls
 	// Notes: May be used later, probably not(Do not remove yet)
 
-	this->m_fInputTime +=  fElapsedTime;
-
+	if(CSGD_DirectInput::GetInstance()->JoystickButtonDown(4))
+	{
+		this->m_fInputTime +=  fElapsedTime;
+	}
 	//this->m_vJoyVecPos.fX = this->GetPosX();
 	//this->m_vJoyVecPos.fY = this->GetPosY();
 	//this->m_vJoyVecPos = Vector2DRotate(this->m_vJoyVecPos, this->m_fJoyRot);
@@ -639,8 +641,8 @@ void CPlayer::Input(float fElapsedTime)
 		};
 	}
 
-	if((CSGD_DirectInput::GetInstance()->JoystickButtonDown(6) && CSinglePlayerState::GetInstance()->GetInputType() == 1)
-		|| (CSGD_DirectInput::GetInstance()->KeyDown(DIK_L) && CSinglePlayerState::GetInstance()->GetInputType() == 0 && m_fInputTime > 0.3f))
+	if((CSGD_DirectInput::GetInstance()->JoystickButtonDown(4) && CSinglePlayerState::GetInstance()->GetInputType() == 1)
+		|| (CSGD_DirectInput::GetInstance()->KeyDown(DIK_L) && CSinglePlayerState::GetInstance()->GetInputType() == 0 && m_fInputTime > 3.0f))
 	{
 		this->m_fInputTime = 0.0f;
 		this->m_nSelectedBootSlot--;
@@ -651,21 +653,21 @@ void CPlayer::Input(float fElapsedTime)
 	
 	}
 
-	if(CSGD_DirectInput::GetInstance()->KeyPressed(DIK_1))
+	if(CSGD_DirectInput::GetInstance()->KeyPressed(DIK_1)&& CSinglePlayerState::GetInstance()->GetInputType() == 0)
 	{
 		this->m_nSelectedBootSlot = this->BOOTS;
 		m_fGravity = 900.0f;
 		m_bBoosting = false;
 		m_bHovering = false;
 	}
-	if(CSGD_DirectInput::GetInstance()->KeyPressed(DIK_2))
+	if(CSGD_DirectInput::GetInstance()->KeyPressed(DIK_2)&& CSinglePlayerState::GetInstance()->GetInputType() == 0)
 	{
 		this->m_nSelectedBootSlot = this->HOVER_BOOTS;
 		m_fGravity = 900.0f;
 		m_bBoosting = false;
 		m_bHovering = false;
 	}
-	if(CSGD_DirectInput::GetInstance()->KeyPressed(DIK_3))
+	if(CSGD_DirectInput::GetInstance()->KeyPressed(DIK_3)&& CSinglePlayerState::GetInstance()->GetInputType() == 0)
 	{
 		this->m_nSelectedBootSlot = this->ROCKET_BOOTS;
 		m_fGravity = 900.0f;
@@ -1090,7 +1092,7 @@ void CPlayer::Input(float fElapsedTime)
 	// Check for secondary fire
 	//////////////////////////////////////////////////////////////////////////////
 	if((CSGD_DirectInput::GetInstance()->MouseButtonPressed(CGame::GetInstance()->GetPlayerOneControls(4))  && CSinglePlayerState::GetInstance()->GetInputType() == 0)
-		|| (CSGD_DirectInput::GetInstance()->JoystickButtonPressed(4) && CSinglePlayerState::GetInstance()->GetInputType() == 1))
+		|| (CSGD_DirectInput::GetInstance()->JoystickButtonPressed(6) && CSinglePlayerState::GetInstance()->GetInputType() == 1))
 	{
 		this->SetMouseDown(1);
 		if(/*CSinglePlayerState::GetInstance()->GetProfileValues()->m_bHaveHook &&*/ !this->m_bHookShot)

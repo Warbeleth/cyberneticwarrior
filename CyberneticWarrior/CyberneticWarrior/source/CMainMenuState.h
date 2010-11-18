@@ -34,6 +34,9 @@ private:
 	int		m_nBGMusic;
 
 
+	bool m_bContinueJamming;
+
+
 	CMainMenuState(void);
 	~CMainMenuState(void);
 	CMainMenuState(const CMainMenuState&);
@@ -52,6 +55,9 @@ public:
 
 	static CMainMenuState*	GetInstance(void);
 	static void	DeleteInstance(void);
+
+	inline void SetJamming(bool bJam) {this->m_bContinueJamming = bJam;}
+	inline bool GetJamming(void)	{return this->m_bContinueJamming;}
 
 };
 #endif
