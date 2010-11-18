@@ -31,14 +31,30 @@ CObjectManager::~CObjectManager(void) {}
 
 void CObjectManager::UpdateObjects(float fElapsedTime)
 {
-	vector<CBase*>::iterator iter = this->m_vObjectList.begin();
-
-	while(iter != this->m_vObjectList.end())
+	for( unsigned int i = 0; i < m_vObjectList.size(); ++i )
 	{
-		(*iter)->Update(fElapsedTime);
-		(*iter)->CheckCulling();
+			m_vObjectList[i]->Update(fElapsedTime);
+			m_vObjectList[i]->CheckCulling();
+						
+			if(m_vObjectList[i]->GetCulling())
+			{
+				m_vCulledList.push_back(m_vObjectList[i]);
+				m_vObjectList.erase(m_vObjectList.begin() + i);
+				i--;
+			}
+	}
 
-		iter++;
+	for( unsigned int i = 0; i < m_vCulledList.size(); ++i )
+	{
+		if(m_vCulledList[i]->GetType() != OBJ_ENEMY)
+			m_vCulledList[i]->Update(fElapsedTime);
+		m_vCulledList[i]->CheckCulling();
+		if(!m_vCulledList[i]->GetCulling())
+		{
+			m_vObjectList.push_back(m_vCulledList[i]);
+			m_vCulledList.erase(m_vCulledList.begin() + i);
+			i--;
+		}
 	}
 }
 
@@ -46,7 +62,12 @@ void CObjectManager::RenderObjects(void)
 {
 	for(unsigned int i = 0; i < this->m_vObjectList.size(); i++)
 	{
-		if(!m_vObjectList[i]->GetCulling())
+		if(!m_vObjectList[i]->GetCulling() && m_vObjectList[i]->GetType() == OBJ_BLOCK )
+			this->m_vObjectList[i]->Render();
+	}
+	for(unsigned int i = 0; i < this->m_vObjectList.size(); i++)
+	{
+		if(!m_vObjectList[i]->GetCulling() && m_vObjectList[i]->GetType() != OBJ_BLOCK )
 			this->m_vObjectList[i]->Render();
 	}
 }
@@ -74,6 +95,18 @@ void CObjectManager::RemoveObject(CBase *pObject)
 			iter = this->m_vObjectList.erase(iter);
 			break;
 		}
+	}	
+	
+	for(vector<CBase*>::iterator iter2 = this->m_vCulledList.begin();
+		iter2 != this->m_vCulledList.end(); iter2++)
+	{
+		if((*iter2) == pObject)
+		{
+			(*iter2)->Release();
+
+			iter2 = this->m_vCulledList.erase(iter2);
+			break;
+		}
 	}
 }
 
@@ -83,7 +116,13 @@ void CObjectManager::RemoveAllObjects(void)
 	{
 		this->m_vObjectList[i]->Release();
 	}
+	
+	for(unsigned int i = 0; i < this->m_vCulledList.size(); i++)
+	{
+		this->m_vCulledList[i]->Release();
+	}
 	this->m_vObjectList.clear();
+	this->m_vCulledList.clear();
 }
 
 bool CObjectManager::CheckCollisions(void)
