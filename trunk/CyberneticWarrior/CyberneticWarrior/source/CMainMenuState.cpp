@@ -81,8 +81,10 @@ void	CMainMenuState::Enter(void)
 
 	this->m_MenuFont.InitFont("resource/fonts/Example.png", "resource/fonts/Example.fnt");
 	
-	this->m_pWM->Play(this->m_nBGMusic, DSBPLAY_LOOPING);
-
+	if(!COptionsMenuState::GetInstance()->GetMute())
+	{
+		this->m_pWM->Play(this->m_nBGMusic, DSBPLAY_LOOPING);
+	}
 	this->m_nSelectionPos		= this->MMENU_START;
 	this->m_nSelection			= this->SINGLE_PLAYER;
 }	
@@ -155,7 +157,7 @@ bool	CMainMenuState::Input(void)
 
 void	CMainMenuState::Update(float fElapsedTime)
 {
-	if(this->m_bContinueJamming)
+	if(this->m_bContinueJamming && !COptionsMenuState::GetInstance()->GetMute())
 	{
 		this->m_pWM->Play(this->m_nBGMusic);
 		this->m_bContinueJamming = false;

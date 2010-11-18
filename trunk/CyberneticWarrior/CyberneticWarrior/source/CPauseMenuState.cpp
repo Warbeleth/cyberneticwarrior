@@ -72,6 +72,7 @@ bool	CPauseMenuState::Input(void)
 
 	if(this->m_pDI->KeyPressed(DIK_ESCAPE) || this->m_pDI->JoystickButtonPressed(2,0) || this->m_pDI->JoystickButtonPressed(9,0))
 	{
+		CSinglePlayerState::GetInstance()->SetJamming(true);
 		CStackStateMachine::GetInstance()->Pop_back();
 		return 1;
 	}
@@ -82,7 +83,9 @@ bool	CPauseMenuState::Input(void)
 		{
 		case this->RESUME:
 			//this->m_pWM->Stop(this->m_nBGMusic);
+			CSinglePlayerState::GetInstance()->SetJamming(true);
 			CStackStateMachine::GetInstance()->Pop_back();
+
 			break;
 		case this->RESET:
 			CStackStateMachine::GetInstance()->ChangeState(CLoadingState::GetInstance());
