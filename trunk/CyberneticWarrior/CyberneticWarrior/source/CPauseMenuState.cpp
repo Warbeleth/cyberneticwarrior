@@ -83,7 +83,10 @@ bool	CPauseMenuState::Input(void)
 		{
 		case this->RESUME:
 			//this->m_pWM->Stop(this->m_nBGMusic);
-			CSinglePlayerState::GetInstance()->SetJamming(true);
+			if(COptionsMenuState::GetInstance()->GetMute())
+			{
+				CSinglePlayerState::GetInstance()->SetJamming(true);
+			}
 			CStackStateMachine::GetInstance()->Pop_back();
 
 			break;

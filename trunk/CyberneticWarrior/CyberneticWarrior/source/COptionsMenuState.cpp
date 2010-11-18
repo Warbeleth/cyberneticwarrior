@@ -218,6 +218,7 @@ bool COptionsMenuState::Input(void)
 		}
 		else
 		{
+			CMainMenuState::GetInstance()->SetJamming(true);
 			CStackStateMachine::GetInstance()->Pop_back();
 			return 1;
 		}

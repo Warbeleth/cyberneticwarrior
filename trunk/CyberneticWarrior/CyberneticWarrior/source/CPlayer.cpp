@@ -130,7 +130,7 @@ CPlayer::CPlayer(void)
 
 	// Rotation
 	this->m_fRotation = 0.0f;
-	this->m_fRotationFixRate = 0.01f;
+	this->m_fRotationFixRate = 0.04f;
 
 	this->m_vRotationCenter.fX = this->GetPosX()+this->GetWidth();
 	this->m_vRotationCenter.fY = 0.0f;
@@ -327,11 +327,11 @@ void CPlayer::Update(float fElapsedTime)
 			// Adjust hook to player doesnt pass boundaries and he doesnt just stay still in the air
 			//////////////////////////////////////////////////////////////////////////////
 			
-			if(this->GetPosX() > (this->m_pHook->GetPosX() - 1) 
-				&& this->GetPosX() < (this->m_pHook->GetPosX() + 1) && this->m_bFixSwing)
+			if(this->GetPosX() > (this->m_pHook->GetPosX() - 2.0f) 
+				&& this->GetPosX() < (this->m_pHook->GetPosX() + 2.0f) && this->m_bFixSwing)
 			{
 				this->SetRotation(0.0f);
-				this->m_bFirstSwing = true;
+				//this->m_bFirstSwing = true;
 				this->m_bAllowSwing = true;
 			}
 			else if(this->GetPosX() < this->m_pHook->GetPosX() 
@@ -393,7 +393,8 @@ void CPlayer::Update(float fElapsedTime)
 			//////////////////////////////////////////////////////////////////////////////
 			this->m_vSpeed.fY = -this->m_vVectorVelocity.fY;
 			//////////////////////////////////////////////////////////////////////////////
-			
+
+		
 			//////////////////////////////////////////////////////////////////////////////
 			// Update player to new position caused by swinging
 			//////////////////////////////////////////////////////////////////////////////
@@ -807,9 +808,9 @@ void CPlayer::Input(float fElapsedTime)
 		}
 		
 		if(m_vSpeed.fX < 0.0f)
-			this->SetRotation(0.0005f);
+			this->SetRotation(0.005f);
 		else if(m_vSpeed.fX > 0.0f)
-			this->SetRotation(-0.0005f);
+			this->SetRotation(-0.005f);
 		
 		this->m_bJumped = true;
 	}
@@ -907,7 +908,7 @@ void CPlayer::Input(float fElapsedTime)
 				
 				this->m_bRotBackward = true;
 				
-				if(this->GetRotation() < 0.0035f)
+				if(this->GetRotation() < 0.035f)
 				{
 					this->m_pHook->SetRotation(this->m_pHook->GetRotation() + (this->m_pHook->GetRotationRate()*fElapsedTime));
 				}
@@ -962,7 +963,7 @@ void CPlayer::Input(float fElapsedTime)
 					this->m_bRotBackward = false;
 				}
 				this->m_bRotFoward = true;
-				if(this->GetRotation() > -0.0035f)
+				if(this->GetRotation() > -0.035f)
 				{
 					this->m_pHook->SetRotation(this->m_pHook->GetRotation() - (this->m_pHook->GetRotationRate()*fElapsedTime));
 				}

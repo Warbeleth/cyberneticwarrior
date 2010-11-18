@@ -79,6 +79,7 @@ bool	CGameProfiler::Input(void)
 	{
 		--this->m_nSelection;
 		this->m_fWaitTime = 0.0f;
+		this->m_bGetName = false;
 
 		if(this->m_nSelection < this->OP1)
 		{
@@ -90,6 +91,7 @@ bool	CGameProfiler::Input(void)
 	{
 		++this->m_nSelection;
 		this->m_fWaitTime = 0.0f;
+		this->m_bGetName = false;
 
 		if(this->m_nSelection > this->BACK)
 		{
@@ -124,11 +126,19 @@ bool	CGameProfiler::Input(void)
 		case this->OP2:
 			{
 				szFileName = "Profile-2.bin";
+				if(this->GetNewGame())
+				{
+					this->m_bGetName = true;
+				}
 			}
 			break;
 		case this->OP3:
 			{
 				szFileName = "Profile-3.bin";
+				if(this->GetNewGame())
+				{
+					this->m_bGetName = true;
+				}
 			}
 			break;
 		case this->BACK:
@@ -184,6 +194,7 @@ bool	CGameProfiler::Input(void)
 				}
 				fManager.close();	
 			}
+
 			/*if(this->GetNewGame() && this->GetManagement() == SAVE_GAME)
 			{
 				CSinglePlayerState::GetInstance()->SetProfileValues(0);
@@ -248,17 +259,17 @@ void	CGameProfiler::Render(void)
 	{
 		this->m_OptionsFont.Draw("LOAD", 335, 40, 1.2f, D3DXCOLOR(1.0f, 1.0f, 1.0f, 1.0f));
 	}
-	this->m_OptionsFont.Draw(this->m_szFileName[this->OP1], 275, (this->OP1 * GMENU_SPACE) + this->MENU_START + 15, 
-		(this->m_nSelection == this->OP1? 1.5f : 1.0f) ,
-		(this->m_nSelection == this->OP1? D3DXCOLOR(0.0f, 1.0f, 1.0f, 1.0f) : D3DXCOLOR(0.7f, 0.7f, 1.0f, 1.0f)));
+	this->m_OptionsFont.Draw(this->m_sPlayerNames[this->OP1].c_str(), 275, (this->OP1 * GMENU_SPACE) + this->MENU_START + 15, 
+		(this->m_nSelection == this->OP1? 1.1f : 1.0f) ,
+		(this->m_nSelection == this->OP1? D3DXCOLOR(0.2f, 0.2f, 1.0f, 1.0f) : D3DXCOLOR(0.7f, 0.7f, 1.0f, 1.0f)));
 
-	this->m_OptionsFont.Draw(this->m_szFileName[this->OP2], 275, (this->OP2 * GMENU_SPACE) + this->MENU_START + 15, 
-		(this->m_nSelection == this->OP2? 1.5f : 1.0f), 
-		(this->m_nSelection == this->OP2? D3DXCOLOR(0.0f, 1.0f, 1.0f, 1.0f) : D3DXCOLOR(0.7f, 0.7f, 1.0f, 1.0f)));
+	this->m_OptionsFont.Draw(this->m_sPlayerNames[this->OP2].c_str(), 275, (this->OP2 * GMENU_SPACE) + this->MENU_START + 15, 
+		(this->m_nSelection == this->OP2? 1.1f : 1.0f), 
+		(this->m_nSelection == this->OP2? D3DXCOLOR(0.2f, 0.2f, 1.0f, 1.0f) : D3DXCOLOR(0.7f, 0.7f, 1.0f, 1.0f)));
 
-	this->m_OptionsFont.Draw(this->m_szFileName[this->OP3], 275, (this->OP3 * GMENU_SPACE) + this->MENU_START + 15, 
-		(this->m_nSelection == this->OP3? 1.5f : 1.0f), 
-		(this->m_nSelection == this->OP3? D3DXCOLOR(0.0f, 1.0f, 1.0f, 1.0f) : D3DXCOLOR(0.7f, 0.7f, 1.0f, 1.0f)));
+	this->m_OptionsFont.Draw(this->m_sPlayerNames[this->OP3].c_str(), 275, (this->OP3 * GMENU_SPACE) + this->MENU_START + 15, 
+		(this->m_nSelection == this->OP3? 1.1f : 1.0f), 
+		(this->m_nSelection == this->OP3? D3DXCOLOR(0.2f, 0.2f, 1.0f, 1.0f) : D3DXCOLOR(0.7f, 0.7f, 1.0f, 1.0f)));
 
 	this->m_OptionsFont.Draw("Return", 325, (this->BACK * GMENU_SPACE) + this->MENU_START, 
 		(this->m_nSelection == this->BACK? 1.5f : 1.0f), 
@@ -267,7 +278,7 @@ void	CGameProfiler::Render(void)
 	if(this->m_bGetName)
 	{
 		this->m_pTM->Draw(this->m_nProfileItemID,150, (this->OP2 * GMENU_SPACE) + this->MENU_START,1.4f,
-		0.75f ,&Profiles,0.0f,0.0f,0.0f,D3DXCOLOR(0.7f, 0.7f, 1.0f, 1.0f));
+		1.0f ,&Profiles,0.0f,0.0f,0.0f,D3DXCOLOR(0.7f, 0.7f, 1.0f, 1.0f));
 		this->m_OptionsFont.Draw(this->m_sPlayerNames[this->m_nSelection].c_str(), 250, 252, 1.0f, D3DXCOLOR(0.2f, 0.2f, 1.0f, 1.0f));
 	}
 }
@@ -360,7 +371,7 @@ void	CGameProfiler::CreatePlayerName(void)
 			break;
 		case DIK_ESCAPE:
 			this->m_bGetName = false;
-			this->m_sPlayerNames[this->m_nSelection].clear();
+			this->m_sPlayerNames[this->m_nSelection] = "No Saved File";
 			nCharCount = 0;
 			break;
 		case DIK_BACKSPACE:

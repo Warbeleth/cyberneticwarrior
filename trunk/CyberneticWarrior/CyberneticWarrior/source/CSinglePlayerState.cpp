@@ -73,7 +73,14 @@ CSinglePlayerState::CSinglePlayerState(void)
 
 	this->SetType(GAMEPLAY);
 	this->SetInputType(this->CKEYBOARD);
-	this->m_bMusic = 1;
+	if(COptionsMenuState::GetInstance()->GetMute())
+	{
+		this->m_bMusic = 1;
+	}
+	else
+	{
+		this->m_bMusic = 0;
+	}
 	this->m_bLevelChange = false;
 }
 
@@ -95,7 +102,14 @@ CSinglePlayerState::~CSinglePlayerState(void)
 	this->m_TempPlatform1 = NULL;
 	this->m_TempPlatform2 = NULL;
 	this->SetInputType(this->CKEYBOARD);
-	this->m_bMusic = 1;
+	if(COptionsMenuState::GetInstance()->GetMute())
+	{
+		this->m_bMusic = 1;
+	}
+	else
+	{
+		this->m_bMusic = 0;
+	}
 }
 
 CSinglePlayerState* CSinglePlayerState::GetInstance(void)
@@ -215,9 +229,13 @@ void CSinglePlayerState::Enter(void)
 	//this->Enemy_3 = new CFLCLMech(-1, 300, 400);
 
 
+	this->m_nMusicVolume = COptionsMenuState::GetInstance()->GetMusicVolume();
+		this->m_pWM->SetVolume(m_nBGMusic, this->m_nMusicVolume);
+
+
+
+
 	tVector2D vStartingPos;
-
-
 
 
 	if(!this->m_Profile.m_bHaveHook)	
@@ -266,12 +284,14 @@ bool CSinglePlayerState::Input(void)
 {
 	if(this->m_pDI->KeyPressed(DIK_ESCAPE) || this->m_pDI->JoystickButtonPressed(9))
 	{
+		if(!COptionsMenuState::GetInstance()->GetMute())
+		{
+			this->m_pWM->Stop(this->m_nBGMusic);
+		}
 		this->GetPlayerPointer()->SetShutDown(true);
 		CStackStateMachine::GetInstance()->UpdateState(0.0f);
 		CStackStateMachine::GetInstance()->Push_Back(CPauseMenuState::GetInstance());
 		//CStackStateMachine::GetInstance()->Pop_back();
-		this->m_pWM->Stop(this->m_nBGMusic);
-	
 	}
 	
 
@@ -284,12 +304,13 @@ void CSinglePlayerState::Update(float fElapsedTime)
 	if(this->m_bMusic && !COptionsMenuState::GetInstance()->GetMute())
 	{
 		this->m_pWM->Play(this->m_nBGMusic, DSBPLAY_LOOPING);
-		this->m_bMusic = 0;
+		this->m_bMusic = false;
 	}
+
 	if(this->m_bJamming && !COptionsMenuState::GetInstance()->GetMute())
 	{
 		this->m_pWM->Play(this->m_nBGMusic, DSBPLAY_LOOPING);
-		this->m_bJamming = 0;
+		this->m_bJamming = false;
 	}
 
 	this->m_tBGOffset.fX = 0;
@@ -353,15 +374,9 @@ void CSinglePlayerState::Render(void)
 		1.0f*CCamera::GetInstance()->GetScale(),
 		1.0f*CCamera::GetInstance()->GetScale());
 	
-	//////////////////////////////
-	// TEMP
-	//////////////////////////////
-	/*this->m_pTM->Draw(this->m_tBasicPlatform.m_nPlatformID,
-				(int)this->m_tBasicPlatform.m_tTempPlatformPoint.fX,
-				(int)this->m_tBasicPlatform.m_tTempPlatformPoint.fY);*/
+	
 
-	//this->m_TempPlayer.Render();
-	//////////////////////////////
+
 
 	m_pD3D->GetSprite()->Flush();
 
@@ -469,6 +484,7 @@ void CSinglePlayerState::Exit(void)
 
 	if(this->m_nBGMusic > -1)
 	{
+		this->m_pWM->Stop(this->m_nBGMusic);
 		this->m_pWM->UnloadWave(this->m_nBGMusic);
 	}
 
