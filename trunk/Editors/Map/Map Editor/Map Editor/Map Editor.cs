@@ -890,6 +890,44 @@ namespace SGP_Map_Editor
             return TM.LoadTexture(szFullPath, 0);
         }
 
+        private void splitContainerMap_Panel2_MouseClick(object sender, MouseEventArgs e)
+        {
+            //Handles Mouse Selection and Input
+            if (e.Button != MouseButtons.Right)
+                return;
+
+            Point Offset = Point.Empty;
+            Point Mouse = Point.Empty;
+
+            Offset.X = splitContainerBackground.Panel2.AutoScrollPosition.X;
+            Offset.Y = splitContainerBackground.Panel2.AutoScrollPosition.Y;
+
+            Mouse.X = e.Location.X - Offset.X;
+            Mouse.Y = e.Location.Y - Offset.Y;
+
+            for (int Row = 0; Row < m_gTileMap.m_nRows; Row++)
+                for (int Col = 0; Col < m_gTileMap.m_nColumns; Col++)
+                {
+                    int Index = Row * m_gTileMap.m_nColumns + Col;
+
+                    RECT rDrawSelection = new RECT();
+                    rDrawSelection.Left = Col * m_gTileMap.m_nWidth;
+                    rDrawSelection.Top = Row * m_gTileMap.m_nHeight;
+                    rDrawSelection.Right = rDrawSelection.Left + m_gTileMap.m_nWidth;
+                    rDrawSelection.Bottom = rDrawSelection.Top + m_gTileMap.m_nHeight;
+
+                    if ((Mouse.X >= rDrawSelection.Left && Mouse.X <= rDrawSelection.Right)
+                      && (Mouse.Y >= rDrawSelection.Top && Mouse.Y <= rDrawSelection.Bottom))
+                    {
+                        ListObject NewNode = new ListObject();
+                        NewNode = m_lMap[Index];
+                        NewNode.m_nDrawImage = (m_sTileSelection.m_nRows-1) * m_sTileSelection.m_nColumns + (m_sTileSelection.m_nColumns-1);
+                        m_lMap[Index] = NewNode;
+                        return;
+                    }
+                }
+        }
+
         private void splitContainerTiles_Panel1_MouseClick(object sender, MouseEventArgs e)
         {
             //Handles Mouse Selection and Input
@@ -1038,6 +1076,19 @@ namespace SGP_Map_Editor
             splitContainerBackground_Panel2_MouseClick(sender, e);
         }
 
+
+        private void splitContainerCollision_Panel2_MouseDown(object sender, MouseEventArgs e)
+        {
+            Drawing = true;
+            splitContainerCollision_Panel2_MouseClick(sender, e);
+        }
+
+        private void splitContainerMap_Panel2_MouseDown(object sender, MouseEventArgs e)
+        {
+            Drawing = true;
+            splitContainerMap_Panel2_MouseClick(sender, e);
+        }
+
         private void splitContainerBackground_Panel2_MouseMove(object sender, MouseEventArgs e)
         {
             if (Drawing)
@@ -1062,8 +1113,24 @@ namespace SGP_Map_Editor
             Drawing = false;
         }
 
+
+        private void splitContainerCollision_Panel2_MouseUp(object sender, MouseEventArgs e)
+        {
+            Drawing = false;
+        }
+
+
+        private void splitContainerMap_Panel2_MouseUp(object sender, MouseEventArgs e)
+        {
+            Drawing = false;
+        }
+
         private void splitContainerMap_Panel2_MouseMove(object sender, MouseEventArgs e)
         {
+            if (Drawing)
+            {
+                splitContainerMap_Panel2_MouseClick(sender, e);
+            }
             Point Offset = Point.Empty;
             Point Mouse = Point.Empty;
 
@@ -1079,6 +1146,11 @@ namespace SGP_Map_Editor
 
         private void splitContainerCollision_Panel2_MouseMove(object sender, MouseEventArgs e)
         {
+            if (Drawing)
+            {
+                splitContainerCollision_Panel2_MouseClick(sender, e);
+            }
+
             Point Offset = Point.Empty;
             Point Mouse = Point.Empty;
 
@@ -1433,8 +1505,5 @@ namespace SGP_Map_Editor
             Looping = false;
             this.Close();
         }
-
-
-
     }
 }
