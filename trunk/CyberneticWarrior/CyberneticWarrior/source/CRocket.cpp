@@ -77,6 +77,7 @@ bool CRocket::CheckCollision( CBase* pBase )
 	if(CBaseProjectile::CheckCollision( pBase ))
 	{				
 		// Destroy the rocket
+		CSGD_WaveManager::GetInstance()->Play(CSinglePlayerState::GetInstance()->GetSFX(EXPLOSION));
 		CGame::GetInstance()->GetMessageSystemPointer()->SendMsg( new CCreateExplosionMessage(GetPosX(), GetPosY()));
 		CGame::GetInstance()->GetMessageSystemPointer()->SendMsg( new CDestroyRocketMessage( this, this->GetOwner()));
 		return true;

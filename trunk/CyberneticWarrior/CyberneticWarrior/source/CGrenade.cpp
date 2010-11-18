@@ -47,6 +47,7 @@ void CGrenade::Update(float fElapsedTime)
 			}
 		}
 
+		CSGD_WaveManager::GetInstance()->Play(CSinglePlayerState::GetInstance()->GetSFX(EXPLOSION));
 		CGame::GetInstance()->GetMessageSystemPointer()->SendMsg( new CCreateExplosionMessage( GetPosX(), GetPosY()) );
 		CGame::GetInstance()->GetMessageSystemPointer()->SendMsg( new CDestroyGrenadeMessage( this, this->GetOwner()) );
 	}
@@ -73,6 +74,7 @@ void CGrenade::Update(float fElapsedTime)
 				
 				if(pPlayer->GetHealth() <= 0)
 				{
+					CSGD_WaveManager::GetInstance()->Play(CSinglePlayerState::GetInstance()->GetSFX(EXPLOSION));
 					CGame::GetInstance()->GetMessageSystemPointer()->SendMsg( new CCreateExplosionMessage( GetPosX(), GetPosY()) );
 					CGame::GetInstance()->GetMessageSystemPointer()->SendMsg( new CDestroyGrenadeMessage( this, this->GetOwner()) );
 				}
@@ -86,6 +88,7 @@ void CGrenade::Update(float fElapsedTime)
 				
 				if(pEnemy->GetCurrentHP() <= 0)
 				{
+					CSGD_WaveManager::GetInstance()->Play(CSinglePlayerState::GetInstance()->GetSFX(EXPLOSION));
 					CGame::GetInstance()->GetMessageSystemPointer()->SendMsg( new CCreateExplosionMessage( GetPosX(), GetPosY()) );
 					CGame::GetInstance()->GetMessageSystemPointer()->SendMsg( new CDestroyGrenadeMessage( this, this->GetOwner()) );
 				}
@@ -117,6 +120,7 @@ bool CGrenade::CheckCollision(CBase *pBase)
 				// Destroy the bullet
 				if(this->m_nBounceCount > 3)
 				{
+					CSGD_WaveManager::GetInstance()->Play(CSinglePlayerState::GetInstance()->GetSFX(EXPLOSION));
 					CGame::GetInstance()->GetMessageSystemPointer()->SendMsg( new CCreateExplosionMessage( GetPosX(), GetPosY()) );
 					CGame::GetInstance()->GetMessageSystemPointer()->SendMsg( new CDestroyGrenadeMessage( this, this->GetOwner()) );
 				}

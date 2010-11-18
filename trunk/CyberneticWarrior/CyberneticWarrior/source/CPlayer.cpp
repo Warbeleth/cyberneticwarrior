@@ -805,6 +805,11 @@ void CPlayer::Input(float fElapsedTime)
 		{
 			this->m_bBoosting = true;
   			this->m_bHovering = true;
+
+			if(m_nSelectedBootSlot == this->ROCKET_BOOTS)
+			{
+				CSGD_WaveManager::GetInstance()->Play(CSinglePlayerState::GetInstance()->GetSFX(FLYROCKET), DSBPLAY_LOOPING);
+			}
 		}
 		
 		if(m_vSpeed.fX < 0.0f)
@@ -866,6 +871,9 @@ void CPlayer::Input(float fElapsedTime)
 	{
 			fJumpSpeed = -600.0f;
 
+			if(this->m_nSelectedBootSlot == this->ROCKET_BOOTS)
+				CSGD_WaveManager::GetInstance()->Stop(CSinglePlayerState::GetInstance()->GetSFX(FLYROCKET));
+			
 			this->m_bHovering = false;
 			this->m_bBoosting = false;
 			this->m_fGravity = 900.0f;
@@ -895,6 +903,7 @@ void CPlayer::Input(float fElapsedTime)
 		this->m_pMovingBlock = NULL;
 		//this->m_bJoyMove = true;
 		this->m_bOnMovingPlatform = false;
+
 
 		if(this->m_pHook)
 		{
@@ -1016,6 +1025,11 @@ void CPlayer::Input(float fElapsedTime)
 		||( CSGD_DirectInput::GetInstance()->JoystickDPadPressed(DIR_LEFT)
 		|| CSGD_DirectInput::GetInstance()->JoystickGetLStickDirPressed(DIR_LEFT) && CSinglePlayerState::GetInstance()->GetInputType() == 1))
 	{
+		/*if(this->m_bOnGround)
+		{
+			CSGD_WaveManager::GetInstance()->Play(CSinglePlayerState::GetInstance()->GetSFX(RUNNING), DSBPLAY_LOOPING);
+		}*/
+
 		if(this->m_nSelectedBootSlot == this->ROCKET_BOOTS && this->m_bBDash && this->m_fRemainingEnergy > 20.0f)
 		{
 			this->m_vSpeed.fX = -this->m_fDash;
@@ -1036,6 +1050,11 @@ void CPlayer::Input(float fElapsedTime)
 		|| ((CSGD_DirectInput::GetInstance()->JoystickDPadPressed(DIR_RIGHT)
 		|| CSGD_DirectInput::GetInstance()->JoystickGetLStickDirPressed(DIR_RIGHT)) && CSinglePlayerState::GetInstance()->GetInputType() == 1))
 	{
+		/*if(this->m_bOnGround)
+		{
+			CSGD_WaveManager::GetInstance()->Play(CSinglePlayerState::GetInstance()->GetSFX(RUNNING), DSBPLAY_LOOPING);
+		}*/
+
 		if(this->m_nSelectedBootSlot == this->ROCKET_BOOTS && this->m_bFDash && this->m_fRemainingEnergy > 20.0f)
 		{
 			this->m_vSpeed.fX = this->m_fDash;
@@ -1062,6 +1081,8 @@ void CPlayer::Input(float fElapsedTime)
 		this->SetBaseVelX(0.0f);
 		this->m_bJoyMove = false;
 
+	//	CSGD_WaveManager::GetInstance()->Stop(CSinglePlayerState::GetInstance()->GetSFX(RUNNING));
+
 		if(this->m_pHook)
 		{
 			if(this->m_pHook->GetIfHooked() && !this->GetOnGround())
@@ -1082,6 +1103,8 @@ void CPlayer::Input(float fElapsedTime)
 		this->m_vSpeed.fX = 0.0f;
 		this->m_bJoyMove = false;
 
+		//CSGD_WaveManager::GetInstance()->Stop(CSinglePlayerState::GetInstance()->GetSFX(RUNNING));
+		
 		if(this->m_pHook)
 		{
 			if(this->m_pHook->GetIfHooked() && !this->GetOnGround())
@@ -1136,16 +1159,21 @@ void CPlayer::Input(float fElapsedTime)
 			switch(this->m_nSelectedWeapon)
 			{
 			case this->HAND_GUN:
+				CSGD_WaveManager::GetInstance()->Play(CSinglePlayerState::GetInstance()->GetSFX(HGUN));
 				CGame::GetInstance()->GetMessageSystemPointer()->SendMsg(new CCreateBulletMessage(this));
 				break;
 			case this->ROCKET_LAUNCHER:
 				CGame::GetInstance()->GetMessageSystemPointer()->SendMsg(new CCreateRocketMessage(this));
 				break;
 			case this->PLASMA_RIFLE:
+				CSGD_WaveManager::GetInstance()->Play(CSinglePlayerState::GetInstance()->GetSFX(PLASMA_SHOT));
 				CGame::GetInstance()->GetMessageSystemPointer()->SendMsg(new CCreatePlasmaMessage(this));
 				break;
 			case this->STICKY_GRENADE:
 				CGame::GetInstance()->GetMessageSystemPointer()->SendMsg(new CCreateGrenadeMessage(this));
+				break;
+			case this->FLAME_THROWER:
+				CSGD_WaveManager::GetInstance()->Play(CSinglePlayerState::GetInstance()->GetSFX(FLAMETHROWER), DSBPLAY_LOOPING);
 				break;
 			
 			};
@@ -1171,7 +1199,17 @@ void CPlayer::Input(float fElapsedTime)
 			|| (CSGD_DirectInput::GetInstance()->JoystickButtonReleased(7) && CSinglePlayerState::GetInstance()->GetInputType() == 1))
 		{
 			if(this->m_nSelectedWeapon == this->SONIC_RIFLE)
+			{
 				CGame::GetInstance()->GetMessageSystemPointer()->SendMsg(new CCreateShockMessage(this));
+		
+				CSGD_WaveManager::GetInstance()->Play(CSinglePlayerState::GetInstance()->GetSFX(SHOCK_WAVE));
+			}
+
+			if(this->m_nSelectedWeapon == this->FLAME_THROWER)
+			{
+				CSGD_WaveManager::GetInstance()->Stop(CSinglePlayerState::GetInstance()->GetSFX(FLAMETHROWER));
+			}
+
 		}
 	//////////////////////////////////////////////////////////////////////////////
 

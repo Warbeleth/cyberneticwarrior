@@ -73,7 +73,7 @@ CSinglePlayerState::CSinglePlayerState(void)
 
 	this->SetType(GAMEPLAY);
 	this->SetInputType(this->CKEYBOARD);
-	if(COptionsMenuState::GetInstance()->GetMute())
+	if(!COptionsMenuState::GetInstance()->GetMute())
 	{
 		this->m_bMusic = 1;
 	}
@@ -102,7 +102,7 @@ CSinglePlayerState::~CSinglePlayerState(void)
 	this->m_TempPlatform1 = NULL;
 	this->m_TempPlatform2 = NULL;
 	this->SetInputType(this->CKEYBOARD);
-	if(COptionsMenuState::GetInstance()->GetMute())
+	if(!COptionsMenuState::GetInstance()->GetMute())
 	{
 		this->m_bMusic = 1;
 	}
@@ -191,6 +191,15 @@ void CSinglePlayerState::Enter(void)
 
 	this->m_TempPlayer = (CPlayer*)m_pOF->CreateObject("CPlayer");
 	this->m_TempPlayer->SetImageID(this->m_pTM->LoadTexture("resource/graphics/Running1.bmp"));
+
+
+	this->m_nGameSounds[HGUN] = this->m_pWM->LoadWave("resource/sounds/Pistol1.wav");
+	this->m_nGameSounds[FLYROCKET] = this->m_pWM->LoadWave("resource/sounds/Rckttrail 2.wav");
+	this->m_nGameSounds[EXPLOSION] = this->m_pWM->LoadWave("resource/sounds/Rocket.wav");
+	this->m_nGameSounds[RUNNING] = this->m_pWM->LoadWave("resource/sounds/Run3.wav");
+	this->m_nGameSounds[PLASMA_SHOT] = this->m_pWM->LoadWave("resource/sounds/PlasmaRifle.wav");
+	this->m_nGameSounds[SHOCK_WAVE] = this->m_pWM->LoadWave("resource/sounds/SonicRifle.wav");
+	this->m_nGameSounds[FLAMETHROWER] = this->m_pWM->LoadWave("resource/sounds/Flamethrower.wav");
 
 	if(this->m_nCurrentLevel == TUTORIAL && this->m_nPreviousLevel == -1)
 	{
@@ -490,6 +499,36 @@ void CSinglePlayerState::Exit(void)
 		this->m_pWM->UnloadWave(this->m_nBGMusic);
 	}
 
+	if(this->m_nGameSounds[HGUN] > -1)
+	{
+		this->m_pWM->UnloadWave(this->m_nGameSounds[HGUN]);
+	}
+	if(this->m_nGameSounds[FLYROCKET] > -1)
+	{
+		this->m_pWM->UnloadWave(this->m_nGameSounds[FLYROCKET]);
+	}
+	if(this->m_nGameSounds[EXPLOSION] > -1)
+	{
+		this->m_pWM->UnloadWave(this->m_nGameSounds[EXPLOSION]);
+	}
+	if(this->m_nGameSounds[RUNNING] > -1)
+	{
+		this->m_pWM->UnloadWave(this->m_nGameSounds[RUNNING]);
+	}
+	if(this->m_nGameSounds[PLASMA_SHOT] > -1)
+	{
+		this->m_pWM->UnloadWave(this->m_nGameSounds[PLASMA_SHOT]);
+	}
+	if(this->m_nGameSounds[SHOCK_WAVE] > -1)
+	{
+		this->m_pWM->UnloadWave(this->m_nGameSounds[SHOCK_WAVE]);
+	}
+	if(this->m_nGameSounds[FLAMETHROWER] > -1)
+	{
+		this->m_pWM->UnloadWave(this->m_nGameSounds[FLAMETHROWER]);
+	}
+
+
 	if(this->m_pDS)
 	{
 		this->m_pDS = NULL;
@@ -520,6 +559,16 @@ void CSinglePlayerState::Exit(void)
 }
 
 
+
+void			CSinglePlayerState::SetSFX(int nId, int nSfx)
+{
+	this->m_nGameSounds[nId] = nSfx;
+}
+
+int				CSinglePlayerState::GetSFX(int nId)
+{
+	return this->m_nGameSounds[nId];
+}
 
 
 CPlayer*	CSinglePlayerState::GetPlayerPointer(void)	{return this->m_TempPlayer;}
