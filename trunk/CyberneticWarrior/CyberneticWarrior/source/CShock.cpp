@@ -3,12 +3,14 @@
 #include "CShock.h"
 #include "CGame.h"
 #include "CSinglePlayerState.h"
+#include "CPlayer.h"
 
 CShock::CShock(void)
 {
 	this->SetType(OBJ_SHOCK);
 	this->SetImageID(CSinglePlayerState::GetInstance()->GetWeaponID());
-	
+	SetDamage(CSinglePlayerState::GetInstance()->GetPlayerPointer()->GetCharge()*500);
+	CSinglePlayerState::GetInstance()->GetPlayerPointer()->SetCharge(0);
 	m_rRender.top = 167;
 	m_rRender.left = 677;
 	m_rRender.right = 722;

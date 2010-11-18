@@ -13,6 +13,7 @@ CFlame::CFlame(void)
 	m_rRender.left = 556;
 	m_rRender.bottom = 540;
 	m_rRender.right = 762;
+	SetDamage(5);
 }
 
 CFlame::~CFlame(void)
