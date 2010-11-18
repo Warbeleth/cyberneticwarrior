@@ -208,6 +208,7 @@ public:
 	inline bool GetHoming(void)	{ return this->m_bHomingOn; }
 
 	inline bool GetHookShot(void) {return this->m_bHookShot;}
+	inline float GetCharge( ) { return (m_fChargeRate*m_nCharge);}
 
 	
 	////////////////////////////////////////////////////////////////////////////////////
@@ -222,6 +223,7 @@ public:
 	void SetRotationPosX(float fX);
 	void SetRotationPosY(float fY);
 	void SetPlayerNumber( int nPlayer );
+	void SetCharge( int nCharge ) { m_nCharge = nCharge; }
 
 	inline void SetShutDown(bool bShutDown) { this->m_bShutDown = bShutDown;}
 

@@ -15,7 +15,7 @@ CGrenade::CGrenade(void)
 	m_bJustBounced = false;
 	m_bStuckToTarget = false;
 	m_pTarget = NULL;
-	SetDamage( 25 );
+	SetDamage( 75 );
 
 	m_rRender.top = 161;
 	m_rRender.left = 970;

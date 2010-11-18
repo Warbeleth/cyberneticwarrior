@@ -12,6 +12,7 @@ CPlasma::CPlasma(void)
 	m_rRender.left = 671;
 	m_rRender.right = 713;
 	m_rRender.bottom = 100;
+	SetDamage(50);
 }
 
 CPlasma::~CPlasma(void)

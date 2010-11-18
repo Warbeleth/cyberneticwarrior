@@ -1169,7 +1169,6 @@ void CPlayer::Input(float fElapsedTime)
 		if((CSGD_DirectInput::GetInstance()->MouseButtonReleased(CGame::GetInstance()->GetPlayerOneControls(3))  && CSinglePlayerState::GetInstance()->GetInputType() == 0)
 			|| (CSGD_DirectInput::GetInstance()->JoystickButtonReleased(7) && CSinglePlayerState::GetInstance()->GetInputType() == 1))
 		{
-			this->m_nCharge = 0;
 			if(this->m_nSelectedWeapon == this->SONIC_RIFLE)
 				CGame::GetInstance()->GetMessageSystemPointer()->SendMsg(new CCreateShockMessage(this));
 		}
