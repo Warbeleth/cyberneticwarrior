@@ -10,7 +10,7 @@
 CGrapplingHook::CGrapplingHook(void)
 {
 	this->m_fRotation = 0.0f;
-	this->m_fRotationRate = 0.005f;
+	this->m_fRotationRate = 0.0057f;
 	this->SetType(OBJ_GRAPPLING_HOOK);
 	this->SetImageID(CSGD_TextureManager::GetInstance()->LoadTexture("resource/graphics/hook.png"));
 	this->SetHooked(0);
@@ -94,7 +94,7 @@ void CGrapplingHook::Render(void)
 		(int)((this->GetPosY() - CCamera::GetInstance()->GetOffsetY()) * CCamera::GetInstance()->GetScale()),
 		(int)((CSinglePlayerState::GetInstance()->GetPlayerPointer()->GetPosX()+CSinglePlayerState::GetInstance()->GetPlayerPointer()->GetWidth()/2 - CCamera::GetInstance()->GetOffsetX()) * CCamera::GetInstance()->GetScale()), 
 		(int)((CSinglePlayerState::GetInstance()->GetPlayerPointer()->GetPosY() - CCamera::GetInstance()->GetOffsetY()) * CCamera::GetInstance()->GetScale()), 
-		1, 1, 1);
+		127, 127, 127);
 }
 
 RECT CGrapplingHook::GetRect(void) const
