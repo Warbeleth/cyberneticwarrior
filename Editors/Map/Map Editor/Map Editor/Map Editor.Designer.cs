@@ -139,28 +139,28 @@
             // newToolStripMenuItem
             // 
             this.newToolStripMenuItem.Name = "newToolStripMenuItem";
-            this.newToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
+            this.newToolStripMenuItem.Size = new System.Drawing.Size(103, 22);
             this.newToolStripMenuItem.Text = "New";
             this.newToolStripMenuItem.Click += new System.EventHandler(this.newToolStripMenuItem_Click);
             // 
             // saveToolStripMenuItem
             // 
             this.saveToolStripMenuItem.Name = "saveToolStripMenuItem";
-            this.saveToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
+            this.saveToolStripMenuItem.Size = new System.Drawing.Size(103, 22);
             this.saveToolStripMenuItem.Text = "Save";
             this.saveToolStripMenuItem.Click += new System.EventHandler(this.saveToolStripMenuItem_Click);
             // 
             // openToolStripMenuItem
             // 
             this.openToolStripMenuItem.Name = "openToolStripMenuItem";
-            this.openToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
+            this.openToolStripMenuItem.Size = new System.Drawing.Size(103, 22);
             this.openToolStripMenuItem.Text = "Open";
             this.openToolStripMenuItem.Click += new System.EventHandler(this.openToolStripMenuItem_Click);
             // 
             // exitToolStripMenuItem
             // 
             this.exitToolStripMenuItem.Name = "exitToolStripMenuItem";
-            this.exitToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
+            this.exitToolStripMenuItem.Size = new System.Drawing.Size(103, 22);
             this.exitToolStripMenuItem.Text = "E&xit";
             this.exitToolStripMenuItem.Click += new System.EventHandler(this.exitToolStripMenuItem_Click);
             // 
@@ -245,6 +245,9 @@
             this.splitContainerMap.Panel2.BackColor = System.Drawing.Color.Transparent;
             this.splitContainerMap.Panel2.MouseMove += new System.Windows.Forms.MouseEventHandler(this.splitContainerMap_Panel2_MouseMove);
             this.splitContainerMap.Panel2.Scroll += new System.Windows.Forms.ScrollEventHandler(this.splitContainerMap_Panel2_Scroll);
+            this.splitContainerMap.Panel2.MouseClick += new System.Windows.Forms.MouseEventHandler(this.splitContainerMap_Panel2_MouseClick);
+            this.splitContainerMap.Panel2.MouseDown += new System.Windows.Forms.MouseEventHandler(this.splitContainerMap_Panel2_MouseDown);
+            this.splitContainerMap.Panel2.MouseUp += new System.Windows.Forms.MouseEventHandler(this.splitContainerMap_Panel2_MouseUp);
             this.splitContainerMap.Panel2.ClientSizeChanged += new System.EventHandler(this.splitContainerMap_Panel2_ClientSizeChanged);
             this.splitContainerMap.Size = new System.Drawing.Size(859, 516);
             this.splitContainerMap.SplitterDistance = 270;
@@ -689,6 +692,8 @@
             this.splitContainerCollision.Panel2.MouseMove += new System.Windows.Forms.MouseEventHandler(this.splitContainerCollision_Panel2_MouseMove);
             this.splitContainerCollision.Panel2.Scroll += new System.Windows.Forms.ScrollEventHandler(this.splitContainerCollision_Panel2_Scroll);
             this.splitContainerCollision.Panel2.MouseClick += new System.Windows.Forms.MouseEventHandler(this.splitContainerCollision_Panel2_MouseClick);
+            this.splitContainerCollision.Panel2.MouseDown += new System.Windows.Forms.MouseEventHandler(this.splitContainerCollision_Panel2_MouseDown);
+            this.splitContainerCollision.Panel2.MouseUp += new System.Windows.Forms.MouseEventHandler(this.splitContainerCollision_Panel2_MouseUp);
             this.splitContainerCollision.Panel2.ClientSizeChanged += new System.EventHandler(this.splitContainerCollision_Panel2_ClientSizeChanged);
             this.splitContainerCollision.Size = new System.Drawing.Size(859, 516);
             this.splitContainerCollision.SplitterDistance = 237;
