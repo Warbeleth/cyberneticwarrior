@@ -899,8 +899,8 @@ namespace SGP_Map_Editor
             Point Offset = Point.Empty;
             Point Mouse = Point.Empty;
 
-            Offset.X = splitContainerBackground.Panel2.AutoScrollPosition.X;
-            Offset.Y = splitContainerBackground.Panel2.AutoScrollPosition.Y;
+            Offset.X = splitContainerMap.Panel2.AutoScrollPosition.X;
+            Offset.Y = splitContainerMap.Panel2.AutoScrollPosition.Y;
 
             Mouse.X = e.Location.X - Offset.X;
             Mouse.Y = e.Location.Y - Offset.Y;
