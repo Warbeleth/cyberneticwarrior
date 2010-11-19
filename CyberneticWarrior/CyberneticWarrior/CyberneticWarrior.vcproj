@@ -571,6 +571,10 @@
 						/>
 					</FileConfiguration>
 				</File>
+				<File
+					RelativePath=".\source\CWinState.cpp"
+					>
+				</File>
 				<Filter
 					Name="Stack State Machine"
 					>
@@ -894,6 +898,10 @@
 				</File>
 				<File
 					RelativePath=".\source\CSinglePlayerState.h"
+					>
+				</File>
+				<File
+					RelativePath=".\source\CWinState.h"
 					>
 				</File>
 				<Filter

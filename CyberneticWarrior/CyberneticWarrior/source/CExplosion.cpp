@@ -2,10 +2,13 @@
 #include "CExplosion.h"
 #include "CMapLoad.h"
 #include "CGame.h"
+#include "CStackStateMachine.h"
+#include "CWinState.h"
 
 CExplosion::CExplosion( void )
 {
 	SetAnimations(CMapLoad::GetInstance()->CreateAnimation(Anim_Explosion));
+	m_dwColor = -1;
 }
 
 CExplosion::~CExplosion( void )
@@ -31,8 +34,6 @@ void CExplosion::Render( void )
 {
 	if(GetAnimations())
 	{
-		GetAnimations()->Render( (int)GetPosX(), 
-			(int)GetPosY());
-
+		GetAnimations()->Render( (int)GetPosX(), (int)GetPosY(), 1, m_dwColor);
 	}
 }

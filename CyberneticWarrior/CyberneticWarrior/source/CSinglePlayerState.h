@@ -63,6 +63,7 @@ private:
 	bool m_bLevelChange;
 	bool m_bDeath;
 	bool m_bJamming;
+	bool m_bWin;
 
 
 	int			m_nMusicVolume;
@@ -120,6 +121,7 @@ public:
 	inline void		SetNewGame(bool bNewGame) {this->m_bNewGame = bNewGame;}
 	inline void		SetDeath(bool bDeath) {this->m_bDeath = bDeath;}
 	inline bool		GetDeath(void)	{return this->m_bDeath;}
+	inline bool		GetWin( void )	{ return m_bWin;}
 	inline bool		GetChangeLevel(void)	{return this->m_bLevelChange;}
 	inline void		SetChangeLevel(bool bChange) {this->m_bLevelChange = bChange;}
 	inline bool		GetInputType(void) { return this->m_bInput;}
@@ -130,6 +132,7 @@ public:
 	inline int		GetPreviousLevel(void)	{return this->m_nPreviousLevel;}
 	inline void		SetJamming(bool bJam) {this->m_bJamming = bJam;}
 	inline bool		GetJamming(void) {return this->m_bJamming;}
+	inline void		SetWin( bool bWin ) { m_bWin = bWin; }
 
 
 	void			SetSFX(int nId, int nSfx);

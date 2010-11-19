@@ -26,6 +26,7 @@
 #include "CLoadingState.h"
 #include "CGameOverState.h"
 #include "CHowToPlayState.h"
+#include "CWinState.h"
 
 #include "CMapLoad.h"
 #include "CGameProfiler.h"
@@ -264,6 +265,7 @@ void CGame::ShutDown(void)
 	CLoadingState::GetInstance()->DeleteInstance();
 	CGameOverState::GetInstance()->DeleteInstance();
 	CHowToPlayState::GetInstance()->DeleteInstance();
+	CWinState::GetInstance()->DeleteInstance();
 
 	if(this->m_pDI)
 	{

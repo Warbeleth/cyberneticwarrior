@@ -200,7 +200,7 @@ public:
 	// Purpose: This will render the current animation to the screen based on the current frame and
 	//			animation values inside the CAnimations object.
 	//////////////////////////////////////////////////////////////////////////////////////////////////////
-	void Render( int nPosX, int nPosY, float fScaleX = 1.0f );
+	void Render( int nPosX, int nPosY, float fScaleX = 1.0f, DWORD dwColor = -1 );
 
 	//////////////////////////////////////////////////////////////////////////////////////////////////////
 	// Function: “LoadBinary”

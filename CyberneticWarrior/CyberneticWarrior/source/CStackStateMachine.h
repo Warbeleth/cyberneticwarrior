@@ -58,7 +58,6 @@ public:
 
 	void							Clear(void);
 
-
 	static CStackStateMachine*		GetInstance(void);
 	static void						DeleteInstance(void);
 	//void							Erase(int nIndex);
