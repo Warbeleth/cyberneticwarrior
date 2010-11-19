@@ -46,6 +46,9 @@ void CWinState::Enter(void)
 	this->m_pWM	=	CSGD_WaveManager::GetInstance();
 	this->m_pDS	=	CSGD_DirectSound::GetInstance();
 
+
+	CCamera::GetInstance()->SetCameraOffsetX(0);
+	CCamera::GetInstance()->SetCameraOffsetY(0);
 	this->m_WinStateFont.InitFont("resource/fonts/CyberneticWarriorChintzy.png", "resource/fonts/CyberneticWarriorChintzy.fnt", 64);
 	this->m_nScrollingID = this->m_WinStateFont.AddScrolling( 0, 0 );
 
