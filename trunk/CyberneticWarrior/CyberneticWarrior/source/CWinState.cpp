@@ -26,6 +26,7 @@ CWinState::CWinState(void)
 	// Background
 	m_nBackgroundID		= -1;
 
+	m_nBGMusic = -1;
 }
 
 //////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -46,13 +47,15 @@ void CWinState::Enter(void)
 	this->m_pWM	=	CSGD_WaveManager::GetInstance();
 	this->m_pDS	=	CSGD_DirectSound::GetInstance();
 
-
 	CCamera::GetInstance()->SetCameraOffsetX(0);
 	CCamera::GetInstance()->SetCameraOffsetY(0);
 	this->m_WinStateFont.InitFont("resource/fonts/CyberneticWarriorChintzy.png", "resource/fonts/CyberneticWarriorChintzy.fnt", 64);
 	this->m_nScrollingID = this->m_WinStateFont.AddScrolling( 0, 0 );
 
 	CObjectManager::GetInstance()->RemoveAllObjects();
+
+	m_nBGMusic = m_pWM->LoadWave("resource/sounds/JTM_EpicSong.wav");
+	m_pWM->Play(m_nBGMusic, DSBPLAY_LOOPING);
 
 	this->m_nBackgroundID	= this->m_pTM->LoadTexture("resource/graphics/AchievementsBG.png");
 }
@@ -126,6 +129,13 @@ void CWinState::Exit(void)
 	{
 		this->m_pTM->UnloadTexture(this->m_nBackgroundID);
 		this->m_nBackgroundID = -1;
+	}
+
+	if(m_nBGMusic != -1)
+	{
+		m_pWM->Stop(m_nBGMusic);
+		m_pWM->UnloadWave(m_nBGMusic);
+		m_nBGMusic = -1;
 	}
 
 	CObjectManager::GetInstance()->RemoveAllObjects();
