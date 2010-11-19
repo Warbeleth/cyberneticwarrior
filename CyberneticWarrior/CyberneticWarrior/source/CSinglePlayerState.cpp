@@ -381,9 +381,37 @@ void CSinglePlayerState::Update(float fElapsedTime)
 		if(this->m_nBGMusic)
 
 		{
-			this->m_pWM->Stop(this->m_nBGMusic);
+		this->m_pWM->Stop(this->m_nBGMusic);
 		}
 		CStackStateMachine::GetInstance()->UpdateState(0.0f);*/
+		if(this->m_nGameSounds[HGUN] > -1)
+		{
+			this->m_pWM->UnloadWave(this->m_nGameSounds[HGUN]);
+		}
+		if(this->m_nGameSounds[FLYROCKET] > -1)
+		{
+			this->m_pWM->UnloadWave(this->m_nGameSounds[FLYROCKET]);
+		}
+		if(this->m_nGameSounds[EXPLOSION] > -1)
+		{
+			this->m_pWM->UnloadWave(this->m_nGameSounds[EXPLOSION]);
+		}
+		if(this->m_nGameSounds[RUNNING] > -1)
+		{
+			this->m_pWM->UnloadWave(this->m_nGameSounds[RUNNING]);
+		}
+		if(this->m_nGameSounds[PLASMA_SHOT] > -1)
+		{
+			this->m_pWM->UnloadWave(this->m_nGameSounds[PLASMA_SHOT]);
+		}
+		if(this->m_nGameSounds[SHOCK_WAVE] > -1)
+		{
+			this->m_pWM->UnloadWave(this->m_nGameSounds[SHOCK_WAVE]);
+		}
+		if(this->m_nGameSounds[FLAMETHROWER] > -1)
+		{
+			this->m_pWM->UnloadWave(this->m_nGameSounds[FLAMETHROWER]);
+		}
 		CStackStateMachine::GetInstance()->ChangeState(CWinState::GetInstance());
 		this->SetWin(false);
 	}
