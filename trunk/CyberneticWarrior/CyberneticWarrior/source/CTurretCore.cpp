@@ -63,11 +63,12 @@ void CTurretCore::Update(float fElapsedTime)
 				}
 				else if(this->GetEnemyType() ==Turret_Frost )
 				{
-					//CGame::GetInstance()->GetMessageSystemPointer()->SendMsg(new CCreateIceMessage(CSinglePlayerState::GetInstance()->GetPlayerPointer(), this));
+					CGame::GetInstance()->GetMessageSystemPointer()->SendMsg(new CCreatePlasmaMessage(this));
+
 				}
 				else if(this->GetEnemyType() ==Turret_Fire )
 				{
-					//CGame::GetInstance()->GetMessageSystemPointer()->SendMsg(new CCreateFireMessage(CSinglePlayerState::GetInstance()->GetPlayerPointer(), this));
+					CGame::GetInstance()->GetMessageSystemPointer()->SendMsg(new CCreateFlameMessage(this));
 				}
 				else if(this->GetEnemyType() ==Turret_Multi )
 				{
