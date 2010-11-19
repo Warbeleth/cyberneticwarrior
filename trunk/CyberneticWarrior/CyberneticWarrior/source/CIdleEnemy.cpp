@@ -65,12 +65,14 @@ void CIdleEnemy::Render()
 	int OffsetX = CCamera::GetInstance()->GetOffsetX();
 	int OffsetY = CCamera::GetInstance()->GetOffsetY();
 
+#ifdef DRAWRECT
 	if(ReturnAIState() == Idle)
 		CSGD_Direct3D::GetInstance()->DrawTextA("State: Idle", (int)((GetPosX() - OffsetX) * CCamera::GetInstance()->GetScale()), (int)((GetPosY() - OffsetY) * CCamera::GetInstance()->GetScale()), 0, 0, 255);
 	else if(ReturnAIState() == iActive)
 		CSGD_Direct3D::GetInstance()->DrawTextA("State: Active", (int)((GetPosX() - OffsetX) * CCamera::GetInstance()->GetScale()), (int)((GetPosY() - OffsetY) * CCamera::GetInstance()->GetScale()), 0, 255, 0);
 	else
 		CSGD_Direct3D::GetInstance()->DrawTextA("State: Dead", (int)((GetPosX() - OffsetX) * CCamera::GetInstance()->GetScale()), (int)((GetPosY() - OffsetY) * CCamera::GetInstance()->GetScale()), 255, 0, 0);
+#endif
 }
 
 void CIdleEnemy::ChangeAIState(int nNewState)

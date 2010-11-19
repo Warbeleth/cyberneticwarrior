@@ -105,13 +105,14 @@ void CPatrolEnemy::Render()
 
 	int OffsetX = CCamera::GetInstance()->GetOffsetX();
 	int OffsetY = CCamera::GetInstance()->GetOffsetY();
-
+#ifdef DRAWRECT
 	if(ReturnAIState() == Patrol)
 		CSGD_Direct3D::GetInstance()->DrawTextA("State: Patrol", (int)((GetPosX() - OffsetX) * CCamera::GetInstance()->GetScale()), (int)((GetPosY() - OffsetY) * CCamera::GetInstance()->GetScale()), 0, 0, 255);
 	else if(ReturnAIState() == pActive)
 		CSGD_Direct3D::GetInstance()->DrawTextA("State: Active", (int)((GetPosX() - OffsetX) * CCamera::GetInstance()->GetScale()), (int)((GetPosY() - OffsetY) * CCamera::GetInstance()->GetScale()), 0, 255, 0);
 	else
 		CSGD_Direct3D::GetInstance()->DrawTextA("State: Dead", (int)((GetPosX() - OffsetX) * CCamera::GetInstance()->GetScale()), (int)((GetPosY() - OffsetY) * CCamera::GetInstance()->GetScale()), 255, 0, 0);
+#endif
 }
 
 void CPatrolEnemy::ChangeAIState(int nNewState)
