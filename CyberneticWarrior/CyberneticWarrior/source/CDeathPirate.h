@@ -4,7 +4,10 @@
 
 class CDeathPirate : public CIdleEnemy
 {
-
+	CBaseEnemy* Spawn_01;
+	CBaseEnemy* Spawn_02;
+	float m_fTimeWaited;
+	
 
 public:
 	CDeathPirate();

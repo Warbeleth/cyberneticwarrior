@@ -18,6 +18,9 @@ CDeathPirate::CDeathPirate(int nImageID, float PosX, float PosY,int Width, int H
 {
 	SetAnimations(CMapLoad::GetInstance()->CreateAnimation(Boss_Pirate));
 	GetAnimations()->SetCurrentAnimation(0);
+	Spawn_01 = NULL;
+	Spawn_02 = NULL;
+	m_fTimeWaited = 5;
 }
 CDeathPirate::~CDeathPirate()
 {
@@ -27,6 +30,8 @@ CDeathPirate::~CDeathPirate()
 void CDeathPirate::Update(float fElapsedTime)
 {
 	CIdleEnemy::Update(fElapsedTime);
+
+	m_fTimeWaited += fElapsedTime;
 
 	if(GetGround())
 	{
@@ -48,6 +53,20 @@ void CDeathPirate::Update(float fElapsedTime)
 		GetAnimations()->SetCurrentAnimation(0);
 		break;
 	case iActive:
+		if(m_fTimeWaited >= 15.0f && !GetCulling())
+		{
+			m_fTimeWaited = 0.0f;
+
+			if(Spawn_01 == NULL)
+			{
+				CGame::GetInstance()->GetMessageSystemPointer()->SendMsg(new CCreateEnemyMessage(6, (int)GetPosX()-100, (int)GetPosY()-150, NULL));
+			}
+			else if(Spawn_02 == NULL)
+			{
+				CGame::GetInstance()->GetMessageSystemPointer()->SendMsg(new CCreateEnemyMessage(6, (int)GetPosX()+GetWidth()+150, (int)GetPosY()-150, NULL));
+			}
+		}
+
 		GetAnimations()->SetCurrentAnimation(1);
 		if(!GetAnimations()->SameFrame() && GetAnimations()->GetTrigger() != 0)
 		{

@@ -154,8 +154,8 @@ CPlayer::CPlayer(void)
 
 
 	// Health
-	this->m_fRemainingHealth = 100.0f;
-	this->m_fTotalHealth = 100.0f;
+	this->m_fRemainingHealth = 777.0f;
+	this->m_fTotalHealth = 777.0f;
 
 	// Energy
 	this->m_fRemainingEnergy = 100.0f;
