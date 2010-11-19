@@ -200,6 +200,9 @@ CPlayer::CPlayer(void)
 		this->m_fHandRotation = SGD_PI/2;
 	}
 
+	//Setup Float
+	m_fFireDelay = 0.0f;
+
 }
 
 CPlayer::~CPlayer(void)
@@ -1173,7 +1176,14 @@ void CPlayer::Input(float fElapsedTime)
 				CGame::GetInstance()->GetMessageSystemPointer()->SendMsg(new CCreateGrenadeMessage(this));
 				break;
 			case this->FLAME_THROWER:
-				CSGD_WaveManager::GetInstance()->Play(CSinglePlayerState::GetInstance()->GetSFX(FLAMETHROWER), DSBPLAY_LOOPING);
+				if(m_fRemainingEnergy > 5 && m_fFireDelay >= 0.07f)
+				{
+					CSGD_WaveManager::GetInstance()->Play(CSinglePlayerState::GetInstance()->GetSFX(FLAMETHROWER), DSBPLAY_LOOPING);
+					m_fFireDelay = 0.0f;
+				}
+				else
+					CSGD_WaveManager::GetInstance()->Stop(CSinglePlayerState::GetInstance()->GetSFX(FLAMETHROWER));
+					
 				break;
 			
 			};
@@ -1184,7 +1194,12 @@ void CPlayer::Input(float fElapsedTime)
 		{
 			if(this->m_nSelectedWeapon == this->FLAME_THROWER)
 			{
-				CGame::GetInstance()->GetMessageSystemPointer()->SendMsg(new CCreateFlameMessage(this));
+				m_fFireDelay += fElapsedTime;
+				if(m_fRemainingEnergy > 5 && m_fFireDelay >= 0.07f)
+				{
+					CGame::GetInstance()->GetMessageSystemPointer()->SendMsg(new CCreateFlameMessage(this));
+					DecrementEnergy(1.0f);
+				}
 			}
 			if(this->m_nSelectedWeapon == this->SONIC_RIFLE)
 			{
