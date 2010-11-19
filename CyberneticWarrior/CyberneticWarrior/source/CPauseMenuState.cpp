@@ -23,6 +23,7 @@ CPauseMenuState::CPauseMenuState(void)
 	this->m_nBackgroundID		= -1;
 	this->m_nCursorID			= -1;
 	//this->m_nSFXID				= -1;
+	m_bMiniMap = false;
 
 	this->m_nSelection			= this->RESUME;
 	this->m_nSelectionPos		= this->PMENU_START;
@@ -79,39 +80,48 @@ bool	CPauseMenuState::Input(void)
 
 	if(this->m_pDI->KeyPressed(DIK_RETURN) || this->m_pDI->JoystickButtonPressed(1,0) || this->m_pDI->JoystickButtonPressed(8,0))
 	{
-		switch(this->m_nSelection)
+		if( !m_bMiniMap )
 		{
-		case this->RESUME:
-			//this->m_pWM->Stop(this->m_nBGMusic);
-			if(COptionsMenuState::GetInstance()->GetMute())
+			switch(this->m_nSelection)
 			{
-				CSinglePlayerState::GetInstance()->SetJamming(true);
+			case this->RESUME:
+				//this->m_pWM->Stop(this->m_nBGMusic);
+				if(COptionsMenuState::GetInstance()->GetMute())
+				{
+					CSinglePlayerState::GetInstance()->SetJamming(true);
+				}
+				CStackStateMachine::GetInstance()->Pop_back();
+				break;
+			case MINIMAP:
+				{
+					m_bMiniMap = !m_bMiniMap;
+				}
+				break;
+			case this->RESET:
+				CStackStateMachine::GetInstance()->ChangeState(CLoadingState::GetInstance());
+				break;
+			case this->SAVE:
+				CGameProfiler::GetInstance()->SetNewGame(0);
+				CGameProfiler::GetInstance()->SetManagement(SAVE_GAME);
+				CStackStateMachine::GetInstance()->Push_Back(CGameProfiler::GetInstance());
+				break;
+			case this->CONTROLS:
+				CStackStateMachine::GetInstance()->Push_Back(CHowToPlayState::GetInstance());
+				break;
+			case this->OPTIONS:
+				CStackStateMachine::GetInstance()->Push_Back(COptionsMenuState::GetInstance());
+				break;
+			case this->MAIN_MENU:
+				//PostQuitMessage(0);
+				//CSinglePlayerState::GetInstance()->GetPlayerPointer()->SetShutDown(true);
+				CStackStateMachine::GetInstance()->ChangeState(CMainMenuState::GetInstance());		
+				break;
+			default:
+				break;
 			}
-			CStackStateMachine::GetInstance()->Pop_back();
-
-			break;
-		case this->RESET:
-			CStackStateMachine::GetInstance()->ChangeState(CLoadingState::GetInstance());
-			break;
-		case this->SAVE:
-			CGameProfiler::GetInstance()->SetNewGame(0);
-			CGameProfiler::GetInstance()->SetManagement(SAVE_GAME);
-			CStackStateMachine::GetInstance()->Push_Back(CGameProfiler::GetInstance());
-			break;
-		case this->CONTROLS:
-			CStackStateMachine::GetInstance()->Push_Back(CHowToPlayState::GetInstance());
-			break;
-		case this->OPTIONS:
-			CStackStateMachine::GetInstance()->Push_Back(COptionsMenuState::GetInstance());
-			break;
-		case this->MAIN_MENU:
-			//PostQuitMessage(0);
-			//CSinglePlayerState::GetInstance()->GetPlayerPointer()->SetShutDown(true);
-			CStackStateMachine::GetInstance()->ChangeState(CMainMenuState::GetInstance());		
-			break;
-		default:
-			break;
 		}
+		else
+			m_bMiniMap = !m_bMiniMap;
 	}
 	return 1;
 }
@@ -152,6 +162,10 @@ void	CPauseMenuState::Render(void)
 	this->m_OptionsFont.Draw("Resume", 275, (this->RESUME * PMENU_SPACE) + this->PMENU_START, 
 		(this->m_nSelection == this->RESUME? 1.1f : 1.0f) ,
 		(this->m_nSelection == this->RESUME? D3DXCOLOR(1.0f, 1.0f, 0.7f, 1.0f) : D3DXCOLOR(0.7f, 1.0f, 1.0f, 1.0f)));
+	
+	this->m_OptionsFont.Draw("Mini-Map", 275, (this->MINIMAP * PMENU_SPACE) + this->PMENU_START, 
+		(this->m_nSelection == this->MINIMAP? 1.1f : 1.0f) ,
+		(this->m_nSelection == this->MINIMAP? D3DXCOLOR(1.0f, 1.0f, 0.7f, 1.0f) : D3DXCOLOR(0.7f, 1.0f, 1.0f, 1.0f)));
 
 	this->m_OptionsFont.Draw("Restart", 275, (this->RESET * PMENU_SPACE) + this->PMENU_START, 
 		(this->m_nSelection == this->RESET? 1.1f : 1.0f) ,
@@ -172,12 +186,24 @@ void	CPauseMenuState::Render(void)
 	this->m_OptionsFont.Draw("Main Menu", 275, (this->MAIN_MENU * PMENU_SPACE) + this->PMENU_START,
 		(this->m_nSelection == this->MAIN_MENU? 1.1f : 1.0f),
 		(this->m_nSelection == this->MAIN_MENU? D3DXCOLOR(1.0f, 1.0f, 0.7f, 1.0f) : D3DXCOLOR(0.7f, 1.0f, 1.0f, 1.0f)));
+
+	if(m_bMiniMap)
+	{
+		CSGD_TextureManager::GetInstance()->Draw(CSinglePlayerState::GetInstance()->GetMiniMapID(), 0, 0 );
+		//.088
+		float fXPos = CSinglePlayerState::GetInstance()->GetPlayerPointer()->GetPosX()*.088f + ((CSinglePlayerState::GetInstance()->GetPlayerPointer()->GetWidth()/2) * .088f);
+		float fYPos = CSinglePlayerState::GetInstance()->GetPlayerPointer()->GetPosY()*.088f + ((CSinglePlayerState::GetInstance()->GetPlayerPointer()->GetHeight()/2) * .088f);
+		CSGD_Direct3D::GetInstance()->GetSprite()->Flush();
+		CSGD_Direct3D::GetInstance()->DrawLine(fXPos-5, fYPos-5, fXPos+5, fYPos+5, 255, 0, 0);
+		CSGD_Direct3D::GetInstance()->DrawLine(fXPos-5, fYPos+5, fXPos+5, fYPos-5, 255, 0, 0);
+	}
+
 	
 }
 
 void	CPauseMenuState::Exit(void)
 {
-	
+	m_bMiniMap = false;
 	this->m_OptionsFont.ShutdownFont();
 
 	/*if(this->m_nSFXID > -1)
