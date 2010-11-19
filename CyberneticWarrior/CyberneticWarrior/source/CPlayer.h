@@ -44,6 +44,9 @@ private:
 	float m_fAcceleration;
 	float m_fRotationRate;
 
+	//Flamethrower waittime
+	float m_fFireDelay;
+
 	float m_fRotation;
 	float m_fJoyRot;
 
