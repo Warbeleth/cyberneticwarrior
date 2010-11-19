@@ -26,6 +26,7 @@
 #include "CGrenade.h"
 #include "CFire.h"
 #include "CIce.h"
+#include "CWinState.h"
 
 CSinglePlayerState*	CSinglePlayerState::sm_pGamePlayInstance = NULL;
 
@@ -66,6 +67,7 @@ CSinglePlayerState::CSinglePlayerState(void)
 	this->m_nCurrentLevel = TUTORIAL;
 	this->m_nPreviousLevel = -1;
 	this->SetDeath(false);
+	SetWin(false);
 
 	this->SetNewGame(1);
 
@@ -371,6 +373,19 @@ void CSinglePlayerState::Update(float fElapsedTime)
 		CStackStateMachine::GetInstance()->UpdateState(0.0f);*/
 		CStackStateMachine::GetInstance()->ChangeState(CGameOverState::GetInstance());
 		this->SetDeath(false);
+	}
+	
+	if(this->GetWin())
+	{
+		/*this->GetPlayerPointer()->SetShutDown(true);
+		if(this->m_nBGMusic)
+
+		{
+			this->m_pWM->Stop(this->m_nBGMusic);
+		}
+		CStackStateMachine::GetInstance()->UpdateState(0.0f);*/
+		CStackStateMachine::GetInstance()->ChangeState(CWinState::GetInstance());
+		this->SetWin(false);
 	}
 
 }

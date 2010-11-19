@@ -5,6 +5,8 @@
 
 #include "CGame.h"
 #include "CMapLoad.h"
+#include "CSinglePlayerState.h"
+#include "CWinState.h"
 
 CDeathPirate::CDeathPirate()
 {
@@ -55,6 +57,7 @@ void CDeathPirate::Update(float fElapsedTime)
 	case iDead:
 		ReleaseSpawner();
 		CGame::GetInstance()->GetMessageSystemPointer()->SendMsg(new CDestroyEnemyMessage((CBaseEnemy*)this));
+		CSinglePlayerState::GetInstance()->SetWin(true);
 		break;
 	};
 }

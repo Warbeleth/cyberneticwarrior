@@ -259,7 +259,7 @@ void CAnimations::Update( float fElapsedTime )
 //////////////////////////////////////////////////////////////////////////////////////////////////////
 // Function: “Render”
 //////////////////////////////////////////////////////////////////////////////////////////////////////	
-void CAnimations::Render( int nPosX, int nPosY, float fScaleX  )
+void CAnimations::Render( int nPosX, int nPosY, float fScaleX, DWORD dwColor  )
 {
 	int nXOffset = - m_nOffset.m_nX - CCamera::GetInstance()->GetOffsetX();
 	int nYOffset = - m_nOffset.m_nY - CCamera::GetInstance()->GetOffsetY();
@@ -269,7 +269,7 @@ void CAnimations::Render( int nPosX, int nPosY, float fScaleX  )
 		int(CCamera::GetInstance()->GetScale() * (nPosY + nYOffset)), 
 		CCamera::GetInstance()->GetScale() * fScaleX, 
 		CCamera::GetInstance()->GetScale(), 
-		&m_vAnimations[ m_nCurrentAnimation ].m_vFrames[ m_vAnimations[m_nCurrentAnimation].m_nCurrentFrame ].GetFrame() );
+		&m_vAnimations[ m_nCurrentAnimation ].m_vFrames[ m_vAnimations[m_nCurrentAnimation].m_nCurrentFrame ].GetFrame(), 0, 0, 0, dwColor );
 
 	#ifdef DRAWRECT
 	if(fScaleX == 1)

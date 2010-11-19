@@ -32,6 +32,8 @@ public:
 
 	void RemoveAllObjects(void);
 
+	unsigned int GetSize( void ) { return (m_vObjectList.size() + m_vCulledList.size()); }
+
 	static CObjectManager*	GetInstance(void);
 	static void DeleteInstance(void);
 
