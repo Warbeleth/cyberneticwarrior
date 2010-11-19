@@ -80,6 +80,7 @@ private:
 	int			m_nSelectedWeaponID;
 	int			m_nWeaponID;
 	int			m_nHookID;
+	int			m_nMinimapId;
 	int			m_nCurrentLevel;
 	int			m_nPreviousLevel;
 	
@@ -133,6 +134,7 @@ public:
 	inline void		SetJamming(bool bJam) {this->m_bJamming = bJam;}
 	inline bool		GetJamming(void) {return this->m_bJamming;}
 	inline void		SetWin( bool bWin ) { m_bWin = bWin; }
+	inline int		GetMiniMapID( void ) { return m_nMinimapId; }
 
 
 	void			SetSFX(int nId, int nSfx);

@@ -46,6 +46,7 @@ CSinglePlayerState::CSinglePlayerState(void)
 
 	this->m_nSelectedWeaponID		= -1;
 	this->m_nWeaponID				= -1;
+	m_nMinimapId					= -1;
 
 	this->m_bJamming = false;
 
@@ -190,9 +191,11 @@ void CSinglePlayerState::Enter(void)
 	this->m_nSelectedWeaponID		= m_pTM->LoadTexture("resource/graphics/EquipmentWeaponIcons.png");
 	this->m_nWeaponID = m_pTM->LoadTexture("resource/graphics/Weapons.png");
 	this->m_nHookID = CSGD_TextureManager::GetInstance()->LoadTexture("resource/graphics/hook.png");
+	m_nMinimapId = CSGD_TextureManager::GetInstance()->LoadTexture("resource/graphics/map.png");
 
 	this->m_TempPlayer = (CPlayer*)m_pOF->CreateObject("CPlayer");
 	this->m_TempPlayer->SetImageID(this->m_pTM->LoadTexture("resource/graphics/Running1.bmp"));
+
 
 
 	this->m_nGameSounds[HGUN] = this->m_pWM->LoadWave("resource/sounds/Pistol1.wav");
@@ -534,6 +537,12 @@ void CSinglePlayerState::Exit(void)
 	{
 		this->m_pTM->UnloadTexture(this->m_nSelectedWeaponID);
 		this->m_nSelectedWeaponID = -1;
+	}
+
+	if(m_nMinimapId != -1)
+	{
+		m_pTM->UnloadTexture(m_nMinimapId);
+		m_nMinimapId = -1;
 	}
 
 	if(this->m_nBGMusic > -1)

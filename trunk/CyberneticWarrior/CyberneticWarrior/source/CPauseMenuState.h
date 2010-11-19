@@ -18,7 +18,7 @@ class CPauseMenuState : public IGameState
 {
 private:
 
-	enum selections { RESUME = 0, RESET, SAVE, CONTROLS, OPTIONS, MAIN_MENU,
+	enum selections { RESUME = 0, MINIMAP, RESET, SAVE, CONTROLS, OPTIONS, MAIN_MENU,
 		PMENU_START =180, PM_CURSOR_POS = 90};
 
 	CFont	m_OptionsFont;
@@ -38,6 +38,7 @@ private:
 	int		m_nMusicVolume;
 	int		m_nSFXVolume;
 	bool	m_bMute;
+	bool	m_bMiniMap;
 
 
 	CPauseMenuState(void);
