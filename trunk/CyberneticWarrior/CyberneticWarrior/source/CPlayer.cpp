@@ -1188,7 +1188,7 @@ void CPlayer::Input(float fElapsedTime)
 			if(this->m_nSelectedWeapon == this->FLAME_THROWER)
 			{
 				m_fFireDelay += fElapsedTime;
-				if(m_fFireDelay >= 0.09f)
+				if(m_fFireDelay >= 0.075f)
 				{
 					m_fFireDelay = 0.0f;
 					CGame::GetInstance()->GetMessageSystemPointer()->SendMsg(new CCreateFlameMessage(this));
