@@ -606,15 +606,34 @@ void CPlayer::Update(float fElapsedTime)
 	//////////////////////////////////////////////////////////////////////////////
 
 	RECT rIntersect;
-	RECT rTeleport = { 63*64, 38*64, 64*64, 39*64 };
+	RECT rTeleport = { 4032, 2432, 4096, 2496 };
 
 	if(IntersectRect(&rIntersect, &rTeleport, &GetRect()))
 	{
-		SetPosX( 20*64 );
-		SetPosY( 55*64 );
+		SetPosX( 1344 );
+		SetPosY( 3776 );
+	}
+
+	rTeleport.left = 6720;
+	rTeleport.top = 4480;
+	rTeleport.right = 6784;
+	rTeleport.bottom = 4544;
+	
+	if(IntersectRect(&rIntersect, &rTeleport, &GetRect()))
+	{
+		SetPosX( 4352 );
+		SetPosY( 1664 );
 	}
 	
-	// 20 , 55
+	rTeleport.left = 5952;
+	rTeleport.top = 3392;
+	rTeleport.right = 6016;
+	rTeleport.bottom = 3456;
+	
+	if(IntersectRect(&rIntersect, &rTeleport, &GetRect()))
+	{
+		SetPosX( GetPosX() + 128 );
+	}
 }
 
 void CPlayer::Input(float fElapsedTime)
