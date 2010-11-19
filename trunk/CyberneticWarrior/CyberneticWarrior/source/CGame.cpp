@@ -324,6 +324,9 @@ bool CGame::Main(void)
 		return false;
 	}
 
+	if(GetFocus() == NULL)
+		return true;
+
 	this->Update(this->m_fElapsedTime);
 
 	this->Draw();
