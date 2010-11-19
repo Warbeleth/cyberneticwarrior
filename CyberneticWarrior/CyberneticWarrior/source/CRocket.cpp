@@ -10,7 +10,7 @@ CRocket::CRocket( void )
 	m_nRocketState	= ROCKET_DIRECTIONAL;
 	SetType( OBJ_ROCKET );
 	SetImageID(CSinglePlayerState::GetInstance()->GetWeaponID());
-	SetDamage(50);
+	SetDamage(120);
 	m_rRender.top = 372;
 	m_rRender.left = 538;
 	m_rRender.bottom = 402;
