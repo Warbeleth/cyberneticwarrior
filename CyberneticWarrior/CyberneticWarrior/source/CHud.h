@@ -32,6 +32,9 @@ class CHud
 	// Timer
 	float m_fElapsedTime;
 
+	//WatermarkID
+	int m_nWatermarkId;
+
 	CHud(CHud&);
 	CHud& operator=(CHud&);
 
