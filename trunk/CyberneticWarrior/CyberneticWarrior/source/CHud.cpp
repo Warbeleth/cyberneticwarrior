@@ -48,6 +48,10 @@ CHud::CHud( void )
 
 	// Timer
 	m_fElapsedTime = 0.0f;
+
+	// Constructor
+	m_nWatermarkId = -1;
+	m_nWatermarkId = m_pTM->LoadTexture("resource/graphics/Watermark.png");
 }
 
 CHud::~CHud( void )
@@ -135,6 +139,7 @@ void CHud::Render( void )
 			m_pTM->Draw(m_nWeaponEquipmentId, m_rImageRects[TYPE_EQUIPMENT].right + 80, 600-m_rImageRects[TYPE_EQUIPMENT].bottom - 60, 1.0f, 1.0f, &GetRect(TYPE_EQUIPMENT, 20));
 			
 			m_HudFont.Draw("Player 1", 5 + 80, 64 + 60, 0.55f, -1 );
+			m_pTM->Draw(m_nWatermarkId, 800-64, 600-64 );
 			//m_HudFont.Draw(buffer, 110, 70 + 60, 0.75f, -1 );
 			break;
 		}

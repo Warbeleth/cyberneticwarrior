@@ -393,7 +393,9 @@ namespace SGP_Map_Editor
 
                                 if ((ImageRow == (m_sTileSelection.m_nRows - 1)) && (ImageCol == (m_sTileSelection.m_nColumns - 1)))
                                 {
+                                    /*
                                     D3D.DrawText("NULL", PosX, PosY, 0, 0, 0);
+                                    */
                                     continue;
                                 }
 
@@ -408,7 +410,7 @@ namespace SGP_Map_Editor
 
                         D3D.Sprite.Flush();	// DRAW ALL SPRITES NOW!!!
 
-
+                        /*
                         //Creates the horizontal line segments
                         for (int Row = 0; Row <= m_gTileMap.m_nRows; Row++)
                         {
@@ -436,7 +438,7 @@ namespace SGP_Map_Editor
 
                             D3D.DrawLine(rDrawRect.Left, rDrawRect.Top, rDrawRect.Left, rDrawRect.Bottom, 0, 0, 0);
                         }
-
+                        */
 
                         D3D.SpriteEnd();
                         D3D.DeviceEnd();
